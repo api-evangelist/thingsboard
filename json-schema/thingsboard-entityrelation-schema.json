@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-entityrelation-schema.json",
+  "title": "ThingsBoard EntityRelation",
+  "description": "A JSON value representing the relation.",
+  "type": "object",
+  "properties": {
+    "from": {
+      "$ref": "#/components/schemas/EntityId",
+      "description": "JSON object with [from] Entity Id."
+    },
+    "to": {
+      "$ref": "#/components/schemas/EntityId",
+      "description": "JSON object with [to] Entity Id."
+    },
+    "type": {
+      "type": "string",
+      "description": "String value of relation type.",
+      "example": "Contains",
+      "minLength": 1
+    },
+    "typeGroup": {
+      "type": "string",
+      "description": "Represents the type group of the relation.",
+      "enum": [
+        "COMMON",
+        "DASHBOARD",
+        "RULE_CHAIN",
+        "RULE_NODE",
+        "EDGE",
+        "EDGE_AUTO_ASSIGN_RULE_CHAIN"
+      ],
+      "example": "COMMON"
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "additionalInfo": {
+      "$ref": "#/components/schemas/JsonNode",
+      "description": "Additional parameters of the relation"
+    }
+  },
+  "required": [
+    "from",
+    "to",
+    "type",
+    "typeGroup"
+  ]
+}

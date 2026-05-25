@@ -1,0 +1,119 @@
+vocabulary: thingsboard
+version: 0.1.0
+description: |
+  Domain vocabulary for ThingsBoard — open-source IoT platform. Aligned with the W3C SSN/SOSA ontology and
+  schema.org where applicable.
+namespaces:
+  tb: https://thingsboard.io/vocab#
+  sosa: http://www.w3.org/ns/sosa/
+  ssn: http://www.w3.org/ns/ssn/
+  schema: https://schema.org/
+terms:
+  - id: Device
+    label: Device
+    definition: A physical IoT device managed by ThingsBoard; an SOSA Platform that hosts Sensors and Actuators.
+    sameAs: sosa:Platform
+  - id: DeviceProfile
+    label: Device Profile
+    definition: A reusable template that defines transport configuration, alarm rules, attributes, and provisioning behavior for a class of devices.
+  - id: Asset
+    label: Asset
+    definition: A logical or physical entity that groups devices, customers, or sub-assets in a hierarchy (e.g., Building, Floor, Room).
+  - id: AssetProfile
+    label: Asset Profile
+    definition: Template defining default attributes, rule chain, and dashboard for a class of assets.
+  - id: Customer
+    label: Customer
+    definition: A consumer organization owned by a tenant; can be assigned devices, assets, and dashboards.
+    sameAs: schema:Organization
+  - id: Tenant
+    label: Tenant
+    definition: The top-level isolation boundary in ThingsBoard's multi-tenant model.
+    sameAs: schema:Organization
+  - id: User
+    label: User
+    definition: A person with a role (SYS_ADMIN, TENANT_ADMIN, CUSTOMER_USER) authorized to access the platform.
+    sameAs: schema:Person
+  - id: Dashboard
+    label: Dashboard
+    definition: A versioned, customer-shareable collection of widgets arranged into states.
+  - id: Widget
+    label: Widget
+    definition: A reusable visualization or control component that subscribes to entity telemetry or attributes.
+  - id: RuleChain
+    label: Rule Chain
+    definition: A directed graph of Rule Nodes that processes incoming messages (telemetry, RPC, lifecycle events).
+  - id: RuleNode
+    label: Rule Node
+    definition: A single processing step in a Rule Chain (filter, enrichment, transformation, action).
+  - id: Alarm
+    label: Alarm
+    definition: An event raised by a rule node or alarm rule, with severity, status (ACTIVE/CLEARED), and acknowledgement state.
+    sameAs: schema:Event
+  - id: Telemetry
+    label: Telemetry
+    definition: Time-series observation produced by a device.
+    sameAs: sosa:Observation
+  - id: Attribute
+    label: Attribute
+    definition: Key/value metadata on an entity, scoped as CLIENT_SCOPE, SERVER_SCOPE, or SHARED_SCOPE.
+  - id: EntityRelation
+    label: Entity Relation
+    definition: A typed, directional link between two entities used for hierarchy and relationship navigation.
+  - id: OtaPackage
+    label: OTA Package
+    definition: A firmware or software package deliverable to devices over-the-air.
+  - id: Edge
+    label: Edge
+    definition: A ThingsBoard Edge instance that runs locally and syncs with the central server.
+  - id: RPC
+    label: Remote Procedure Call
+    definition: A one-way or two-way command sent from server to device, or device to server.
+  - id: CalculatedField
+    label: Calculated Field
+    definition: A derived telemetry value computed from other telemetry/attributes via simple, script, geofencing, or aggregation logic.
+  - id: Notification
+    label: Notification
+    definition: A message dispatched to recipients via configured delivery channels (email, SMS, Slack, MS Teams, mobile, web).
+  - id: MQTT
+    label: MQTT
+    definition: The default lightweight publish/subscribe transport used by ThingsBoard devices.
+  - id: CoAP
+    label: CoAP
+    definition: Constrained Application Protocol for low-power devices.
+  - id: LwM2M
+    label: LwM2M
+    definition: Lightweight M2M device management protocol over CoAP/DTLS.
+  - id: SNMP
+    label: SNMP
+    definition: Simple Network Management Protocol — supported for network-equipment integrations.
+  - id: TBMQ
+    label: TBMQ
+    definition: ThingsBoard's distributed MQTT broker, designed for 100M+ connections and 10M msg/sec.
+  - id: TBEL
+    label: TBEL
+    definition: ThingsBoard Expression Language — sandboxed scripting language used in rule nodes and calculated fields.
+roles:
+  - SYS_ADMIN
+  - TENANT_ADMIN
+  - CUSTOMER_USER
+entityTypes:
+  - DEVICE
+  - ASSET
+  - CUSTOMER
+  - TENANT
+  - USER
+  - RULE_CHAIN
+  - RULE_NODE
+  - DASHBOARD
+  - WIDGET_TYPE
+  - WIDGETS_BUNDLE
+  - ALARM
+  - ENTITY_VIEW
+  - EDGE
+  - OTA_PACKAGE
+  - NOTIFICATION_TARGET
+  - NOTIFICATION_TEMPLATE
+  - NOTIFICATION_RULE
+  - QUEUE
+  - API_USAGE_STATE

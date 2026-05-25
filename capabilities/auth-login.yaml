@@ -1,0 +1,25 @@
+capability: thingsboard.auth
+version: 0.1.0
+description: Authenticate to ThingsBoard, refresh tokens, and manage API keys.
+provider: thingsboard
+api: thingsboard-auth-api
+openapi: ../openapi/thingsboard-auth-openapi.yml
+operations:
+  - id: login
+    method: POST
+    path: /api/auth/login
+    summary: Log in with username/password and receive a JWT token.
+  - id: refreshToken
+    method: POST
+    path: /api/auth/token
+    summary: Exchange a refresh token for a new JWT access token.
+  - id: createApiKey
+    method: POST
+    path: /api/apiKey
+    summary: Create a long-lived API key (ThingsBoard 4.3+).
+auth:
+  - bearerAuth
+tags:
+  - IoT
+  - Authentication
+  - Security

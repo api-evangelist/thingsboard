@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-device-schema.json",
+  "title": "ThingsBoard Device",
+  "description": "JSON Schema for ThingsBoard Device entity, derived from the public ThingsBoard OpenAPI 4.3.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/DeviceId",
+      "description": "JSON object with the Device Id. Specify this field to update the Device. Referencing non-existing Device Id will cause error. Omit this field to create new Device."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the device creation, in milliseconds",
+      "example": 1609459200000,
+      "readOnly": true
+    },
+    "tenantId": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with Tenant Id. Use 'assignDeviceToTenant' to change the Tenant Id.",
+      "readOnly": true
+    },
+    "customerId": {
+      "$ref": "#/components/schemas/CustomerId",
+      "description": "JSON object with Customer Id. Use 'assignDeviceToCustomer' to change the Customer Id.",
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "description": "Unique Device Name in scope of Tenant",
+      "example": "A4B72CCDFF33"
+    },
+    "type": {
+      "type": "string",
+      "description": "Device Profile Name",
+      "example": "Temperature Sensor"
+    },
+    "label": {
+      "type": "string",
+      "description": "Label that may be used in widgets",
+      "example": "Room 234 Sensor"
+    },
+    "deviceProfileId": {
+      "$ref": "#/components/schemas/DeviceProfileId",
+      "description": "JSON object with Device Profile Id."
+    },
+    "firmwareId": {
+      "$ref": "#/components/schemas/OtaPackageId",
+      "description": "JSON object with Ota Package Id."
+    },
+    "softwareId": {
+      "$ref": "#/components/schemas/OtaPackageId",
+      "description": "JSON object with Ota Package Id."
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "additionalInfo": {
+      "$ref": "#/components/schemas/JsonNode",
+      "description": "Additional parameters of the device"
+    },
+    "deviceData": {
+      "$ref": "#/components/schemas/DeviceData",
+      "description": "JSON object with content specific to type of transport in the device profile."
+    }
+  },
+  "required": [
+    "deviceProfileId",
+    "name"
+  ]
+}

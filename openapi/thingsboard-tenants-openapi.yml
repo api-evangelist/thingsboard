@@ -1,0 +1,2534 @@
+# ThingsBoard ThingsBoard Tenants and Customers API
+# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
+openapi: 3.1.0
+info:
+  title: ThingsBoard Tenants and Customers API
+  description: "ThingsBoard Tenants and Customers API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Tenant, Tenant Profile, Customer, User."
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: tenant-controller
+  description: Tenant
+- name: tenant-profile-controller
+  description: Tenant Profile
+- name: customer-controller
+  description: Customer
+- name: user-controller
+  description: User
+paths:
+  /api/user/settings:
+    get:
+      tags:
+      - user-controller
+      summary: Get User Settings (getUserSettings)
+      description: 'Fetch the User settings based on authorized user. '
+      operationId: getUserSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+    put:
+      tags:
+      - user-controller
+      summary: Update User Settings (saveUserSettings)
+      description: 'Update user settings for authorized user. Only specified json elements will be updated.Example: you have such settings: {A:5, B:{C:10, D:20}}. Updating it with {B:{C:10, D:30}} will
+        result in{A:5, B:{C:10, D:30}}. The same could be achieved by putting {B.D:30}'
+      operationId: putUserSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonNode'
+        required: true
+      responses:
+        '200':
+          description: OK
+    post:
+      tags:
+      - user-controller
+      summary: Save User Settings (saveUserSettings)
+      description: 'Save user settings represented in json format for authorized user. '
+      operationId: saveUserSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonNode'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+  /api/user/settings/{type}:
+    get:
+      tags:
+      - user-controller
+      summary: Get User Settings (getUserSettings)
+      description: 'Fetch the User settings based on authorized user. '
+      operationId: getUserSettings_1
+      parameters:
+      - name: type
+        in: path
+        description: 'Settings type, case insensitive, one of: "general", "quick_links", "doc_links" or "dashboards".'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+    put:
+      tags:
+      - user-controller
+      summary: Update User Settings (saveUserSettings)
+      description: 'Update user settings for authorized user. Only specified json elements will be updated.Example: you have such settings: {A:5, B:{C:10, D:20}}. Updating it with {B:{C:10, D:30}} will
+        result in{A:5, B:{C:10, D:30}}. The same could be achieved by putting {B.D:30}'
+      operationId: putUserSettings_1
+      parameters:
+      - name: type
+        in: path
+        description: 'Settings type, case insensitive, one of: "general", "quick_links", "doc_links" or "dashboards".'
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonNode'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/user:
+    post:
+      tags:
+      - user-controller
+      summary: Save or Update User (saveUser)
+      description: 'Create or update the User. When creating user, platform generates User Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).
+        The newly created User Id will be present in the response. Specify existing User Id to update the device. Referencing non-existing User Id will cause ''Not Found'' error.
+
+
+        Device email is unique for entire platform setup.Remove ''id'', ''tenantId'' and optionally ''customerId'' from the request body example (below) to create new User entity.
+
+
+        Available for users with ''SYS_ADMIN'', ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: saveUser
+      parameters:
+      - name: sendActivationMail
+        in: query
+        description: Send activation email (or use activation link)
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/user/{userId}/userCredentialsEnabled:
+    post:
+      tags:
+      - user-controller
+      summary: Enable/Disable User Credentials (setUserCredentialsEnabled)
+      description: "Enables or Disables user credentials. Useful when you would like to block user account without deleting it. You can specify parameters to filter the results. The result is wrapped with\
+        \ PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: setUserCredentialsEnabled
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: userCredentialsEnabled
+        in: query
+        description: Enable ("true") or disable ("false") the credentials.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/user/sendActivationMail:
+    post:
+      tags:
+      - user-controller
+      summary: Send or Re-send the Activation Email
+      description: "Force send the activation email to the user. Useful to resend the email if user has accidentally deleted it. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: sendActivationEmail
+      parameters:
+      - name: email
+        in: query
+        description: Email of the user
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/user/mobile/session:
+    get:
+      tags:
+      - user-controller
+      operationId: getMobileSession
+      parameters:
+      - name: X-Mobile-Token
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileSessionInfo'
+    post:
+      tags:
+      - user-controller
+      operationId: saveMobileSession
+      parameters:
+      - name: X-Mobile-Token
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileSessionInfo'
+        required: true
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+      - user-controller
+      operationId: removeMobileSession
+      parameters:
+      - name: X-Mobile-Token
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/tenant:
+    post:
+      tags:
+      - tenant-controller
+      summary: Create or Update Tenant (saveTenant)
+      description: 'Create or update the Tenant. When creating tenant, platform generates Tenant Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).
+        Default Rule Chain and Device profile are also generated for the new tenants automatically. The newly created Tenant Id will be present in the response. Specify existing Tenant Id id to update the
+        Tenant. Referencing non-existing Tenant Id will cause ''Not Found'' error.Remove ''id'', ''tenantId'' from the request body example (below) to create new Tenant entity.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: saveTenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+  /api/tenantProfile:
+    post:
+      tags:
+      - tenant-profile-controller
+      summary: Create or Update Tenant Profile (saveTenantProfile)
+      description: "Create or update the Tenant Profile. When creating tenant profile, platform generates Tenant Profile Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created Tenant Profile Id will be present in the response. Specify existing Tenant Profile Id id to update the Tenant Profile. Referencing non-existing Tenant Profile Id will cause 'Not\
+        \ Found' error. \n\nUpdate of the tenant profile configuration will cause immediate recalculation of API limits for all affected Tenants. \n\nThe **'profileData'** object is the part of Tenant Profile\
+        \ that defines API limits and Rate limits. \n\nYou have an ability to define maximum number of devices ('maxDevice'), assets ('maxAssets') and other entities. You may also define maximum number\
+        \ of messages to be processed per month ('maxTransportMessages', 'maxREExecutions', etc). The '*RateLimit' defines the rate limits using simple syntax. For example, '1000:1,20000:60' means up to\
+        \ 1000 events per second but no more than 20000 event per minute. Let's review the example of tenant profile data below: \n\n```json\n{\n  \"name\": \"Your name\",\n  \"description\": \"Your description\"\
+        ,\n  \"isolatedTbRuleEngine\": false,\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"DEFAULT\",\n      \"maxDevices\": 0,\n      \"maxAssets\": 0,\n      \"maxCustomers\": 0,\n\
+        \      \"maxUsers\": 0,\n      \"maxDashboards\": 0,\n      \"maxRuleChains\": 0,\n      \"maxResourcesInBytes\": 0,\n      \"maxOtaPackagesInBytes\": 0,\n      \"maxResourceSize\": 0,\n      \"\
+        transportTenantMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"1000:1,20000:60\"\
+        ,\n      \"transportDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\"\
+        ,\n      \"transportGatewayMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"20:1,600:60\"\
+        ,\n      \"transportGatewayDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\"\
+        : \"20:1,600:60\",\n      \"maxTransportMessages\": 10000000,\n      \"maxTransportDataPoints\": 10000000,\n      \"maxREExecutions\": 4000000,\n      \"maxJSExecutions\": 5000000,\n      \"maxDPStorageDays\"\
+        : 0,\n      \"maxRuleNodeExecutionsPerMessage\": 50,\n      \"maxDebugModeDurationMinutes\": 15,\n      \"maxEmails\": 0,\n      \"maxSms\": 0,\n      \"maxCreatedAlarms\": 1000,\n      \"defaultStorageTtlDays\"\
+        : 0,\n      \"alarmsTtlDays\": 0,\n      \"rpcTtlDays\": 0,\n      \"queueStatsTtlDays\": 0,\n      \"ruleEngineExceptionsTtlDays\": 0,\n      \"warnThreshold\": 0,\n      \"maxCalculatedFieldsPerEntity\"\
+        : 5,\n      \"maxArgumentsPerCF\": 10,\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": 10,\n      \"maxRelationLevelPerCfArgument\": 2,\n      \"maxRelatedEntitiesToReturnPerCfArgument\"\
+        : 100,\n      \"maxDataPointsPerRollingArg\": 1000,\n      \"maxStateSizeInKBytes\": 32,\n      \"maxSingleValueArgumentSizeInKBytes\": 2,      \"minAllowedDeduplicationIntervalInSecForCF\": 10,\
+        \      \"minAllowedAggregationIntervalInSecForCF\": 60,      \"intermediateAggregationIntervalInSecForCF\": 300,      \"cfReevaluationCheckInterval\": 60,      \"alarmsReevaluationInterval\": 60\
+        \    }\n  },\n  \"default\": false\n}\n```Remove 'id', from the request body example (below) to create new Tenant Profile entity.\n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: saveTenantProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantProfile'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantProfile'
+  /api/tenantProfile/{tenantProfileId}/default:
+    post:
+      tags:
+      - tenant-profile-controller
+      summary: Make Tenant Profile Default (setDefaultTenantProfile)
+      description: "Makes specified tenant profile to be default. Referencing non-existing tenant profile Id will cause an error. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: setDefaultTenantProfile
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantProfile'
+  /api/customer:
+    post:
+      tags:
+      - customer-controller
+      summary: Create or Update Customer (saveCustomer)
+      description: "Creates or Updates the Customer. When creating customer, platform generates Customer Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer. Referencing non-existing Customer Id will cause 'Not Found' error.Remove 'id',\
+        \ 'tenantId' from the request body example (below) to create new Customer entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveCustomer
+      parameters:
+      - name: nameConflictPolicy
+        in: query
+        description: 'Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same
+          name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs.'
+        required: false
+        schema:
+          type: string
+          default: FAIL
+          enum:
+          - FAIL
+          - UNIQUIFY
+      - name: uniquifySeparator
+        in: query
+        description: Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs
+          for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'.
+        required: false
+        schema:
+          type: string
+          default: _
+      - name: uniquifyStrategy
+        in: query
+        description: 'Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will
+          be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL;
+          if a name conflict occurs for entity name ''test-name'', created entity will have name like ''test-name-1.'
+        required: false
+        schema:
+          type: string
+          default: RANDOM
+          enum:
+          - RANDOM
+          - INCREMENTAL
+      requestBody:
+        description: A JSON value representing the customer.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /api/users:
+    get:
+      tags:
+      - user-controller
+      summary: Get Users (getUsers)
+      description: "Returns a page of users owned by tenant or customer. The scope depends on authority of the user that performs the request.You can specify parameters to filter the results. The result\
+        \ is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER'\
+        \ authority."
+      operationId: getUsersByIds
+      parameters:
+      - name: userIds
+        in: query
+        description: A list of user ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the user email.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - firstName
+          - lastName
+          - email
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/PageDataUser'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/User'
+  /api/users/info:
+    get:
+      tags:
+      - user-controller
+      summary: Find Users by Query (findUsersByQuery)
+      description: "Returns page of user data objects. Search is been executed by email, firstName and lastName fields. You can specify parameters to filter the results. The result is wrapped with PageData\
+        \ object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: findUsersByQuery
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the user email.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - firstName
+          - lastName
+          - email
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataUserEmailInfo'
+  /api/users/assign/{alarmId}:
+    get:
+      tags:
+      - user-controller
+      summary: Get UsersForAssign (getUsersForAssign)
+      description: "Returns page of user data objects that can be assigned to provided alarmId. Search is been executed by email, firstName and lastName fields. You can specify parameters to filter the\
+        \ results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN'\
+        \ or 'CUSTOMER_USER' authority."
+      operationId: getUsersForAssign
+      parameters:
+      - name: alarmId
+        in: path
+        description: A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the user email.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - firstName
+          - lastName
+          - email
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataUserEmailInfo'
+  /api/user/{userId}:
+    get:
+      tags:
+      - user-controller
+      summary: Get User (getUserById)
+      description: Fetch the User object based on the provided User Id. If the user has the authority of 'SYS_ADMIN', the server does not perform additional checks. If the user has the authority of 'TENANT_ADMIN',
+        the server checks that the requested user is owned by the same tenant. If the user has the authority of 'CUSTOMER_USER', the server checks that the requested user is owned by the same customer.
+      operationId: getUserById
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+      - user-controller
+      summary: Delete User (deleteUser)
+      description: "Deletes the User, it's credentials and all the relations (from and to the User). Referencing non-existing User Id will cause an error. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN'\
+        \ authority."
+      operationId: deleteUser
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/user/{userId}/token:
+    get:
+      tags:
+      - user-controller
+      summary: Get User Token (getUserToken)
+      description: 'Returns the token of the User based on the provided User Id. If the user who performs the request has the authority of ''SYS_ADMIN'', it is possible to get the token of any tenant administrator.
+        If the user who performs the request has the authority of ''TENANT_ADMIN'', it is possible to get the token of any customer user that belongs to the same tenant. '
+      operationId: getUserToken
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/user/{userId}/activationLink:
+    get:
+      tags:
+      - user-controller
+      summary: Get Activation Link (getActivationLink)
+      description: "Get the activation link for the user. The base url for activation link is configurable in the general settings of system administrator. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN'\
+        \ authority."
+      operationId: getActivationLink
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/user/{userId}/activationLinkInfo:
+    get:
+      tags:
+      - user-controller
+      summary: Get Activation Link Info (getActivationLinkInfo)
+      description: "Get the activation link info for the user. The base url for activation link is configurable in the general settings of system administrator. \n\nAvailable for users with 'SYS_ADMIN'\
+        \ or 'TENANT_ADMIN' authority."
+      operationId: getActivationLinkInfo
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserActivationLink'
+  /api/user/tokenAccessEnabled:
+    get:
+      tags:
+      - user-controller
+      summary: Check Token Access Enabled (isUserTokenAccessEnabled)
+      description: 'Checks that the system is configured to allow administrators to impersonate themself as other users. If the user who performs the request has the authority of ''SYS_ADMIN'', it is possible
+        to login as any tenant administrator. If the user who performs the request has the authority of ''TENANT_ADMIN'', it is possible to login as any customer user. '
+      operationId: isUserTokenAccessEnabled
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /api/user/dashboards:
+    get:
+      tags:
+      - user-controller
+      summary: Get Information About Last Visited and Starred Dashboards (getLastVisitedDashboards)
+      description: 'Fetch the list of last visited and starred dashboards. Both lists are limited to 10 items.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getUserDashboardsInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDashboardsInfo'
+  /api/user/dashboards/{dashboardId}/{action}:
+    get:
+      tags:
+      - user-controller
+      summary: Report Action of User Over the Dashboard (reportUserDashboardAction)
+      description: "Report action of User over the dashboard. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: reportUserDashboardAction
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: action
+        in: path
+        description: 'Dashboard action, one of: "visit", "star" or "unstar".'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDashboardsInfo'
+  /api/tenants:
+    get:
+      tags:
+      - tenant-controller
+      summary: Get Tenants (getTenants)
+      description: "Returns a page of tenants registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result\
+        \ set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantsByIds
+      parameters:
+      - name: tenantIds
+        in: query
+        description: A list of tenant ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the tenant name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+          - email
+          - country
+          - state
+          - city
+          - address
+          - address2
+          - zip
+          - phone
+          - email
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/PageDataTenant'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Tenant'
+  /api/tenantProfiles:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profiles (getTenantProfiles)
+      description: "Returns a page of tenant profiles registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate\
+        \ over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantProfiles
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the tenant profile name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - description
+          - isDefault
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: ids
+        in: query
+        description: Comma-separated list of tenant profile ids
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/TenantProfile'
+                - $ref: '#/components/schemas/PageDataTenantProfile'
+  /api/tenantProfileInfos:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profiles Info (getTenantProfileInfos)
+      description: "Returns a page of tenant profile info objects registered in the platform. Tenant Profile Info is a lightweight object that contains only id and name of the profile. You can specify parameters\
+        \ to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with\
+        \ 'SYS_ADMIN' authority."
+      operationId: getTenantProfileInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the tenant profile name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - name
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityInfo'
+  /api/tenantProfileInfo/{tenantProfileId}:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profile Info (getTenantProfileInfoById)
+      description: "Fetch the Tenant Profile Info object based on the provided Tenant Profile Id. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable\
+        \ for users with 'SYS_ADMIN' authority."
+      operationId: getTenantProfileInfoById
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityInfo'
+  /api/tenantProfileInfo/default:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Default Tenant Profile Info (getDefaultTenantProfileInfo)
+      description: "Fetch the default Tenant Profile Info object based. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable for users with 'SYS_ADMIN'\
+        \ authority."
+      operationId: getDefaultTenantProfileInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityInfo'
+  /api/tenantProfile/{tenantProfileId}:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profile (getTenantProfileById)
+      description: "Fetch the Tenant Profile object based on the provided Tenant Profile Id. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantProfileById
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantProfile'
+    delete:
+      tags:
+      - tenant-profile-controller
+      summary: Delete Tenant Profile (deleteTenantProfile)
+      description: "Deletes the tenant profile. Referencing non-existing tenant profile Id will cause an error. Referencing profile that is used by the tenants will cause an error. \n\nAvailable for users\
+        \ with 'SYS_ADMIN' authority."
+      operationId: deleteTenantProfile
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/tenantInfos:
+    get:
+      tags:
+      - tenant-controller
+      summary: Get Tenants Info (getTenants)
+      description: "Returns a page of tenant info objects registered in the platform. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. You can specify parameters to\
+        \ filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN'\
+        \ authority."
+      operationId: getTenantInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the tenant name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - tenantProfileName
+          - title
+          - email
+          - country
+          - state
+          - city
+          - address
+          - address2
+          - zip
+          - phone
+          - email
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataTenantInfo'
+  /api/tenant/{tenantId}:
+    get:
+      tags:
+      - tenant-controller
+      summary: Get Tenant (getTenantById)
+      description: "Fetch the Tenant object based on the provided Tenant Id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getTenantById
+      parameters:
+      - name: tenantId
+        in: path
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+    delete:
+      tags:
+      - tenant-controller
+      summary: Delete Tenant (deleteTenant)
+      description: 'Deletes the tenant, it''s customers, rule chains, devices and all other related entities. Referencing non-existing tenant Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteTenant
+      parameters:
+      - name: tenantId
+        in: path
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/tenant/{tenantId}/users:
+    get:
+      tags:
+      - user-controller
+      summary: Get Tenant Users (getTenantAdmins)
+      description: "Returns a page of users owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using\
+        \ pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantAdmins
+      parameters:
+      - name: tenantId
+        in: path
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the user email.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - firstName
+          - lastName
+          - email
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataUser'
+  /api/tenant/info/{tenantId}:
+    get:
+      tags:
+      - tenant-controller
+      summary: Get Tenant Info (getTenantInfoById)
+      description: "Fetch the Tenant Info object based on the provided Tenant Id. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. \n\nAvailable for users with 'SYS_ADMIN'\
+        \ or 'TENANT_ADMIN' authority."
+      operationId: getTenantInfoById
+      parameters:
+      - name: tenantId
+        in: path
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantInfo'
+  /api/tenant/customers:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Tenant Customer by Customer Title (getTenantCustomer)
+      description: "Get the Customer using Customer Title. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getTenantCustomer
+      parameters:
+      - name: customerTitle
+        in: query
+        description: A string value representing the Customer title.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /api/customers:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Customers by Customer Ids (getCustomersByIds)
+      description: 'Returns a list of Customer objects based on the provided ids.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getCustomers
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the customer title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+          - email
+          - country
+          - city
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: customerIds
+        in: query
+        description: A list of customer ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Customer'
+                - $ref: '#/components/schemas/PageDataCustomer'
+  /api/customer/{customerId}:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Customer (getCustomerById)
+      description: 'Get the Customer object based on the provided Customer Id. If the user has the authority of ''Tenant Administrator'', the server checks that the customer is owned by the same tenant.
+        If the user has the authority of ''Customer User'', the server checks that the user belongs to the customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getCustomerById
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    delete:
+      tags:
+      - customer-controller
+      summary: Delete Customer (deleteCustomer)
+      description: 'Deletes the Customer and all customer Users. All assigned Dashboards, Assets, Devices, etc. will be unassigned but not deleted. Referencing non-existing Customer Id will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: deleteCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/customer/{customerId}/users:
+    get:
+      tags:
+      - user-controller
+      summary: Get Customer Users (getCustomerUsers)
+      description: "Returns a page of users owned by customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using\
+        \ pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getCustomerUsers
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the user email.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - firstName
+          - lastName
+          - email
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataUser'
+  /api/customer/{customerId}/title:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Customer Title (getCustomerTitleById)
+      description: 'Get the title of the customer. If the user has the authority of ''Tenant Administrator'', the server checks that the customer is owned by the same tenant. If the user has the authority
+        of ''Customer User'', the server checks that the user belongs to the customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getCustomerTitleById
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/text:
+              schema:
+                type: string
+  /api/customer/{customerId}/shortInfo:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Short Customer Info (getShortCustomerInfoById)
+      description: 'Get the short customer object that contains only the title and ''isPublic'' flag. If the user has the authority of ''Tenant Administrator'', the server checks that the customer is owned
+        by the same tenant. If the user has the authority of ''Customer User'', the server checks that the user belongs to the customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getShortCustomerInfoById
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+  /api/user/settings/{type}/{paths}:
+    delete:
+      tags:
+      - user-controller
+      summary: Delete User Settings (deleteUserSettings)
+      description: "Delete user settings by specifying list of json element xpaths. \n Example: to delete B and C element in { \"A\": {\"B\": 5}, \"C\": 15} send A.B,C in jsonPaths request parameter"
+      operationId: deleteUserSettings
+      parameters:
+      - name: paths
+        in: path
+        description: paths
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: 'Settings type, case insensitive, one of: "general", "quick_links", "doc_links" or "dashboards".'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/user/settings/{paths}:
+    delete:
+      tags:
+      - user-controller
+      summary: Delete User Settings (deleteUserSettings)
+      description: "Delete user settings by specifying list of json element xpaths. \n Example: to delete B and C element in { \"A\": {\"B\": 5}, \"C\": 15} send A.B,C in jsonPaths request parameter"
+      operationId: deleteUserSettings_1
+      parameters:
+      - name: paths
+        in: path
+        description: paths
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with the customer Id. Specify this field to update the customer. Referencing non-existing customer Id will cause error. Omit this field to create new customer.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the customer creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        country:
+          type: string
+          description: Country
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: New York
+        address:
+          type: string
+          description: Address Line 1
+          example: 42
+        address2:
+          type: string
+          description: Address Line 2
+        zip:
+          type: string
+          description: Zip code
+          example: 10004
+        phone:
+          type: string
+          description: Phone number
+          example: +1(415)777-7777
+        email:
+          type: string
+          description: Email
+          example: example@company.com
+        title:
+          type: string
+          description: Title of the customer
+          example: Company A
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Name of the customer. Read-only, duplicated from title for backward compatibility
+          example: Company A
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+      required:
+      - email
+      - title
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    DefaultTenantProfileConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/TenantProfileConfiguration'
+      - type: object
+        properties:
+          maxDevices:
+            type: integer
+            format: int64
+          maxAssets:
+            type: integer
+            format: int64
+          maxCustomers:
+            type: integer
+            format: int64
+          maxUsers:
+            type: integer
+            format: int64
+          maxDashboards:
+            type: integer
+            format: int64
+          maxRuleChains:
+            type: integer
+            format: int64
+          maxEdges:
+            type: integer
+            format: int64
+          maxResourcesInBytes:
+            type: integer
+            format: int64
+          maxOtaPackagesInBytes:
+            type: integer
+            format: int64
+          maxResourceSize:
+            type: integer
+            format: int64
+          transportTenantMsgRateLimit:
+            type: string
+            example: 1000:1,20000:60
+          transportTenantTelemetryMsgRateLimit:
+            type: string
+            example: 1000:1,20000:60
+          transportTenantTelemetryDataPointsRateLimit:
+            type: string
+            example: 1000:1,20000:60
+          transportDeviceMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportDeviceTelemetryMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportDeviceTelemetryDataPointsRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayTelemetryMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayTelemetryDataPointsRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayDeviceMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayDeviceTelemetryMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayDeviceTelemetryDataPointsRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantEntityExportRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantEntityImportRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantNotificationRequestsRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantNotificationRequestsPerRuleRateLimit:
+            type: string
+            example: 20:1,600:60
+          maxTransportMessages:
+            type: integer
+            format: int64
+            example: 10000000
+          maxTransportDataPoints:
+            type: integer
+            format: int64
+            example: 10000000
+          maxREExecutions:
+            type: integer
+            format: int64
+            example: 4000000
+          maxJSExecutions:
+            type: integer
+            format: int64
+            example: 5000000
+          maxTbelExecutions:
+            type: integer
+            format: int64
+            example: 5000000
+          maxDPStorageDays:
+            type: integer
+            format: int64
+            example: 0
+          maxRuleNodeExecutionsPerMessage:
+            type: integer
+            format: int32
+            example: 50
+          maxDebugModeDurationMinutes:
+            type: integer
+            format: int32
+            example: 15
+          maxEmails:
+            type: integer
+            format: int64
+            example: 0
+          smsEnabled:
+            type: boolean
+            example: true
+          maxSms:
+            type: integer
+            format: int64
+            example: 0
+          maxCreatedAlarms:
+            type: integer
+            format: int64
+            example: 1000
+          tenantServerRestLimitsConfiguration:
+            type: string
+          customerServerRestLimitsConfiguration:
+            type: string
+          maxWsSessionsPerTenant:
+            type: integer
+            format: int32
+          maxWsSessionsPerCustomer:
+            type: integer
+            format: int32
+          maxWsSessionsPerRegularUser:
+            type: integer
+            format: int32
+          maxWsSessionsPerPublicUser:
+            type: integer
+            format: int32
+          wsMsgQueueLimitPerSession:
+            type: integer
+            format: int32
+          maxWsSubscriptionsPerTenant:
+            type: integer
+            format: int64
+          maxWsSubscriptionsPerCustomer:
+            type: integer
+            format: int64
+          maxWsSubscriptionsPerRegularUser:
+            type: integer
+            format: int64
+          maxWsSubscriptionsPerPublicUser:
+            type: integer
+            format: int64
+          wsUpdatesPerSessionRateLimit:
+            type: string
+          cassandraReadQueryTenantCoreRateLimits:
+            type: string
+          cassandraWriteQueryTenantCoreRateLimits:
+            type: string
+          cassandraReadQueryTenantRuleEngineRateLimits:
+            type: string
+          cassandraWriteQueryTenantRuleEngineRateLimits:
+            type: string
+          edgeEventRateLimits:
+            type: string
+          edgeEventRateLimitsPerEdge:
+            type: string
+          edgeUplinkMessagesRateLimits:
+            type: string
+          edgeUplinkMessagesRateLimitsPerEdge:
+            type: string
+          defaultStorageTtlDays:
+            type: integer
+            format: int32
+          alarmsTtlDays:
+            type: integer
+            format: int32
+          rpcTtlDays:
+            type: integer
+            format: int32
+          queueStatsTtlDays:
+            type: integer
+            format: int32
+          ruleEngineExceptionsTtlDays:
+            type: integer
+            format: int32
+          warnThreshold:
+            type: number
+            format: double
+          maxCalculatedFieldsPerEntity:
+            type: integer
+            format: int64
+            example: 5
+          maxArgumentsPerCF:
+            type: integer
+            format: int64
+            example: 10
+          minAllowedScheduledUpdateIntervalInSecForCF:
+            type: integer
+            format: int32
+            example: 10
+          maxRelationLevelPerCfArgument:
+            type: integer
+            format: int32
+            example: 2
+          maxRelatedEntitiesToReturnPerCfArgument:
+            type: integer
+            format: int32
+            example: 100
+          maxDataPointsPerRollingArg:
+            type: integer
+            format: int64
+            example: 1000
+          maxStateSizeInKBytes:
+            type: integer
+            format: int64
+            example: 32
+          maxSingleValueArgumentSizeInKBytes:
+            type: integer
+            format: int64
+            example: 2
+          minAllowedDeduplicationIntervalInSecForCF:
+            type: integer
+            format: int64
+            example: 10
+          minAllowedAggregationIntervalInSecForCF:
+            type: integer
+            format: int64
+            example: 60
+          intermediateAggregationIntervalInSecForCF:
+            type: integer
+            format: int64
+            example: 300
+          cfReevaluationCheckInterval:
+            type: integer
+            format: int64
+            example: 60
+          alarmsReevaluationInterval:
+            type: integer
+            format: int64
+            example: 60
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    EntityInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
+          type: string
+          description: Entity Name
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    JwtPair:
+      type: object
+      description: JWT Pair
+      properties:
+        token:
+          type: string
+          description: The JWT Access Token. Used to perform API calls.
+          example: AAB254FF67D..
+        refreshToken:
+          type: string
+          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
+          example: AAB254FF67D..
+        scope:
+          type: string
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+    LastVisitedDashboardInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: JSON object with Dashboard id.
+          readOnly: true
+        title:
+          type: string
+          description: Title of the dashboard.
+        starred:
+          type: boolean
+          description: Starred flag
+        lastVisited:
+          type: integer
+          format: int64
+          description: Last visit timestamp
+    MobileSessionInfo:
+      type: object
+      properties:
+        fcmTokenTimestamp:
+          type: integer
+          format: int64
+    PageDataCustomer:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Customer'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEntityInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataTenant:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Tenant'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataTenantInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TenantInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataTenantProfile:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TenantProfile'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataUser:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/User'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataUserEmailInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/UserEmailInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    ProcessingStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - SKIP_ALL_FAILURES
+          - SKIP_ALL_FAILURES_AND_TIMED_OUT
+          - RETRY_ALL
+          - RETRY_FAILED
+          - RETRY_TIMED_OUT
+          - RETRY_FAILED_AND_TIMED_OUT
+        retries:
+          type: integer
+          format: int32
+        failurePercentage:
+          type: number
+          format: double
+        pauseBetweenRetries:
+          type: integer
+          format: int64
+        maxPauseBetweenRetries:
+          type: integer
+          format: int64
+    StarredDashboardInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: JSON object with Dashboard id.
+          readOnly: true
+        title:
+          type: string
+          description: Title of the dashboard.
+        starredAt:
+          type: integer
+          format: int64
+          description: Starred timestamp
+    SubmitStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - BURST
+          - BATCH
+          - SEQUENTIAL_BY_ORIGINATOR
+          - SEQUENTIAL_BY_TENANT
+          - SEQUENTIAL
+        batchSize:
+          type: integer
+          format: int32
+    Tenant:
+      type: object
+      description: A JSON value representing the tenant.
+      properties:
+        id:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with the tenant Id. Specify this field to update the tenant. Referencing non-existing tenant Id will cause error. Omit this field to create new tenant.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the tenant creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        country:
+          type: string
+          description: Country
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: New York
+        address:
+          type: string
+          description: Address Line 1
+          example: 42
+        address2:
+          type: string
+          description: Address Line 2
+        zip:
+          type: string
+          description: Zip code
+          example: 10004
+        phone:
+          type: string
+          description: Phone number
+          example: +1(415)777-7777
+        email:
+          type: string
+          description: Email
+          example: example@company.com
+        title:
+          type: string
+          description: Title of the tenant
+          example: Company A
+        region:
+          type: string
+          description: Geo region of the tenant
+          example: North America
+        tenantProfileId:
+          $ref: '#/components/schemas/TenantProfileId'
+          description: JSON object with Tenant Profile Id
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Name of the tenant. Read-only, duplicated from title for backward compatibility
+          example: Company A
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+      required:
+      - title
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    TenantInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with the tenant Id. Specify this field to update the tenant. Referencing non-existing tenant Id will cause error. Omit this field to create new tenant.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the tenant creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        country:
+          type: string
+          description: Country
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: New York
+        address:
+          type: string
+          description: Address Line 1
+          example: 42
+        address2:
+          type: string
+          description: Address Line 2
+        zip:
+          type: string
+          description: Zip code
+          example: 10004
+        phone:
+          type: string
+          description: Phone number
+          example: +1(415)777-7777
+        email:
+          type: string
+          description: Email
+          example: example@company.com
+        title:
+          type: string
+          description: Title of the tenant
+          example: Company A
+        region:
+          type: string
+          description: Geo region of the tenant
+          example: North America
+        tenantProfileId:
+          $ref: '#/components/schemas/TenantProfileId'
+          description: JSON object with Tenant Profile Id
+        version:
+          type: integer
+          format: int64
+        tenantProfileName:
+          type: string
+          description: Tenant Profile name
+          example: Default
+        name:
+          type: string
+          description: Name of the tenant. Read-only, duplicated from title for backward compatibility
+          example: Company A
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+      required:
+      - title
+    TenantProfile:
+      type: object
+      description: A JSON value representing the tenant profile.
+      properties:
+        id:
+          $ref: '#/components/schemas/TenantProfileId'
+          description: JSON object with the tenant profile Id. Specify this field to update the tenant profile. Referencing non-existing tenant profile Id will cause error. Omit this field to create new
+            tenant profile.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the tenant profile creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        name:
+          type: string
+          description: Name of the tenant profile
+          example: High Priority Tenants
+        description:
+          type: string
+          description: Description of the tenant profile
+          example: Any text
+        isolatedTbRuleEngine:
+          type: boolean
+          description: If enabled, will push all messages related to this tenant and processed by the rule engine into separate queue. Useful for complex microservices deployments, to isolate processing
+            of the data for specific tenants
+          example: false
+        profileData:
+          $ref: '#/components/schemas/TenantProfileData'
+        default:
+          type: boolean
+          description: Default Tenant profile to be used.
+          example: false
+    TenantProfileConfiguration:
+      discriminator:
+        propertyName: type
+        mapping:
+          DEFAULT: '#/components/schemas/DefaultTenantProfileConfiguration'
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TenantProfileData:
+      type: object
+      properties:
+        configuration:
+          description: 'Complex JSON object that contains profile settings: max devices, max assets, rate limits, etc.'
+          oneOf:
+          - $ref: '#/components/schemas/DefaultTenantProfileConfiguration'
+        queueConfiguration:
+          type: array
+          description: JSON array of queue configuration per tenant profile
+          items:
+            $ref: '#/components/schemas/TenantProfileQueueConfiguration'
+    TenantProfileId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT_PROFILE
+          example: TENANT_PROFILE
+      required:
+      - entityType
+      - id
+    TenantProfileQueueConfiguration:
+      type: object
+      properties:
+        name:
+          type: string
+        topic:
+          type: string
+        pollInterval:
+          type: integer
+          format: int32
+        partitions:
+          type: integer
+          format: int32
+        consumerPerPartition:
+          type: boolean
+        packProcessingTimeout:
+          type: integer
+          format: int64
+        submitStrategy:
+          $ref: '#/components/schemas/SubmitStrategy'
+        processingStrategy:
+          $ref: '#/components/schemas/ProcessingStrategy'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+    User:
+      type: object
+      description: A JSON value representing the User.
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with the User Id. Specify this field to update the device. Referencing non-existing User Id will cause error. Omit this field to create new customer.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the user creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with the Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with the Customer Id.
+          readOnly: true
+        email:
+          type: string
+          description: Email of the user
+          example: user@example.com
+        authority:
+          type: string
+          description: Authority
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+          example: SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER
+        firstName:
+          type: string
+          description: First name of the user
+          example: John
+        lastName:
+          type: string
+          description: Last name of the user
+          example: Doe
+        phone:
+          type: string
+          description: Phone number of the user
+          example: 38012345123
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Duplicates the email of the user, readonly
+          example: user@example.com
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the user
+      required:
+      - authority
+      - email
+    UserActivationLink:
+      type: object
+      properties:
+        value:
+          type: string
+        ttlMs:
+          type: integer
+          format: int64
+    UserDashboardsInfo:
+      type: object
+      properties:
+        last:
+          type: array
+          description: List of last visited dashboards.
+          items:
+            $ref: '#/components/schemas/LastVisitedDashboardInfo'
+          readOnly: true
+        starred:
+          type: array
+          description: List of starred dashboards.
+          items:
+            $ref: '#/components/schemas/StarredDashboardInfo'
+          readOnly: true
+    UserEmailInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+          description: User id
+        email:
+          type: string
+          description: User email
+          example: john@gmail.com
+        firstName:
+          type: string
+          description: User first name
+          example: John
+        lastName:
+          type: string
+          description: User last name
+          example: Brown
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

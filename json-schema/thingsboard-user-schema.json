@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-user-schema.json",
+  "title": "ThingsBoard User",
+  "description": "A JSON value representing the User.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/UserId",
+      "description": "JSON object with the User Id. Specify this field to update the device. Referencing non-existing User Id will cause error. Omit this field to create new customer."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the user creation, in milliseconds",
+      "example": 1609459200000,
+      "readOnly": true
+    },
+    "tenantId": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with the Tenant Id.",
+      "readOnly": true
+    },
+    "customerId": {
+      "$ref": "#/components/schemas/CustomerId",
+      "description": "JSON object with the Customer Id.",
+      "readOnly": true
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the user",
+      "example": "user@example.com"
+    },
+    "authority": {
+      "type": "string",
+      "description": "Authority",
+      "enum": [
+        "SYS_ADMIN",
+        "TENANT_ADMIN",
+        "CUSTOMER_USER",
+        "REFRESH_TOKEN",
+        "PRE_VERIFICATION_TOKEN",
+        "MFA_CONFIGURATION_TOKEN"
+      ],
+      "example": "SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name of the user",
+      "example": "John"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name of the user",
+      "example": "Doe"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number of the user",
+      "example": 38012345123
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "name": {
+      "type": "string",
+      "description": "Duplicates the email of the user, readonly",
+      "example": "user@example.com",
+      "readOnly": true
+    },
+    "additionalInfo": {
+      "$ref": "#/components/schemas/JsonNode",
+      "description": "Additional parameters of the user"
+    }
+  },
+  "required": [
+    "authority",
+    "email"
+  ]
+}

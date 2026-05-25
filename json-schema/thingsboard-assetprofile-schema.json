@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-assetprofile-schema.json",
+  "title": "ThingsBoard AssetProfile",
+  "description": "A JSON value representing the asset profile.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/AssetProfileId",
+      "description": "JSON object with the asset profile Id. Specify this field to update the asset profile. Referencing non-existing asset profile Id will cause error. Omit this field to create new asset profile."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the profile creation, in milliseconds",
+      "example": 1609459200000,
+      "readOnly": true
+    },
+    "tenantId": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with Tenant Id that owns the profile.",
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "description": "Unique Asset Profile Name in scope of Tenant.",
+      "example": "Building"
+    },
+    "description": {
+      "type": "string",
+      "description": "Asset Profile description. "
+    },
+    "image": {
+      "type": "string",
+      "description": "Either URL or Base64 data of the icon. Used in the mobile application to visualize set of asset profiles in the grid view. "
+    },
+    "defaultRuleChainId": {
+      "$ref": "#/components/schemas/RuleChainId",
+      "description": "Reference to the rule chain. If present, the specified rule chain will be used to process all messages related to asset, including asset updates, telemetry, attribute updates, etc. Otherwise, the root rule chain will be used to process those messages."
+    },
+    "defaultDashboardId": {
+      "$ref": "#/components/schemas/DashboardId",
+      "description": "Reference to the dashboard. Used in the mobile application to open the default dashboard when user navigates to asset details."
+    },
+    "defaultQueueName": {
+      "type": "string",
+      "description": "Rule engine queue name. If present, the specified queue will be used to store all unprocessed messages related to asset, including asset updates, telemetry, attribute updates, etc. Otherwise, the 'Main' queue will be used to store those messages."
+    },
+    "defaultEdgeRuleChainId": {
+      "$ref": "#/components/schemas/RuleChainId",
+      "description": "Reference to the edge rule chain. If present, the specified edge rule chain will be used on the edge to process all messages related to asset, including asset updates, telemetry, attribute updates, etc. Otherwise, the edge root rule chain will be used to process those messages."
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "default": {
+      "type": "boolean",
+      "description": "Used to mark the default profile. Default profile is used when the asset profile is not specified during asset creation."
+    }
+  }
+}

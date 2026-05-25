@@ -1,0 +1,29 @@
+{
+  "description": "Example login request and response against the ThingsBoard demo server.",
+  "request": {
+    "method": "POST",
+    "url": "https://demo.thingsboard.io/api/auth/login",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "username": "tenant@thingsboard.org",
+      "password": "tenant"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIiwic2NvcGVzIjpbIlRFTkFOVF9BRE1JTiJdLCJ1c2VySWQiOiI3Y2YzNmI4MC0zNjEyLTExZWMtYWFmMC0xN2QzN2Y4NjkwNTAiLCJlbmFibGVkIjp0cnVlLCJpc1B1YmxpYyI6ZmFsc2UsInRlbmFudElkIjoiMTNlZjE4MzAtMzYxMi0xMWVjLWFhZjAtMTdkMzdmODY5MDUwIiwiY3VzdG9tZXJJZCI6IjEzODE0MDAwLTFkZDItMTFiMi04MDgwLTgwODA4MDgwODA4MCIsImlzcyI6InRoaW5nc2JvYXJkLmlvIiwiaWF0IjoxNzE1MDAwMDAwLCJleHAiOjE3MTUwMDkwMDB9.example",
+      "refreshToken": "eyJhbGciOiJIUzUxMiJ9.example-refresh"
+    }
+  },
+  "subsequent": {
+    "description": "Use the JWT token to list tenant devices.",
+    "method": "GET",
+    "url": "https://demo.thingsboard.io/api/tenant/devices?pageSize=10&page=0",
+    "headers": {
+      "X-Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9..."
+    }
+  }
+}

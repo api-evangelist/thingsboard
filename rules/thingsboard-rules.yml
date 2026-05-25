@@ -1,0 +1,54 @@
+extends: spectral:oas
+rules:
+  operation-summary-title-case:
+    description: Operation summaries should use Title Case (ThingsBoard convention).
+    severity: warn
+    given: $.paths[*][get,post,put,delete,patch].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^([A-Z][a-z0-9]*)(\s+(of|the|a|an|and|or|for|to|in|on|by|with|as|at|from|is|[A-Z][a-zA-Z0-9]*))*$'
+
+  operation-tag-required:
+    description: Every operation must declare at least one tag (controller).
+    severity: error
+    given: $.paths[*][get,post,put,delete,patch]
+    then:
+      field: tags
+      function: truthy
+
+  thingsboard-path-prefix:
+    description: All ThingsBoard REST endpoints must live under /api/.
+    severity: error
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: '^/api(/.*)?$'
+
+  use-uuid-for-ids:
+    description: Path parameters named *Id should be UUID format.
+    severity: warn
+    given: $.paths[*][*].parameters[?(@.name && @.name.match(/Id$/))].schema
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values: [uuid]
+
+  components-schemas-named:
+    description: Component schemas must use PascalCase.
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][a-zA-Z0-9]+$'
+
+  bearer-or-apikey-security:
+    description: Operations should require bearerAuth or apiKeyAuth (excluding the login endpoint).
+    severity: warn
+    given: "$.paths[?(!@property.match('/auth/login'))][*].security"
+    then:
+      function: truthy

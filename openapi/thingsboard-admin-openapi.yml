@@ -1,0 +1,3319 @@
+# ThingsBoard ThingsBoard Admin API
+# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin API
+  description: "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code\
+    \ Settings, Job."
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: admin-controller
+  description: Admin
+- name: audit-log-controller
+  description: Audit Log
+- name: event-controller
+  description: Event
+- name: usage-info-controller
+  description: Usage Info
+- name: queue-controller
+  description: Queue
+- name: queue-stats-controller
+  description: Queue Stats
+- name: mail-config-template-controller
+  description: Mail Config Template
+- name: qr-code-settings-controller
+  description: Qr Code Settings
+- name: job-controller
+  description: Job
+paths:
+  /api/queues:
+    get:
+      tags:
+      - queue-controller
+      summary: Get Queues (getTenantQueuesByServiceType)
+      description: "Returns a page of queues registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result\
+        \ set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getTenantQueuesByServiceType
+      parameters:
+      - name: serviceType
+        in: query
+        description: Service type (implemented only for the TB-RULE-ENGINE)
+        required: true
+        schema:
+          type: string
+          enum:
+          - TB-RULE-ENGINE
+          - TB-CORE
+          - TB-TRANSPORT
+          - JS-EXECUTOR
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the queue name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - topic
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataQueue'
+    post:
+      tags:
+      - queue-controller
+      summary: Create or Update Queue (saveQueue)
+      description: "Create or update the Queue. When creating queue, platform generates Queue Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ Specify existing Queue id to update the queue. Referencing non-existing Queue Id will cause 'Not Found' error.\n\nQueue name is unique in the scope of sysadmin. Remove 'id', 'tenantId' from the\
+        \ request body example (below) to create new Queue entity. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: saveQueue
+      parameters:
+      - name: serviceType
+        in: query
+        description: Service type (implemented only for the TB-RULE-ENGINE)
+        required: true
+        schema:
+          type: string
+          enum:
+          - TB-RULE-ENGINE
+          - TB-CORE
+          - TB-TRANSPORT
+          - JS-EXECUTOR
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Queue'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Queue'
+  /api/mobile/qr/settings:
+    get:
+      tags:
+      - qr-code-settings-controller
+      summary: Get Mobile Application Settings (getMobileAppSettings)
+      description: 'The response payload contains configuration for android/iOS applications and platform qr code widget settings.
+
+
+        Available for any authorized user. '
+      operationId: getQrCodeSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QrCodeSettings'
+    post:
+      tags:
+      - qr-code-settings-controller
+      summary: Create or Update the Mobile Application Settings (saveMobileAppSettings)
+      description: 'The request payload contains configuration for android/iOS applications and platform qr code widget settings.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: saveQrCodeSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QrCodeSettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QrCodeSettings'
+  /api/job/{id}/reprocess:
+    post:
+      tags:
+      - job-controller
+      operationId: reprocessJob
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/job/{id}/cancel:
+    post:
+      tags:
+      - job-controller
+      operationId: cancelJob
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/events/{entityType}/{entityId}:
+    get:
+      tags:
+      - event-controller
+      summary: Get Events (Deprecated)
+      description: 'Returns a page of events for specified entity. Deprecated and will be removed in next minor release. The call was deprecated to improve the performance of the system. Current implementation
+        will return ''Lifecycle'' events only. Use ''Get events by type'' or ''Get events by filter'' instead. You can specify parameters to filter the results. The result is wrapped with PageData object
+        that allows you to iterate over result set using pagination. See response schema for more details. '
+      operationId: getEvents
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: tenantId
+        in: query
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The value is not used in searching.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - ts
+          - id
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: Timestamp. Events with creation time before it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: Timestamp. Events with creation time after it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEventInfo'
+    post:
+      tags:
+      - event-controller
+      summary: Get Events by Event Filter (getEvents)
+      description: "Returns a page of events for the chosen entity by specifying the event filter. You can specify parameters to filter the results. The result is wrapped with PageData object that allows\
+        \ you to iterate over result set using pagination. See response schema for more details. \n\n# Event Filter Definition\n\n6 different eventFilter objects could be set for different event types.\
+        \ The eventType field is required. Others are optional. If some of them are set, the filtering will be applied according to them. See the examples below for all the fields used for each event type\
+        \ filtering. \n\nNote,\n\n * 'server' - string value representing the server name, identifier or ip address where the platform is running;\n * 'errorStr' - the case insensitive 'contains' filter\
+        \ based on error message.\n\n## Error Event Filter\n\n```json\n{\n   \"eventType\":\"ERROR\",\n   \"server\":\"ip-172-31-24-152\",\n   \"method\":\"onClusterEventMsg\",\n   \"errorStr\":\"Error\
+        \ Message\"\n}\n```\n\n * 'method' - string value representing the method name when the error happened.\n\n## Lifecycle Event Filter\n\n```json\n{\n   \"eventType\":\"LC_EVENT\",\n   \"server\"\
+        :\"ip-172-31-24-152\",\n   \"event\":\"STARTED\",\n   \"status\":\"Success\",\n   \"errorStr\":\"Error Message\"\n}\n```\n\n * 'event' - string value representing the lifecycle event type;\n * 'status'\
+        \ - string value representing status of the lifecycle event.\n\n## Statistics Event Filter\n\n```json\n{\n   \"eventType\":\"STATS\",\n   \"server\":\"ip-172-31-24-152\",\n   \"messagesProcessed\"\
+        :10,\n   \"errorsOccurred\":5\n}\n```\n\n * 'messagesProcessed' - the minimum number of successfully processed messages;\n * 'errorsOccurred' - the minimum number of errors occurred during messages\
+        \ processing.\n\n## Debug Rule Node Event Filter\n\n```json\n{\n   \"eventType\":\"DEBUG_RULE_NODE\",\n   \"msgDirectionType\":\"IN\",\n   \"server\":\"ip-172-31-24-152\",\n   \"dataSearch\":\"\
+        humidity\",\n   \"metadataSearch\":\"deviceName\",\n   \"entityName\":\"DEVICE\",\n   \"relationType\":\"Success\",\n   \"entityId\":\"de9d54a0-2b7a-11ec-a3cc-23386423d98f\",\n   \"msgType\":\"\
+        POST_TELEMETRY_REQUEST\",\n   \"isError\":\"false\",\n   \"errorStr\":\"Error Message\"\n}\n```\n\n## Debug Rule Chain Event Filter\n\n```json\n{\n   \"eventType\":\"DEBUG_RULE_CHAIN\",\n   \"msgDirectionType\"\
+        :\"IN\",\n   \"server\":\"ip-172-31-24-152\",\n   \"dataSearch\":\"humidity\",\n   \"metadataSearch\":\"deviceName\",\n   \"entityName\":\"DEVICE\",\n   \"relationType\":\"Success\",\n   \"entityId\"\
+        :\"de9d54a0-2b7a-11ec-a3cc-23386423d98f\",\n   \"msgType\":\"POST_TELEMETRY_REQUEST\",\n   \"isError\":\"false\",\n   \"errorStr\":\"Error Message\"\n}\n```\n\n * 'msgDirectionType' - string value\
+        \ representing msg direction type (incoming to entity or outcoming from entity);\n * 'dataSearch' - the case insensitive 'contains' filter based on data (key and value) for the message;\n * 'metadataSearch'\
+        \ - the case insensitive 'contains' filter based on metadata (key and value) for the message;\n * 'entityName' - string value representing the entity type;\n * 'relationType' - string value representing\
+        \ the type of message routing;\n * 'entityId' - string value representing the entity id in the event body (originator of the message);\n * 'msgType' - string value representing the message type;\n\
+        \ * 'isError' - boolean value to filter the errors.\n\n## Debug Calculated Field Event Filter\n\n```json\n{\n   \"eventType\":\"DEBUG_CALCULATED_FIELD\",\n   \"server\":\"ip-172-31-24-152\",\n \
+        \  \"isError\":\"false\",\n   \"errorStr\":\"Error Message\"\n   \"entityId\":\"cf4b8741-f618-471f-ae08-d881ca7f9fe9\",\n   \"msgId\":\"5cf7d3a0-aee7-40dd-a737-ade05528e7eb\",\n   \"msgType\":\"\
+        POST_TELEMETRY_REQUEST\",\n   \"arguments\":\"{\n    \"x\": {\n      \"ts\": 1739432016629,\n      \"value\": 20\n    },\n    \"y\": {\n      \"ts\": 1739429717656,\n      \"value\": 12\n    }\n\
+        \  }\",\n   \"result\":\"{\n    \"x + y\": 32\n  }\",\n}\n```\n\n * 'entityId' - string value representing the entity id in the event body;\n * 'entityType' - string value representing the entity\
+        \ type;\n * 'msgId' - string value representing the message id in the rule engine;\n * 'msgType' - string value representing the message type;\n * 'arguments' - string value representing the arguments\
+        \ that were used in the calculation performed;\n * 'result' - string value representing the result of a calculation;\n * 'isError' - boolean value to filter the errors.\n\n"
+      operationId: getEvents_1
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: tenantId
+        in: query
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The value is not used in searching.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - ts
+          - id
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: Timestamp. Events with creation time before it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: Timestamp. Events with creation time after it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: A JSON value representing the event filter.
+              oneOf:
+              - $ref: '#/components/schemas/CalculatedFieldDebugEventFilter'
+              - $ref: '#/components/schemas/ErrorEventFilter'
+              - $ref: '#/components/schemas/LifeCycleEventFilter'
+              - $ref: '#/components/schemas/RuleChainDebugEventFilter'
+              - $ref: '#/components/schemas/RuleNodeDebugEventFilter'
+              - $ref: '#/components/schemas/StatisticsEventFilter'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEventInfo'
+  /api/events/{entityType}/{entityId}/clear:
+    post:
+      tags:
+      - event-controller
+      summary: Clear Events (clearEvents)
+      description: Clears events by filter for specified entity.
+      operationId: clearEvents
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: startTime
+        in: query
+        description: Timestamp. Events with creation time before it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: Timestamp. Events with creation time after it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: "# Event Filter Definition\n\n6 different eventFilter objects could be set for different event types. The eventType field is required. Others are optional. If some of them are\
+                \ set, the filtering will be applied according to them. See the examples below for all the fields used for each event type filtering. \n\nNote,\n\n * 'server' - string value representing\
+                \ the server name, identifier or ip address where the platform is running;\n * 'errorStr' - the case insensitive 'contains' filter based on error message.\n\n## Error Event Filter\n\n```json\n\
+                {\n   \"eventType\":\"ERROR\",\n   \"server\":\"ip-172-31-24-152\",\n   \"method\":\"onClusterEventMsg\",\n   \"errorStr\":\"Error Message\"\n}\n```\n\n * 'method' - string value representing\
+                \ the method name when the error happened.\n\n## Lifecycle Event Filter\n\n```json\n{\n   \"eventType\":\"LC_EVENT\",\n   \"server\":\"ip-172-31-24-152\",\n   \"event\":\"STARTED\",\n  \
+                \ \"status\":\"Success\",\n   \"errorStr\":\"Error Message\"\n}\n```\n\n * 'event' - string value representing the lifecycle event type;\n * 'status' - string value representing status of\
+                \ the lifecycle event.\n\n## Statistics Event Filter\n\n```json\n{\n   \"eventType\":\"STATS\",\n   \"server\":\"ip-172-31-24-152\",\n   \"messagesProcessed\":10,\n   \"errorsOccurred\"\
+                :5\n}\n```\n\n * 'messagesProcessed' - the minimum number of successfully processed messages;\n * 'errorsOccurred' - the minimum number of errors occurred during messages processing.\n\n\
+                ## Debug Rule Node Event Filter\n\n```json\n{\n   \"eventType\":\"DEBUG_RULE_NODE\",\n   \"msgDirectionType\":\"IN\",\n   \"server\":\"ip-172-31-24-152\",\n   \"dataSearch\":\"humidity\"\
+                ,\n   \"metadataSearch\":\"deviceName\",\n   \"entityName\":\"DEVICE\",\n   \"relationType\":\"Success\",\n   \"entityId\":\"de9d54a0-2b7a-11ec-a3cc-23386423d98f\",\n   \"msgType\":\"POST_TELEMETRY_REQUEST\"\
+                ,\n   \"isError\":\"false\",\n   \"errorStr\":\"Error Message\"\n}\n```\n\n## Debug Rule Chain Event Filter\n\n```json\n{\n   \"eventType\":\"DEBUG_RULE_CHAIN\",\n   \"msgDirectionType\"\
+                :\"IN\",\n   \"server\":\"ip-172-31-24-152\",\n   \"dataSearch\":\"humidity\",\n   \"metadataSearch\":\"deviceName\",\n   \"entityName\":\"DEVICE\",\n   \"relationType\":\"Success\",\n \
+                \  \"entityId\":\"de9d54a0-2b7a-11ec-a3cc-23386423d98f\",\n   \"msgType\":\"POST_TELEMETRY_REQUEST\",\n   \"isError\":\"false\",\n   \"errorStr\":\"Error Message\"\n}\n```\n\n * 'msgDirectionType'\
+                \ - string value representing msg direction type (incoming to entity or outcoming from entity);\n * 'dataSearch' - the case insensitive 'contains' filter based on data (key and value) for\
+                \ the message;\n * 'metadataSearch' - the case insensitive 'contains' filter based on metadata (key and value) for the message;\n * 'entityName' - string value representing the entity type;\n\
+                \ * 'relationType' - string value representing the type of message routing;\n * 'entityId' - string value representing the entity id in the event body (originator of the message);\n * 'msgType'\
+                \ - string value representing the message type;\n * 'isError' - boolean value to filter the errors.\n\n## Debug Calculated Field Event Filter\n\n```json\n{\n   \"eventType\":\"DEBUG_CALCULATED_FIELD\"\
+                ,\n   \"server\":\"ip-172-31-24-152\",\n   \"isError\":\"false\",\n   \"errorStr\":\"Error Message\"\n   \"entityId\":\"cf4b8741-f618-471f-ae08-d881ca7f9fe9\",\n   \"msgId\":\"5cf7d3a0-aee7-40dd-a737-ade05528e7eb\"\
+                ,\n   \"msgType\":\"POST_TELEMETRY_REQUEST\",\n   \"arguments\":\"{\n    \"x\": {\n      \"ts\": 1739432016629,\n      \"value\": 20\n    },\n    \"y\": {\n      \"ts\": 1739429717656,\n\
+                \      \"value\": 12\n    }\n  }\",\n   \"result\":\"{\n    \"x + y\": 32\n  }\",\n}\n```\n\n * 'entityId' - string value representing the entity id in the event body;\n * 'entityType' -\
+                \ string value representing the entity type;\n * 'msgId' - string value representing the message id in the rule engine;\n * 'msgType' - string value representing the message type;\n * 'arguments'\
+                \ - string value representing the arguments that were used in the calculation performed;\n * 'result' - string value representing the result of a calculation;\n * 'isError' - boolean value\
+                \ to filter the errors.\n\n"
+              oneOf:
+              - $ref: '#/components/schemas/CalculatedFieldDebugEventFilter'
+              - $ref: '#/components/schemas/ErrorEventFilter'
+              - $ref: '#/components/schemas/LifeCycleEventFilter'
+              - $ref: '#/components/schemas/RuleChainDebugEventFilter'
+              - $ref: '#/components/schemas/RuleNodeDebugEventFilter'
+              - $ref: '#/components/schemas/StatisticsEventFilter'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/admin/settings:
+    post:
+      tags:
+      - admin-controller
+      summary: Creates or Updates the Administration Settings (saveAdminSettings)
+      description: 'Creates or Updates the Administration Settings. Platform generates random Administration Settings Id during settings creation. The Administration Settings Id will be present in the response.
+        Specify the Administration Settings Id when you would like to update the Administration Settings. Referencing non-existing Administration Settings Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: saveAdminSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminSettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSettings'
+  /api/admin/settings/testSms:
+    post:
+      tags:
+      - admin-controller
+      summary: Send Test Sms (sendTestSms)
+      description: "Attempts to send test sms to the System Administrator User using SMS Settings and phone number provided as a parameters of the request. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: sendTestSms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestSmsRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/admin/settings/testMail:
+    post:
+      tags:
+      - admin-controller
+      summary: Send Test Email (sendTestMail)
+      description: "Attempts to send test email to the System Administrator User using Mail Settings provided as a parameter. You may change the 'To' email in the user profile of the System Administrator.\
+        \ \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: sendTestMail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminSettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/admin/securitySettings:
+    get:
+      tags:
+      - admin-controller
+      summary: Get the Security Settings Object (getSecuritySettings)
+      description: 'Get the Security Settings object that contains password policy, etc.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: getSecuritySettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecuritySettings'
+    post:
+      tags:
+      - admin-controller
+      summary: Update Security Settings (saveSecuritySettings)
+      description: 'Updates the Security Settings object that contains password policy, etc.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: saveSecuritySettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecuritySettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecuritySettings'
+  /api/admin/repositorySettings:
+    get:
+      tags:
+      - admin-controller
+      summary: Get Repository Settings (getRepositorySettings)
+      description: "Get the repository settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getRepositorySettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositorySettings'
+    post:
+      tags:
+      - admin-controller
+      summary: Creates or Updates the Repository Settings (saveRepositorySettings)
+      description: "Creates or Updates the repository settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveRepositorySettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositorySettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositorySettings'
+    delete:
+      tags:
+      - admin-controller
+      summary: Delete Repository Settings (deleteRepositorySettings)
+      description: 'Deletes the repository settings.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: deleteRepositorySettings
+      responses:
+        '200':
+          description: OK
+  /api/admin/repositorySettings/checkAccess:
+    post:
+      tags:
+      - admin-controller
+      summary: Check Repository Access (checkRepositoryAccess)
+      description: "Attempts to check repository access. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: checkRepositoryAccess
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositorySettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/admin/jwtSettings:
+    get:
+      tags:
+      - admin-controller
+      summary: Get the JWT Settings Object (getJwtSettings)
+      description: "Get the JWT Settings object that contains JWT token policy, etc. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getJwtSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtSettings'
+    post:
+      tags:
+      - admin-controller
+      summary: Update JWT Settings (saveJwtSettings)
+      description: 'Updates the JWT Settings object that contains JWT token policy, etc. The tokenSigningKey field is a Base64 encoded string.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: saveJwtSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtSettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/admin/autoCommitSettings:
+    get:
+      tags:
+      - admin-controller
+      summary: Get Auto Commit Settings (getAutoCommitSettings)
+      description: "Get the auto commit settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getAutoCommitSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoCommitSettings'
+    post:
+      tags:
+      - admin-controller
+      summary: Creates or Updates the Auto Commit Settings (saveAutoCommitSettings)
+      description: "Creates or Updates the auto commit settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveAutoCommitSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutoCommitSettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoCommitSettings'
+    delete:
+      tags:
+      - admin-controller
+      summary: Delete Auto Commit Settings (deleteAutoCommitSettings)
+      description: 'Deletes the auto commit settings.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: deleteAutoCommitSettings
+      responses:
+        '200':
+          description: OK
+  /api/usage:
+    get:
+      tags:
+      - usage-info-controller
+      operationId: getTenantUsageInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageInfo'
+  /api/queues/{queueId}:
+    get:
+      tags:
+      - queue-controller
+      summary: Get Queue (getQueueById)
+      description: "Fetch the Queue object based on the provided Queue Id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getQueueById
+      parameters:
+      - name: queueId
+        in: path
+        description: A string value representing the queue id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Queue'
+    delete:
+      tags:
+      - queue-controller
+      summary: Delete Queue (deleteQueue)
+      description: "Deletes the Queue. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: deleteQueue
+      parameters:
+      - name: queueId
+        in: path
+        description: A string value representing the queue id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/queues/name/{queueName}:
+    get:
+      tags:
+      - queue-controller
+      summary: Get Queue (getQueueByName)
+      description: "Fetch the Queue object based on the provided Queue name. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getQueueByName
+      parameters:
+      - name: queueName
+        in: path
+        description: A string value representing the queue id. For example, 'Main'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Queue'
+  /api/queueStats:
+    get:
+      tags:
+      - queue-stats-controller
+      summary: Get Queue Stats Entities (getTenantQueueStats)
+      description: "Returns a page of queue stats objects that are designed to collect queue statistics for every service. You can specify parameters to filter the results. The result is wrapped with PageData\
+        \ object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getQueueStatsByIds
+      parameters:
+      - name: queueStatsIds
+        in: query
+        description: A list of queue stats ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the queue name or service id.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/PageDataQueueStats'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/QueueStats'
+  /api/queueStats/{queueStatsId}:
+    get:
+      tags:
+      - queue-stats-controller
+      summary: Get Queue Stats Entity by Id (getQueueStatsById)
+      description: "Fetch the Queue stats object based on the provided Queue stats id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getQueueStatsById
+      parameters:
+      - name: queueStatsId
+        in: path
+        description: A string value representing the queue stats id. For example, '687f294c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueueStats'
+  /api/noauth/qr:
+    get:
+      tags:
+      - qr-code-settings-controller
+      operationId: getApplicationRedirect
+      parameters:
+      - name: User-Agent
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/noauth/qr/{secret}:
+    get:
+      tags:
+      - qr-code-settings-controller
+      summary: Get User Token (getUserTokenByMobileSecret)
+      description: Returns the token of the User based on the provided secret key.
+      operationId: getUserTokenByMobileSecret
+      parameters:
+      - name: secret
+        in: path
+        description: A string value representing short-lived secret key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/mobile/qr/deepLink:
+    get:
+      tags:
+      - qr-code-settings-controller
+      summary: Get the Deep Link to the Associated Mobile Application (getMobileAppDeepLink)
+      description: "Fetch the url that takes user to linked mobile application \n\nAvailable for any authorized user. "
+      operationId: getMobileAppDeepLink
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/mail/config/template:
+    get:
+      tags:
+      - mail-config-template-controller
+      summary: Get the List of All OAuth2 Client Registration Templates (getClientRegistrationTemplates) Available for Users with 'SYS_ADMIN' or 'TENANT_ADMIN' Authority.
+      description: Mail configuration template is set of default smtp settings for mail server that specific provider supports
+      operationId: getClientRegistrationTemplates_1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+  /api/jobs:
+    get:
+      tags:
+      - job-controller
+      operationId: getJobs
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: Case-insensitive 'substring' filter based on job's description
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+      - name: types
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - DUMMY
+      - name: statuses
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - QUEUED
+            - PENDING
+            - RUNNING
+            - COMPLETED
+            - FAILED
+            - CANCELLED
+      - name: entities
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: startTime
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataJob'
+  /api/job/{id}:
+    get:
+      tags:
+      - job-controller
+      operationId: getJobById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+    delete:
+      tags:
+      - job-controller
+      operationId: deleteJob
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/events/{entityType}/{entityId}/{eventType}:
+    get:
+      tags:
+      - event-controller
+      summary: Get Events by Type (getEvents)
+      description: 'Returns a page of events for specified entity by specifying event type. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to
+        iterate over result set using pagination. See response schema for more details. '
+      operationId: getEvents_2
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: eventType
+        in: path
+        description: A string value representing event type
+        required: true
+        schema:
+          type: string
+        example: STATS
+      - name: tenantId
+        in: query
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The value is not used in searching.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - ts
+          - id
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: Timestamp. Events with creation time before it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: Timestamp. Events with creation time after it won't be queried.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEventInfo'
+  /api/audit/logs:
+    get:
+      tags:
+      - audit-log-controller
+      summary: Get All Audit Logs (getAuditLogs)
+      description: "Returns a page of audit logs related to all entities in the scope of the current user's Tenant. You can specify parameters to filter the results. The result is wrapped with PageData\
+        \ object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getAuditLogs
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: 'The case insensitive ''substring'' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.'
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: 'Property of audit log to sort by. See the ''Model'' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can
+          be used to sort audit logs by types of entities that were logged.'
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - entityType
+          - entityName
+          - userName
+          - actionType
+          - actionStatus
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: 'The start timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: 'The end timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: actionTypes
+        in: query
+        description: A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types.
+          For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAuditLog'
+  /api/audit/logs/user/{userId}:
+    get:
+      tags:
+      - audit-log-controller
+      summary: Get Audit Logs by User Id (getAuditLogsByUserId)
+      description: "Returns a page of audit logs related to the actions of targeted user. For example, RPC call to a particular device, or alarm acknowledgment for a specific device, etc. You can specify\
+        \ parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for\
+        \ users with 'TENANT_ADMIN' authority."
+      operationId: getAuditLogsByUserId
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: 'The case insensitive ''substring'' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.'
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: 'Property of audit log to sort by. See the ''Model'' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can
+          be used to sort audit logs by types of entities that were logged.'
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - entityType
+          - entityName
+          - userName
+          - actionType
+          - actionStatus
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: 'The start timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: 'The end timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: actionTypes
+        in: query
+        description: A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types.
+          For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAuditLog'
+  /api/audit/logs/entity/{entityType}/{entityId}:
+    get:
+      tags:
+      - audit-log-controller
+      summary: Get Audit Logs by Entity Id (getAuditLogsByEntityId)
+      description: "Returns a page of audit logs related to the actions on the targeted entity. Basically, this API call is used to get the full lifecycle of some specific entity. For example to see when\
+        \ a device was created, updated, assigned to some customer, or even deleted from the system. You can specify parameters to filter the results. The result is wrapped with PageData object that allows\
+        \ you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getAuditLogsByEntityId
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: 'The case insensitive ''substring'' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.'
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: 'Property of audit log to sort by. See the ''Model'' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can
+          be used to sort audit logs by types of entities that were logged.'
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - entityType
+          - entityName
+          - userName
+          - actionType
+          - actionStatus
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: 'The start timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: 'The end timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: actionTypes
+        in: query
+        description: A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types.
+          For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAuditLog'
+  /api/audit/logs/customer/{customerId}:
+    get:
+      tags:
+      - audit-log-controller
+      summary: Get Audit Logs by Customer Id (getAuditLogsByCustomerId)
+      description: "Returns a page of audit logs related to the targeted customer entities (devices, assets, etc.), and users actions (login, logout, etc.) that belong to this customer. You can specify\
+        \ parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for\
+        \ users with 'TENANT_ADMIN' authority."
+      operationId: getAuditLogsByCustomerId
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: 'The case insensitive ''substring'' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.'
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: 'Property of audit log to sort by. See the ''Model'' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can
+          be used to sort audit logs by types of entities that were logged.'
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - entityType
+          - entityName
+          - userName
+          - actionType
+          - actionStatus
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: 'The start timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: 'The end timestamp in milliseconds of the search time range over the AuditLog class field: ''createdTime''.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: actionTypes
+        in: query
+        description: A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types.
+          For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAuditLog'
+  /api/admin/updates:
+    get:
+      tags:
+      - admin-controller
+      summary: Check for New Platform Releases (checkUpdates)
+      description: "Check notifications about new platform releases. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: checkUpdates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateMessage'
+  /api/admin/systemInfo:
+    get:
+      tags:
+      - admin-controller
+      summary: Get System Info (getSystemInfo)
+      description: "Get main information about system. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getSystemInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemInfo'
+  /api/admin/settings/{key}:
+    get:
+      tags:
+      - admin-controller
+      summary: Get the Administration Settings Object Using Key (getAdminSettings)
+      description: 'Get the Administration Settings object using specified string key. Referencing non-existing key will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: getAdminSettings
+      parameters:
+      - name: key
+        in: path
+        description: A string value of the key (e.g. 'general' or 'mail').
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSettings'
+  /api/admin/repositorySettings/info:
+    get:
+      tags:
+      - admin-controller
+      operationId: getRepositorySettingsInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositorySettingsInfo'
+  /api/admin/repositorySettings/exists:
+    get:
+      tags:
+      - admin-controller
+      summary: Check Repository Settings Exists (repositorySettingsExists)
+      description: "Check whether the repository settings exists. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: repositorySettingsExists
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /api/admin/mail/oauth2/loginProcessingUrl:
+    get:
+      tags:
+      - admin-controller
+      summary: Get OAuth2 Log in Processing URL (getMailProcessingUrl)
+      description: "Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider and user consent for requested scope, it makes a redirect to this path so that the platform\
+        \ can do further log in processing and generating access tokens. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getMailProcessingUrl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/admin/mail/oauth2/code:
+    get:
+      tags:
+      - admin-controller
+      operationId: codeProcessingUrl
+      parameters:
+      - name: code
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: state
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/admin/mail/oauth2/authorize:
+    get:
+      tags:
+      - admin-controller
+      summary: Redirect User to Mail Provider Login Page.
+      description: After user logged in and provided accessprovider sends authorization code to specified redirect uri.)
+      operationId: getAuthorizationUrl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/text:
+              schema:
+                type: string
+  /api/admin/featuresInfo:
+    get:
+      tags:
+      - admin-controller
+      summary: Get Features Info (getFeaturesInfo)
+      description: "Get information about enabled/disabled features. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getFeaturesInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeaturesInfo'
+  /api/admin/autoCommitSettings/exists:
+    get:
+      tags:
+      - admin-controller
+      summary: Check Auto Commit Settings Exists (autoCommitSettingsExists)
+      description: "Check whether the auto commit settings exists. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: autoCommitSettingsExists
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /.well-known/assetlinks.json:
+    get:
+      tags:
+      - qr-code-settings-controller
+      summary: Get Associated Android Applications (getAssetLinks)
+      operationId: getAssetLinks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+  /.well-known/apple-app-site-association:
+    get:
+      tags:
+      - qr-code-settings-controller
+      summary: Get Associated Ios Applications (getAppleAppSiteAssociation)
+      operationId: getAppleAppSiteAssociation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+components:
+  schemas:
+    AdminSettings:
+      type: object
+      description: A JSON value representing the Mail Settings.
+      properties:
+        id:
+          $ref: '#/components/schemas/AdminSettingsId'
+          description: The Id of the Administration Settings, auto-generated, UUID
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the settings creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        key:
+          type: string
+          description: The Administration Settings key, (e.g. 'general' or 'mail')
+          example: mail
+        jsonValue:
+          $ref: '#/components/schemas/JsonNode'
+          description: JSON representation of the Administration Settings value
+    AdminSettingsId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ADMIN_SETTINGS
+          example: ADMIN_SETTINGS
+      required:
+      - entityType
+      - id
+    AuditLog:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/AuditLogId'
+          description: JSON object with the auditLog Id
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the auditLog creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id
+          readOnly: true
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with Entity id
+          readOnly: true
+        entityName:
+          type: string
+          description: Name of the logged entity
+          example: Thermometer
+          readOnly: true
+        userId:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with User id.
+          readOnly: true
+        userName:
+          type: string
+          description: Unique user name(email) of the user that performed some action on logged entity
+          example: tenant@thingsboard.org
+          readOnly: true
+        actionType:
+          type: string
+          description: String represented Action type
+          enum:
+          - ADDED
+          - DELETED
+          - UPDATED
+          - ATTRIBUTES_UPDATED
+          - ATTRIBUTES_DELETED
+          - TIMESERIES_UPDATED
+          - TIMESERIES_DELETED
+          - RPC_CALL
+          - CREDENTIALS_UPDATED
+          - ASSIGNED_TO_CUSTOMER
+          - UNASSIGNED_FROM_CUSTOMER
+          - ACTIVATED
+          - SUSPENDED
+          - CREDENTIALS_READ
+          - ATTRIBUTES_READ
+          - RELATION_ADD_OR_UPDATE
+          - RELATION_DELETED
+          - RELATIONS_DELETED
+          - REST_API_RULE_ENGINE_CALL
+          - ALARM_ACK
+          - ALARM_CLEAR
+          - ALARM_DELETE
+          - ALARM_ASSIGNED
+          - ALARM_UNASSIGNED
+          - LOGIN
+          - LOGOUT
+          - LOCKOUT
+          - ASSIGNED_FROM_TENANT
+          - ASSIGNED_TO_TENANT
+          - PROVISION_SUCCESS
+          - PROVISION_FAILURE
+          - ASSIGNED_TO_EDGE
+          - UNASSIGNED_FROM_EDGE
+          - ADDED_COMMENT
+          - UPDATED_COMMENT
+          - DELETED_COMMENT
+          - SMS_SENT
+          example: ADDED
+          readOnly: true
+        actionData:
+          $ref: '#/components/schemas/JsonNode'
+          description: JsonNode represented action data
+          readOnly: true
+        actionStatus:
+          type: string
+          description: String represented Action status
+          enum:
+          - SUCCESS
+          - FAILURE
+          example: SUCCESS
+          readOnly: true
+        actionFailureDetails:
+          type: string
+          description: Failure action details info. An empty string in case of action status type 'SUCCESS', otherwise includes stack trace of the caused exception.
+          readOnly: true
+    AuditLogId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    AutoCommitSettings:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AutoVersionCreateConfig'
+    AutoVersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+        branch:
+          type: string
+    AwsSnsSmsProviderConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/SmsProviderConfiguration'
+      - type: object
+        properties:
+          accessKeyId:
+            type: string
+            description: The AWS SNS Access Key ID.
+          secretAccessKey:
+            type: string
+            description: The AWS SNS Access Key.
+          region:
+            type: string
+            description: The AWS region.
+    CalculatedFieldDebugEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          isError:
+            type: boolean
+            writeOnly: true
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+          entityId:
+            type: string
+            description: String value representing the entity id in the event body
+            example: 57b6bafe-d600-423c-9267-fe31e5218986
+          entityType:
+            type: string
+            description: String value representing the entity type
+            enum:
+            - DEVICE
+          msgId:
+            type: string
+            description: String value representing the message id in the rule engine
+            example: dcf44612-2ce4-4e5d-b462-ebb9c5628228
+          msgType:
+            type: string
+            description: String value representing the message type
+            example: POST_TELEMETRY_REQUEST
+          arguments:
+            type: string
+            description: String value representing the arguments that were used in the calculation performed
+            example:
+              x:
+                ts: 1739432016629
+                value: 20
+              y:
+                ts: 1739429717656
+                value: 12
+          result:
+            type: string
+            description: String value representing the result of a calculation
+            example:
+              x + y: 32
+          error:
+            type: boolean
+      required:
+      - eventType
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    DummyJobConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/JobConfiguration'
+      - type: object
+        properties:
+          taskProcessingTimeMs:
+            type: integer
+            format: int64
+          successfulTasksCount:
+            type: integer
+            format: int32
+          failedTasksCount:
+            type: integer
+            format: int32
+          permanentlyFailedTasksCount:
+            type: integer
+            format: int32
+          errors:
+            type: array
+            items:
+              type: string
+          retries:
+            type: integer
+            format: int32
+          taskProcessingTimeoutMs:
+            type: integer
+            format: int64
+          generalError:
+            type: string
+          submittedTasksBeforeGeneralError:
+            type: integer
+            format: int32
+      required:
+      - tasksKey
+    DummyJobResult:
+      allOf:
+      - $ref: '#/components/schemas/JobResult'
+    DummyTaskFailure:
+      type: object
+      properties:
+        error:
+          type: string
+        number:
+          type: integer
+          format: int32
+        failAlways:
+          type: boolean
+    DummyTaskResult:
+      allOf:
+      - $ref: '#/components/schemas/TaskResult'
+      - type: object
+        properties:
+          failure:
+            $ref: '#/components/schemas/DummyTaskFailure'
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    ErrorEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          method:
+            type: string
+            description: String value representing the method name when the error happened
+            example: onClusterEventMsg
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+      required:
+      - eventType
+    EventFilter:
+      type: object
+      discriminator:
+        propertyName: eventType
+      properties:
+        eventType:
+          type: string
+          description: String value representing the event type
+          enum:
+          - ERROR
+          - LC_EVENT
+          - STATS
+          - DEBUG_RULE_NODE
+          - DEBUG_RULE_CHAIN
+          - DEBUG_CALCULATED_FIELD
+          example: STATS
+        notEmpty:
+          type: boolean
+      required:
+      - eventType
+    EventId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    EventInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EventId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the event creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        type:
+          type: string
+          description: Event type
+          example: STATS
+        uid:
+          type: string
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with Entity Id for which event is created.
+          readOnly: true
+        body:
+          $ref: '#/components/schemas/JsonNode'
+    FeaturesInfo:
+      type: object
+      properties:
+        smsEnabled:
+          type: boolean
+        oauthEnabled:
+          type: boolean
+        twoFaEnabled:
+          type: boolean
+        emailEnabled:
+          type: boolean
+        notificationEnabled:
+          type: boolean
+    Job:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/JobId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        type:
+          type: string
+          enum:
+          - DUMMY
+        key:
+          type: string
+          minLength: 1
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        entityName:
+          type: string
+        status:
+          type: string
+          enum:
+          - QUEUED
+          - PENDING
+          - RUNNING
+          - COMPLETED
+          - FAILED
+          - CANCELLED
+        configuration:
+          oneOf:
+          - $ref: '#/components/schemas/DummyJobConfiguration'
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/DummyJobResult'
+      required:
+      - configuration
+      - entityId
+      - key
+      - result
+      - status
+      - tenantId
+      - type
+    JobConfiguration:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        tasksKey:
+          type: string
+          minLength: 1
+        toReprocess:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/DummyTaskResult'
+        type:
+          type: string
+      required:
+      - tasksKey
+      - type
+    JobId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - JOB
+          example: JOB
+      required:
+      - entityType
+      - id
+    JobResult:
+      type: object
+      discriminator:
+        propertyName: jobType
+      properties:
+        successfulCount:
+          type: integer
+          format: int32
+        failedCount:
+          type: integer
+          format: int32
+        discardedCount:
+          type: integer
+          format: int32
+        totalCount:
+          type: integer
+          format: int32
+        results:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/DummyTaskResult'
+        generalError:
+          type: string
+        startTs:
+          type: integer
+          format: int64
+        finishTs:
+          type: integer
+          format: int64
+        cancellationTs:
+          type: integer
+          format: int64
+        jobType:
+          type: string
+      required:
+      - jobType
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    JwtPair:
+      type: object
+      description: JWT Pair
+      properties:
+        token:
+          type: string
+          description: The JWT Access Token. Used to perform API calls.
+          example: AAB254FF67D..
+        refreshToken:
+          type: string
+          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
+          example: AAB254FF67D..
+        scope:
+          type: string
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+    JwtSettings:
+      type: object
+      description: A JSON value representing the JWT Settings.
+      properties:
+        tokenExpirationTime:
+          type: integer
+          format: int32
+          description: The JWT will expire after seconds.
+          example: 9000
+        refreshTokenExpTime:
+          type: integer
+          format: int32
+          description: The JWT can be refreshed during seconds.
+          example: 604800
+        tokenIssuer:
+          type: string
+          description: The JWT issuer.
+          example: thingsboard.io
+        tokenSigningKey:
+          type: string
+          description: The JWT key is used to sing token. Base64 encoded.
+          example: dkVTUzU2M2VMWUNwVVltTUhQU2o5SUM0Tkc3M0k2Ykdwcm85QTl6R0RaQ252OFlmVDk2OEptZXBNcndGeExFZg==
+    LifeCycleEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          event:
+            type: string
+            description: String value representing the lifecycle event type
+            example: STARTED
+          status:
+            type: string
+            description: String value representing status of the lifecycle event
+            enum:
+            - Success
+            - Failure
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+      required:
+      - eventType
+    MobileAppBundleId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    PageDataAuditLog:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AuditLog'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEventInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EventInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataJob:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Job'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataQueue:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Queue'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataQueueStats:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/QueueStats'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    ProcessingStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - SKIP_ALL_FAILURES
+          - SKIP_ALL_FAILURES_AND_TIMED_OUT
+          - RETRY_ALL
+          - RETRY_FAILED
+          - RETRY_TIMED_OUT
+          - RETRY_FAILED_AND_TIMED_OUT
+        retries:
+          type: integer
+          format: int32
+        failurePercentage:
+          type: number
+          format: double
+        pauseBetweenRetries:
+          type: integer
+          format: int64
+        maxPauseBetweenRetries:
+          type: integer
+          format: int64
+    QRCodeConfig:
+      type: object
+      properties:
+        showOnHomePage:
+          type: boolean
+        badgeEnabled:
+          type: boolean
+        qrCodeLabelEnabled:
+          type: boolean
+        badgePosition:
+          type: string
+          enum:
+          - RIGHT
+          - LEFT
+        qrCodeLabel:
+          type: string
+    QrCodeSettings:
+      type: object
+      description: A JSON value representing the mobile apps configuration
+      properties:
+        id:
+          $ref: '#/components/schemas/QrCodeSettingsId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        useSystemSettings:
+          type: boolean
+          description: Use settings from system level
+          example: true
+        useDefaultApp:
+          type: boolean
+          description: 'Type of application: true means use default Thingsboard app'
+          example: true
+        mobileAppBundleId:
+          $ref: '#/components/schemas/MobileAppBundleId'
+          description: Mobile app bundle.
+        qrCodeConfig:
+          $ref: '#/components/schemas/QRCodeConfig'
+          description: QR code config configuration.
+        androidEnabled:
+          type: boolean
+          description: Indicates if google play link is available
+          example: true
+        iosEnabled:
+          type: boolean
+          description: Indicates if apple store link is available
+          example: true
+        googlePlayLink:
+          type: string
+          readOnly: true
+        appStoreLink:
+          type: string
+          readOnly: true
+      required:
+      - qrCodeConfig
+    QrCodeSettingsId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    Queue:
+      type: object
+      description: A JSON value representing the queue.
+      properties:
+        id:
+          $ref: '#/components/schemas/QueueId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        name:
+          type: string
+        topic:
+          type: string
+        pollInterval:
+          type: integer
+          format: int32
+        partitions:
+          type: integer
+          format: int32
+        consumerPerPartition:
+          type: boolean
+        packProcessingTimeout:
+          type: integer
+          format: int64
+        submitStrategy:
+          $ref: '#/components/schemas/SubmitStrategy'
+        processingStrategy:
+          $ref: '#/components/schemas/ProcessingStrategy'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+    QueueId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - QUEUE
+          example: QUEUE
+      required:
+      - entityType
+      - id
+    QueueStats:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/QueueStatsId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        queueName:
+          type: string
+        serviceId:
+          type: string
+    QueueStatsId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - QUEUE_STATS
+          example: QUEUE_STATS
+      required:
+      - entityType
+      - id
+    RepositorySettings:
+      type: object
+      description: A JSON value representing the Repository Settings.
+      properties:
+        repositoryUri:
+          type: string
+        authMethod:
+          type: string
+          enum:
+          - USERNAME_PASSWORD
+          - PRIVATE_KEY
+        username:
+          type: string
+        password:
+          type: string
+        privateKeyFileName:
+          type: string
+        privateKey:
+          type: string
+        privateKeyPassword:
+          type: string
+        defaultBranch:
+          type: string
+        readOnly:
+          type: boolean
+        showMergeCommits:
+          type: boolean
+        localOnly:
+          type: boolean
+    RepositorySettingsInfo:
+      type: object
+      properties:
+        configured:
+          type: boolean
+        readOnly:
+          type: boolean
+    RuleChainDebugEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          isError:
+            type: boolean
+            writeOnly: true
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+          message:
+            type: string
+            description: String value representing the message
+          error:
+            type: boolean
+      required:
+      - eventType
+    RuleNodeDebugEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          isError:
+            type: boolean
+            writeOnly: true
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+          msgDirectionType:
+            type: string
+            description: String value representing msg direction type (incoming to entity or outcoming from entity)
+            enum:
+            - IN
+            - OUT
+          entityId:
+            type: string
+            description: String value representing the entity id in the event body (originator of the message)
+            example: de9d54a0-2b7a-11ec-a3cc-23386423d98f
+          entityType:
+            type: string
+            description: String value representing the entity type
+            enum:
+            - DEVICE
+          msgId:
+            type: string
+            description: String value representing the message id in the rule engine
+            example: de9d54a0-2b7a-11ec-a3cc-23386423d98f
+          msgType:
+            type: string
+            description: String value representing the message type
+            example: POST_TELEMETRY_REQUEST
+          relationType:
+            type: string
+            description: String value representing the type of message routing
+            example: Success
+          dataSearch:
+            type: string
+            description: The case insensitive 'contains' filter based on data (key and value) for the message.
+            example: humidity
+          metadataSearch:
+            type: string
+            description: The case insensitive 'contains' filter based on metadata (key and value) for the message.
+            example: deviceName
+          error:
+            type: boolean
+      required:
+      - eventType
+    SecuritySettings:
+      type: object
+      description: A JSON value representing the Security Settings.
+      properties:
+        passwordPolicy:
+          $ref: '#/components/schemas/UserPasswordPolicy'
+          description: The user password policy object.
+        maxFailedLoginAttempts:
+          type: integer
+          format: int32
+          description: Maximum number of failed login attempts allowed before user account is locked.
+        userLockoutNotificationEmail:
+          type: string
+          description: Email to use for notifications about locked users.
+        mobileSecretKeyLength:
+          type: integer
+          format: int32
+          description: Mobile secret key length
+        userActivationTokenTtl:
+          type: integer
+          format: int32
+          description: TTL in hours for user activation link
+          maximum: 24
+          minimum: 1
+        passwordResetTokenTtl:
+          type: integer
+          format: int32
+          description: TTL in hours for password reset link
+          maximum: 24
+          minimum: 1
+      required:
+      - passwordResetTokenTtl
+      - userActivationTokenTtl
+    SmppSmsProviderConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/SmsProviderConfiguration'
+      - type: object
+        properties:
+          protocolVersion:
+            type: string
+            description: SMPP version
+            enum:
+            - 3.3, 3.4
+          host:
+            type: string
+            description: SMPP host
+          port:
+            type: integer
+            format: int32
+            description: SMPP port
+          systemId:
+            type: string
+            description: System ID
+          password:
+            type: string
+            description: Password
+          systemType:
+            type: string
+            description: System type
+          bindType:
+            type: string
+            description: TX - Transmitter, RX - Receiver, TRX - Transciever. By default TX is used
+            enum:
+            - TX
+            - RX
+            - TRX
+          serviceType:
+            type: string
+            description: Service type
+          sourceAddress:
+            type: string
+            description: Source address
+          sourceTon:
+            type: string
+            format: byte
+            description: 'Source TON (Type of Number). Needed is source address is set. 5 by default.
+
+              0 - Unknown
+
+              1 - International
+
+              2 - National
+
+              3 - Network Specific
+
+              4 - Subscriber Number
+
+              5 - Alphanumeric
+
+              6 - Abbreviated'
+          sourceNpi:
+            type: string
+            format: byte
+            description: 'Source NPI (Numbering Plan Identification). Needed is source address is set. 0 by default.
+
+              0 - Unknown
+
+              1 - ISDN/telephone numbering plan (E163/E164)
+
+              3 - Data numbering plan (X.121)
+
+              4 - Telex numbering plan (F.69)
+
+              6 - Land Mobile (E.212) =6
+
+              8 - National numbering plan
+
+              9 - Private numbering plan
+
+              10 - ERMES numbering plan (ETSI DE/PS 3 01-3)
+
+              13 - Internet (IP)
+
+              18 - WAP Client Id (to be defined by WAP Forum)'
+          destinationTon:
+            type: string
+            format: byte
+            description: 'Destination TON (Type of Number). 5 by default.
+
+              0 - Unknown
+
+              1 - International
+
+              2 - National
+
+              3 - Network Specific
+
+              4 - Subscriber Number
+
+              5 - Alphanumeric
+
+              6 - Abbreviated'
+          destinationNpi:
+            type: string
+            format: byte
+            description: 'Destination NPI (Numbering Plan Identification). 0 by default.
+
+              0 - Unknown
+
+              1 - ISDN/telephone numbering plan (E163/E164)
+
+              3 - Data numbering plan (X.121)
+
+              4 - Telex numbering plan (F.69)
+
+              6 - Land Mobile (E.212) =6
+
+              8 - National numbering plan
+
+              9 - Private numbering plan
+
+              10 - ERMES numbering plan (ETSI DE/PS 3 01-3)
+
+              13 - Internet (IP)
+
+              18 - WAP Client Id (to be defined by WAP Forum)'
+          addressRange:
+            type: string
+            description: Address range
+          codingScheme:
+            type: string
+            format: byte
+            description: '0 - SMSC Default Alphabet (ASCII for short and long code and to GSM for toll-free, used as default)
+
+              1 - IA5 (ASCII for short and long code, Latin 9 for toll-free (ISO-8859-9))
+
+              2 - Octet Unspecified (8-bit binary)
+
+              3 - Latin 1 (ISO-8859-1)
+
+              4 - Octet Unspecified (8-bit binary)
+
+              5 - JIS (X 0208-1990)
+
+              6 - Cyrillic (ISO-8859-5)
+
+              7 - Latin/Hebrew (ISO-8859-8)
+
+              8 - UCS2/UTF-16 (ISO/IEC-10646)
+
+              9 - Pictogram Encoding
+
+              10 - Music Codes (ISO-2022-JP)
+
+              13 - Extended Kanji JIS (X 0212-1990)
+
+              14 - Korean Graphic Character Set (KS C 5601/KS X 1001)'
+            enum:
+            - 0-10
+            - 13-14
+      required:
+      - host
+      - password
+      - port
+      - protocolVersion
+      - systemId
+    SmsProviderConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    StatisticsEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          minMessagesProcessed:
+            type: integer
+            format: int32
+            description: The minimum number of successfully processed messages
+            example: 25
+          maxMessagesProcessed:
+            type: integer
+            format: int32
+            description: The maximum number of successfully processed messages
+            example: 250
+          minErrorsOccurred:
+            type: integer
+            format: int32
+            description: The minimum number of errors occurred during messages processing
+            example: 30
+          maxErrorsOccurred:
+            type: integer
+            format: int32
+            description: The maximum number of errors occurred during messages processing
+            example: 300
+      required:
+      - eventType
+    SubmitStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - BURST
+          - BATCH
+          - SEQUENTIAL_BY_ORIGINATOR
+          - SEQUENTIAL_BY_TENANT
+          - SEQUENTIAL
+        batchSize:
+          type: integer
+          format: int32
+    SystemInfo:
+      type: object
+      properties:
+        systemData:
+          type: array
+          description: System data.
+          items:
+            $ref: '#/components/schemas/SystemInfoData'
+        monolith:
+          type: boolean
+    SystemInfoData:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: Service Id.
+        serviceType:
+          type: string
+          description: Service type.
+        cpuUsage:
+          type: integer
+          format: int64
+          description: CPU usage, in percent.
+        cpuCount:
+          type: integer
+          format: int64
+          description: Total CPU usage.
+        memoryUsage:
+          type: integer
+          format: int64
+          description: Memory usage, in percent.
+        totalMemory:
+          type: integer
+          format: int64
+          description: Total memory in bytes.
+        discUsage:
+          type: integer
+          format: int64
+          description: Disk usage, in percent.
+        totalDiscSpace:
+          type: integer
+          format: int64
+          description: Total disc space in bytes.
+    TaskResult:
+      type: object
+      discriminator:
+        propertyName: jobType
+      properties:
+        key:
+          type: string
+        success:
+          type: boolean
+        discarded:
+          type: boolean
+        finishTs:
+          type: integer
+          format: int64
+        jobType:
+          type: string
+      required:
+      - jobType
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    TestSmsRequest:
+      type: object
+      description: A JSON value representing the Test SMS request.
+      properties:
+        providerConfiguration:
+          description: The SMS provider configuration
+          oneOf:
+          - $ref: '#/components/schemas/AwsSnsSmsProviderConfiguration'
+          - $ref: '#/components/schemas/SmppSmsProviderConfiguration'
+          - $ref: '#/components/schemas/TwilioSmsProviderConfiguration'
+        numberTo:
+          type: string
+          description: The phone number or other identifier to specify as a recipient of the SMS.
+        message:
+          type: string
+          description: The test message
+    TwilioSmsProviderConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/SmsProviderConfiguration'
+      - type: object
+        properties:
+          accountSid:
+            type: string
+            description: Twilio account Sid.
+          accountToken:
+            type: string
+            description: Twilio account Token.
+          numberFrom:
+            type: string
+            description: The number/id of a sender.
+    UpdateMessage:
+      type: object
+      properties:
+        updateAvailable:
+          type: boolean
+          description: '''True'' if new platform update is available.'
+        currentVersion:
+          type: string
+          description: Current ThingsBoard version.
+        latestVersion:
+          type: string
+          description: Latest ThingsBoard version.
+        upgradeInstructionsUrl:
+          type: string
+          description: Upgrade instructions URL.
+        currentVersionReleaseNotesUrl:
+          type: string
+          description: Current ThingsBoard version release notes URL.
+        latestVersionReleaseNotesUrl:
+          type: string
+          description: Latest ThingsBoard version release notes URL.
+    UsageInfo:
+      type: object
+      properties:
+        devices:
+          type: integer
+          format: int64
+        maxDevices:
+          type: integer
+          format: int64
+        assets:
+          type: integer
+          format: int64
+        maxAssets:
+          type: integer
+          format: int64
+        customers:
+          type: integer
+          format: int64
+        maxCustomers:
+          type: integer
+          format: int64
+        users:
+          type: integer
+          format: int64
+        maxUsers:
+          type: integer
+          format: int64
+        dashboards:
+          type: integer
+          format: int64
+        maxDashboards:
+          type: integer
+          format: int64
+        edges:
+          type: integer
+          format: int64
+        maxEdges:
+          type: integer
+          format: int64
+        transportMessages:
+          type: integer
+          format: int64
+        maxTransportMessages:
+          type: integer
+          format: int64
+        jsExecutions:
+          type: integer
+          format: int64
+        tbelExecutions:
+          type: integer
+          format: int64
+        maxJsExecutions:
+          type: integer
+          format: int64
+        maxTbelExecutions:
+          type: integer
+          format: int64
+        emails:
+          type: integer
+          format: int64
+        maxEmails:
+          type: integer
+          format: int64
+        sms:
+          type: integer
+          format: int64
+        maxSms:
+          type: integer
+          format: int64
+        smsEnabled:
+          type: boolean
+        alarms:
+          type: integer
+          format: int64
+        maxAlarms:
+          type: integer
+          format: int64
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    UserPasswordPolicy:
+      type: object
+      properties:
+        minimumLength:
+          type: integer
+          format: int32
+          description: Minimum number of symbols in the password.
+        maximumLength:
+          type: integer
+          format: int32
+          description: Maximum number of symbols in the password.
+        minimumUppercaseLetters:
+          type: integer
+          format: int32
+          description: Minimum number of uppercase letters in the password.
+        minimumLowercaseLetters:
+          type: integer
+          format: int32
+          description: Minimum number of lowercase letters in the password.
+        minimumDigits:
+          type: integer
+          format: int32
+          description: Minimum number of digits in the password.
+        minimumSpecialCharacters:
+          type: integer
+          format: int32
+          description: Minimum number of special in the password.
+        allowWhitespaces:
+          type: boolean
+          description: Allow whitespaces
+        forceUserToResetPasswordIfNotValid:
+          type: boolean
+          description: Force user to update password if existing one does not pass validation
+        passwordExpirationPeriodDays:
+          type: integer
+          format: int32
+          description: Password expiration period (days). Force expiration of the password.
+        passwordReuseFrequencyDays:
+          type: integer
+          format: int32
+          description: Password reuse frequency (days). Disallow to use the same password for the defined number of days
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

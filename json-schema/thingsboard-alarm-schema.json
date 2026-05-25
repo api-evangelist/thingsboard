@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-alarm-schema.json",
+  "title": "ThingsBoard Alarm",
+  "description": "JSON Schema for ThingsBoard Alarm entity, derived from the public ThingsBoard OpenAPI 4.3.",
+  "type": "object",
+  "properties": {
+    "tenantId": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with Tenant Id",
+      "readOnly": true
+    },
+    "customerId": {
+      "$ref": "#/components/schemas/CustomerId",
+      "description": "JSON object with Customer Id",
+      "readOnly": true
+    },
+    "type": {
+      "type": "string",
+      "description": "representing type of the Alarm",
+      "example": "High Temperature Alarm"
+    },
+    "originator": {
+      "$ref": "#/components/schemas/EntityId",
+      "description": "JSON object with alarm originator id"
+    },
+    "severity": {
+      "type": "string",
+      "description": "Alarm severity",
+      "enum": [
+        "CRITICAL",
+        "MAJOR",
+        "MINOR",
+        "WARNING",
+        "INDETERMINATE"
+      ],
+      "example": "CRITICAL"
+    },
+    "acknowledged": {
+      "type": "boolean",
+      "description": "Acknowledged",
+      "example": true
+    },
+    "cleared": {
+      "type": "boolean",
+      "description": "Cleared",
+      "example": false
+    },
+    "assigneeId": {
+      "$ref": "#/components/schemas/UserId",
+      "description": "Alarm assignee user id"
+    },
+    "startTs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the alarm start time, in milliseconds",
+      "example": 1634058704565
+    },
+    "endTs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the alarm end time(last time update), in milliseconds",
+      "example": 1634111163522
+    },
+    "ackTs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the alarm acknowledgement, in milliseconds",
+      "example": 1634115221948
+    },
+    "clearTs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the alarm clearing, in milliseconds",
+      "example": 1634114528465
+    },
+    "assignTs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the alarm assignment, in milliseconds",
+      "example": 1634115928465
+    },
+    "details": {
+      "$ref": "#/components/schemas/JsonNode"
+    },
+    "propagate": {
+      "type": "boolean",
+      "description": "Propagation flag to specify if alarm should be propagated to parent entities of alarm originator",
+      "example": true
+    },
+    "propagateToOwner": {
+      "type": "boolean",
+      "description": "Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator",
+      "example": true
+    },
+    "propagateToTenant": {
+      "type": "boolean",
+      "description": "Propagation flag to specify if alarm should be propagated to the tenant entity",
+      "example": true
+    },
+    "propagateRelationTypes": {
+      "type": "array",
+      "description": "JSON array of relation types that should be used for propagation. By default, 'propagateRelationTypes' array is empty which means that the alarm will be propagated based on any relation type to parent entities. This parameter should be used only in case when 'propagate' parameter is set to true, otherwise, 'propagateRelationTypes' array will be ignored.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "id": {
+      "$ref": "#/components/schemas/AlarmId",
+      "description": "JSON object with the alarm Id. Specify this field to update the alarm. Referencing non-existing alarm Id will cause error. Omit this field to create new alarm."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the alarm creation, in milliseconds",
+      "example": 1634058704567,
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "description": "representing type of the Alarm",
+      "example": "High Temperature Alarm",
+      "readOnly": true
+    },
+    "status": {
+      "type": "string",
+      "description": "status of the Alarm",
+      "enum": [
+        "ACTIVE_UNACK",
+        "ACTIVE_ACK",
+        "CLEARED_UNACK",
+        "CLEARED_ACK"
+      ],
+      "example": "ACTIVE_UNACK",
+      "readOnly": true
+    }
+  },
+  "required": [
+    "acknowledged",
+    "cleared",
+    "name",
+    "originator",
+    "severity",
+    "status",
+    "type"
+  ]
+}

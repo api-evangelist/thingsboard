@@ -1,0 +1,30 @@
+capability: thingsboard.telemetry
+version: 0.1.0
+description: Read and write device/asset time-series telemetry and key/value attributes.
+provider: thingsboard
+api: thingsboard-telemetry-api
+openapi: ../openapi/thingsboard-telemetry-openapi.yml
+operations:
+  - id: getTimeseries
+    method: GET
+    path: /api/plugins/telemetry/{entityType}/{entityId}/values/timeseries
+    summary: Query time-series values for an entity, with windowing and aggregation.
+  - id: getAttributes
+    method: GET
+    path: /api/plugins/telemetry/{entityType}/{entityId}/values/attributes
+    summary: Get current attribute values for an entity.
+  - id: saveTelemetry
+    method: POST
+    path: /api/plugins/telemetry/{entityType}/{entityId}/timeseries/{scope}
+    summary: Save telemetry into the time-series database for an entity.
+  - id: deleteTimeseries
+    method: DELETE
+    path: /api/plugins/telemetry/{entityType}/{entityId}/timeseries/delete
+    summary: Delete time-series values for an entity over a key list and time window.
+auth:
+  - bearerAuth
+  - apiKeyAuth
+tags:
+  - IoT
+  - Telemetry
+  - TimeSeries

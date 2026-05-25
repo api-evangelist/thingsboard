@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-dashboard-schema.json",
+  "title": "ThingsBoard Dashboard",
+  "description": "JSON Schema for ThingsBoard Dashboard entity, derived from the public ThingsBoard OpenAPI 4.3.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the dashboard."
+    },
+    "image": {
+      "type": "string",
+      "description": "Thumbnail picture for rendering of the dashboards in a grid view on mobile devices.",
+      "readOnly": true
+    },
+    "mobileHide": {
+      "type": "boolean",
+      "description": "Hide dashboard from mobile devices. Useful if the dashboard is not designed for small screens.",
+      "readOnly": true
+    },
+    "mobileOrder": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Order on mobile devices. Useful to adjust sorting of the dashboards for mobile applications",
+      "readOnly": true
+    },
+    "configuration": {
+      "$ref": "#/components/schemas/JsonNode",
+      "description": "JSON object with main configuration of the dashboard: layouts, widgets, aliases, etc. The JSON structure of the dashboard configuration is quite complex. The easiest way to learn it is to export existing dashboard to JSON."
+    },
+    "name": {
+      "type": "string",
+      "description": "Same as title of the dashboard. Read-only field. Update the 'title' to change the 'name' of the dashboard.",
+      "readOnly": true
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ResourceExportData"
+      }
+    },
+    "id": {
+      "$ref": "#/components/schemas/DashboardId",
+      "description": "JSON object with the dashboard Id. Specify existing dashboard Id to update the dashboard. Referencing non-existing dashboard id will cause error. Omit this field to create new dashboard."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the dashboard creation, in milliseconds",
+      "example": 1609459200000,
+      "readOnly": true
+    },
+    "tenantId": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with Tenant Id. Tenant Id of the dashboard can't be changed.",
+      "readOnly": true
+    },
+    "assignedCustomers": {
+      "type": "array",
+      "description": "List of assigned customers with their info.",
+      "items": {
+        "$ref": "#/components/schemas/ShortCustomerInfo"
+      },
+      "readOnly": true,
+      "uniqueItems": true
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

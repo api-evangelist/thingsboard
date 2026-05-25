@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-deviceprofile-schema.json",
+  "title": "ThingsBoard DeviceProfile",
+  "description": "A JSON value representing the device profile.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/DeviceProfileId",
+      "description": "JSON object with the device profile Id. Specify this field to update the device profile. Referencing non-existing device profile Id will cause error. Omit this field to create new device profile."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the profile creation, in milliseconds",
+      "example": 1609459200000,
+      "readOnly": true
+    },
+    "tenantId": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with Tenant Id that owns the profile.",
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "description": "Unique Device Profile Name in scope of Tenant.",
+      "example": "Moisture Sensor"
+    },
+    "description": {
+      "type": "string",
+      "description": "Device Profile description. "
+    },
+    "image": {
+      "type": "string",
+      "description": "Either URL or Base64 data of the icon. Used in the mobile application to visualize set of device profiles in the grid view. "
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the profile. Always 'DEFAULT' for now. Reserved for future use.",
+      "enum": [
+        "DEFAULT"
+      ]
+    },
+    "transportType": {
+      "type": "string",
+      "description": "Type of the transport used to connect the device. Default transport supports HTTP, CoAP and MQTT.",
+      "enum": [
+        "DEFAULT",
+        "MQTT",
+        "COAP",
+        "LWM2M",
+        "SNMP"
+      ]
+    },
+    "provisionType": {
+      "type": "string",
+      "description": "Provisioning strategy.",
+      "enum": [
+        "DISABLED",
+        "ALLOW_CREATE_NEW_DEVICES",
+        "CHECK_PRE_PROVISIONED_DEVICES",
+        "X509_CERTIFICATE_CHAIN"
+      ]
+    },
+    "defaultRuleChainId": {
+      "$ref": "#/components/schemas/RuleChainId",
+      "description": "Reference to the rule chain. If present, the specified rule chain will be used to process all messages related to device, including telemetry, attribute updates, etc. Otherwise, the root rule chain will be used to process those messages."
+    },
+    "defaultDashboardId": {
+      "$ref": "#/components/schemas/DashboardId",
+      "description": "Reference to the dashboard. Used in the mobile application to open the default dashboard when user navigates to device details."
+    },
+    "defaultQueueName": {
+      "type": "string",
+      "description": "Rule engine queue name. If present, the specified queue will be used to store all unprocessed messages related to device, including telemetry, attribute updates, etc. Otherwise, the 'Main' queue will be used to store those messages."
+    },
+    "provisionDeviceKey": {
+      "type": "string",
+      "description": "Unique provisioning key used by 'Device Provisioning' feature."
+    },
+    "firmwareId": {
+      "$ref": "#/components/schemas/OtaPackageId",
+      "description": "Reference to the firmware OTA package. If present, the specified package will be used as default device firmware. "
+    },
+    "softwareId": {
+      "$ref": "#/components/schemas/OtaPackageId",
+      "description": "Reference to the software OTA package. If present, the specified package will be used as default device software. "
+    },
+    "defaultEdgeRuleChainId": {
+      "$ref": "#/components/schemas/RuleChainId",
+      "description": "Reference to the edge rule chain. If present, the specified edge rule chain will be used on the edge to process all messages related to device, including telemetry, attribute updates, etc. Otherwise, the edge root rule chain will be used to process those messages."
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "default": {
+      "type": "boolean",
+      "description": "Used to mark the default profile. Default profile is used when the device profile is not specified during device creation."
+    },
+    "profileData": {
+      "$ref": "#/components/schemas/DeviceProfileData",
+      "description": "Complex JSON object that includes addition device profile configuration (transport, alarm rules, etc)."
+    }
+  }
+}

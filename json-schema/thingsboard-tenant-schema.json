@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-tenant-schema.json",
+  "title": "ThingsBoard Tenant",
+  "description": "A JSON value representing the tenant.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with the tenant Id. Specify this field to update the tenant. Referencing non-existing tenant Id will cause error. Omit this field to create new tenant."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the tenant creation, in milliseconds",
+      "example": 1609459200000,
+      "readOnly": true
+    },
+    "country": {
+      "type": "string",
+      "description": "Country",
+      "example": "US"
+    },
+    "state": {
+      "type": "string",
+      "description": "State",
+      "example": "NY"
+    },
+    "city": {
+      "type": "string",
+      "description": "City",
+      "example": "New York"
+    },
+    "address": {
+      "type": "string",
+      "description": "Address Line 1",
+      "example": 42
+    },
+    "address2": {
+      "type": "string",
+      "description": "Address Line 2"
+    },
+    "zip": {
+      "type": "string",
+      "description": "Zip code",
+      "example": 10004
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number",
+      "example": "+1(415)777-7777"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email",
+      "example": "example@company.com"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the tenant",
+      "example": "Company A"
+    },
+    "region": {
+      "type": "string",
+      "description": "Geo region of the tenant",
+      "example": "North America"
+    },
+    "tenantProfileId": {
+      "$ref": "#/components/schemas/TenantProfileId",
+      "description": "JSON object with Tenant Profile Id"
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the tenant. Read-only, duplicated from title for backward compatibility",
+      "example": "Company A",
+      "readOnly": true
+    },
+    "additionalInfo": {
+      "$ref": "#/components/schemas/JsonNode",
+      "description": "Additional parameters of the device"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

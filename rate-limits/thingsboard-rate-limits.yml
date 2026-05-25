@@ -1,0 +1,80 @@
+apiCommons: '0.1'
+provider: thingsboard
+name: ThingsBoard Rate Limits
+description: |
+  ThingsBoard exposes configurable rate limits on the tenant profile and at the device level. The platform
+  enforces request-rate and quota policies via Bucket4j-backed token buckets. The values here are the
+  defaults shipped with the open-source platform and the ThingsBoard Cloud per-plan ceilings.
+source:
+  - https://thingsboard.io/docs/user-guide/contact-us/
+  - https://thingsboard.io/docs/reference/rest-api/
+policies:
+  - id: tenant-msg-rate
+    scope: Tenant
+    type: RequestRate
+    description: Maximum number of telemetry/attribute API messages per tenant.
+    configurable: true
+    defaults:
+      - cloudPlan: Free
+        limit: 30
+        per: second
+      - cloudPlan: Prototype
+        limit: 50
+        per: second
+      - cloudPlan: Pilot
+        limit: 100
+        per: second
+
+  - id: device-msg-rate
+    scope: Device
+    type: RequestRate
+    description: Per-device telemetry/attributes upload rate.
+    configurable: true
+    defaults:
+      - limit: 50
+        per: second
+
+  - id: rest-api-rate
+    scope: Tenant
+    type: RequestRate
+    description: REST API request rate per tenant.
+    configurable: true
+    defaults:
+      - limit: 100
+        per: second
+
+  - id: data-points
+    scope: Tenant
+    type: Quota
+    description: Total data points ingested per month (Cloud only).
+    defaults:
+      - cloudPlan: Free
+        limit: 1000000
+        per: month
+      - cloudPlan: Prototype
+        limit: 10000000
+        per: month
+      - cloudPlan: Pilot
+        limit: 100000000
+        per: month
+      - cloudPlan: Startup
+        limit: 500000000
+        per: month
+      - cloudPlan: Business
+        limit: 1000000000
+        per: month
+
+  - id: jwt-token-ttl
+    scope: User
+    type: TokenLifetime
+    description: JWT access-token lifetime; default 2.5 hours, refresh token 7 days.
+    defaults:
+      - accessTokenSeconds: 9000
+        refreshTokenSeconds: 604800
+
+response:
+  status: 429
+  header: Retry-After
+  body:
+    code: TOO_MANY_REQUESTS
+    message: Too many requests for current tenant!

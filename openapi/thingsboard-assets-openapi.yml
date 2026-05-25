@@ -1,0 +1,3141 @@
+# ThingsBoard ThingsBoard Assets API
+# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
+openapi: 3.1.0
+info:
+  title: ThingsBoard Assets API
+  description: "ThingsBoard Assets API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Asset, Asset Profile, Entity View, Entity Relation."
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: asset-controller
+  description: Asset
+- name: asset-profile-controller
+  description: Asset Profile
+- name: entity-view-controller
+  description: Entity View
+- name: entity-relation-controller
+  description: Entity Relation
+paths:
+  /api/v2/relation:
+    post:
+      tags:
+      - entity-relation-controller
+      summary: Create Relation (saveRelationV2)
+      description: "Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type. \n\nIf the user\
+        \ has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks\
+        \ that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      operationId: saveRelationV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityRelation'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityRelation'
+    delete:
+      tags:
+      - entity-relation-controller
+      summary: Delete Relation (deleteRelationV2)
+      description: "Deletes a relation between two entities in the platform. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the\
+        \ sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User',\
+        \ the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      operationId: deleteRelationV2
+      parameters:
+      - name: fromId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: fromType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: relationType
+        in: query
+        description: A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value.
+        required: true
+        schema:
+          type: string
+      - name: relationTypeGroup
+        in: query
+        description: A string value representing relation type group. For example, 'COMMON'
+        required: false
+        schema:
+          type: string
+      - name: toId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: toType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityRelation'
+  /api/relations:
+    get:
+      tags:
+      - entity-relation-controller
+      summary: Get List of Relations (findByFrom)
+      description: "Returns list of relation objects for the specified entity by the 'from' direction and relation type. \n\nIf the user has the authority of 'System Administrator', the server checks that\
+        \ the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer\
+        \ User', the server checks that the entity is assigned to the same customer."
+      operationId: findByTo
+      parameters:
+      - name: toId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: toType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: relationTypeGroup
+        in: query
+        description: A string value representing relation type group. For example, 'COMMON'
+        required: false
+        schema:
+          type: string
+      - name: relationType
+        in: query
+        description: A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value.
+        required: true
+        schema:
+          type: string
+      - name: fromId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: fromType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityRelation'
+    post:
+      tags:
+      - entity-relation-controller
+      summary: Find Related Entities (findByQuery)
+      description: Returns all entities that are related to the specific entity. The entity id, relation type, entity types, depth of the search, and other query parameters defined using complex 'EntityRelationsQuery'
+        object. See 'Model' tab of the Parameters for more info.
+      operationId: findByQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityRelationsQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityRelation'
+    delete:
+      tags:
+      - entity-relation-controller
+      summary: Delete Common Relations (deleteCommonRelations)
+      description: "Deletes all the relations ('from' and 'to' direction) for the specified entity and relation type group: 'COMMON'. \n\nIf the user has the authority of 'System Administrator', the server\
+        \ checks that the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority\
+        \ of 'Customer User', the server checks that the entity is assigned to the same customer."
+      operationId: deleteRelations
+      parameters:
+      - name: entityId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: entityType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/relations/info:
+    get:
+      tags:
+      - entity-relation-controller
+      summary: Get List of Relation Infos (findInfoByFrom)
+      description: "Returns list of relation info objects for the specified entity by the 'from' direction. \n\nIf the user has the authority of 'System Administrator', the server checks that the entity\
+        \ is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer User',\
+        \ the server checks that the entity is assigned to the same customer. Relation Info is an extension of the default Relation object that contains information about the 'from' and 'to' entity names. "
+      operationId: findInfoByTo
+      parameters:
+      - name: toId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: toType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: relationTypeGroup
+        in: query
+        description: A string value representing relation type group. For example, 'COMMON'
+        required: false
+        schema:
+          type: string
+      - name: fromId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: fromType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityRelationInfo'
+    post:
+      tags:
+      - entity-relation-controller
+      summary: Find Related Entity Infos (findInfoByQuery)
+      description: 'Returns all entity infos that are related to the specific entity. The entity id, relation type, entity types, depth of the search, and other query parameters defined using complex ''EntityRelationsQuery''
+        object. See ''Model'' tab of the Parameters for more info. Relation Info is an extension of the default Relation object that contains information about the ''from'' and ''to'' entity names. '
+      operationId: findInfoByQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityRelationsQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityRelationInfo'
+  /api/relation:
+    get:
+      tags:
+      - entity-relation-controller
+      summary: Get Relation (getRelation)
+      description: "Returns relation object between two specified entities if present. Otherwise throws exception. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from'\
+        \ and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user\
+        \ has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      operationId: getRelation
+      parameters:
+      - name: fromId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: fromType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: relationType
+        in: query
+        description: A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value.
+        required: true
+        schema:
+          type: string
+      - name: relationTypeGroup
+        in: query
+        description: A string value representing relation type group. For example, 'COMMON'
+        required: false
+        schema:
+          type: string
+      - name: toId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: toType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityRelation'
+    post:
+      tags:
+      - entity-relation-controller
+      summary: Create Relation (saveRelation)
+      description: "Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type. \n\nIf the user\
+        \ has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks\
+        \ that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      operationId: saveRelation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityRelation'
+        required: true
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+      - entity-relation-controller
+      summary: Delete Relation (deleteRelation)
+      description: "Deletes a relation between two entities in the platform. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the\
+        \ sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User',\
+        \ the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      operationId: deleteRelation
+      parameters:
+      - name: fromId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: fromType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: relationType
+        in: query
+        description: A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value.
+        required: true
+        schema:
+          type: string
+      - name: relationTypeGroup
+        in: query
+        description: A string value representing relation type group. For example, 'COMMON'
+        required: false
+        schema:
+          type: string
+      - name: toId
+        in: query
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: toType
+        in: query
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/entityViews:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Entity Views by Ids (getEntityViewsByIds)
+      description: 'Requested entity views must be owned by tenant or assigned to customer which user is performing the request. '
+      operationId: getEntityViewsByIds
+      parameters:
+      - name: entityViewIds
+        in: query
+        description: A list of entity view ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityView'
+    post:
+      tags:
+      - entity-view-controller
+      summary: Find Related Entity Views (findByQuery)
+      description: 'Returns all entity views that are related to the specific entity. The entity id, relation type, entity view types, depth of the search, and other query parameters defined using complex
+        ''EntityViewSearchQuery'' object. See ''Model'' tab of the Parameters for more info.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: findByQuery_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityViewSearchQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityView'
+  /api/entityView:
+    post:
+      tags:
+      - entity-view-controller
+      summary: Save or Update Entity View (saveEntityView)
+      description: 'Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references exactly one entity (device or asset) and defines
+        telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device or Asset and assign them to different Customers.
+        See the ''Model'' tab for more details.Remove ''id'', ''tenantId'' and optionally ''customerId'' from the request body example (below) to create new Entity View entity.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: saveEntityView
+      parameters:
+      - name: nameConflictPolicy
+        in: query
+        description: 'Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same
+          name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs.'
+        required: false
+        schema:
+          type: string
+          default: FAIL
+          enum:
+          - FAIL
+          - UNIQUIFY
+      - name: uniquifySeparator
+        in: query
+        description: Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs
+          for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'.
+        required: false
+        schema:
+          type: string
+          default: _
+      - name: uniquifyStrategy
+        in: query
+        description: 'Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will
+          be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL;
+          if a name conflict occurs for entity name ''test-name'', created entity will have name like ''test-name-1.'
+        required: false
+        schema:
+          type: string
+          default: RANDOM
+          enum:
+          - RANDOM
+          - INCREMENTAL
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityView'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityView'
+  /api/edge/{edgeId}/entityView/{entityViewId}:
+    post:
+      tags:
+      - entity-view-controller
+      summary: Assign Entity View to Edge (assignEntityViewToEdge)
+      description: Creates assignment of an existing entity view to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote
+        edge service will receive a copy of assignment entity view (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once entity view
+        will be delivered to edge service, it's going to be available for usage on remote edge instance.
+      operationId: assignEntityViewToEdge
+      parameters:
+      - name: edgeId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: entityViewId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityView'
+    delete:
+      tags:
+      - entity-view-controller
+      summary: Unassign Entity View from Edge (unassignEntityViewFromEdge)
+      description: Clears assignment of the entity view to the edge. Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform. Second, remote edge service
+        will receive an 'unassign' command to remove entity view (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once 'unassign' command
+        will be delivered to edge service, it's going to remove entity view locally.
+      operationId: unassignEntityViewFromEdge
+      parameters:
+      - name: edgeId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: entityViewId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityView'
+  /api/edge/{edgeId}/asset/{assetId}:
+    post:
+      tags:
+      - asset-controller
+      summary: Assign Asset to Edge (assignAssetToEdge)
+      description: Creates assignment of an existing asset to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote
+        edge service will receive a copy of assignment asset (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once asset will be delivered
+        to edge service, it's going to be available for usage on remote edge instance.
+      operationId: assignAssetToEdge
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+    delete:
+      tags:
+      - asset-controller
+      summary: Unassign Asset from Edge (unassignAssetFromEdge)
+      description: Clears assignment of the asset to the edge. Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform. Second, remote edge service will receive
+        an 'unassign' command to remove asset (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once 'unassign' command will be delivered
+        to edge service, it's going to remove asset locally.
+      operationId: unassignAssetFromEdge
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+  /api/customer/{customerId}/entityView/{entityViewId}:
+    post:
+      tags:
+      - entity-view-controller
+      summary: Assign Entity View to Customer (assignEntityViewToCustomer)
+      description: 'Creates assignment of the Entity View to customer. Customer will be able to query Entity View afterwards.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignEntityViewToCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: entityViewId
+        in: path
+        description: A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityView'
+  /api/customer/{customerId}/asset/{assetId}:
+    post:
+      tags:
+      - asset-controller
+      summary: Assign Asset to Customer (assignAssetToCustomer)
+      description: 'Creates assignment of the asset to customer. Customer will be able to query asset afterwards.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignAssetToCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+  /api/customer/public/entityView/{entityViewId}:
+    post:
+      tags:
+      - entity-view-controller
+      summary: Make Entity View Publicly Available (assignEntityViewToPublicCustomer)
+      description: 'Entity View will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users
+        that are logged-in and belong to different tenant will not be able to access the entity view.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignEntityViewToPublicCustomer
+      parameters:
+      - name: entityViewId
+        in: path
+        description: A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityView'
+  /api/customer/public/asset/{assetId}:
+    post:
+      tags:
+      - asset-controller
+      summary: Make Asset Publicly Available (assignAssetToPublicCustomer)
+      description: 'Asset will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users that
+        are logged-in and belong to different tenant will not be able to access the asset.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignAssetToPublicCustomer
+      parameters:
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+  /api/assets:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Assets by Ids (getAssetsByIds)
+      description: 'Requested assets must be owned by tenant or assigned to customer which user is performing the request. '
+      operationId: getAssetsByIds
+      parameters:
+      - name: assetIds
+        in: query
+        description: A list of assets ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+    post:
+      tags:
+      - asset-controller
+      summary: Find Related Assets (findByQuery)
+      description: Returns all assets that are related to the specific entity. The entity id, relation type, asset types, depth of the search, and other query parameters defined using complex 'AssetSearchQuery'
+        object. See 'Model' tab of the Parameters for more info.
+      operationId: findByQuery_4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetSearchQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+  /api/asset:
+    post:
+      tags:
+      - asset-controller
+      summary: Create or Update Asset (saveAsset)
+      description: "Creates or Updates the Asset. When creating asset, platform generates Asset Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created Asset id will be present in the response. Specify existing Asset id to update the asset. Referencing non-existing Asset Id will cause 'Not Found' error. Remove 'id', 'tenantId'\
+        \ and optionally 'customerId' from the request body example (below) to create new Asset entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveAsset
+      parameters:
+      - name: nameConflictPolicy
+        in: query
+        description: 'Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same
+          name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs.'
+        required: false
+        schema:
+          type: string
+          default: FAIL
+          enum:
+          - FAIL
+          - UNIQUIFY
+      - name: uniquifySeparator
+        in: query
+        description: Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs
+          for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'.
+        required: false
+        schema:
+          type: string
+          default: _
+      - name: uniquifyStrategy
+        in: query
+        description: 'Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will
+          be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL;
+          if a name conflict occurs for entity name ''test-name'', created entity will have name like ''test-name-1.'
+        required: false
+        schema:
+          type: string
+          default: RANDOM
+          enum:
+          - RANDOM
+          - INCREMENTAL
+      requestBody:
+        description: A JSON value representing the asset.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asset'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+  /api/assetProfile:
+    post:
+      tags:
+      - asset-profile-controller
+      summary: Create or Update Asset Profile (saveAssetProfile)
+      description: "Create or update the Asset Profile. When creating asset profile, platform generates asset profile id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created asset profile id will be present in the response. Specify existing asset profile id to update the asset profile. Referencing non-existing asset profile Id will cause 'Not Found'\
+        \ error. \n\nAsset profile name is unique in the scope of tenant. Only one 'default' asset profile may exist in scope of tenant. Remove 'id', 'tenantId' from the request body example (below) to\
+        \ create new Asset Profile entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveAssetProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetProfile'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetProfile'
+  /api/assetProfile/{assetProfileId}/default:
+    post:
+      tags:
+      - asset-profile-controller
+      summary: Make Asset Profile Default (setDefaultAssetProfile)
+      description: 'Marks asset profile as default within a tenant scope.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: setDefaultAssetProfile
+      parameters:
+      - name: assetProfileId
+        in: path
+        description: A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetProfile'
+  /api/asset/bulk_import:
+    post:
+      tags:
+      - asset-controller
+      summary: Import the Bulk of Assets (processAssetsBulkImport)
+      description: There's an ability to import the bulk of assets using the only .csv file.
+      operationId: processAssetsBulkImport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkImportRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkImportResultAsset'
+  /api/tenant/entityViews:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Entity View by Name (getTenantEntityView)
+      description: "Fetch the Entity View object based on the tenant id and entity view name. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getTenantEntityViews
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete\
+          \ Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the entity view name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: entityViewName
+        in: query
+        description: Entity View name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/EntityView'
+                - $ref: '#/components/schemas/PageDataEntityView'
+  /api/tenant/entityViewInfos:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Tenant Entity Views (getTenantEntityViews)
+      description: "Returns a page of entity views info owned by tenant. Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references\
+        \ exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device\
+        \ or Asset and assign them to different Customers. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination.\
+        \ See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getTenantEntityViewInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete\
+          \ Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the entity view name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityViewInfo'
+  /api/tenant/assets:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Tenant Asset (getTenantAsset)
+      description: 'Requested asset must be owned by tenant that the user belongs to. Asset name is an unique property of asset. So it can be used to identify the asset.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: getTenantAssets
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: Asset type
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the asset name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: assetName
+        in: query
+        description: A string value representing the Asset name.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Asset'
+                - $ref: '#/components/schemas/PageDataAsset'
+  /api/tenant/assetInfos:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Tenant Asset Infos (getTenantAssetInfos)
+      description: "Returns a page of assets info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result\
+        \ set using pagination. See response schema for more details. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. \n\nAvailable for\
+        \ users with 'TENANT_ADMIN' authority."
+      operationId: getTenantAssetInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: Asset type
+        required: false
+        schema:
+          type: string
+      - name: assetProfileId
+        in: query
+        description: A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the asset name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAssetInfo'
+  /api/entityView/{entityViewId}:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Entity View (getEntityViewById)
+      description: 'Fetch the EntityView object based on the provided entity view id. Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity
+        View references exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple
+        EVs per Device or Asset and assign them to different Customers. See the ''Model'' tab for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getEntityViewById
+      parameters:
+      - name: entityViewId
+        in: path
+        description: A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityView'
+    delete:
+      tags:
+      - entity-view-controller
+      summary: Delete Entity View (deleteEntityView)
+      description: "Delete the EntityView object based on the provided entity view id. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: deleteEntityView
+      parameters:
+      - name: entityViewId
+        in: path
+        description: A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/entityView/types:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Entity View Types (getEntityViewTypes)
+      description: 'Returns a set of unique entity view types based on entity views that are either owned by the tenant or assigned to the customer which user is performing the request.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getEntityViewTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntitySubtype'
+  /api/entityView/info/{entityViewId}:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Entity View Info (getEntityViewInfoById)
+      description: 'Fetch the Entity View info object based on the provided Entity View Id. Entity Views Info extends the Entity View with customer title and ''is public'' flag. Entity Views limit the degree
+        of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references exactly one entity (device or asset) and defines telemetry and attribute keys that will
+        be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device or Asset and assign them to different Customers. See the ''Model'' tab for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getEntityViewInfoById
+      parameters:
+      - name: entityViewId
+        in: path
+        description: A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityViewInfo'
+  /api/edge/{edgeId}/entityViews:
+    get:
+      tags:
+      - entity-view-controller
+      operationId: getEdgeEntityViews
+      parameters:
+      - name: edgeId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: startTime
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityView'
+  /api/edge/{edgeId}/assets:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Assets Assigned to Edge (getEdgeAssets)
+      description: 'Returns a page of assets assigned to edge. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using
+        pagination. See response schema for more details. '
+      operationId: getEdgeAssets
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: Asset type
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the asset name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: Timestamp. Assets with creation time before it won't be queried
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: Timestamp. Assets with creation time after it won't be queried
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAsset'
+  /api/customer/{customerId}/entityViews:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Customer Entity Views (getCustomerEntityViews)
+      description: "Returns a page of Entity View objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over\
+        \ result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getCustomerEntityViews
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete\
+          \ Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the entity view name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityView'
+  /api/customer/{customerId}/entityViewInfos:
+    get:
+      tags:
+      - entity-view-controller
+      summary: Get Customer Entity View Info (getCustomerEntityViewInfos)
+      description: "Returns a page of Entity View info objects assigned to customer. Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity\
+        \ View references exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple\
+        \ EVs per Device or Asset and assign them to different Customers. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result\
+        \ set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getCustomerEntityViewInfos
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete\
+          \ Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the entity view name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityViewInfo'
+  /api/customer/{customerId}/assets:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Customer Assets (getCustomerAssets)
+      description: 'Returns a page of assets objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result
+        set using pagination. See response schema for more details. '
+      operationId: getCustomerAssets
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: Asset type
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the asset name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAsset'
+  /api/customer/{customerId}/assetInfos:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Customer Asset Infos (getCustomerAssetInfos)
+      description: 'Returns a page of assets info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over
+        result set using pagination. See response schema for more details. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. '
+      operationId: getCustomerAssetInfos
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: Asset type
+        required: false
+        schema:
+          type: string
+      - name: assetProfileId
+        in: query
+        description: A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the asset name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAssetInfo'
+  /api/assetProfiles:
+    get:
+      tags:
+      - asset-profile-controller
+      summary: Get Asset Profiles (getAssetProfiles)
+      description: "Returns a page of asset profile objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over\
+        \ result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getAssetProfiles
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the asset profile name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - description
+          - isDefault
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAssetProfile'
+  /api/assetProfileInfos:
+    get:
+      tags:
+      - asset-profile-controller
+      summary: Get Asset Profiles by Ids (getAssetProfilesByIds)
+      description: "Requested asset profiles must be owned by tenant which is performing the request. \n\n"
+      operationId: getAssetProfileInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the asset profile name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - description
+          - isDefault
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: assetProfileIds
+        in: query
+        description: A list of asset profile ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AssetProfileInfo'
+                - $ref: '#/components/schemas/PageDataAssetProfileInfo'
+  /api/assetProfileInfo/{assetProfileId}:
+    get:
+      tags:
+      - asset-profile-controller
+      summary: Get Asset Profile Info (getAssetProfileInfoById)
+      description: "Fetch the Asset Profile Info object based on the provided Asset Profile Id. Asset Profile Info is a lightweight object that includes main information about Asset Profile. \n\nAvailable\
+        \ for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAssetProfileInfoById
+      parameters:
+      - name: assetProfileId
+        in: path
+        description: A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetProfileInfo'
+  /api/assetProfileInfo/default:
+    get:
+      tags:
+      - asset-profile-controller
+      summary: Get Default Asset Profile (getDefaultAssetProfileInfo)
+      description: "Fetch the Default Asset Profile Info object. Asset Profile Info is a lightweight object that includes main information about Asset Profile. \n\nAvailable for users with 'TENANT_ADMIN'\
+        \ or 'CUSTOMER_USER' authority."
+      operationId: getDefaultAssetProfileInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetProfileInfo'
+  /api/assetProfile/{assetProfileId}:
+    get:
+      tags:
+      - asset-profile-controller
+      summary: Get Asset Profile (getAssetProfileById)
+      description: "Fetch the Asset Profile object based on the provided Asset Profile Id. The server checks that the asset profile is owned by the same tenant. \n\nAvailable for users with 'TENANT_ADMIN'\
+        \ authority."
+      operationId: getAssetProfileById
+      parameters:
+      - name: assetProfileId
+        in: path
+        description: A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: inlineImages
+        in: query
+        description: Inline images as a data URL (Base64)
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetProfile'
+    delete:
+      tags:
+      - asset-profile-controller
+      summary: Delete Asset Profile (deleteAssetProfile)
+      description: 'Deletes the asset profile. Referencing non-existing asset profile Id will cause an error. Can''t delete the asset profile if it is referenced by existing assets.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: deleteAssetProfile
+      parameters:
+      - name: assetProfileId
+        in: path
+        description: A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/assetProfile/names:
+    get:
+      tags:
+      - asset-profile-controller
+      summary: Get Asset Profile Names (getAssetProfileNames)
+      description: 'Returns a set of unique asset profile names owned by the tenant.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getAssetProfileNames
+      parameters:
+      - name: activeOnly
+        in: query
+        description: Flag indicating whether to retrieve exclusively the names of asset profiles that are referenced by tenant's assets.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityInfo'
+  /api/asset/{assetId}:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Asset (getAssetById)
+      description: 'Fetch the Asset object based on the provided Asset Id. If the user has the authority of ''Tenant Administrator'', the server checks that the asset is owned by the same tenant. If the
+        user has the authority of ''Customer User'', the server checks that the asset is assigned to the same customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getAssetById
+      parameters:
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+    delete:
+      tags:
+      - asset-controller
+      summary: Delete Asset (deleteAsset)
+      description: 'Deletes the asset and all the relations (from and to the asset). Referencing non-existing asset Id will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: deleteAsset
+      parameters:
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/asset/types:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Asset Types (getAssetTypes)
+      description: 'Deprecated. See ''getAssetProfileNames'' API from Asset Profile Controller instead.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getAssetTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntitySubtype'
+      deprecated: true
+  /api/asset/info/{assetId}:
+    get:
+      tags:
+      - asset-controller
+      summary: Get Asset Info (getAssetInfoById)
+      description: "Fetch the Asset Info object based on the provided Asset Id. If the user has the authority of 'Tenant Administrator', the server checks that the asset is owned by the same tenant. If\
+        \ the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer. Asset Info is an extension of the default Asset object that contains information\
+        \ about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAssetInfoById
+      parameters:
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetInfo'
+  /api/customer/entityView/{entityViewId}:
+    delete:
+      tags:
+      - entity-view-controller
+      summary: Unassign Entity View from Customer (unassignEntityViewFromCustomer)
+      description: 'Clears assignment of the Entity View to customer. Customer will not be able to query Entity View afterwards.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: unassignEntityViewFromCustomer
+      parameters:
+      - name: entityViewId
+        in: path
+        description: A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityView'
+  /api/customer/asset/{assetId}:
+    delete:
+      tags:
+      - asset-controller
+      summary: Unassign Asset from Customer (unassignAssetFromCustomer)
+      description: 'Clears assignment of the asset to customer. Customer will not be able to query asset afterwards.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: unassignAssetFromCustomer
+      parameters:
+      - name: assetId
+        in: path
+        description: A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+components:
+  schemas:
+    Asset:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/AssetId'
+          description: JSON object with the asset Id. Specify this field to update the asset. Referencing non-existing asset Id will cause error. Omit this field to create new asset.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the asset creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignAssetToCustomer' to change the Customer Id.
+          readOnly: true
+        name:
+          type: string
+          description: Unique Asset Name in scope of Tenant
+          example: Empire State Building
+        type:
+          type: string
+          description: Asset type
+          example: Building
+        label:
+          type: string
+          description: Label that may be used in widgets
+          example: NY Building
+        assetProfileId:
+          $ref: '#/components/schemas/AssetProfileId'
+          description: JSON object with Asset Profile Id.
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the asset
+      required:
+      - name
+    AssetId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ASSET
+          example: ASSET
+      required:
+      - entityType
+      - id
+    AssetInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/AssetId'
+          description: JSON object with the asset Id. Specify this field to update the asset. Referencing non-existing asset Id will cause error. Omit this field to create new asset.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the asset creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignAssetToCustomer' to change the Customer Id.
+          readOnly: true
+        name:
+          type: string
+          description: Unique Asset Name in scope of Tenant
+          example: Empire State Building
+        type:
+          type: string
+          description: Asset type
+          example: Building
+        label:
+          type: string
+          description: Label that may be used in widgets
+          example: NY Building
+        assetProfileId:
+          $ref: '#/components/schemas/AssetProfileId'
+          description: JSON object with Asset Profile Id.
+        version:
+          type: integer
+          format: int64
+        customerTitle:
+          type: string
+          description: Title of the Customer that owns the asset.
+          readOnly: true
+        customerIsPublic:
+          type: boolean
+          description: Indicates special 'Public' Customer that is auto-generated to use the assets on public dashboards.
+          readOnly: true
+        assetProfileName:
+          type: string
+          description: Name of the corresponding Asset Profile.
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the asset
+      required:
+      - name
+    AssetProfile:
+      type: object
+      description: A JSON value representing the asset profile.
+      properties:
+        id:
+          $ref: '#/components/schemas/AssetProfileId'
+          description: JSON object with the asset profile Id. Specify this field to update the asset profile. Referencing non-existing asset profile Id will cause error. Omit this field to create new asset
+            profile.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the profile creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id that owns the profile.
+          readOnly: true
+        name:
+          type: string
+          description: Unique Asset Profile Name in scope of Tenant.
+          example: Building
+        description:
+          type: string
+          description: 'Asset Profile description. '
+        image:
+          type: string
+          description: 'Either URL or Base64 data of the icon. Used in the mobile application to visualize set of asset profiles in the grid view. '
+        defaultRuleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: Reference to the rule chain. If present, the specified rule chain will be used to process all messages related to asset, including asset updates, telemetry, attribute updates, etc.
+            Otherwise, the root rule chain will be used to process those messages.
+        defaultDashboardId:
+          $ref: '#/components/schemas/DashboardId'
+          description: Reference to the dashboard. Used in the mobile application to open the default dashboard when user navigates to asset details.
+        defaultQueueName:
+          type: string
+          description: Rule engine queue name. If present, the specified queue will be used to store all unprocessed messages related to asset, including asset updates, telemetry, attribute updates, etc.
+            Otherwise, the 'Main' queue will be used to store those messages.
+        defaultEdgeRuleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: Reference to the edge rule chain. If present, the specified edge rule chain will be used on the edge to process all messages related to asset, including asset updates, telemetry,
+            attribute updates, etc. Otherwise, the edge root rule chain will be used to process those messages.
+        version:
+          type: integer
+          format: int64
+        default:
+          type: boolean
+          description: Used to mark the default profile. Default profile is used when the asset profile is not specified during asset creation.
+    AssetProfileId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ASSET_PROFILE
+          example: ASSET_PROFILE
+      required:
+      - entityType
+      - id
+    AssetProfileInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: Tenant id.
+        name:
+          type: string
+          description: Entity Name
+        image:
+          type: string
+          description: 'Either URL or Base64 data of the icon. Used in the mobile application to visualize set of asset profiles in the grid view. '
+        defaultDashboardId:
+          $ref: '#/components/schemas/DashboardId'
+          description: Reference to the dashboard. Used in the mobile application to open the default dashboard when user navigates to asset details.
+    AssetSearchQuery:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RelationsSearchParameters'
+          description: Main search parameters.
+        relationType:
+          type: string
+          description: Type of the relation between root entity and asset (e.g. 'Contains' or 'Manages').
+        assetTypes:
+          type: array
+          description: Array of asset types to filter the related entities (e.g. 'Building', 'Vehicle').
+          items:
+            type: string
+    AttributesEntityView:
+      type: object
+      properties:
+        cs:
+          type: array
+          description: List of client-side attribute keys to expose
+          example:
+          - currentConfiguration
+          items:
+            type: string
+        ss:
+          type: array
+          description: List of server-side attribute keys to expose
+          example:
+          - model
+          items:
+            type: string
+        sh:
+          type: array
+          description: List of shared attribute keys to expose
+          example:
+          - targetConfiguration
+          items:
+            type: string
+      required:
+      - cs
+      - sh
+      - ss
+    BulkImportRequest:
+      type: object
+      properties:
+        file:
+          type: string
+        mapping:
+          $ref: '#/components/schemas/Mapping'
+    BulkImportResultAsset:
+      type: object
+      properties:
+        created:
+          type: object
+          properties:
+            opaque:
+              type: integer
+              format: int32
+            acquire:
+              type: integer
+              format: int32
+            release:
+              type: integer
+              format: int32
+              writeOnly: true
+            andIncrement:
+              type: integer
+              format: int32
+            andDecrement:
+              type: integer
+              format: int32
+            plain:
+              type: integer
+              format: int32
+        updated:
+          type: object
+          properties:
+            opaque:
+              type: integer
+              format: int32
+            acquire:
+              type: integer
+              format: int32
+            release:
+              type: integer
+              format: int32
+              writeOnly: true
+            andIncrement:
+              type: integer
+              format: int32
+            andDecrement:
+              type: integer
+              format: int32
+            plain:
+              type: integer
+              format: int32
+        errors:
+          type: object
+          properties:
+            opaque:
+              type: integer
+              format: int32
+            acquire:
+              type: integer
+              format: int32
+            release:
+              type: integer
+              format: int32
+              writeOnly: true
+            andIncrement:
+              type: integer
+              format: int32
+            andDecrement:
+              type: integer
+              format: int32
+            plain:
+              type: integer
+              format: int32
+        errorsList:
+          type: array
+          items:
+            type: string
+    ColumnMapping:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - NAME
+          - TYPE
+          - LABEL
+          - SHARED_ATTRIBUTE
+          - SERVER_ATTRIBUTE
+          - TIMESERIES
+          - ACCESS_TOKEN
+          - X509
+          - MQTT_CLIENT_ID
+          - MQTT_USER_NAME
+          - MQTT_PASSWORD
+          - LWM2M_CLIENT_ENDPOINT
+          - LWM2M_CLIENT_SECURITY_CONFIG_MODE
+          - LWM2M_CLIENT_IDENTITY
+          - LWM2M_CLIENT_KEY
+          - LWM2M_CLIENT_CERT
+          - LWM2M_BOOTSTRAP_SERVER_SECURITY_MODE
+          - LWM2M_BOOTSTRAP_SERVER_PUBLIC_KEY_OR_ID
+          - LWM2M_BOOTSTRAP_SERVER_SECRET_KEY
+          - LWM2M_SERVER_SECURITY_MODE
+          - LWM2M_SERVER_CLIENT_PUBLIC_KEY_OR_ID
+          - LWM2M_SERVER_CLIENT_SECRET_KEY
+          - SNMP_HOST
+          - SNMP_PORT
+          - SNMP_VERSION
+          - SNMP_COMMUNITY_STRING
+          - IS_GATEWAY
+          - DESCRIPTION
+          - ROUTING_KEY
+          - SECRET
+        key:
+          type: string
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    DashboardId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DASHBOARD
+          example: DASHBOARD
+      required:
+      - entityType
+      - id
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    EntityInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
+          type: string
+          description: Entity Name
+    EntityRelation:
+      type: object
+      description: A JSON value representing the relation.
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
+    EntityRelationInfo:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        fromName:
+          type: string
+          description: Name of the entity for [from] direction.
+          example: A4B72CCDFF33
+          readOnly: true
+        toName:
+          type: string
+          description: Name of the entity for [to] direction.
+          example: A4B72CCDFF35
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
+    EntityRelationsQuery:
+      type: object
+      description: A JSON value representing the entity relations query object.
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RelationsSearchParameters'
+          description: Main search parameters.
+        filters:
+          type: array
+          description: Main filters.
+          items:
+            $ref: '#/components/schemas/RelationEntityTypeFilter'
+    EntitySubtype:
+      type: object
+      properties:
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        type:
+          type: string
+    EntityView:
+      type: object
+      description: A JSON object representing the entity view.
+      properties:
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with the referenced Entity Id (Device or Asset).
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignEntityViewToCustomer' to change the Customer Id.
+          readOnly: true
+        name:
+          type: string
+          description: Entity View name
+          example: A4B72CCDFF33
+        type:
+          type: string
+          description: Device Profile Name
+          example: Temperature Sensor
+        keys:
+          $ref: '#/components/schemas/TelemetryEntityView'
+          description: Set of telemetry and attribute keys to expose via Entity View.
+        startTimeMs:
+          type: integer
+          format: int64
+          description: Represents the start time of the interval that is used to limit access to target device telemetry. Customer will not be able to see entity telemetry that is outside the specified
+            interval;
+        endTimeMs:
+          type: integer
+          format: int64
+          description: Represents the end time of the interval that is used to limit access to target device telemetry. Customer will not be able to see entity telemetry that is outside the specified interval;
+        version:
+          type: integer
+          format: int64
+        id:
+          $ref: '#/components/schemas/EntityViewId'
+          description: JSON object with the Entity View Id. Specify this field to update the Entity View. Referencing non-existing Entity View Id will cause error. Omit this field to create new Entity View.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Entity View creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+      required:
+      - entityId
+      - name
+      - type
+    EntityViewId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ENTITY_VIEW
+          example: ENTITY_VIEW
+      required:
+      - entityType
+      - id
+    EntityViewInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityViewId'
+          description: JSON object with the Entity View Id. Specify this field to update the Entity View. Referencing non-existing Entity View Id will cause error. Omit this field to create new Entity View.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Entity View creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with the referenced Entity Id (Device or Asset).
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignEntityViewToCustomer' to change the Customer Id.
+          readOnly: true
+        name:
+          type: string
+          description: Entity View name
+          example: A4B72CCDFF33
+        type:
+          type: string
+          description: Device Profile Name
+          example: Temperature Sensor
+        keys:
+          $ref: '#/components/schemas/TelemetryEntityView'
+          description: Set of telemetry and attribute keys to expose via Entity View.
+        startTimeMs:
+          type: integer
+          format: int64
+          description: Represents the start time of the interval that is used to limit access to target device telemetry. Customer will not be able to see entity telemetry that is outside the specified
+            interval;
+        endTimeMs:
+          type: integer
+          format: int64
+          description: Represents the end time of the interval that is used to limit access to target device telemetry. Customer will not be able to see entity telemetry that is outside the specified interval;
+        version:
+          type: integer
+          format: int64
+        customerTitle:
+          type: string
+          description: Title of the Customer that owns the entity view.
+          readOnly: true
+        customerIsPublic:
+          type: boolean
+          description: Indicates special 'Public' Customer that is auto-generated to use the entity view on public dashboards.
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+      required:
+      - entityId
+      - name
+      - type
+    EntityViewSearchQuery:
+      type: object
+      description: The entity view search query JSON
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RelationsSearchParameters'
+          description: Main search parameters.
+        relationType:
+          type: string
+          description: Type of the relation between root entity and device (e.g. 'Contains' or 'Manages').
+        entityViewTypes:
+          type: array
+          description: Array of entity view types to filter the related entities (e.g. 'Temperature Sensor', 'Smoke Sensor').
+          items:
+            type: string
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    Mapping:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnMapping'
+        delimiter:
+          type: string
+        update:
+          type: boolean
+        header:
+          type: boolean
+    PageDataAsset:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Asset'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataAssetInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AssetInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataAssetProfile:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AssetProfile'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataAssetProfileInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AssetProfileInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEntityView:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityView'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEntityViewInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityViewInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    RelationEntityTypeFilter:
+      type: object
+      properties:
+        relationType:
+          type: string
+          description: Type of the relation between root entity and other entity (e.g. 'Contains' or 'Manages').
+          example: Contains
+        entityTypes:
+          type: array
+          description: Array of entity types to filter the related entities (e.g. 'DEVICE', 'ASSET').
+          items:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+        negate:
+          type: boolean
+          description: Negate relation type between root entity and other entity.
+    RelationsSearchParameters:
+      type: object
+      properties:
+        rootId:
+          type: string
+          format: uuid
+          description: Root entity id to start search from.
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        rootType:
+          type: string
+          description: Type of the root entity.
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        direction:
+          type: string
+          description: Type of the root entity.
+          enum:
+          - FROM
+          - TO
+        relationTypeGroup:
+          type: string
+          description: Type of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+        maxLevel:
+          type: integer
+          format: int32
+          description: Maximum level of the search depth.
+        fetchLastLevelOnly:
+          type: boolean
+          description: Fetch entities that match the last level of search. Useful to find Devices that are strictly 'maxLevel' relations away from the root entity.
+    RuleChainId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - RULE_CHAIN
+          example: RULE_CHAIN
+      required:
+      - entityType
+      - id
+    TelemetryEntityView:
+      type: object
+      properties:
+        timeseries:
+          type: array
+          description: List of time-series data keys to expose
+          example:
+          - temperature
+          - humidity
+          items:
+            type: string
+        attributes:
+          $ref: '#/components/schemas/AttributesEntityView'
+          description: JSON object with attributes to expose
+      required:
+      - attributes
+      - timeseries
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/json-schema/thingsboard-customer-schema.json",
+  "title": "ThingsBoard Customer",
+  "description": "JSON Schema for ThingsBoard Customer entity, derived from the public ThingsBoard OpenAPI 4.3.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/CustomerId",
+      "description": "JSON object with the customer Id. Specify this field to update the customer. Referencing non-existing customer Id will cause error. Omit this field to create new customer."
+    },
+    "createdTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp of the customer creation, in milliseconds",
+      "example": 1609459200000,
+      "readOnly": true
+    },
+    "country": {
+      "type": "string",
+      "description": "Country",
+      "example": "US"
+    },
+    "state": {
+      "type": "string",
+      "description": "State",
+      "example": "NY"
+    },
+    "city": {
+      "type": "string",
+      "description": "City",
+      "example": "New York"
+    },
+    "address": {
+      "type": "string",
+      "description": "Address Line 1",
+      "example": 42
+    },
+    "address2": {
+      "type": "string",
+      "description": "Address Line 2"
+    },
+    "zip": {
+      "type": "string",
+      "description": "Zip code",
+      "example": 10004
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number",
+      "example": "+1(415)777-7777"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email",
+      "example": "example@company.com"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the customer",
+      "example": "Company A"
+    },
+    "tenantId": {
+      "$ref": "#/components/schemas/TenantId",
+      "description": "JSON object with Tenant Id"
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the customer. Read-only, duplicated from title for backward compatibility",
+      "example": "Company A",
+      "readOnly": true
+    },
+    "additionalInfo": {
+      "$ref": "#/components/schemas/JsonNode",
+      "description": "Additional parameters of the device"
+    }
+  },
+  "required": [
+    "email",
+    "title"
+  ]
+}

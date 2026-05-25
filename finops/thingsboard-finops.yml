@@ -1,0 +1,72 @@
+finopsFramework: '2026.05'
+focusVersion: '1.2'
+provider: thingsboard
+name: ThingsBoard FinOps Definition
+description: |
+  ThingsBoard's commercial surface area is metered against device count, asset count, data-point volume, and
+  message throughput. This file maps the ThingsBoard billing model to the FinOps Framework / FOCUS dimensions
+  for downstream FinOps reporting and unit-economics dashboards.
+billingModels:
+  - id: tb-cloud-subscription
+    name: ThingsBoard Cloud Subscription
+    pricingCategory: Committed
+    chargeCategory: Usage
+    chargeFrequency: Recurring
+    billingPeriod: Monthly
+    metric: Devices, Assets, DataPoints
+    invoicedBy: ThingsBoard
+
+  - id: tb-pe-self-managed
+    name: Professional Edition Self-Managed Subscription
+    pricingCategory: Committed
+    chargeCategory: Usage
+    chargeFrequency: Recurring
+    billingPeriod: Monthly
+    metric: Devices, Assets, Instances
+    invoicedBy: ThingsBoard
+
+  - id: tb-private-cloud
+    name: ThingsBoard Private Cloud
+    pricingCategory: Committed
+    chargeCategory: Usage
+    chargeFrequency: Recurring
+    billingPeriod: Monthly
+    metric: Devices, MessagesPerMinute, StorageGB, SLA
+    invoicedBy: ThingsBoard
+
+usageMetrics:
+  - id: devices
+    name: Devices
+    unit: count
+    description: Number of provisioned devices on the tenant.
+  - id: assets
+    name: Assets
+    unit: count
+    description: Number of provisioned assets on the tenant.
+  - id: data-points
+    name: Data Points
+    unit: count
+    description: Total telemetry data points ingested per billing period.
+  - id: messages-per-minute
+    name: Messages per Minute
+    unit: msg/min
+    description: Throughput ceiling on private cloud plans.
+  - id: storage-gb
+    name: Storage
+    unit: GB
+    description: Persistent time-series and entity storage.
+
+reporting:
+  api: ThingsBoard Usage Info Controller
+  endpoints:
+    - GET /api/usage
+  description: |
+    The usage-info-controller exposes current consumption against tenant limits for FinOps dashboards and
+    chargeback. Tenants on Private Cloud also receive a monthly invoice PDF.
+
+allocation:
+  dimensions:
+    - tenant
+    - customer
+    - deviceProfile
+    - region
