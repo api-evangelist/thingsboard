@@ -1,0 +1,300 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Mobile App API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "mobile-app-bundle-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update Oauth2 Clients (updateOauth2Clients)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/mobile/bundle/:id/oauth2Clients",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update oauth2 clients of the specified mobile app bundle.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Save or Update Mobile App Bundle (saveMobileAppBundle)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/mobile/bundle",
+            "params": [
+              {
+                "name": "oauth2ClientIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of oauth2 client ids, separated by comma ','"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Mobile app bundle that represents tha pair of ANDROID and IOS app and mobile settings like oauth2 clients, self-registration and layout configuration.When creating mobile app bundle, platform generates Mobile App Bundle Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Mobile App Bundle Id will be present in the response. Referencing non-existing Mobile App Bundle Id will cause 'Not F"
+        },
+        {
+          "info": {
+            "name": "Get Mobile App Bundle Infos (getTenantMobileAppBundleInfos)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/bundle/infos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filter based on app's name"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Mobile App Bundle Info by Id (getMobileAppBundleInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/bundle/info/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Mobile App Bundle by ID (deleteMobileAppBundle)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/mobile/bundle/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes Mobile App Bundle by ID. Referencing non-existing mobile app bundle Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "mobile-app-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Mobile App Infos (getTenantMobileAppInfos)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/app",
+            "params": [
+              {
+                "name": "platformType",
+                "value": "",
+                "type": "query",
+                "description": "Platform type: ANDROID or IOS"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filter based on app's name"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Save or Update Mobile App (saveMobileApp)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/mobile/app",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Mobile app. When creating mobile app, platform generates Mobile App Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Mobile App Id will be present in the response. Specify existing Mobile App Id to update the mobile app. Referencing non-existing Mobile App Id will cause 'Not Found' error.\n\nThe pair of mobile app package name and platform type is unique for entire platform setup.\n\n\n\nA"
+        },
+        {
+          "info": {
+            "name": "Get Mobile App Login Info (getLoginMobileInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/mobile",
+            "params": [
+              {
+                "name": "pkgName",
+                "value": "",
+                "type": "query",
+                "description": "Mobile application package name"
+              },
+              {
+                "name": "platform",
+                "value": "",
+                "type": "query",
+                "description": "Platform type"
+              }
+            ]
+          },
+          "docs": "Get Mobile App Login Info (getLoginMobileInfo)"
+        },
+        {
+          "info": {
+            "name": "Get User Mobile App Basic Info (getUserMobileInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile",
+            "params": [
+              {
+                "name": "pkgName",
+                "value": "",
+                "type": "query",
+                "description": "Mobile application package name"
+              },
+              {
+                "name": "platform",
+                "value": "",
+                "type": "query",
+                "description": "Platform type"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Mobile Info by Id (getMobileAppInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/app/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Mobile App by ID (deleteMobileApp)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/mobile/app/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes Mobile App by ID. Referencing non-existing mobile app Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

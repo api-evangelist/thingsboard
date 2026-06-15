@@ -1,0 +1,2074 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Dashboards API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tb-resource-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "updateResourceInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/resource/:id/info",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the Resource to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "updateResourceData",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/resource/:id/data",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the Resource to update"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Get Resource Infos by Ids (getSystemOrTenantResourcesByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "resourceType",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the resource type."
+              },
+              {
+                "name": "resourceSubType",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the resource sub-type."
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the resource title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "resourceIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of resource ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Returns a page of Resource Info objects owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Create or Update Resource (saveResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/resource",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Resource. When creating the Resource, platform generates Resource id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Resource id will be present in the response. Specify existing Resource id to update the Resource. Referencing non-existing Resource Id will cause 'Not Found' error. \n\nResource combination of the title with the key is unique in the scope of tenant. Remove 'id', 'tenantId'"
+        },
+        {
+          "info": {
+            "name": "Upload Resource Via Multipart File (uploadResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/resource/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "title",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "resourceType",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "descriptor",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "resourceSubType",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create the Resource using multipart file upload. \n\nResource combination of the title with the key is unique in the scope of tenant. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download Resource (downloadResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceType/:scope/:key",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceType",
+                "value": "",
+                "type": "path",
+                "description": "Type of the resource"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "Scope of the resource"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the resource, e.g. 'extension.js'"
+              }
+            ]
+          },
+          "docs": "Download resource with a given type and key for the given scope\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Resource Info (getResourceInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceType/:scope/:key/info",
+            "params": [
+              {
+                "name": "resourceType",
+                "value": "",
+                "type": "path",
+                "description": "Type of the resource"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "Scope of the resource"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the resource, e.g. 'extension.js'"
+              }
+            ]
+          },
+          "docs": "Get info for the resource with the given type, scope and key. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Resource (getResourceById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceId",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Resource object based on the provided Resource Id. Resource is a heavyweight object that includes main information about the Resource and also data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Resource (deleteResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceId",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Deletes the Resource. Referencing non-existing Resource Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download Resource (downloadResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceId/download",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get All Resource Infos (getAllResources)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/tenant",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the resource title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of Resource Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download PKCS_12 Resource (downloadPkcs12ResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/pkcs12/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get LwM2M Objects (getLwm2mListObjects)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/lwm2m",
+            "params": [
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "objectIds",
+                "value": "",
+                "type": "query",
+                "description": "LwM2M Object ids."
+              }
+            ]
+          },
+          "docs": "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download LWM2M Resource (downloadLwm2mResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/lwm2m/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get LwM2M Objects (getLwm2mListObjectsPage)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/lwm2m/page",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the resource title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download JS Resource (downloadJsResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/js/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Download JKS Resource (downloadJksResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/jks/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Resource Info (getResourceInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/info/:resourceId",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Resource Info object based on the provided Resource Id. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "image-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "downloadImage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              },
+              {
+                "name": "Accept-Encoding",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "updateImage",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "deleteImage",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "updateImagePublicStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key/public/:isPublic",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              },
+              {
+                "name": "isPublic",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "getImageInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key/info",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "updateImageInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key/info",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "importImage",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/image/import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "uploadImage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/image",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "title",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "imageSubType",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "getImages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/images",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "imageSubType",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing resource sub-type."
+              },
+              {
+                "name": "includeSystemImages",
+                "value": "",
+                "type": "query",
+                "description": "Use 'true' to include system images. Disabled by default. Ignored for requests by users with system administrator authority."
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the resource title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "downloadImagePreview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key/preview",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              },
+              {
+                "name": "Accept-Encoding",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "exportImage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/images/:type/:key/export",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Type of the image: tenant or system"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Image resource key, for example thermostats_dashboard_background.jpeg"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "downloadPublicImage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/images/public/:publicResourceKey",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              },
+              {
+                "name": "Accept-Encoding",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "publicResourceKey",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "widgets-bundle-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Widget Bundle (saveWidgetsBundle)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Widget Bundle. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case.  When creating the bundle, platform generates Widget Bundle Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Widget Bundle Id will be present in the response. Specify existing Widget Bundle id to update the Widget Bundle. Referencing non-existing Widget Bundle Id w"
+        },
+        {
+          "info": {
+            "name": "Update Widgets Bundle Widgets Types List (updateWidgetsBundleWidgetTypes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId/widgetTypes",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates widgets bundle widgets list.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Update Widgets Bundle Widgets List from Widget Type FQNs List (updateWidgetsBundleWidgetFqns)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId/widgetTypeFqns",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates widgets bundle widgets list from widget type FQNs list.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Widget Bundles (getWidgetsBundles)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetsBundles",
+            "params": [
+              {
+                "name": "widgetsBundleIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of widgets bundle ids, separated by comma ','"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the widget bundle title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "tenantOnly",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter to include only tenant-level bundles without system"
+              },
+              {
+                "name": "fullSearch",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating extended search of widget bundles by description and by name / description of related widget types"
+              },
+              {
+                "name": "scadaFirst",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating whether to fetch widgets bundles with SCADA symbols first. Works only when fullSearch parameter is enabled"
+              }
+            ]
+          },
+          "docs": "Returns a page of Widget Bundle objects available for current user. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case.  You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Widget Bundle (getWidgetsBundleById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "inlineImages",
+                "value": "",
+                "type": "query",
+                "description": "Inline images as a data URL (Base64)"
+              }
+            ]
+          },
+          "docs": "Get the Widget Bundle based on the provided Widget Bundle Id. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Delete Widgets Bundle (deleteWidgetsBundle)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the widget bundle. Referencing non-existing Widget Bundle Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "widget-type-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Widget Type (getWidgetType)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetType",
+            "params": [
+              {
+                "name": "isSystem",
+                "value": "",
+                "type": "query",
+                "description": "System or Tenant"
+              },
+              {
+                "name": "bundleAlias",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle alias"
+              },
+              {
+                "name": "alias",
+                "value": "",
+                "type": "query",
+                "description": "Widget Type alias"
+              },
+              {
+                "name": "fqn",
+                "value": "",
+                "type": "query",
+                "description": "Widget Type fqn"
+              }
+            ]
+          },
+          "docs": "Get the Widget Type by FQN. Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Create or Update Widget Type (saveWidgetType)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/widgetType",
+            "params": [
+              {
+                "name": "updateExistingByFqn",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating whether to update existing widget type by FQN if present instead of creating new one"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Widget Type. Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory. When creating the Widget Type, platform generates Widget Type Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Widget Type Id will be present in the response. Specify existing Widget Type id to update the Widget Type. Referencing non-existing Wid"
+        },
+        {
+          "info": {
+            "name": "Get All Widget Types for Specified Bundle (getBundleWidgetTypesByBundleAlias) (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetTypes",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle Id"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the widget type name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "tenantOnly",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating whether only tenant widget types should be returned"
+              },
+              {
+                "name": "fullSearch",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating whether search widgets by description not only by name"
+              },
+              {
+                "name": "deprecatedFilter",
+                "value": "",
+                "type": "query",
+                "description": "Optional string parameter indicating whether to include deprecated widgets"
+              },
+              {
+                "name": "widgetTypeList",
+                "value": "",
+                "type": "query",
+                "description": "A list of string values separated by comma ',' representing one of the widget type value"
+              },
+              {
+                "name": "scadaFirst",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating whether to fetch SCADA symbol widgets first"
+              },
+              {
+                "name": "isSystem",
+                "value": "",
+                "type": "query",
+                "description": "System or Tenant"
+              },
+              {
+                "name": "bundleAlias",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle alias"
+              }
+            ]
+          },
+          "docs": "Returns an array of Widget Type objects that belong to specified Widget Bundle.Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Widget Type Info Objects (getBundleWidgetTypesInfosByBundleAlias) (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetTypesInfos",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle Id"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the widget type name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "fullSearch",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating whether search widgets by description not only by name"
+              },
+              {
+                "name": "deprecatedFilter",
+                "value": "",
+                "type": "query",
+                "description": "Optional string parameter indicating whether to include deprecated widgets"
+              },
+              {
+                "name": "widgetTypeList",
+                "value": "",
+                "type": "query",
+                "description": "A list of string values separated by comma ',' representing one of the widget type value"
+              },
+              {
+                "name": "isSystem",
+                "value": "",
+                "type": "query",
+                "description": "System or Tenant"
+              },
+              {
+                "name": "bundleAlias",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle alias"
+              }
+            ]
+          },
+          "docs": "Get the Widget Type Info objects based on the provided parameters. Widget Type Info is a lightweight object that represents Widget Type but does not contain the heavyweight widget descriptor JSON\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get All Widget Types Details for Specified Bundle (getBundleWidgetTypesDetailsByBundleAlias) (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetTypesDetails",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle Id"
+              },
+              {
+                "name": "includeResources",
+                "value": "",
+                "type": "query",
+                "description": "Export used resources and replace resource links with resource metadata"
+              },
+              {
+                "name": "isSystem",
+                "value": "",
+                "type": "query",
+                "description": "System or Tenant"
+              },
+              {
+                "name": "bundleAlias",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle alias"
+              }
+            ]
+          },
+          "docs": "Returns an array of Widget Type Details objects that belong to specified Widget Bundle.Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit the Widget Type but they are not required for Dashboard rendering.  \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Widget Type Info (getWidgetTypeInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetTypeInfo/:widgetTypeId",
+            "params": [
+              {
+                "name": "widgetTypeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Get the Widget Type Info based on the provided Widget Type Id. Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit the Widget Type but they are not required for Dashboard rendering. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get All Widget Type Fqns for Specified Bundle (getBundleWidgetTypeFqns)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetTypeFqns",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "query",
+                "description": "Widget Bundle Id"
+              }
+            ]
+          },
+          "docs": "Returns an array of Widget Type fqns that belong to specified Widget Bundle.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Widget Type Details (getWidgetTypeById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetType/:widgetTypeId",
+            "params": [
+              {
+                "name": "widgetTypeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "includeResources",
+                "value": "",
+                "type": "query",
+                "description": "Export used resources and replace resource links with resource metadata"
+              }
+            ]
+          },
+          "docs": "Get the Widget Type Details based on the provided Widget Type Id. Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit the Widget Type but they are not required for Dashboard rendering. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Widget Type (deleteWidgetType)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/widgetType/:widgetTypeId",
+            "params": [
+              {
+                "name": "widgetTypeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the  Widget Type. Referencing non-existing Widget Type Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "dashboard-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Tenant Home Dashboard Info (getTenantHomeDashboardInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/dashboard/home/info"
+          },
+          "docs": "Returns the home dashboard info object that is configured as 'homeDashboardId' parameter in the 'additionalInfo' of the corresponding tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Update Tenant Home Dashboard Info (getTenantHomeDashboardInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/tenant/dashboard/home/info",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the home dashboard assignment for the current tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Assign Dashboard to Edge (assignDashboardToEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/dashboard/:dashboardId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Creates assignment of an existing dashboard to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote edge service will receive a copy of assignment dashboard (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once dashboard will be delivered to edge service, it's going to be available for usage on remote edge instance.\n\nAvailable for users wit"
+        },
+        {
+          "info": {
+            "name": "Unassign Dashboard from Edge (unassignDashboardFromEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/dashboard/:dashboardId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Clears assignment of the dashboard to the edge. Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform. Second, remote edge service will receive an 'unassign' command to remove dashboard (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once 'unassign' command will be delivered to edge service, it's going to remove dashboard locally.\n\nAvailable for users with 'TENANT_ADMIN' auth"
+        },
+        {
+          "info": {
+            "name": "Create or Update Dashboard (saveDashboard)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/dashboard",
+            "headers": [
+              {
+                "name": "Accept-Encoding",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Dashboard. When creating dashboard, platform generates Dashboard Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Dashboard id will be present in the response. Specify existing Dashboard id to update the dashboard. Referencing non-existing dashboard Id will cause 'Not Found' error. Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new"
+        },
+        {
+          "info": {
+            "name": "Update the Dashboard Customers (updateDashboardCustomers)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/dashboard/:dashboardId/customers",
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the list of Customers that this Dashboard is assigned to. Removes previous assignments to customers that are not in the provided list. Returns the Dashboard object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Remove the Dashboard Customers (removeDashboardCustomers)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/dashboard/:dashboardId/customers/remove",
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes the list of Customers from the existing list of assignments for the Dashboard. Keeps other assignments to customers that are not in the provided list. Returns the Dashboard object.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Adds the Dashboard Customers (addDashboardCustomers)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/dashboard/:dashboardId/customers/add",
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds the list of Customers to the existing list of assignments for the Dashboard. Keeps previous assignments to customers that are not in the provided list. Returns the Dashboard object.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Assign the Dashboard (assignDashboardToCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/dashboard/:dashboardId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Assign the Dashboard to specified Customer or do nothing if the Dashboard is already assigned to that Customer. Returns the Dashboard object.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Unassign the Dashboard (unassignDashboardFromCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/dashboard/:dashboardId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Unassign the Dashboard from specified Customer or do nothing if the Dashboard is already assigned to that Customer. Returns the Dashboard object.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Assign the Dashboard to Public Customer (assignDashboardToPublicCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/customer/public/dashboard/:dashboardId",
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Assigns the dashboard to a special, auto-generated 'Public' Customer. Once assigned, unauthenticated users may browse the dashboard. This method is useful if you like to embed the dashboard on public web pages to be available for users that are not logged in. Be aware that making the dashboard public does not mean that it automatically makes all devices and assets you use in the dashboard to be public.Use [assign Asset to Public Customer](#!/asset-controller/assignAssetToPublicCustomerUsingPOST)"
+        },
+        {
+          "info": {
+            "name": "Unassign the Dashboard from Public Customer (unassignDashboardFromPublicCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/customer/public/dashboard/:dashboardId",
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Unassigns the dashboard from a special, auto-generated 'Public' Customer. Once unassigned, unauthenticated users may no longer browse the dashboard. Returns the Dashboard object.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Dashboards by System Administrator (getTenantDashboards)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/:tenantId/dashboards",
+            "params": [
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the dashboard title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of dashboard info objects owned by tenant. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Dashboards (getTenantDashboards)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/dashboards",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "mobile",
+                "value": "",
+                "type": "query",
+                "description": "Exclude dashboards that are hidden for mobile"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the dashboard title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of dashboard info objects owned by the tenant of a current user. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Edge Dashboards (getEdgeDashboards)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/dashboards",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the dashboard title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of dashboard info objects assigned to the specified edge. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER"
+        },
+        {
+          "info": {
+            "name": "Get Dashboards by Dashboard Ids (getDashboardsByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/dashboards",
+            "params": [
+              {
+                "name": "dashboardIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of dashboard ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Returns a list of DashboardInfo objects based on the provided ids. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Dashboard (getDashboardById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/dashboard/:dashboardId",
+            "headers": [
+              {
+                "name": "Accept-Encoding",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "includeResources",
+                "value": "",
+                "type": "query",
+                "description": "Export used resources and replace resource links with resource metadata"
+              }
+            ]
+          },
+          "docs": "Get the dashboard based on 'dashboardId' parameter. The Dashboard object is a heavyweight object that contains information about the dashboard (e.g. title, image, assigned customers) and also configuration JSON (e.g. layouts, widgets, entity aliases).\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Delete the Dashboard (deleteDashboard)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/dashboard/:dashboardId",
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Delete the Dashboard.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Server Time (getServerTime)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/dashboard/serverTime"
+          },
+          "docs": "Get the server time (milliseconds since January 1, 1970 UTC). Used to adjust view of the dashboards according to the difference between browser and server time."
+        },
+        {
+          "info": {
+            "name": "Get Max Data Points Limit (getMaxDatapointsLimit)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/dashboard/maxDatapointsLimit"
+          },
+          "docs": "Get the maximum number of data points that dashboard may request from the server per in a single subscription command. This value impacts the time window behavior. It impacts 'Max values' parameter in case user selects 'None' as 'Data aggregation function'. It also impacts the 'Grouping interval' in case of any other 'Data aggregation function' is selected. The actual value of the limit is configurable in the system configuration file."
+        },
+        {
+          "info": {
+            "name": "Get Dashboard Info (getDashboardInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/dashboard/info/:dashboardId",
+            "params": [
+              {
+                "name": "dashboardId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Get the information about the dashboard based on 'dashboardId' parameter. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does not contain the heavyweight configuration JSON."
+        },
+        {
+          "info": {
+            "name": "Get Home Dashboard (getHomeDashboard)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/dashboard/home",
+            "headers": [
+              {
+                "name": "Accept-Encoding",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns the home dashboard object that is configured as 'homeDashboardId' parameter in the 'additionalInfo' of the User. If 'homeDashboardId' parameter is not set on the User level and the User has authority 'CUSTOMER_USER', check the same parameter for the corresponding Customer. If 'homeDashboardId' parameter is not set on the User and Customer levels then checks the same parameter for the Tenant that owns the user. The Dashboard object is a heavyweight object that contains information about t"
+        },
+        {
+          "info": {
+            "name": "Get Home Dashboard Info (getHomeDashboardInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/dashboard/home/info"
+          },
+          "docs": "Returns the home dashboard info object that is configured as 'homeDashboardId' parameter in the 'additionalInfo' of the User. If 'homeDashboardId' parameter is not set on the User level and the User has authority 'CUSTOMER_USER', check the same parameter for the corresponding Customer. If 'homeDashboardId' parameter is not set on the User and Customer levels then checks the same parameter for the Tenant that owns the user. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Customer Dashboards (getCustomerDashboards)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/dashboards",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "mobile",
+                "value": "",
+                "type": "query",
+                "description": "Exclude dashboards that are hidden for mobile"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the dashboard title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of dashboard info objects owned by the specified customer. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USE"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ui-settings-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get UI Help Base Url (getHelpBaseUrl)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/uiSettings/helpBaseUrl"
+          },
+          "docs": "Get UI help base url used to fetch help assets. The actual value of the base url is configurable in the system configuration file."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

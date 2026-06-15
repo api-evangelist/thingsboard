@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard LwM2M API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "lwm-2m-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Save Device with Credentials (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/lwm2m/device-credentials",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save Device with Credentials (Deprecated)"
+        },
+        {
+          "info": {
+            "name": "Get Lwm2m Bootstrap SecurityInfo (getLwm2mBootstrapSecurityInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/lwm2m/deviceProfile/bootstrap/:isBootstrapServer",
+            "params": [
+              {
+                "name": "isBootstrapServer",
+                "value": "",
+                "type": "path",
+                "description": "A Boolean value representing the Server SecurityInfo for future Bootstrap client mode settings. Values: 'true' for Bootstrap Server; 'false' for Lwm2m Server. "
+              }
+            ]
+          },
+          "docs": "Get the Lwm2m Bootstrap SecurityInfo object (of the current server) based on the provided isBootstrapServer parameter. If isBootstrapServer == true, get the parameters of the current Bootstrap Server. If isBootstrapServer == false, get the parameters of the current Lwm2m Server. Used for client settings when starting the client in Bootstrap mode. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

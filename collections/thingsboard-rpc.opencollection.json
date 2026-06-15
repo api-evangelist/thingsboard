@@ -1,0 +1,211 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard RPC API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rpc-v-2-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send Two-way RPC Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/rpc/twoway/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends the two-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body"
+        },
+        {
+          "info": {
+            "name": "Send One-way RPC Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/rpc/oneway/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends the one-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body"
+        },
+        {
+          "info": {
+            "name": "Get Persistent RPC Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/rpc/persistent/:rpcId",
+            "params": [
+              {
+                "name": "rpcId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Get information about the status of the RPC call.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Persistent RPC",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/rpc/persistent/:rpcId",
+            "params": [
+              {
+                "name": "rpcId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the persistent RPC request.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Persistent RPC Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/rpc/persistent/device/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "rpcStatus",
+                "value": "",
+                "type": "query",
+                "description": "Status of the RPC"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Not implemented. Leave empty."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Allows to query RPC calls for specific device using pagination.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rpc-v-1-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send Two-way RPC Request (handleTwoWayDeviceRPCRequest)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/plugins/rpc/twoway/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated. See 'Rpc V 2 Controller' instead.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Send One-way RPC Request (handleOneWayDeviceRPCRequest)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/plugins/rpc/oneway/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated. See 'Rpc V 2 Controller' instead.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

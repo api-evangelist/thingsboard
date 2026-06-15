@@ -1,0 +1,1381 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "queue-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Queues (getTenantQueuesByServiceType)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/queues",
+            "params": [
+              {
+                "name": "serviceType",
+                "value": "",
+                "type": "query",
+                "description": "Service type (implemented only for the TB-RULE-ENGINE)"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the queue name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of queues registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Create or Update Queue (saveQueue)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/queues",
+            "params": [
+              {
+                "name": "serviceType",
+                "value": "",
+                "type": "query",
+                "description": "Service type (implemented only for the TB-RULE-ENGINE)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Queue. When creating queue, platform generates Queue Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). Specify existing Queue id to update the queue. Referencing non-existing Queue Id will cause 'Not Found' error.\n\nQueue name is unique in the scope of sysadmin. Remove 'id', 'tenantId' from the request body example (below) to create new Queue entity. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Queue (getQueueById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/queues/:queueId",
+            "params": [
+              {
+                "name": "queueId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the queue id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Queue object based on the provided Queue Id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Queue (deleteQueue)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/queues/:queueId",
+            "params": [
+              {
+                "name": "queueId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the queue id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the Queue. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Queue (getQueueByName)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/queues/name/:queueName",
+            "params": [
+              {
+                "name": "queueName",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the queue id. For example, 'Main'"
+              }
+            ]
+          },
+          "docs": "Fetch the Queue object based on the provided Queue name. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "qr-code-settings-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Mobile Application Settings (getMobileAppSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/qr/settings"
+          },
+          "docs": "The response payload contains configuration for android/iOS applications and platform qr code widget settings.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Create or Update the Mobile Application Settings (saveMobileAppSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/mobile/qr/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The request payload contains configuration for android/iOS applications and platform qr code widget settings.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "getApplicationRedirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/qr",
+            "headers": [
+              {
+                "name": "User-Agent",
+                "value": ""
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Get User Token (getUserTokenByMobileSecret)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/qr/:secret",
+            "params": [
+              {
+                "name": "secret",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing short-lived secret key"
+              }
+            ]
+          },
+          "docs": "Returns the token of the User based on the provided secret key."
+        },
+        {
+          "info": {
+            "name": "Get the Deep Link to the Associated Mobile Application (getMobileAppDeepLink)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/qr/deepLink"
+          },
+          "docs": "Fetch the url that takes user to linked mobile application \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Associated Android Applications (getAssetLinks)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/.well-known/assetlinks.json"
+          },
+          "docs": "Get Associated Android Applications (getAssetLinks)"
+        },
+        {
+          "info": {
+            "name": "Get Associated Ios Applications (getAppleAppSiteAssociation)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/.well-known/apple-app-site-association"
+          },
+          "docs": "Get Associated Ios Applications (getAppleAppSiteAssociation)"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "job-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "reprocessJob",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/job/:id/reprocess",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "cancelJob",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/job/:id/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "getJobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/jobs",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filter based on job's description"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entities",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "getJobById",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/job/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "deleteJob",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/job/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "event-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Events (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The value is not used in searching."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ]
+          },
+          "docs": "Returns a page of events for specified entity. Deprecated and will be removed in next minor release. The call was deprecated to improve the performance of the system. Current implementation will return 'Lifecycle' events only. Use 'Get events by type' or 'Get events by filter' instead. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+        },
+        {
+          "info": {
+            "name": "Get Events by Event Filter (getEvents)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The value is not used in searching."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a page of events for the chosen entity by specifying the event filter. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\n# Event Filter Definition\n\n6 different eventFilter objects could be set for different event types. The eventType field is required. Others are optional. If some of them are set, the filtering will be applied according to them. "
+        },
+        {
+          "info": {
+            "name": "Clear Events (clearEvents)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId/clear",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Clears events by filter for specified entity."
+        },
+        {
+          "info": {
+            "name": "Get Events by Type (getEvents)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId/:eventType",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "eventType",
+                "value": "STATS",
+                "type": "path",
+                "description": "A string value representing event type"
+              },
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The value is not used in searching."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ]
+          },
+          "docs": "Returns a page of events for specified entity by specifying event type. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "admin-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Creates or Updates the Administration Settings (saveAdminSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or Updates the Administration Settings. Platform generates random Administration Settings Id during settings creation. The Administration Settings Id will be present in the response. Specify the Administration Settings Id when you would like to update the Administration Settings. Referencing non-existing Administration Settings Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Send Test Sms (sendTestSms)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/settings/testSms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attempts to send test sms to the System Administrator User using SMS Settings and phone number provided as a parameters of the request. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Send Test Email (sendTestMail)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/settings/testMail",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attempts to send test email to the System Administrator User using Mail Settings provided as a parameter. You may change the 'To' email in the user profile of the System Administrator. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get the Security Settings Object (getSecuritySettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/securitySettings"
+          },
+          "docs": "Get the Security Settings object that contains password policy, etc.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Update Security Settings (saveSecuritySettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/securitySettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the Security Settings object that contains password policy, etc.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Repository Settings (getRepositorySettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/repositorySettings"
+          },
+          "docs": "Get the repository settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Creates or Updates the Repository Settings (saveRepositorySettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/repositorySettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or Updates the repository settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Repository Settings (deleteRepositorySettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/admin/repositorySettings"
+          },
+          "docs": "Deletes the repository settings.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Check Repository Access (checkRepositoryAccess)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/repositorySettings/checkAccess",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attempts to check repository access. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get the JWT Settings Object (getJwtSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/jwtSettings"
+          },
+          "docs": "Get the JWT Settings object that contains JWT token policy, etc. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Update JWT Settings (saveJwtSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/jwtSettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the JWT Settings object that contains JWT token policy, etc. The tokenSigningKey field is a Base64 encoded string.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Auto Commit Settings (getAutoCommitSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/autoCommitSettings"
+          },
+          "docs": "Get the auto commit settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Creates or Updates the Auto Commit Settings (saveAutoCommitSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/admin/autoCommitSettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or Updates the auto commit settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Auto Commit Settings (deleteAutoCommitSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/admin/autoCommitSettings"
+          },
+          "docs": "Deletes the auto commit settings.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Check for New Platform Releases (checkUpdates)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/updates"
+          },
+          "docs": "Check notifications about new platform releases. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get System Info (getSystemInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/systemInfo"
+          },
+          "docs": "Get main information about system. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get the Administration Settings Object Using Key (getAdminSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/settings/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "A string value of the key (e.g. 'general' or 'mail')."
+              }
+            ]
+          },
+          "docs": "Get the Administration Settings object using specified string key. Referencing non-existing key will cause an error.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "getRepositorySettingsInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/repositorySettings/info"
+          }
+        },
+        {
+          "info": {
+            "name": "Check Repository Settings Exists (repositorySettingsExists)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/repositorySettings/exists"
+          },
+          "docs": "Check whether the repository settings exists. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get OAuth2 Log in Processing URL (getMailProcessingUrl)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/mail/oauth2/loginProcessingUrl"
+          },
+          "docs": "Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider and user consent for requested scope, it makes a redirect to this path so that the platform can do further log in processing and generating access tokens. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "codeProcessingUrl",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/mail/oauth2/code",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Redirect User to Mail Provider Login Page.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/mail/oauth2/authorize"
+          },
+          "docs": "After user logged in and provided accessprovider sends authorization code to specified redirect uri.)"
+        },
+        {
+          "info": {
+            "name": "Get Features Info (getFeaturesInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/featuresInfo"
+          },
+          "docs": "Get information about enabled/disabled features. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Check Auto Commit Settings Exists (autoCommitSettingsExists)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/admin/autoCommitSettings/exists"
+          },
+          "docs": "Check whether the auto commit settings exists. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "usage-info-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTenantUsageInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/usage"
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "queue-stats-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Queue Stats Entities (getTenantQueueStats)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/queueStats",
+            "params": [
+              {
+                "name": "queueStatsIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of queue stats ids, separated by comma ','"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the queue name or service id."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of queue stats objects that are designed to collect queue statistics for every service. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Queue Stats Entity by Id (getQueueStatsById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/queueStats/:queueStatsId",
+            "params": [
+              {
+                "name": "queueStatsId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the queue stats id. For example, '687f294c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Queue stats object based on the provided Queue stats id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "mail-config-template-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the List of All OAuth2 Client Registration Templates (getClientRegistrationTemplates) Available for Users with 'SYS_ADMIN' or 'TENANT_ADMIN' Authority.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mail/config/template"
+          },
+          "docs": "Mail configuration template is set of default smtp settings for mail server that specific provider supports"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "audit-log-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Audit Logs (getAuditLogs)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/audit/logs",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "actionTypes",
+                "value": "",
+                "type": "query",
+                "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details."
+              }
+            ]
+          },
+          "docs": "Returns a page of audit logs related to all entities in the scope of the current user's Tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Audit Logs by User Id (getAuditLogsByUserId)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/audit/logs/user/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "actionTypes",
+                "value": "",
+                "type": "query",
+                "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details."
+              }
+            ]
+          },
+          "docs": "Returns a page of audit logs related to the actions of targeted user. For example, RPC call to a particular device, or alarm acknowledgment for a specific device, etc. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Audit Logs by Entity Id (getAuditLogsByEntityId)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/audit/logs/entity/:entityType/:entityId",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "actionTypes",
+                "value": "",
+                "type": "query",
+                "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details."
+              }
+            ]
+          },
+          "docs": "Returns a page of audit logs related to the actions on the targeted entity. Basically, this API call is used to get the full lifecycle of some specific entity. For example to see when a device was created, updated, assigned to some customer, or even deleted from the system. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENAN"
+        },
+        {
+          "info": {
+            "name": "Get Audit Logs by Customer Id (getAuditLogsByCustomerId)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/audit/logs/customer/:customerId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'."
+              },
+              {
+                "name": "actionTypes",
+                "value": "",
+                "type": "query",
+                "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details."
+              }
+            ]
+          },
+          "docs": "Returns a page of audit logs related to the targeted customer entities (devices, assets, etc.), and users actions (login, logout, etc.) that belong to this customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

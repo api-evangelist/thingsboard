@@ -1,0 +1,1039 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Authentication API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "login-endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login Method to Get User JWT Token Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Login method used to authenticate user and get JWT token data.\n\nValue of the response **token** field can be used as **X-Authorization** header value:\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`."
+        },
+        {
+          "info": {
+            "name": "Refresh User JWT Token Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Method to refresh JWT token. Provide a valid refresh token to get a new JWT token.\n\nThe response contains a new token that can be used for authorization.\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "domain-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update Oauth2 Clients (updateOauth2Clients)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/domain/:id/oauth2Clients",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update oauth2 clients for the specified domain. "
+        },
+        {
+          "info": {
+            "name": "Save or Update Domain (saveDomain)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/domain",
+            "params": [
+              {
+                "name": "oauth2ClientIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of oauth2 client registration ids, separated by comma ','"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Domain. When creating domain, platform generates Domain Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Domain Id will be present in the response. Specify existing Domain Id to update the domain. Referencing non-existing Domain Id will cause 'Not Found' error.\n\nDomain name is unique for entire platform setup.\n\n\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Domain Infos (getTenantDomainInfos)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/domain/infos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filter based on domain's name"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Domain Info by Id (getDomainInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/domain/info/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Domain by ID (deleteDomain)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/domain/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes Domain by ID. Referencing non-existing domain Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "api-key-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Enable or Disable API Key (enableApiKey)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/apiKey/:id/enabled/:enabledValue",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the API key to enable/disable"
+              },
+              {
+                "name": "enabledValue",
+                "value": "",
+                "type": "path",
+                "description": "Enabled or disabled api key"
+              }
+            ]
+          },
+          "docs": "Updates api key with enabled = true/false. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Update API Key Description",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/apiKey/:id/description",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the api key id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the description of the existing API key by apiKeyId. Only the description can be updated. Referencing a non-existing ApiKey Id will cause a 'Not Found' error.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Save API Key for User (saveApiKey)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/apiKey",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an API key for the given user and returns the token ONCE as 'ApiKey <value>'.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get User Api Keys (getUserApiKeys)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/apiKeys/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the description."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of api keys owned by user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Delete API Key by ID (deleteApiKey)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/apiKey/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the API key. Referencing non-existing ApiKey Id will cause an error.\n\nAvailable for any authorized user. "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "two-factor-auth-config-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Verify and Save 2FA Account Config (verifyAndSaveTwoFaAccountConfig)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/2fa/account/config",
+            "params": [
+              {
+                "name": "verificationCode",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Checks the verification code for submitted config, and if it is correct, saves the provided account config. \n\nReturns whole account's 2FA settings object.\nWill throw an error (Bad Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Update 2FA Account Config (updateTwoFaAccountConfig)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/2fa/account/config",
+            "params": [
+              {
+                "name": "providerType",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update config for a given provider type. \nUpdate request example:\n```\n{\n  \"useByDefault\": true\n}\n```\nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Delete 2FA Account Config (deleteTwoFaAccountConfig)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/2fa/account/config",
+            "params": [
+              {
+                "name": "providerType",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete 2FA config for a given 2FA provider type. \nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Platform 2FA Settings (getPlatformTwoFaSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/2fa/settings"
+          },
+          "docs": "Get platform settings for 2FA. The settings are described for savePlatformTwoFaSettings API method. If 2FA is not configured, then an empty response will be returned.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Save Platform 2FA Settings (savePlatformTwoFaSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/2fa/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save 2FA settings for platform. The settings have following properties:\n- `providers` - the list of 2FA providers' configs. Users will only be allowed to use 2FA providers from this list. \n\n- `minVerificationCodeSendPeriod` - minimal period in seconds to wait after verification code send request to send next request. \n- `verificationCodeCheckRateLimit` - rate limit configuration for verification code checking.\nThe format is standard: 'amountOfRequests:periodInSeconds'. The value of '1:60' would "
+        },
+        {
+          "info": {
+            "name": "Submit 2FA Account Config (submitTwoFaAccountConfig)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/2fa/account/config/submit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit 2FA account config to prepare for a future verification. Basically, this method will send a verification code for a given account config, if this has sense for a chosen 2FA provider. This code is needed to then verify and save the account config.\n\nExample of EMAIL 2FA account config:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": true,\n  \"email\": \"separate-email-for-2fa@thingsboard.org\"\n}\n```\n\nExample of SMS 2FA account config:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n "
+        },
+        {
+          "info": {
+            "name": "Generate 2FA Account Config (generateTwoFaAccountConfig)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/2fa/account/config/generate",
+            "params": [
+              {
+                "name": "providerType",
+                "value": "",
+                "type": "query",
+                "description": "2FA provider type to generate new account config for"
+              }
+            ]
+          },
+          "docs": "Generate new 2FA account config template for specified provider type. \n\nFor TOTP, this will return a corresponding account config template with a generated OTP auth URL (with new random secret key for each API call) that can be then converted to a QR code to scan with an authenticator app. Example:\n```\n{\n  \"providerType\": \"TOTP\",\n  \"useByDefault\": false,\n  \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=PNJDNWJVAK4ZTUYT7RFGPQLXA7XGU7PX\"\n}\n```\n\nFor EMAIL, the gener"
+        },
+        {
+          "info": {
+            "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/2fa/providers"
+          },
+          "docs": "Get the list of provider types available for user to use (the ones configured by tenant or sysadmin).\nExample of response:\n```\n[\n  \"TOTP\",\n  \"EMAIL\",\n  \"SMS\"\n]\n```\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Account 2FA Settings (getAccountTwoFaSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/2fa/account/settings"
+          },
+          "docs": "Get user's account 2FA configuration. Configuration contains configs for different 2FA providers.\n\nExample:\n```\n{\n  \"configs\": {\n    \"EMAIL\": {\n      \"providerType\": \"EMAIL\",\n      \"useByDefault\": true,\n      \"email\": \"tenant@thingsboard.org\"\n    },\n    \"TOTP\": {\n      \"providerType\": \"TOTP\",\n      \"useByDefault\": false,\n      \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=P6Z2TLYTASOGP6LCJZAD24ETT5DACNNX\"\n    },\n    \"SMS\": {\n      \"providerType\": \"SMS\",\n      \"u"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "sign-up-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acceptPrivacyPolicy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/signup/acceptPrivacyPolicy"
+          }
+        },
+        {
+          "info": {
+            "name": "signUp",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/noauth/signup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "resendEmailActivation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/noauth/resendEmailActivation",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pkgName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "activateUserByEmailCode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/noauth/activateByEmailCode",
+            "params": [
+              {
+                "name": "emailCode",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pkgName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "privacyPolicyAccepted",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/signup/privacyPolicyAccepted"
+          }
+        },
+        {
+          "info": {
+            "name": "getRecaptchaPublicKey",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/signup/recaptchaPublicKey"
+          }
+        },
+        {
+          "info": {
+            "name": "getRecaptchaParams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/signup/recaptchaParams"
+          }
+        },
+        {
+          "info": {
+            "name": "mobileLogin",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/login",
+            "params": [
+              {
+                "name": "pkgName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "activateEmail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/activateEmail",
+            "params": [
+              {
+                "name": "emailCode",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pkgName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "deleteTenantAccount",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/signup/tenantAccount"
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "o-auth-2-config-template-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the List of All OAuth2 Client Registration Templates (getClientRegistrationTemplates) Available for Users with 'SYS_ADMIN' or 'TENANT_ADMIN' Authority.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/oauth2/config/template"
+          },
+          "docs": "Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients"
+        },
+        {
+          "info": {
+            "name": "Create or Update OAuth2 Client Registration Template (saveClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/oauth2/config/template",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients"
+        },
+        {
+          "info": {
+            "name": "Delete OAuth2 Client Registration Template by Id (deleteClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/oauth2/config/template/:clientRegistrationTemplateId",
+            "params": [
+              {
+                "name": "clientRegistrationTemplateId",
+                "value": "139b1f81-2f5d-11ec-9dbe-9b627e1a88f4",
+                "type": "path",
+                "description": "String representation of client registration template id to delete"
+              }
+            ]
+          },
+          "docs": "Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "o-auth-2-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Save OAuth2 Client (saveOAuth2Client)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/oauth2/client",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get OAuth2 Clients (getOAuth2Clients)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/noauth/oauth2Clients",
+            "params": [
+              {
+                "name": "pkgName",
+                "value": "",
+                "type": "query",
+                "description": "Mobile application package name, to find OAuth2 clients where there is configured mobile application with such package name"
+              },
+              {
+                "name": "platform",
+                "value": "",
+                "type": "query",
+                "description": "Platform type to search OAuth2 clients for which the usage with this platform type is allowed in the settings. If platform type is not one of allowable values - it will just be ignored"
+              }
+            ]
+          },
+          "docs": "Get the list of OAuth2 clients to log in with, available for such domain scheme (HTTP or HTTPS) (if x-forwarded-proto request header is present - the scheme is known from it) and domain name and port (port may be known from x-forwarded-port header)"
+        },
+        {
+          "info": {
+            "name": "Get OAuth2 Log in Processing URL (getLoginProcessingUrl)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/oauth2/loginProcessingUrl"
+          },
+          "docs": "Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider, it makes a redirect to this path so that the platform can do further log in processing. This URL may be configured as 'security.oauth2.loginProcessingUrl' property in yml configuration file, or as 'SECURITY_OAUTH2_LOGIN_PROCESSING_URL' env variable. By default it is '/login/oauth2/code/'\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get OAuth2 Client by Id (getOAuth2ClientById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/oauth2/client/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Oauth2 Client (deleteOauth2Client)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/oauth2/client/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the oauth2 client. Referencing non-existing oauth2 client Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get OAuth2 Client Infos by Ids (findTenantOAuth2ClientInfosByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/oauth2/client/infos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filter based on client's title"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "clientIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of oauth2 ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Fetch OAuth2 Client info objects based on the provided ids. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "auth-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check Password Reset Token (checkResetToken)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/resetPassword",
+            "params": [
+              {
+                "name": "resetToken",
+                "value": "",
+                "type": "query",
+                "description": "The reset token string."
+              }
+            ]
+          },
+          "docs": "Checks the password reset token and forwards user to 'Reset Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Reset Password' page and same 'resetToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page."
+        },
+        {
+          "info": {
+            "name": "Reset Password (resetPassword)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/noauth/resetPassword",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Checks the password reset token and updates the password. If token is not valid, returns '400 Bad Request'."
+        },
+        {
+          "info": {
+            "name": "Request Reset Password Email (requestResetPasswordByEmail)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/noauth/resetPasswordByEmail",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request to send the reset password email if the user with specified email address is present in the database. Always return '200 OK' status for security purposes."
+        },
+        {
+          "info": {
+            "name": "Check Activate User Token (checkActivateToken)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/activate",
+            "params": [
+              {
+                "name": "activateToken",
+                "value": "",
+                "type": "query",
+                "description": "The activate token string."
+              }
+            ]
+          },
+          "docs": "Checks the activation token and forwards user to 'Create Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Create Password' page and same 'activateToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page."
+        },
+        {
+          "info": {
+            "name": "Activate User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/noauth/activate",
+            "params": [
+              {
+                "name": "sendActivationMail",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Checks the activation token and updates corresponding user password in the database. Now the user may start using his password to login. The response already contains the [JWT](https://jwt.io) activation and refresh tokens, to simplify the user activation flow and avoid asking user to input password again after activation. If token is valid, returns the object that contains [JWT](https://jwt.io/) access and refresh tokens. If token is not valid, returns '400 Bad Request'."
+        },
+        {
+          "info": {
+            "name": "Logout (logout)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/logout"
+          },
+          "docs": "Special API call to record the 'logout' of the user to the Audit Logs. Since platform uses [JWT](https://jwt.io/), the actual logout is the procedure of clearing the [JWT](https://jwt.io/) token on the client side. "
+        },
+        {
+          "info": {
+            "name": "Change Password for Current User (changePassword)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/changePassword",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change the password for the User which credentials are used to perform this REST API call. Be aware that previously generated [JWT](https://jwt.io/) tokens will be still valid until they expire."
+        },
+        {
+          "info": {
+            "name": "Get the Current User Password Policy (getUserPasswordPolicy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/userPasswordPolicy"
+          },
+          "docs": "API call to get the password policy for the password validation form(s)."
+        },
+        {
+          "info": {
+            "name": "Get Current User (getUser)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/auth/user"
+          },
+          "docs": "Get the information about the User which credentials are used to perform this REST API call."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "two-factor-auth-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request 2FA Verification Code (requestTwoFaVerificationCode)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/verification/send",
+            "params": [
+              {
+                "name": "providerType",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Request 2FA verification code.\n\nTo make a request to this endpoint, you need an access token with the scope of PRE_VERIFICATION_TOKEN, which is issued on username/password auth if 2FA is enabled.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings). Will return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded."
+        },
+        {
+          "info": {
+            "name": "Check 2FA Verification Code (checkTwoFaVerificationCode)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/verification/check",
+            "params": [
+              {
+                "name": "providerType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "verificationCode",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks 2FA verification code, and if it is correct the method returns a regular access and refresh token pair.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings), and also will block a user after X unsuccessful verification attempts if such behavior is configured (in TwoFactorAuthSettings).\n\nWill return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded."
+        },
+        {
+          "info": {
+            "name": "Get Regular Token Pair After Successfully Configuring 2FA",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/login"
+          },
+          "docs": "Checks 2FA is configured, returning token pair on success."
+        },
+        {
+          "info": {
+            "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/providers"
+          },
+          "docs": "Get the list of 2FA provider infos available for user to use. Example:\n```\n[\n  {\n    \"type\": \"EMAIL\",\n    \"default\": true,\n    \"contact\": \"ab*****ko@gmail.com\"\n  },\n  {\n    \"type\": \"TOTP\",\n    \"default\": false,\n    \"contact\": null\n  },\n  {\n    \"type\": \"SMS\",\n    \"default\": false,\n    \"contact\": \"+38********12\"\n  }\n]\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

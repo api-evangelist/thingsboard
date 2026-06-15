@@ -1,0 +1,163 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard AI API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "trendz-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Trendz Settings (getTrendzSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/trendz/settings"
+          },
+          "docs": "Retrieves Trendz settings for this tenant.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Save Trendz Settings (saveTrendzSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/trendz/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Saves Trendz settings for this tenant.\n\n\nHere is an example of the Trendz settings:\n```json\n{\n  \"enabled\": true,\n  \"baseUrl\": \"https://some.domain.com:18888/also_necessary_prefix\"\n}\n```\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ai-model-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get AI Models (getAiModels)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/ai/model",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the AI model name, provider and model ID."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of AI models. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Create or Update AI Model (saveAiModel)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/ai/model",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates an AI model record.\n\n• **Create:** Omit the `id` to create a new record. The platform assigns a UUID to the new record and returns it in the `id` field of the response.\n\n• **Update:** Include an existing `id` to modify that record. If no matching record exists, the API responds with **404 Not Found**.\n\nTenant ID for the AI model will be taken from the authenticated user making the request, regardless of any value provided in the request body.\n\nAvailable for users with 'TENANT_"
+        },
+        {
+          "info": {
+            "name": "Send Request to AI Chat Model (sendChatRequest)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/ai/model/chat",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits a single prompt - made up of an optional system message and a required user message - to the specified AI chat model and returns either the generated answer or an error envelope.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get AI Model by ID (getAiModelById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/ai/model/:modelUuid",
+            "params": [
+              {
+                "name": "modelUuid",
+                "value": "de7900d4-30e2-11f0-9cd2-0242ac120002",
+                "type": "path",
+                "description": "ID of the AI model record"
+              }
+            ]
+          },
+          "docs": "Fetches an AI model record by its `id`.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete AI Model by ID (deleteAiModelById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/ai/model/:modelUuid",
+            "params": [
+              {
+                "name": "modelUuid",
+                "value": "de7900d4-30e2-11f0-9cd2-0242ac120002",
+                "type": "path",
+                "description": "ID of the AI model record"
+              }
+            ]
+          },
+          "docs": "Deletes the AI model record by its `id`. If a record with the specified `id` exists, the record is deleted and the endpoint returns `true`. If no such record exists, the endpoint returns `false`.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

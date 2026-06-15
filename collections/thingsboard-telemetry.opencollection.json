@@ -1,0 +1,981 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Telemetry API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "telemetry-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Save Entity Attributes (saveEntityAttributesV1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/:scope",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the attributes scope. For example, 'SERVER_SCOPE'."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArra"
+        },
+        {
+          "info": {
+            "name": "Delete Entity Attributes (deleteEntityAttributes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/:scope",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the attributes scope. For example, 'SERVER_SCOPE'."
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key"
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete entity attributes using provided Entity Id, scope and a list of keys. Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Save or Update Time Series Data (saveEntityTelemetry)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/timeseries/:scope",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "Value is deprecated, reserved for backward compatibility and not used in the API call implementation. Specify any scope for compatibility"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"t"
+        },
+        {
+          "info": {
+            "name": "Save or Update Time Series Data with TTL (saveEntityTelemetryWithTTL)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/timeseries/:scope/:ttl",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "Value is deprecated, reserved for backward compatibility and not used in the API call implementation. Specify any scope for compatibility"
+              },
+              {
+                "name": "ttl",
+                "value": "",
+                "type": "path",
+                "description": "A long value representing TTL (Time to Live) parameter."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"t"
+        },
+        {
+          "info": {
+            "name": "Save Entity Attributes (saveEntityAttributesV2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/attributes/:scope",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the attributes scope. For example, 'SERVER_SCOPE'."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArra"
+        },
+        {
+          "info": {
+            "name": "Save Device Attributes (saveDeviceAttributes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:deviceId/:scope",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the attributes scope. For example, 'SERVER_SCOPE'."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the device attributes based on device id and specified attribute scope. The request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\n\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Device Attributes (deleteDeviceAttributes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:deviceId/:scope",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the attributes scope. For example, 'SERVER_SCOPE'."
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key"
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete device attributes using provided Device Id, scope and a list of keys. Referencing a non-existing Device Id will cause an error\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Time Series Data (getTimeseries)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/values/timeseries",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the comma-separated list of telemetry keys. If keys are not selected, the result will return all latest time series. For example, 'temperature,humidity'. If telemetry keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key"
+              },
+              {
+                "name": "useStrictDataTypes",
+                "value": "",
+                "type": "query",
+                "description": "Enables/disables conversion of telemetry values to strings. Conversion is enabled by default. Set parameter to 'true' in order to disable the conversion."
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "startTs",
+                "value": "",
+                "type": "query",
+                "description": "A long value representing the start timestamp of the time range in milliseconds, UTC."
+              },
+              {
+                "name": "endTs",
+                "value": "",
+                "type": "query",
+                "description": "A long value representing the end timestamp of the time range in milliseconds, UTC."
+              },
+              {
+                "name": "intervalType",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the type fo the interval."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "A long value representing the aggregation interval range in milliseconds."
+              },
+              {
+                "name": "timeZone",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the timezone that will be used to calculate exact timestamps for 'WEEK', 'WEEK_ISO', 'MONTH' and 'QUARTER' interval types."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "An integer value that represents a max number of time series data points to fetch. This parameter is used only in the case if 'agg' parameter is set to 'NONE'."
+              },
+              {
+                "name": "agg",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the aggregation function. If the interval is not specified, 'agg' parameter will use 'NONE' value."
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a range of time series values for specified entity. Returns not aggregated data by default. Use aggregation function ('agg') and aggregation interval ('interval') to enable aggregation of the results on the database / server side. The aggregation is generally more efficient then fetching all records. \n\n```json\n{\n  \"temperature\": [\n    {\n      \"value\": 36.7,\n      \"ts\": 1609459200000\n    },\n    {\n      \"value\": 36.6,\n      \"ts\": 1609459201000\n    }\n  ]\n}\n```\n\nReferencing a non-existing en"
+        },
+        {
+          "info": {
+            "name": "Get Attributes (getAttributes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/values/attributes",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key"
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all attributes that belong to specified entity. Use optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n[\n  {\"key\": \"stringAttributeKey\", \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": false, \"lastUpdateTs\": 1609459200001},\n  {\"key\": \"doubleAttributeKey\", \"value\": 42.2, \"lastUpdateTs\": 1609459200002},\n  {\"key\": \"longKeyExample\", \"value\": 73, \"lastUpdateTs\": 1609459200003},\n  {\"key\": \"jsonKeyExample\",\n    "
+        },
+        {
+          "info": {
+            "name": "Get Attributes by Scope (getAttributesByScope)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/values/attributes/:scope",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the attributes scope. For example, 'SERVER_SCOPE'."
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key"
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all attributes of a specified scope that belong to specified entity. List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices;\n * CLIENT_SCOPE - supported for devices. \n\nUse optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n[\n  {\"key\": \"stringAttributeKey\", \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": fals"
+        },
+        {
+          "info": {
+            "name": "Get Time Series Keys (getTimeseriesKeys)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/keys/timeseries",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns a set of unique time series key names for the selected entity. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get All Attribute Keys (getAttributeKeys)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/keys/attributes",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns a set of unique attribute key names for the selected entity. The response will include merged key names set for all attribute scopes:\n\n * SERVER_SCOPE - supported for all entity types;\n * CLIENT_SCOPE - supported for devices;\n * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get All Attribute Keys by Scope (getAttributeKeysByScope)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/keys/attributes/:scope",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the attributes scope. For example, 'SERVER_SCOPE'."
+              }
+            ]
+          },
+          "docs": "Returns a set of unique attribute key names for the selected entity and attributes scope: \n\n * SERVER_SCOPE - supported for all entity types;\n * CLIENT_SCOPE - supported for devices;\n * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Entity Time Series Data (deleteEntityTimeseries)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/plugins/telemetry/:entityType/:entityId/timeseries/delete",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the comma-separated list of telemetry keys. If keys are not selected, the result will return all latest time series. For example, 'temperature,humidity'. If telemetry keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key"
+              },
+              {
+                "name": "deleteAllDataForKeys",
+                "value": "",
+                "type": "query",
+                "description": "A boolean value to specify if should be deleted all data for selected keys or only data that are in the selected time range."
+              },
+              {
+                "name": "startTs",
+                "value": "",
+                "type": "query",
+                "description": "A long value representing the start timestamp of removal time range in milliseconds."
+              },
+              {
+                "name": "endTs",
+                "value": "",
+                "type": "query",
+                "description": "A long value representing the end timestamp of removal time range in milliseconds."
+              },
+              {
+                "name": "deleteLatest",
+                "value": "",
+                "type": "query",
+                "description": "If the parameter is set to true, the latest telemetry can be removed, otherwise, in case that parameter is set to false the latest value will not removed."
+              },
+              {
+                "name": "rewriteLatestIfDeleted",
+                "value": "",
+                "type": "query",
+                "description": "If the parameter is set to true, the latest telemetry will be rewritten in case that current latest value was removed, otherwise, in case that parameter is set to false the new latest value will not set."
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete time series for selected entity based on entity id, entity type and keys. Use 'deleteAllDataForKeys' to delete all time series data. Use 'startTs' and 'endTs' to specify time-range instead.  Use 'deleteLatest' to delete latest value (stored in separate table for performance) if the value's timestamp matches the time-range.  Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) if the value's timestamp matches the time-range and 'deleteLatest' para"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "entity-query-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find Entity Data by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entitiesQuery/find",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows to run complex queries over platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the paginated result of the query that contains requested entity fields and latest values of requested attributes and time series data.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset"
+        },
+        {
+          "info": {
+            "name": "Find Available Entity Keys by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entitiesQuery/find/keys",
+            "params": [
+              {
+                "name": "timeseries",
+                "value": "",
+                "type": "query",
+                "description": "When true, includes unique time series key names in the response.\nWhen false, the 'timeseries' list will be empty."
+              },
+              {
+                "name": "attributes",
+                "value": "",
+                "type": "query",
+                "description": "When true, includes unique attribute key names in the response.\nWhen false, the 'attribute' list will be empty. Use 'scope' parameter to filter by attribute scope."
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "Filters attribute keys by scope. Only applies when 'attributes' is true.\nIf not specified, returns attribute keys from all scopes."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns unique time series and/or attribute key names from entities matching the query.\n\nExecutes the Entity Data Query to find up to 100 entities, then fetches and aggregates all distinct key names.\n\nPrimarily used for UI features like autocomplete suggestions.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Count Entities by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entitiesQuery/count",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows to run complex queries to search the count of platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the number of entities that match the query definition.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter resul"
+        },
+        {
+          "info": {
+            "name": "processSystemEdqsRequest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edqs/system/request",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Find Alarms by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/alarmsQuery/find",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This method description defines how Alarm Data Query extends the Entity Data Query. See method 'Find Entity Data by Query' first to get the info about 'Entity Data Query'.\n\n The platform will first search the entities that match the entity and key filters. Then, the platform will use 'Alarm Page Link' to filter the alarms related to those entities. Finally, platform fetch the properties of alarm that are defined in the **'alarmFields'** and combine them with the other entity, attribute and lates"
+        },
+        {
+          "info": {
+            "name": "Count Alarms by Query (countAlarmsByQuery)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/alarmsQuery/count",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the number of alarms that match the query definition."
+        },
+        {
+          "info": {
+            "name": "getEdqsState",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edqs/state"
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "calculated-field-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Calculated Field (saveCalculatedField)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/calculatedField",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or Updates the Calculated Field. When creating calculated field, platform generates Calculated Field Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Calculated Field Id will be present in the response. Specify existing Calculated Field Id to update the calculated field. Referencing non-existing Calculated Field Id will cause 'Not Found' error. Remove 'id', 'tenantId' from the request body exampl"
+        },
+        {
+          "info": {
+            "name": "Test Script Expression",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/calculatedField/testScript",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the Script expression and return the result. The format of request: \n\n```json\n{\n  \"expression\": \"var temp = 0; foreach(element: temperature.values) {temp += element.value;} var avgTemperature = temp / temperature.values.size(); var adjustedTemperature = avgTemperature + 0.1 * humidity.value; return {\\\"adjustedTemperature\\\": adjustedTemperature};\",\n  \"arguments\": {\n    \"temperature\": {\n      \"type\": \"TS_ROLLING\",\n      \"timeWindow\": {\n        \"startTs\": 1739775630002,\n        \"endTs\": 654"
+        },
+        {
+          "info": {
+            "name": "Get Calculated Fields by Entity Id (getCalculatedFieldsByEntityId)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/:entityType/:entityId/calculatedFields",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Calculated field type. If not specified, all types will be returned."
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the calculated field name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Fetch the Calculated Fields based on the provided Entity Id."
+        },
+        {
+          "info": {
+            "name": "Get Calculated Fields (getCalculatedFields)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedFields",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "Calculated field types filter."
+              },
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "query",
+                "description": "Entity type filter. If not specified, calculated fields for all supported entity types will be returned."
+              },
+              {
+                "name": "entities",
+                "value": "",
+                "type": "query",
+                "description": "Entities filter. If not specified, calculated fields for entity type filter will be returned."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Name filter. To specify multiple names, duplicate 'name' parameter for each name, for example '?name=name1&name=name2"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the calculated field name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Fetch tenant calculated fields based on the filter."
+        },
+        {
+          "info": {
+            "name": "Get Calculated Field Names (getCalculatedFieldNames)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedFields/names",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Calculated field type filter."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the calculated field name."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Fetch the list of calculated field names for specified type."
+        },
+        {
+          "info": {
+            "name": "Get Calculated Field (getCalculatedFieldById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedField/:calculatedFieldId",
+            "params": [
+              {
+                "name": "calculatedFieldId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Fetch the Calculated Field object based on the provided Calculated Field Id."
+        },
+        {
+          "info": {
+            "name": "Delete Calculated Field (deleteCalculatedField)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/calculatedField/:calculatedFieldId",
+            "params": [
+              {
+                "name": "calculatedFieldId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the calculated field. Referencing non-existing Calculated Field Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Latest Calculated Field Debug Event (getLatestCalculatedFieldDebugEvent)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedField/:calculatedFieldId/debug",
+            "params": [
+              {
+                "name": "calculatedFieldId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Gets latest calculated field debug event for specified calculated field id. Referencing non-existing calculated field id will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

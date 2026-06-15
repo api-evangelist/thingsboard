@@ -1,0 +1,5050 @@
+{
+  "item": [
+    {
+      "id": "fbe09624-b189-4676-b29e-3ec456168958",
+      "name": "login-endpoint",
+      "description": {
+        "content": "Login",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "da1dbd5c-4413-4bc5-ae34-ea2d4be1e2b1",
+          "name": "Login Method to Get User JWT Token Data",
+          "request": {
+            "name": "Login Method to Get User JWT Token Data",
+            "description": {
+              "content": "Login method used to authenticate user and get JWT token data.\n\nValue of the response **token** field can be used as **X-Authorization** header value:\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0b6d52e8-0efc-4604-9618-d43fa85afbdb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"tenant\",\n  \"username\": \"tenant@thingsboard.org\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"refreshToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...\",\n  \"token\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9072ba66-daff-4a8a-8c6e-53621bf60802",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"tenant\",\n  \"username\": \"tenant@thingsboard.org\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"User account is not active\",\n  \"errorCode\": 10,\n  \"timestamp\": 1770209248175\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb54e12e-320e-4e93-9ab3-39eba872226c",
+              "name": "Unauthorized (**Expired credentials**)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"tenant\",\n  \"username\": \"tenant@thingsboard.org\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"User password expired!\",\n  \"errorCode\": 15,\n  \"timestamp\": 1770209248182,\n  \"resetToken\": \"59B5IkNuDrCyn98QB8LJ1sWFzwA03A\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c28db335-9102-4135-acfe-8bb2e2436b5e",
+          "name": "Refresh User JWT Token Data",
+          "request": {
+            "name": "Refresh User JWT Token Data",
+            "description": {
+              "content": "Method to refresh JWT token. Provide a valid refresh token to get a new JWT token.\n\nThe response contains a new token that can be used for authorization.\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a2ac0983-6def-4fba-b77f-f41ddaed5af0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refreshToken\": \"\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"refreshToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...\",\n  \"token\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dcfaee3a-2745-476d-8c03-a21ed948ecbe",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refreshToken\": \"\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"User account is not active\",\n  \"errorCode\": 10,\n  \"timestamp\": 1770209248175\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0d27bca-a5ca-4203-ad21-426cbbbd9e82",
+              "name": "Unauthorized (**Expired credentials**)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refreshToken\": \"\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"message\": \"User password expired!\",\n  \"errorCode\": 15,\n  \"timestamp\": 1770209248182,\n  \"resetToken\": \"59B5IkNuDrCyn98QB8LJ1sWFzwA03A\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "35e57dfd-0382-4429-9f7e-55508a776066",
+      "name": "auth-controller",
+      "description": {
+        "content": "Auth",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "abee8804-3b38-4925-88fb-d76242e8f5bd",
+          "name": "Check Password Reset Token (checkResetToken)",
+          "request": {
+            "name": "Check Password Reset Token (checkResetToken)",
+            "description": {
+              "content": "Checks the password reset token and forwards user to 'Reset Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Reset Password' page and same 'resetToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "resetPassword"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "resetToken",
+                  "value": "<string>",
+                  "description": "(Required) The reset token string."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a429ef9-bb02-40ab-a340-1d428584ddf5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "resetPassword"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resetToken",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ced4f49c-2a5b-4402-8694-0dacc7546298",
+          "name": "Reset Password (resetPassword)",
+          "request": {
+            "name": "Reset Password (resetPassword)",
+            "description": {
+              "content": "Checks the password reset token and updates the password. If token is not valid, returns '400 Bad Request'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "resetPassword"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resetToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "32c5f5bb-bc07-45d8-a910-100df602cef4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "resetPassword"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resetToken\": \"AAB254FF67D..\",\n  \"password\": \"secret\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a8333ba7-4b8e-43a8-bb61-b47cede0b3b5",
+          "name": "Request Reset Password Email (requestResetPasswordByEmail)",
+          "request": {
+            "name": "Request Reset Password Email (requestResetPasswordByEmail)",
+            "description": {
+              "content": "Request to send the reset password email if the user with specified email address is present in the database. Always return '200 OK' status for security purposes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "resetPasswordByEmail"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aa70845a-7154-47ab-a7b1-9fc81911ecd5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "resetPasswordByEmail"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d4de55e-4600-4e68-a610-15adabdc6e63",
+          "name": "Check Activate User Token (checkActivateToken)",
+          "request": {
+            "name": "Check Activate User Token (checkActivateToken)",
+            "description": {
+              "content": "Checks the activation token and forwards user to 'Create Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Create Password' page and same 'activateToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "activateToken",
+                  "value": "<string>",
+                  "description": "(Required) The activate token string."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "858018ea-bdb6-4d2a-a054-1de9cd7ee3d7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "activate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "activateToken",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44b5d54e-cef0-4e2b-8a2c-b8e3d6eb9342",
+          "name": "Activate User",
+          "request": {
+            "name": "Activate User",
+            "description": {
+              "content": "Checks the activation token and updates corresponding user password in the database. Now the user may start using his password to login. The response already contains the [JWT](https://jwt.io) activation and refresh tokens, to simplify the user activation flow and avoid asking user to input password again after activation. If token is valid, returns the object that contains [JWT](https://jwt.io/) access and refresh tokens. If token is not valid, returns '400 Bad Request'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sendActivationMail",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activateToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2c320577-2ffd-4a52-be35-5218c4a8e1cc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "activate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sendActivationMail",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"activateToken\": \"AAB254FF67D..\",\n  \"password\": \"secret\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"MFA_CONFIGURATION_TOKEN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "25741b8d-fe7d-4569-b846-fe8c97bdcbf3",
+          "name": "Logout (logout)",
+          "request": {
+            "name": "Logout (logout)",
+            "description": {
+              "content": "Special API call to record the 'logout' of the user to the Audit Logs. Since platform uses [JWT](https://jwt.io/), the actual logout is the procedure of clearing the [JWT](https://jwt.io/) token on the client side. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7b2ec11d-71e3-4460-a7a7-38af590b8472",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "logout"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c1cd529-181a-4881-bc2c-571300fede50",
+          "name": "Change Password for Current User (changePassword)",
+          "request": {
+            "name": "Change Password for Current User (changePassword)",
+            "description": {
+              "content": "Change the password for the User which credentials are used to perform this REST API call. Be aware that previously generated [JWT](https://jwt.io/) tokens will be still valid until they expire.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "changePassword"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"<string>\",\n  \"newPassword\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "21564c17-2b96-4cbd-b9b2-183c6fe77ffc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "changePassword"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"OldPassword\",\n  \"newPassword\": \"NewPassword\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"MFA_CONFIGURATION_TOKEN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01919495-f101-445f-9218-f5ddb0949f8d",
+          "name": "Get the Current User Password Policy (getUserPasswordPolicy)",
+          "request": {
+            "name": "Get the Current User Password Policy (getUserPasswordPolicy)",
+            "description": {
+              "content": "API call to get the password policy for the password validation form(s).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "userPasswordPolicy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f60ac8f4-d072-4c84-9e2e-9abdecdfc634",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "userPasswordPolicy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"minimumLength\": 6777,\n  \"maximumLength\": 5617,\n  \"minimumUppercaseLetters\": 9280,\n  \"minimumLowercaseLetters\": 1937,\n  \"minimumDigits\": 9619,\n  \"minimumSpecialCharacters\": 9896,\n  \"allowWhitespaces\": true,\n  \"forceUserToResetPasswordIfNotValid\": false,\n  \"passwordExpirationPeriodDays\": 2483,\n  \"passwordReuseFrequencyDays\": 2919\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5371cb64-a631-4359-9b05-0a9b4a35206a",
+          "name": "Get Current User (getUser)",
+          "request": {
+            "name": "Get Current User (getUser)",
+            "description": {
+              "content": "Get the information about the User which credentials are used to perform this REST API call.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "605e76aa-1122-4b6c-a98f-c04303e52738",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"authority\": \"SYS_ADMIN\",\n  \"email\": \"user@example.com\",\n  \"id\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"string\",\n  \"version\": 9999,\n  \"name\": \"user@example.com\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e664bde2-c34c-44a8-9c37-3d1d3231d7fc",
+      "name": "sign-up-controller",
+      "description": {
+        "content": "Sign Up",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c8ce573e-0118-4f23-9e8b-c0f87ee417d8",
+          "name": "accept Privacy Policy",
+          "request": {
+            "name": "accept Privacy Policy",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "signup",
+                "acceptPrivacyPolicy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5bd81b69-fc5f-41c7-a4b8-4682b409adcc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "signup",
+                    "acceptPrivacyPolicy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"MFA_CONFIGURATION_TOKEN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b35b7947-d9d9-41e8-b276-30cbb6414917",
+          "name": "sign Up",
+          "request": {
+            "name": "sign Up",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "signup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"recaptchaResponse\": \"<string>\",\n  \"pkgName\": \"<string>\",\n  \"appSecret\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cfcd4438-add4-4a20-9c83-3136353aa16b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "signup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@company.com\",\n  \"password\": \"secret\",\n  \"recaptchaResponse\": \"<string>\",\n  \"pkgName\": \"<string>\",\n  \"appSecret\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"INACTIVE_USER_EXISTS\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cceab229-126a-4630-9ca9-751883fcbcfd",
+          "name": "resend Email Activation",
+          "request": {
+            "name": "resend Email Activation",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "resendEmailActivation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "pkgName",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "083527c3-b274-4e62-b018-00b9a2137dc4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "resendEmailActivation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pkgName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf7b62b7-e392-4fac-b978-65f3e0ad6368",
+          "name": "activate User By Email Code",
+          "request": {
+            "name": "activate User By Email Code",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "activateByEmailCode"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "emailCode",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "pkgName",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3c653e42-732e-46aa-b98f-c86f57299722",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "activateByEmailCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "emailCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pkgName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"MFA_CONFIGURATION_TOKEN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96808e32-5e3b-43db-90d2-d5b51e7650ab",
+          "name": "privacy Policy Accepted",
+          "request": {
+            "name": "privacy Policy Accepted",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "signup",
+                "privacyPolicyAccepted"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a06c934b-7b3e-442c-81d2-d0ca909401c4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "signup",
+                    "privacyPolicyAccepted"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "false",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0476d4f2-828b-4e81-a7e7-d8e0e392f6ad",
+          "name": "get Recaptcha Public Key",
+          "request": {
+            "name": "get Recaptcha Public Key",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "signup",
+                "recaptchaPublicKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "830de4d6-7811-48c0-bf96-2cffeef41e53",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "signup",
+                    "recaptchaPublicKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "523bcac9-4e56-4a93-946f-6ca64d23c9cb",
+          "name": "get Recaptcha Params",
+          "request": {
+            "name": "get Recaptcha Params",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "signup",
+                "recaptchaParams"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab15756c-fc32-45ee-846b-01b4bd297c11",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "signup",
+                    "recaptchaParams"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"captchaSiteKey\": \"string\",\n  \"captchaVersion\": \"string\",\n  \"captchaAction\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "844ece61-2cc6-48c4-be21-f37f55e9bbf2",
+          "name": "mobile Login",
+          "request": {
+            "name": "mobile Login",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pkgName",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6f0c39c9-44fd-4aa4-a795-262ebb7741af",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pkgName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "608b7bb0-7ef5-480b-812e-ac5d71552b4d",
+          "name": "activate Email",
+          "request": {
+            "name": "activate Email",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "activateEmail"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "emailCode",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "pkgName",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d999adc9-447d-49e1-9d38-84e9db265959",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "activateEmail"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "emailCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pkgName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "370ebb98-8831-47a0-a72c-fc5005410ec6",
+          "name": "delete Tenant Account",
+          "request": {
+            "name": "delete Tenant Account",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "signup",
+                "tenantAccount"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "261cc1ee-3880-4db5-bfc5-0bbee94f3cf6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "signup",
+                    "tenantAccount"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2fed49d1-9713-4c95-b346-b72827fcfc8a",
+      "name": "api-key-controller",
+      "description": {
+        "content": "Api Key",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "09175135-2dcc-4607-ac71-299bc3b954ba",
+          "name": "Enable or Disable API Key (enableApiKey)",
+          "request": {
+            "name": "Enable or Disable API Key (enableApiKey)",
+            "description": {
+              "content": "Updates api key with enabled = true/false. \n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "apiKey",
+                ":id",
+                "enabled",
+                ":enabledValue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the API key to enable/disable"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<boolean>",
+                  "key": "enabledValue",
+                  "description": "(Required) Enabled or disabled api key"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0a6d9c60-a147-4441-a52a-34c219137f9f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "apiKey",
+                    ":id",
+                    "enabled",
+                    ":enabledValue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the API key to enable/disable"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<boolean>",
+                      "key": "enabledValue",
+                      "description": "(Required) Enabled or disabled api key"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"description\": \"API Key description\",\n  \"id\": {\n    \"entityType\": \"API_KEY\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"expirationTime\": 1935,\n  \"enabled\": true,\n  \"expired\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ed93a5c-fb15-4238-9cab-2c3b27c620aa",
+          "name": "Update API Key Description",
+          "request": {
+            "name": "Update API Key Description",
+            "description": {
+              "content": "Updates the description of the existing API key by apiKeyId. Only the description can be updated. Referencing a non-existing ApiKey Id will cause a 'Not Found' error.\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "apiKey",
+                ":id",
+                "description"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) A string value representing the api key id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<string>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "07076478-ee6b-4e95-86e1-a4cc63549f32",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "apiKey",
+                    ":id",
+                    "description"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) A string value representing the api key id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"description\": \"API Key description\",\n  \"id\": {\n    \"entityType\": \"API_KEY\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"expirationTime\": 1935,\n  \"enabled\": true,\n  \"expired\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40652d45-5709-4cbc-af69-674b5cd86729",
+          "name": "Save API Key for User (saveApiKey)",
+          "request": {
+            "name": "Save API Key for User (saveApiKey)",
+            "description": {
+              "content": "Creates an API key for the given user and returns the token ONCE as 'ApiKey <value>'.\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "apiKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"userId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"expirationTime\": \"<long>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cd0fa86b-1d4c-4468-b899-33e6156eef05",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "apiKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"API Key description\",\n  \"id\": {\n    \"entityType\": \"API_KEY\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"expirationTime\": \"<long>\",\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"description\": \"API Key description\",\n  \"value\": \"string\",\n  \"id\": {\n    \"entityType\": \"API_KEY\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"expirationTime\": 2561,\n  \"enabled\": true,\n  \"expired\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aa8ddf99-8f5f-43e1-bfcf-ea3bbc793acb",
+          "name": "Get User Api Keys (getUserApiKeys)",
+          "request": {
+            "name": "Get User Api Keys (getUserApiKeys)",
+            "description": {
+              "content": "Returns a page of api keys owned by user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "apiKeys",
+                ":userId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the description."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "userId",
+                  "description": "(Required) A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "461dbb83-095e-4c81-82a5-2ac55a134465",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "apiKeys",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "userId",
+                      "description": "(Required) A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"description\": \"API Key description\",\n      \"id\": {\n        \"entityType\": \"API_KEY\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"expirationTime\": 5983,\n      \"enabled\": true,\n      \"expired\": false\n    },\n    {\n      \"description\": \"API Key description\",\n      \"id\": {\n        \"entityType\": \"API_KEY\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"expirationTime\": 3088,\n      \"enabled\": true,\n      \"expired\": false\n    }\n  ],\n  \"totalPages\": 1186,\n  \"totalElements\": 1091,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e33e31fa-7324-4602-a8bf-169958ac3f10",
+          "name": "Delete API Key by ID (deleteApiKey)",
+          "request": {
+            "name": "Delete API Key by ID (deleteApiKey)",
+            "description": {
+              "content": "Deletes the API key. Referencing non-existing ApiKey Id will cause an error.\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "apiKey",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9eb9cd2-3257-4014-807c-a715b58498b2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "apiKey",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e804060e-eb8b-47db-a0a6-b5d79c1714df",
+      "name": "two-factor-auth-controller",
+      "description": {
+        "content": "Two Factor Auth",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "49e9600c-2813-4d1b-b3ed-ef95a1572f3f",
+          "name": "Request 2FA Verification Code (requestTwoFaVerificationCode)",
+          "request": {
+            "name": "Request 2FA Verification Code (requestTwoFaVerificationCode)",
+            "description": {
+              "content": "Request 2FA verification code.\n\nTo make a request to this endpoint, you need an access token with the scope of PRE_VERIFICATION_TOKEN, which is issued on username/password auth if 2FA is enabled.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings). Will return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "2fa",
+                "verification",
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "providerType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "215bd884-d862-42c8-b13a-4b07634598e4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "2fa",
+                    "verification",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "providerType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d9e70ca9-5520-4be5-a393-950bbb626cc2",
+          "name": "Check 2FA Verification Code (checkTwoFaVerificationCode)",
+          "request": {
+            "name": "Check 2FA Verification Code (checkTwoFaVerificationCode)",
+            "description": {
+              "content": "Checks 2FA verification code, and if it is correct the method returns a regular access and refresh token pair.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings), and also will block a user after X unsuccessful verification attempts if such behavior is configured (in TwoFactorAuthSettings).\n\nWill return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "2fa",
+                "verification",
+                "check"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "providerType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "verificationCode",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6f298f3c-65ab-4124-b3a5-713e77e8437b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "2fa",
+                    "verification",
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "providerType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "verificationCode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"MFA_CONFIGURATION_TOKEN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b26b3281-b937-49a5-b731-eda979ec601d",
+          "name": "Get Regular Token Pair After Successfully Configuring 2FA",
+          "request": {
+            "name": "Get Regular Token Pair After Successfully Configuring 2FA",
+            "description": {
+              "content": "Checks 2FA is configured, returning token pair on success.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "2fa",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0aeb2b8e-d2bd-46af-be9a-1bab90501530",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "2fa",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"MFA_CONFIGURATION_TOKEN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5f1ac62-894b-4a8b-9e51-6d9a5f1e27dc",
+          "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+          "request": {
+            "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+            "description": {
+              "content": "Get the list of 2FA provider infos available for user to use. Example:\n```\n[\n  {\n    \"type\": \"EMAIL\",\n    \"default\": true,\n    \"contact\": \"ab*****ko@gmail.com\"\n  },\n  {\n    \"type\": \"TOTP\",\n    \"default\": false,\n    \"contact\": null\n  },\n  {\n    \"type\": \"SMS\",\n    \"default\": false,\n    \"contact\": \"+38********12\"\n  }\n]\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "2fa",
+                "providers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cbe35d01-95dd-47ad-939a-0c27202f9798",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "2fa",
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"type\": \"TOTP\",\n    \"contact\": \"string\",\n    \"minVerificationCodeSendPeriod\": 9804,\n    \"default\": true\n  },\n  {\n    \"type\": \"TOTP\",\n    \"contact\": \"string\",\n    \"minVerificationCodeSendPeriod\": 1459,\n    \"default\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "fca3a917-2426-4036-ac9f-f5520faddfed",
+      "name": "two-factor-auth-config-controller",
+      "description": {
+        "content": "Two Factor Auth Config",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0a88199f-abd0-4308-af9f-5b1ea06ce5a8",
+          "name": "Update 2FA Account Config (updateTwoFaAccountConfig)",
+          "request": {
+            "name": "Update 2FA Account Config (updateTwoFaAccountConfig)",
+            "description": {
+              "content": "Update config for a given provider type. \nUpdate request example:\n```\n{\n  \"useByDefault\": true\n}\n```\nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "account",
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "providerType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"useByDefault\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0edc1d11-dce3-4f76-8266-4c01e40b2a7c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "account",
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "providerType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"useByDefault\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"configs\": {\n    \"key_0\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": false,\n      \"codesLeft\": 6775\n    },\n    \"key_1\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": true,\n      \"codesLeft\": 6800\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6452dfe-dfbb-4511-b645-216736d71c54",
+          "name": "Verify and Save 2FA Account Config (verifyAndSaveTwoFaAccountConfig)",
+          "request": {
+            "name": "Verify and Save 2FA Account Config (verifyAndSaveTwoFaAccountConfig)",
+            "description": {
+              "content": "Checks the verification code for submitted config, and if it is correct, saves the provided account config. \n\nReturns whole account's 2FA settings object.\nWill throw an error (Bad Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "account",
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "verificationCode",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codes\": [\n    \"<string>\"\n  ],\n  \"providerType\": \"<string>\",\n  \"useByDefault\": \"<boolean>\",\n  \"codesLeft\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f455e93e-14f7-4aa1-81f1-d5c267ad0a4c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "account",
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "verificationCode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"codes\": [\n    \"string\"\n  ],\n  \"providerType\": \"string\",\n  \"useByDefault\": true,\n  \"codesLeft\": 8847\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"configs\": {\n    \"key_0\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": false,\n      \"codesLeft\": 6775\n    },\n    \"key_1\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": true,\n      \"codesLeft\": 6800\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "939a2026-9c2a-43bc-b993-0b9c0cb99f9e",
+          "name": "Delete 2FA Account Config (deleteTwoFaAccountConfig)",
+          "request": {
+            "name": "Delete 2FA Account Config (deleteTwoFaAccountConfig)",
+            "description": {
+              "content": "Delete 2FA config for a given 2FA provider type. \nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "account",
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "providerType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e397bd7f-477a-4573-b2cb-a060ffc5313e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "account",
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "providerType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"configs\": {\n    \"key_0\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": false,\n      \"codesLeft\": 6775\n    },\n    \"key_1\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": true,\n      \"codesLeft\": 6800\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe5f6cf4-6a92-48a3-9952-e4dd3f9697cc",
+          "name": "Get Platform 2FA Settings (getPlatformTwoFaSettings)",
+          "request": {
+            "name": "Get Platform 2FA Settings (getPlatformTwoFaSettings)",
+            "description": {
+              "content": "Get platform settings for 2FA. The settings are described for savePlatformTwoFaSettings API method. If 2FA is not configured, then an empty response will be returned.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c1b69797-3575-42b7-9fd2-2efe4d2ad888",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"minVerificationCodeSendPeriod\": 8383,\n  \"providers\": [\n    {\n      \"providerType\": \"string\",\n      \"codesQuantity\": 6620\n    },\n    {\n      \"providerType\": \"string\",\n      \"codesQuantity\": 91\n    }\n  ],\n  \"totalAllowedTimeForVerification\": 2764,\n  \"verificationCodeCheckRateLimit\": \"55018791750:8557\",\n  \"maxVerificationFailuresBeforeUserLockout\": 9323,\n  \"enforceTwoFa\": true,\n  \"enforcedUsersFilter\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "347fdef8-2a3d-4396-83a8-c1599fe9c209",
+          "name": "Save Platform 2FA Settings (savePlatformTwoFaSettings)",
+          "request": {
+            "name": "Save Platform 2FA Settings (savePlatformTwoFaSettings)",
+            "description": {
+              "content": "Save 2FA settings for platform. The settings have following properties:\n- `providers` - the list of 2FA providers' configs. Users will only be allowed to use 2FA providers from this list. \n\n- `minVerificationCodeSendPeriod` - minimal period in seconds to wait after verification code send request to send next request. \n- `verificationCodeCheckRateLimit` - rate limit configuration for verification code checking.\nThe format is standard: 'amountOfRequests:periodInSeconds'. The value of '1:60' would limit verification code checking requests to one per minute.\n- `maxVerificationFailuresBeforeUserLockout` - maximum number of verification failures before a user gets disabled.\n- `totalAllowedTimeForVerification` - total amount of time in seconds allotted for verification. Basically, this property sets a lifetime for pre-verification token. If not set, default value of 30 minutes is used.\n\n\nTOTP 2FA provider config has following settings:\n- `issuerName` - issuer name that will be displayed in an authenticator app near a username. Must not be blank.\n\nFor SMS 2FA provider:\n- `smsVerificationMessageTemplate` - verification message template.  Available template variables are ${code} and ${userEmail}. It must not be blank and must contain verification code variable.\n- `verificationCodeLifetime` - verification code lifetime in seconds. Required to be positive.\n\nFor EMAIL provider type:\n- `verificationCodeLifetime` - the same as for SMS.\n\nExample of the settings:\n```\n{\n  \"providers\": [\n    {\n      \"providerType\": \"TOTP\",\n      \"issuerName\": \"TB\"\n    },\n    {\n      \"providerType\": \"EMAIL\",\n      \"verificationCodeLifetime\": 60\n    },\n    {\n      \"providerType\": \"SMS\",\n      \"verificationCodeLifetime\": 60,\n      \"smsVerificationMessageTemplate\": \"Here is your verification code: ${code}\"\n    }\n  ],\n  \"minVerificationCodeSendPeriod\": 60,\n  \"verificationCodeCheckRateLimit\": \"3:900\",\n  \"maxVerificationFailuresBeforeUserLockout\": 10,\n  \"totalAllowedTimeForVerification\": 600\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"minVerificationCodeSendPeriod\": \"<integer>\",\n  \"providers\": [\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    },\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    }\n  ],\n  \"totalAllowedTimeForVerification\": \"<integer>\",\n  \"verificationCodeCheckRateLimit\": \"<string>\",\n  \"maxVerificationFailuresBeforeUserLockout\": \"<integer>\",\n  \"enforceTwoFa\": \"<boolean>\",\n  \"enforcedUsersFilter\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f64d3ea3-1136-4f1c-a199-34bd42001f63",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"minVerificationCodeSendPeriod\": \"<integer>\",\n  \"providers\": [\n    {\n      \"providerType\": \"string\",\n      \"codesQuantity\": 115\n    },\n    {\n      \"providerType\": \"string\",\n      \"codesQuantity\": 147\n    }\n  ],\n  \"totalAllowedTimeForVerification\": \"<integer>\",\n  \"verificationCodeCheckRateLimit\": \"<string>\",\n  \"maxVerificationFailuresBeforeUserLockout\": \"<integer>\",\n  \"enforceTwoFa\": \"<boolean>\",\n  \"enforcedUsersFilter\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"minVerificationCodeSendPeriod\": 8383,\n  \"providers\": [\n    {\n      \"providerType\": \"string\",\n      \"codesQuantity\": 6620\n    },\n    {\n      \"providerType\": \"string\",\n      \"codesQuantity\": 91\n    }\n  ],\n  \"totalAllowedTimeForVerification\": 2764,\n  \"verificationCodeCheckRateLimit\": \"55018791750:8557\",\n  \"maxVerificationFailuresBeforeUserLockout\": 9323,\n  \"enforceTwoFa\": true,\n  \"enforcedUsersFilter\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0516a682-9c42-46d9-ac92-d9d80ae12ebe",
+          "name": "Submit 2FA Account Config (submitTwoFaAccountConfig)",
+          "request": {
+            "name": "Submit 2FA Account Config (submitTwoFaAccountConfig)",
+            "description": {
+              "content": "Submit 2FA account config to prepare for a future verification. Basically, this method will send a verification code for a given account config, if this has sense for a chosen 2FA provider. This code is needed to then verify and save the account config.\n\nExample of EMAIL 2FA account config:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": true,\n  \"email\": \"separate-email-for-2fa@thingsboard.org\"\n}\n```\n\nExample of SMS 2FA account config:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": \"+38012312321\"\n}\n```\n\nFor TOTP this method does nothing.\n\nWill throw an error (Bad Request) if submitted account config is not valid, or if the provider is not configured for usage. \n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "account",
+                "config",
+                "submit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codes\": [\n    \"<string>\"\n  ],\n  \"providerType\": \"<string>\",\n  \"useByDefault\": \"<boolean>\",\n  \"codesLeft\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bfbfbf61-dd70-4bc0-b8da-74d3d8e4248c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "account",
+                    "config",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"codes\": [\n    \"string\"\n  ],\n  \"providerType\": \"string\",\n  \"useByDefault\": true,\n  \"codesLeft\": 8847\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c5f96efa-aa44-47ea-b80d-cc8572a3d8f7",
+          "name": "Generate 2FA Account Config (generateTwoFaAccountConfig)",
+          "request": {
+            "name": "Generate 2FA Account Config (generateTwoFaAccountConfig)",
+            "description": {
+              "content": "Generate new 2FA account config template for specified provider type. \n\nFor TOTP, this will return a corresponding account config template with a generated OTP auth URL (with new random secret key for each API call) that can be then converted to a QR code to scan with an authenticator app. Example:\n```\n{\n  \"providerType\": \"TOTP\",\n  \"useByDefault\": false,\n  \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=PNJDNWJVAK4ZTUYT7RFGPQLXA7XGU7PX\"\n}\n```\n\nFor EMAIL, the generated config will contain email from user's account:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": false,\n  \"email\": \"tenant@thingsboard.org\"\n}\n```\n\nFor SMS 2FA this method will just return a config with empty/default values as there is nothing to generate/preset:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": null\n}\n```\n\nWill throw an error (Bad Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "account",
+                "config",
+                "generate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "providerType",
+                  "value": "<string>",
+                  "description": "(Required) 2FA provider type to generate new account config for"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fe22a32f-5360-4024-8c99-bf57d65c761c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "account",
+                    "config",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "providerType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\"\n  ],\n  \"providerType\": \"string\",\n  \"useByDefault\": true,\n  \"codesLeft\": 8847\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "615267d1-185e-4b46-b08b-7469a1f6ea59",
+          "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+          "request": {
+            "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+            "description": {
+              "content": "Get the list of provider types available for user to use (the ones configured by tenant or sysadmin).\nExample of response:\n```\n[\n  \"TOTP\",\n  \"EMAIL\",\n  \"SMS\"\n]\n```\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "providers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c0c54fd0-b849-4ee0-8a01-f24f44832038",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"TOTP\",\n  \"EMAIL\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "600e5cab-4495-44e7-b33b-a75075d3fce4",
+          "name": "Get Account 2FA Settings (getAccountTwoFaSettings)",
+          "request": {
+            "name": "Get Account 2FA Settings (getAccountTwoFaSettings)",
+            "description": {
+              "content": "Get user's account 2FA configuration. Configuration contains configs for different 2FA providers.\n\nExample:\n```\n{\n  \"configs\": {\n    \"EMAIL\": {\n      \"providerType\": \"EMAIL\",\n      \"useByDefault\": true,\n      \"email\": \"tenant@thingsboard.org\"\n    },\n    \"TOTP\": {\n      \"providerType\": \"TOTP\",\n      \"useByDefault\": false,\n      \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=P6Z2TLYTASOGP6LCJZAD24ETT5DACNNX\"\n    },\n    \"SMS\": {\n      \"providerType\": \"SMS\",\n      \"useByDefault\": false,\n      \"phoneNumber\": \"+380501253652\"\n    }\n  }\n}\n```\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "2fa",
+                "account",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3e826aca-f9b1-4315-aeca-db19ea4e89db",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "2fa",
+                    "account",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"configs\": {\n    \"key_0\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": false,\n      \"codesLeft\": 6775\n    },\n    \"key_1\": {\n      \"codes\": [\n        \"string\"\n      ],\n      \"providerType\": \"string\",\n      \"useByDefault\": true,\n      \"codesLeft\": 6800\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4af8a57f-5fd5-47ac-b6d3-30e97ba782d1",
+      "name": "o-auth-2-controller",
+      "description": {
+        "content": "O Auth 2",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8648905a-d8ca-46e8-a051-414b695d297b",
+          "name": "Save OAuth2 Client (saveOAuth2Client)",
+          "request": {
+            "name": "Save OAuth2 Client (saveOAuth2Client)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "client"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accessTokenUri\": \"<string>\",\n  \"additionalInfo\": {},\n  \"authorizationUri\": \"<string>\",\n  \"clientAuthenticationMethod\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"clientSecret\": \"<string>\",\n  \"loginButtonLabel\": \"<string>\",\n  \"mapperConfig\": {\n    \"type\": \"<string>\",\n    \"allowUserCreation\": \"<boolean>\",\n    \"activateUser\": \"<boolean>\",\n    \"basic\": {\n      \"tenantNameStrategy\": \"<string>\",\n      \"emailAttributeKey\": \"<string>\",\n      \"firstNameAttributeKey\": \"<string>\",\n      \"lastNameAttributeKey\": \"<string>\",\n      \"tenantNamePattern\": \"<string>\",\n      \"customerNamePattern\": \"<string>\",\n      \"defaultDashboardName\": \"<string>\",\n      \"alwaysFullScreen\": \"<boolean>\"\n    },\n    \"custom\": {\n      \"url\": \"<string>\",\n      \"username\": \"<string>\",\n      \"password\": \"<string>\",\n      \"sendToken\": \"<boolean>\"\n    }\n  },\n  \"scope\": [\n    \"<string>\"\n  ],\n  \"title\": \"<string>\",\n  \"userNameAttributeName\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"userInfoUri\": \"<string>\",\n  \"jwkSetUri\": \"<string>\",\n  \"loginButtonIcon\": \"<string>\",\n  \"platforms\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dc2e662a-d2b4-4913-a21c-560ccff1be50",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "client"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accessTokenUri\": \"<string>\",\n  \"additionalInfo\": {},\n  \"authorizationUri\": \"<string>\",\n  \"clientAuthenticationMethod\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"clientSecret\": \"<string>\",\n  \"loginButtonLabel\": \"<string>\",\n  \"mapperConfig\": {\n    \"type\": \"GITHUB\",\n    \"allowUserCreation\": false,\n    \"activateUser\": true,\n    \"basic\": {\n      \"tenantNameStrategy\": \"DOMAIN\",\n      \"emailAttributeKey\": \"string\",\n      \"firstNameAttributeKey\": \"string\",\n      \"lastNameAttributeKey\": \"string\",\n      \"tenantNamePattern\": \"%{email}\",\n      \"customerNamePattern\": \"string\",\n      \"defaultDashboardName\": \"string\",\n      \"alwaysFullScreen\": true\n    },\n    \"custom\": {\n      \"url\": \"string\",\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"sendToken\": true\n    }\n  },\n  \"scope\": [\n    \"<string>\"\n  ],\n  \"title\": \"<string>\",\n  \"userNameAttributeName\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userInfoUri\": \"<string>\",\n  \"jwkSetUri\": \"<string>\",\n  \"loginButtonIcon\": \"<string>\",\n  \"platforms\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accessTokenUri\": \"string\",\n  \"additionalInfo\": {},\n  \"authorizationUri\": \"string\",\n  \"clientAuthenticationMethod\": \"string\",\n  \"clientId\": \"string\",\n  \"clientSecret\": \"string\",\n  \"loginButtonLabel\": \"string\",\n  \"mapperConfig\": {\n    \"type\": \"GITHUB\",\n    \"allowUserCreation\": true,\n    \"activateUser\": true,\n    \"basic\": {\n      \"tenantNameStrategy\": \"EMAIL\",\n      \"emailAttributeKey\": \"string\",\n      \"firstNameAttributeKey\": \"string\",\n      \"lastNameAttributeKey\": \"string\",\n      \"tenantNamePattern\": \"%{email}\",\n      \"customerNamePattern\": \"string\",\n      \"defaultDashboardName\": \"string\",\n      \"alwaysFullScreen\": false\n    },\n    \"custom\": {\n      \"url\": \"string\",\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"sendToken\": true\n    }\n  },\n  \"scope\": [\n    \"string\"\n  ],\n  \"title\": \"string\",\n  \"userNameAttributeName\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userInfoUri\": \"string\",\n  \"jwkSetUri\": \"string\",\n  \"loginButtonIcon\": \"string\",\n  \"platforms\": [\n    \"IOS\",\n    \"WEB\"\n  ],\n  \"name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "369ebf0a-b9a1-4bba-9df9-0b6df0b062b7",
+          "name": "Get OAuth2 Clients (getOAuth2Clients)",
+          "request": {
+            "name": "Get OAuth2 Clients (getOAuth2Clients)",
+            "description": {
+              "content": "Get the list of OAuth2 clients to log in with, available for such domain scheme (HTTP or HTTPS) (if x-forwarded-proto request header is present - the scheme is known from it) and domain name and port (port may be known from x-forwarded-port header)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "oauth2Clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pkgName",
+                  "value": "<string>",
+                  "description": "Mobile application package name, to find OAuth2 clients where there is configured mobile application with such package name"
+                },
+                {
+                  "disabled": false,
+                  "key": "platform",
+                  "value": "<string>",
+                  "description": "Platform type to search OAuth2 clients for which the usage with this platform type is allowed in the settings. If platform type is not one of allowable values - it will just be ignored"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6e96dc37-6ad4-4124-a99e-17afa8102c3c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "oauth2Clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pkgName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "platform",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"GitHub\",\n    \"icon\": \"github-logo\",\n    \"url\": \"/oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc\"\n  },\n  {\n    \"name\": \"GitHub\",\n    \"icon\": \"github-logo\",\n    \"url\": \"/oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2d451266-cf9b-4946-bde4-2df7378dd453",
+          "name": "Get OAuth2 Log in Processing URL (getLoginProcessingUrl)",
+          "request": {
+            "name": "Get OAuth2 Log in Processing URL (getLoginProcessingUrl)",
+            "description": {
+              "content": "Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider, it makes a redirect to this path so that the platform can do further log in processing. This URL may be configured as 'security.oauth2.loginProcessingUrl' property in yml configuration file, or as 'SECURITY_OAUTH2_LOGIN_PROCESSING_URL' env variable. By default it is '/login/oauth2/code/'\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "loginProcessingUrl"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dbc82d0a-61b1-462f-8f0f-4a6682b92447",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "loginProcessingUrl"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0b5b87c7-08a1-4861-b9d8-4c23c2ac8a3d",
+          "name": "Get OAuth2 Client by Id (getOAuth2ClientById)",
+          "request": {
+            "name": "Get OAuth2 Client by Id (getOAuth2ClientById)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "client",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "934f32ae-1c58-4de6-805b-95f297c968fc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "client",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accessTokenUri\": \"string\",\n  \"additionalInfo\": {},\n  \"authorizationUri\": \"string\",\n  \"clientAuthenticationMethod\": \"string\",\n  \"clientId\": \"string\",\n  \"clientSecret\": \"string\",\n  \"loginButtonLabel\": \"string\",\n  \"mapperConfig\": {\n    \"type\": \"GITHUB\",\n    \"allowUserCreation\": true,\n    \"activateUser\": true,\n    \"basic\": {\n      \"tenantNameStrategy\": \"EMAIL\",\n      \"emailAttributeKey\": \"string\",\n      \"firstNameAttributeKey\": \"string\",\n      \"lastNameAttributeKey\": \"string\",\n      \"tenantNamePattern\": \"%{email}\",\n      \"customerNamePattern\": \"string\",\n      \"defaultDashboardName\": \"string\",\n      \"alwaysFullScreen\": false\n    },\n    \"custom\": {\n      \"url\": \"string\",\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"sendToken\": true\n    }\n  },\n  \"scope\": [\n    \"string\"\n  ],\n  \"title\": \"string\",\n  \"userNameAttributeName\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userInfoUri\": \"string\",\n  \"jwkSetUri\": \"string\",\n  \"loginButtonIcon\": \"string\",\n  \"platforms\": [\n    \"IOS\",\n    \"WEB\"\n  ],\n  \"name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5020e311-bdd9-42ba-9d6c-bea338a47150",
+          "name": "Delete Oauth2 Client (deleteOauth2Client)",
+          "request": {
+            "name": "Delete Oauth2 Client (deleteOauth2Client)",
+            "description": {
+              "content": "Deletes the oauth2 client. Referencing non-existing oauth2 client Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "client",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "612a9ca2-aa13-4ff6-8b6a-78d3167d2c4c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "client",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b174a2eb-d9e8-4be1-9947-a2dbadf04d57",
+          "name": "Get OAuth2 Client Infos by Ids (findTenantOAuth2ClientInfosByIds)",
+          "request": {
+            "name": "Get OAuth2 Client Infos by Ids (findTenantOAuth2ClientInfosByIds)",
+            "description": {
+              "content": "Fetch OAuth2 Client info objects based on the provided ids. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "client",
+                "infos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "Case-insensitive 'substring' filter based on client's title"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                },
+                {
+                  "disabled": false,
+                  "key": "clientIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of oauth2 ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "clientIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of oauth2 ids, separated by comma ','"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "76c3c690-078b-42e8-8ea8-cd753a2262ed",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "client",
+                    "infos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1746028547220,\n    \"title\": \"string\",\n    \"providerName\": \"string\",\n    \"platforms\": [\n      \"ANDROID\",\n      \"ANDROID\"\n    ],\n    \"name\": \"string\"\n  },\n  {\n    \"id\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1746028547220,\n    \"title\": \"string\",\n    \"providerName\": \"string\",\n    \"platforms\": [\n      \"ANDROID\",\n      \"ANDROID\"\n    ],\n    \"name\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "f10ce343-49a3-43e7-a063-bb2d89d4a10e",
+      "name": "o-auth-2-config-template-controller",
+      "description": {
+        "content": "O Auth 2 Config Template",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "42de6e28-a979-4fe2-b3d9-b66165f50172",
+          "name": "Get the List of All OAuth2 Client Registration Templates (getClientRegistrationTemplates) Available for Users with 'SYS_ADMIN' or 'TENANT_ADMIN' Authority.",
+          "request": {
+            "name": "Get the List of All OAuth2 Client Registration Templates (getClientRegistrationTemplates) Available for Users with 'SYS_ADMIN' or 'TENANT_ADMIN' Authority.",
+            "description": {
+              "content": "Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "config",
+                "template"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b57827a-819e-4160-ab3b-69d43d322f6d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "config",
+                    "template"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"providerId\": \"string\",\n    \"id\": {\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1746028547220,\n    \"mapperConfig\": {\n      \"type\": \"CUSTOM\",\n      \"allowUserCreation\": false,\n      \"activateUser\": true,\n      \"basic\": {\n        \"tenantNameStrategy\": \"CUSTOM\",\n        \"emailAttributeKey\": \"string\",\n        \"firstNameAttributeKey\": \"string\",\n        \"lastNameAttributeKey\": \"string\",\n        \"tenantNamePattern\": \"%{email}\",\n        \"customerNamePattern\": \"string\",\n        \"defaultDashboardName\": \"string\",\n        \"alwaysFullScreen\": false\n      },\n      \"custom\": {\n        \"url\": \"string\",\n        \"username\": \"string\",\n        \"password\": \"string\",\n        \"sendToken\": true\n      }\n    },\n    \"authorizationUri\": \"string\",\n    \"accessTokenUri\": \"string\",\n    \"scope\": [\n      \"string\",\n      \"string\"\n    ],\n    \"userInfoUri\": \"string\",\n    \"userNameAttributeName\": \"string\",\n    \"jwkSetUri\": \"string\",\n    \"clientAuthenticationMethod\": \"string\",\n    \"comment\": \"string\",\n    \"loginButtonIcon\": \"string\",\n    \"loginButtonLabel\": \"string\",\n    \"helpLink\": \"string\",\n    \"name\": \"string\",\n    \"additionalInfo\": {}\n  },\n  {\n    \"providerId\": \"string\",\n    \"id\": {\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1746028547220,\n    \"mapperConfig\": {\n      \"type\": \"CUSTOM\",\n      \"allowUserCreation\": true,\n      \"activateUser\": true,\n      \"basic\": {\n        \"tenantNameStrategy\": \"EMAIL\",\n        \"emailAttributeKey\": \"string\",\n        \"firstNameAttributeKey\": \"string\",\n        \"lastNameAttributeKey\": \"string\",\n        \"tenantNamePattern\": \"%{email}\",\n        \"customerNamePattern\": \"string\",\n        \"defaultDashboardName\": \"string\",\n        \"alwaysFullScreen\": false\n      },\n      \"custom\": {\n        \"url\": \"string\",\n        \"username\": \"string\",\n        \"password\": \"string\",\n        \"sendToken\": true\n      }\n    },\n    \"authorizationUri\": \"string\",\n    \"accessTokenUri\": \"string\",\n    \"scope\": [\n      \"string\",\n      \"string\"\n    ],\n    \"userInfoUri\": \"string\",\n    \"userNameAttributeName\": \"string\",\n    \"jwkSetUri\": \"string\",\n    \"clientAuthenticationMethod\": \"string\",\n    \"comment\": \"string\",\n    \"loginButtonIcon\": \"string\",\n    \"loginButtonLabel\": \"string\",\n    \"helpLink\": \"string\",\n    \"name\": \"string\",\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37b2727c-c7b9-4f65-aab3-59b415f83ae5",
+          "name": "Create or Update OAuth2 Client Registration Template (saveClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.",
+          "request": {
+            "name": "Create or Update OAuth2 Client Registration Template (saveClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.",
+            "description": {
+              "content": "Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "config",
+                "template"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"providerId\": \"<string>\",\n  \"id\": {\n    \"id\": \"<uuid>\"\n  },\n  \"mapperConfig\": {\n    \"type\": \"<string>\",\n    \"allowUserCreation\": \"<boolean>\",\n    \"activateUser\": \"<boolean>\",\n    \"basic\": {\n      \"tenantNameStrategy\": \"<string>\",\n      \"emailAttributeKey\": \"<string>\",\n      \"firstNameAttributeKey\": \"<string>\",\n      \"lastNameAttributeKey\": \"<string>\",\n      \"tenantNamePattern\": \"<string>\",\n      \"customerNamePattern\": \"<string>\",\n      \"defaultDashboardName\": \"<string>\",\n      \"alwaysFullScreen\": \"<boolean>\"\n    },\n    \"custom\": {\n      \"url\": \"<string>\",\n      \"username\": \"<string>\",\n      \"password\": \"<string>\",\n      \"sendToken\": \"<boolean>\"\n    }\n  },\n  \"authorizationUri\": \"<string>\",\n  \"accessTokenUri\": \"<string>\",\n  \"scope\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userInfoUri\": \"<string>\",\n  \"userNameAttributeName\": \"<string>\",\n  \"jwkSetUri\": \"<string>\",\n  \"clientAuthenticationMethod\": \"<string>\",\n  \"comment\": \"<string>\",\n  \"loginButtonIcon\": \"<string>\",\n  \"loginButtonLabel\": \"<string>\",\n  \"helpLink\": \"<string>\",\n  \"name\": \"<string>\",\n  \"additionalInfo\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e1643a52-55f0-4929-a8f7-1d04763a3569",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "config",
+                    "template"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"providerId\": \"<string>\",\n  \"id\": {\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"mapperConfig\": {\n    \"type\": \"BASIC\",\n    \"allowUserCreation\": true,\n    \"activateUser\": false,\n    \"basic\": {\n      \"tenantNameStrategy\": \"EMAIL\",\n      \"emailAttributeKey\": \"string\",\n      \"firstNameAttributeKey\": \"string\",\n      \"lastNameAttributeKey\": \"string\",\n      \"tenantNamePattern\": \"%{email}\",\n      \"customerNamePattern\": \"string\",\n      \"defaultDashboardName\": \"string\",\n      \"alwaysFullScreen\": false\n    },\n    \"custom\": {\n      \"url\": \"string\",\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"sendToken\": false\n    }\n  },\n  \"authorizationUri\": \"<string>\",\n  \"accessTokenUri\": \"<string>\",\n  \"scope\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userInfoUri\": \"<string>\",\n  \"userNameAttributeName\": \"<string>\",\n  \"jwkSetUri\": \"<string>\",\n  \"clientAuthenticationMethod\": \"<string>\",\n  \"comment\": \"<string>\",\n  \"loginButtonIcon\": \"<string>\",\n  \"loginButtonLabel\": \"<string>\",\n  \"helpLink\": \"<string>\",\n  \"name\": \"<string>\",\n  \"additionalInfo\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"providerId\": \"string\",\n  \"id\": {\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"mapperConfig\": {\n    \"type\": \"GITHUB\",\n    \"allowUserCreation\": true,\n    \"activateUser\": false,\n    \"basic\": {\n      \"tenantNameStrategy\": \"DOMAIN\",\n      \"emailAttributeKey\": \"string\",\n      \"firstNameAttributeKey\": \"string\",\n      \"lastNameAttributeKey\": \"string\",\n      \"tenantNamePattern\": \"%{email}\",\n      \"customerNamePattern\": \"string\",\n      \"defaultDashboardName\": \"string\",\n      \"alwaysFullScreen\": true\n    },\n    \"custom\": {\n      \"url\": \"string\",\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"sendToken\": true\n    }\n  },\n  \"authorizationUri\": \"string\",\n  \"accessTokenUri\": \"string\",\n  \"scope\": [\n    \"string\",\n    \"string\"\n  ],\n  \"userInfoUri\": \"string\",\n  \"userNameAttributeName\": \"string\",\n  \"jwkSetUri\": \"string\",\n  \"clientAuthenticationMethod\": \"string\",\n  \"comment\": \"string\",\n  \"loginButtonIcon\": \"string\",\n  \"loginButtonLabel\": \"string\",\n  \"helpLink\": \"string\",\n  \"name\": \"string\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "12e4c869-88dc-42c9-8f95-aa0bc2e57ed8",
+          "name": "Delete OAuth2 Client Registration Template by Id (deleteClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.",
+          "request": {
+            "name": "Delete OAuth2 Client Registration Template by Id (deleteClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.",
+            "description": {
+              "content": "Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "oauth2",
+                "config",
+                "template",
+                ":clientRegistrationTemplateId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientRegistrationTemplateId",
+                  "description": "(Required) String representation of client registration template id to delete"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "06f302b3-a268-4fc8-b45d-a1ad5713ec65",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "oauth2",
+                    "config",
+                    "template",
+                    ":clientRegistrationTemplateId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientRegistrationTemplateId",
+                      "description": "(Required) String representation of client registration template id to delete"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "7b4b3c5d-860d-4f7f-8d10-1155c32f2b34",
+      "name": "domain-controller",
+      "description": {
+        "content": "Domain",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cf9928c0-6cf1-44cf-a61d-144635007867",
+          "name": "Update Oauth2 Clients (updateOauth2Clients)",
+          "request": {
+            "name": "Update Oauth2 Clients (updateOauth2Clients)",
+            "description": {
+              "content": "Update oauth2 clients for the specified domain. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                ":id",
+                "oauth2Clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<uuid>\",\n  \"<uuid>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1b6db9f1-558f-4944-ba7b-802584c93e7b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    ":id",
+                    "oauth2Clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"<uuid>\",\n  \"<uuid>\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b11e6e7-e586-4200-b037-cda33658a947",
+          "name": "Save or Update Domain (saveDomain)",
+          "request": {
+            "name": "Save or Update Domain (saveDomain)",
+            "description": {
+              "content": "Create or update the Domain. When creating domain, platform generates Domain Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Domain Id will be present in the response. Specify existing Domain Id to update the domain. Referencing non-existing Domain Id will cause 'Not Found' error.\n\nDomain name is unique for entire platform setup.\n\n\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "oauth2ClientIds",
+                  "value": "<string>",
+                  "description": "A list of oauth2 client registration ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "oauth2ClientIds",
+                  "value": "<string>",
+                  "description": "A list of oauth2 client registration ids, separated by comma ','"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"oauth2Enabled\": \"<boolean>\",\n  \"propagateToEdge\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d779eac-be1a-432f-b362-e830a6b68850",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "oauth2ClientIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "oauth2ClientIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"oauth2Enabled\": \"<boolean>\",\n  \"propagateToEdge\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"oauth2Enabled\": false,\n  \"propagateToEdge\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "773f7269-18a3-47b3-9eec-48674fdafe18",
+          "name": "Get Domain Infos (getTenantDomainInfos)",
+          "request": {
+            "name": "Get Domain Infos (getTenantDomainInfos)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                "infos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "Case-insensitive 'substring' filter based on domain's name"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba00d289-0787-483d-a6e7-666fbaaf48f3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    "infos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"oauth2Enabled\": false,\n      \"propagateToEdge\": true,\n      \"oauth2ClientInfos\": [\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"ANDROID\",\n            \"IOS\"\n          ],\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"ANDROID\",\n            \"WEB\"\n          ],\n          \"name\": \"string\"\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"oauth2Enabled\": true,\n      \"propagateToEdge\": true,\n      \"oauth2ClientInfos\": [\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"WEB\",\n            \"IOS\"\n          ],\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"ANDROID\",\n            \"IOS\"\n          ],\n          \"name\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"totalPages\": 6417,\n  \"totalElements\": 2127,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "77d6682a-254b-49b5-925e-c4c4481c246e",
+          "name": "Get Domain Info by Id (getDomainInfoById)",
+          "request": {
+            "name": "Get Domain Info by Id (getDomainInfoById)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                "info",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c1e82fa-bc0e-42c5-86fb-bf1fd81e5bb1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    "info",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"oauth2Enabled\": true,\n  \"propagateToEdge\": false,\n  \"oauth2ClientInfos\": [\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"title\": \"string\",\n      \"providerName\": \"string\",\n      \"platforms\": [\n        \"ANDROID\",\n        \"WEB\"\n      ],\n      \"name\": \"string\"\n    },\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"title\": \"string\",\n      \"providerName\": \"string\",\n      \"platforms\": [\n        \"ANDROID\",\n        \"WEB\"\n      ],\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cdcba441-a771-43b8-a108-27cb0104b143",
+          "name": "Delete Domain by ID (deleteDomain)",
+          "request": {
+            "name": "Delete Domain by ID (deleteDomain)",
+            "description": {
+              "content": "Deletes Domain by ID. Referencing non-existing domain Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "43ce4e21-d46b-4498-923b-661eefc713c1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7df810c5-7e97-4ad4-b1e1-73cf0e7c3e7b",
+    "name": "ThingsBoard Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Authentication API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth 2, O Auth 2 Config Template, Domain.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

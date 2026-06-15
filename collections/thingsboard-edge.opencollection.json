@@ -1,0 +1,1027 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Edge API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "entities-version-control-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Versions (listVersions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version",
+            "params": [
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "The name of the working branch, for example 'master'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity version name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Lists all available versions in a branch for all entity types. \nIf specified branch does not exist - empty page data will be returned. The response format is the same as for `listEntityVersions` API method.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Save Entities Version (saveEntitiesVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new version of entities (or a single entity) by request.\nSupported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\nThere are two available types of request: `SINGLE_ENTITY` and `COMPLEX`. Each of them contains version name (`versionName`) and name of a branch (`branch`) to create version (commit) in. If specified branch does not exists in a remote repo, then new empty branch will be created. Request of the `SINGLE_ENTITY` type"
+        },
+        {
+          "info": {
+            "name": "Load Entities Version (loadEntitiesVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Loads specific version of remote entities (or single entity) by request. Supported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\nThere are multiple types of request. Each of them requires branch name (`branch`) and version id (`versionId`). Request of type `SINGLE_ENTITY` is needed to restore a concrete version of a specific entity. It contains id of a remote entity (`externalEntityId`) and additional configuration (`config`):\n- `load"
+        },
+        {
+          "info": {
+            "name": "Get Version Create Request Status (getVersionCreateRequestStatus)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version/:requestId/status",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns the status of previously made version create request. \n\nThis status contains following properties:\n- `done` - whether request processing is finished;\n- `version` - created version info: timestamp, version id (commit hash), commit name and commit author;\n- `added` - count of items that were created in the remote repo;\n- `modified` - modified items count;\n- `removed` - removed items count;\n- `error` - error message, if an error occurred while handling the request.\n\nAn example of successful"
+        },
+        {
+          "info": {
+            "name": "List Entity Type Versions (listEntityTypeVersions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version/:entityType",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "The name of the working branch, for example 'master'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity version name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns list of versions of an entity type in a branch. This is a collected list of versions that were created for entities of this type in a remote branch. \nIf specified branch does not exist - empty page data will be returned. The response structure is the same as for `listEntityVersions` API method.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "List Entity Versions (listEntityVersions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version/:entityType/:externalEntityUuid",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "externalEntityUuid",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing external entity id. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity."
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "The name of the working branch, for example 'master'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity version name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns list of versions for a specific entity in a concrete branch. \nYou need to specify external id of an entity to list versions for. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity. \nIf specified branch does not exist - empty page data will be returned. \n\nEach version info item has timestamp, id, name and author. Version id can then be used to restore the version. You can specify parameters to filter the results. The result is wrapped with PageD"
+        },
+        {
+          "info": {
+            "name": "Get Entity Data Info (getEntityDataInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/info/:versionId/:entityType/:externalEntityUuid",
+            "params": [
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              },
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "externalEntityUuid",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing external entity id"
+              }
+            ]
+          },
+          "docs": "Retrieves short info about the remote entity by external id at a concrete version. \nReturned entity data info contains following properties: `hasRelations` (whether stored entity data contains relations), `hasAttributes` (contains attributes) and `hasCredentials` (whether stored device data has credentials).\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "List All Entities at Version (listAllEntitiesAtVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity/:versionId",
+            "params": [
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              }
+            ]
+          },
+          "docs": "Returns a list of all remote entities available in a specific version. Response type is the same as for listAllEntitiesAtVersion API method. \nReturned entities order will be the same as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Version Load Request Status (getVersionLoadRequestStatus)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity/:requestId/status",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns the status of previously made version load request. The structure contains following parameters:\n- `done` - if the request was successfully processed;\n- `result` - a list of load results for each entity type:\n     - `created` - created entities count;\n     - `updated` - updated entities count;\n     - `deleted` - removed entities count.\n- `error` - if an error occurred during processing, error info:\n     - `type` - error type;\n     - `source` - an external id of remote entity;\n     - `tar"
+        },
+        {
+          "info": {
+            "name": "List Entities at Version (listEntitiesAtVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity/:entityType/:versionId",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              }
+            ]
+          },
+          "docs": "Returns a list of remote entities of a specific entity type that are available at a concrete version. \nEach entity item in the result has `externalId` property. Entities order will be the same as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Compare Entity Data to Version (compareEntityDataToVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/diff/:entityType/:internalEntityUuid",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "internalEntityUuid",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "query",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              }
+            ]
+          },
+          "docs": "Returns an object with current entity data and the one at a specific version. Entity data structure is the same as stored in a repository. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "List Branches (listBranches)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/branches"
+          },
+          "docs": "Lists branches available in the remote repository. \n\nResponse example: \n```json\n[\n  {\n    \"name\": \"master\",\n    \"default\": true\n  },\n  {\n    \"name\": \"dev\",\n    \"default\": false\n  },\n  {\n    \"name\": \"dev-2\",\n    \"default\": false\n  }\n]\n```"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "edge-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Edges by Ids (getEdgesByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edges",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the edge name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "edgeIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of edges ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Requested edges must be owned by tenant or assigned to customer which user is performing the request.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Find Related Edges (findByQuery)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edges",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all edges that are related to the specific entity. The entity id, relation type, edge types, depth of the search, and other query parameters defined using complex 'EdgeSearchQuery' object. See 'Model' tab of the Parameters for more info.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Create or Update Edge (saveEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Edge. When creating edge, platform generates Edge Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created edge id will be present in the response. Specify existing Edge id to update the edge. Referencing non-existing Edge Id will cause 'Not Found' error.\n\nEdge name is unique in the scope of tenant. Use unique identifiers like MAC or IMEI for the edge names and non-unique 'label' field for u"
+        },
+        {
+          "info": {
+            "name": "Set Root Rule Chain for Provided Edge (setEdgeRootRuleChain)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/:ruleChainId/root",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "ruleChainId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Change root rule chain of the edge to the new provided rule chain. \nThis operation will send a notification to update root rule chain on remote edge service.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Sync Edge (syncEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edge/sync/:edgeId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Starts synchronization process between edge and cloud. \nAll entities that are assigned to particular edge are going to be send to remote edge service.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Import the Bulk of Edges (processEdgesBulkImport)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edge/bulk_import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "There's an ability to import the bulk of edges using the only .csv file.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Assign Edge to Customer (assignEdgeToCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/edge/:edgeId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Creates assignment of the edge to customer. Customer will be able to query edge afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Make Edge Publicly Available (assignEdgeToPublicCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/customer/public/edge/:edgeId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Edge will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users that are logged-in and belong to different tenant will not be able to access the edge.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Edge (getTenantEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/edges",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the edge type. For example, 'default'"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the edge name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "edgeName",
+                "value": "",
+                "type": "query",
+                "description": "Unique name of the edge"
+              }
+            ]
+          },
+          "docs": "Requested edge must be owned by tenant or customer that the user belongs to. Edge name is an unique property of edge. So it can be used to identify the edge.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Edge Infos (getTenantEdgeInfos)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/edgeInfos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the edge type. For example, 'default'"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the edge name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of edges info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Is Edges Support Enabled (isEdgesSupportEnabled)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edges/enabled"
+          },
+          "docs": "Returns 'true' if edges support enabled on server, 'false' - otherwise."
+        },
+        {
+          "info": {
+            "name": "Get Edge (getEdgeById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Get the Edge object based on the provided Edge Id. If the user has the authority of 'Tenant Administrator', the server checks that the edge is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the edge is assigned to the same customer.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Edge (deleteEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the edge. Referencing non-existing edge Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Is Edge Upgrade Enabled (isEdgeUpgradeAvailable)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/upgrade/available",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns 'true' if upgrade available for connected edge, 'false' - otherwise."
+        },
+        {
+          "info": {
+            "name": "Get Edge Types (getEdgeTypes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/types"
+          },
+          "docs": "Returns a set of unique edge types based on edges that are either owned by the tenant or assigned to the customer which user is performing the request.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Find Missing Rule Chains (findMissingToRelatedRuleChains)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/missingToRelatedRuleChains/:edgeId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns list of rule chains ids that are not assigned to particular edge, but these rule chains are present in the already assigned rule chains to edge.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Edge Upgrade Instructions (getEdgeUpgradeInstructions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/instructions/upgrade/:edgeVersion/:method",
+            "params": [
+              {
+                "name": "edgeVersion",
+                "value": "",
+                "type": "path",
+                "description": "Edge version"
+              },
+              {
+                "name": "method",
+                "value": "",
+                "type": "path",
+                "description": "Upgrade method ('docker', 'ubuntu' or 'centos')"
+              }
+            ]
+          },
+          "docs": "Get an upgrade instructions for provided edge version.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Edge Install Instructions (getEdgeInstallInstructions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/instructions/install/:edgeId/:method",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "method",
+                "value": "",
+                "type": "path",
+                "description": "Installation method ('docker', 'ubuntu' or 'centos')"
+              }
+            ]
+          },
+          "docs": "Get an install instructions for provided edge id.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Edge Info (getEdgeInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/info/:edgeId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Get the Edge Info object based on the provided Edge Id. If the user has the authority of 'Tenant Administrator', the server checks that the edge is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the edge is assigned to the same customer.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Customer Edges (getCustomerEdges)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/edges",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the edge type. For example, 'default'"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the edge name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of edges objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Customer Edge Infos (getCustomerEdgeInfos)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/edgeInfos",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the edge type. For example, 'default'"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the edge name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of edges info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Unassign Edge from Customer (unassignEdgeFromCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/customer/edge/:edgeId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Clears assignment of the edge to customer. Customer will not be able to query edge afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "edge-event-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Edge Events (getEdgeEvents)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/events",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the edge event type name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Edge events with creation time before it won't be queried"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Edge events with creation time after it won't be queried"
+              }
+            ]
+          },
+          "docs": "Returns a page of edge events for the requested edge. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
