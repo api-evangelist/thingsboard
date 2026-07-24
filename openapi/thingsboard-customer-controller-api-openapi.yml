@@ -1,0 +1,399 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller customer-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: customer-controller
+  description: Customer
+paths:
+  /api/customer:
+    post:
+      tags:
+      - customer-controller
+      summary: Create or Update Customer (saveCustomer)
+      description: "Creates or Updates the Customer. When creating customer, platform generates Customer Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer. Referencing non-existing Customer Id will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Customer entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveCustomer
+      parameters:
+      - name: nameConflictPolicy
+        in: query
+        description: 'Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs.'
+        required: false
+        schema:
+          type: string
+          default: FAIL
+          enum:
+          - FAIL
+          - UNIQUIFY
+      - name: uniquifySeparator
+        in: query
+        description: Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'.
+        required: false
+        schema:
+          type: string
+          default: _
+      - name: uniquifyStrategy
+        in: query
+        description: 'Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL; if a name conflict occurs for entity name ''test-name'', created entity will have name like ''test-name-1.'
+        required: false
+        schema:
+          type: string
+          default: RANDOM
+          enum:
+          - RANDOM
+          - INCREMENTAL
+      requestBody:
+        description: A JSON value representing the customer.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /api/tenant/customers:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Tenant Customer by Customer Title (getTenantCustomer)
+      description: "Get the Customer using Customer Title. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getTenantCustomer
+      parameters:
+      - name: customerTitle
+        in: query
+        description: A string value representing the Customer title.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /api/customers:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Customers by Customer Ids (getCustomersByIds)
+      description: 'Returns a list of Customer objects based on the provided ids.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getCustomers
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the customer title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+          - email
+          - country
+          - city
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: customerIds
+        in: query
+        description: A list of customer ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Customer'
+                - $ref: '#/components/schemas/PageDataCustomer'
+  /api/customer/{customerId}:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Customer (getCustomerById)
+      description: 'Get the Customer object based on the provided Customer Id. If the user has the authority of ''Tenant Administrator'', the server checks that the customer is owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the user belongs to the customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getCustomerById
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    delete:
+      tags:
+      - customer-controller
+      summary: Delete Customer (deleteCustomer)
+      description: 'Deletes the Customer and all customer Users. All assigned Dashboards, Assets, Devices, etc. will be unassigned but not deleted. Referencing non-existing Customer Id will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: deleteCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/customer/{customerId}/title:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Customer Title (getCustomerTitleById)
+      description: 'Get the title of the customer. If the user has the authority of ''Tenant Administrator'', the server checks that the customer is owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the user belongs to the customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getCustomerTitleById
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/text:
+              schema:
+                type: string
+  /api/customer/{customerId}/shortInfo:
+    get:
+      tags:
+      - customer-controller
+      summary: Get Short Customer Info (getShortCustomerInfoById)
+      description: 'Get the short customer object that contains only the title and ''isPublic'' flag. If the user has the authority of ''Tenant Administrator'', the server checks that the customer is owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the user belongs to the customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getShortCustomerInfoById
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with the customer Id. Specify this field to update the customer. Referencing non-existing customer Id will cause error. Omit this field to create new customer.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the customer creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        country:
+          type: string
+          description: Country
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: New York
+        address:
+          type: string
+          description: Address Line 1
+          example: 42
+        address2:
+          type: string
+          description: Address Line 2
+        zip:
+          type: string
+          description: Zip code
+          example: 10004
+        phone:
+          type: string
+          description: Phone number
+          example: +1(415)777-7777
+        email:
+          type: string
+          description: Email
+          example: example@company.com
+        title:
+          type: string
+          description: Title of the customer
+          example: Company A
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Name of the customer. Read-only, duplicated from title for backward compatibility
+          example: Company A
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+      required:
+      - email
+      - title
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    PageDataCustomer:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Customer'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

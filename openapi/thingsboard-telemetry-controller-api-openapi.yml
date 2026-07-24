@@ -1,0 +1,866 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller telemetry-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: telemetry-controller
+  description: Telemetry
+paths:
+  /api/plugins/telemetry/{entityType}/{entityId}/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save Entity Attributes (saveEntityAttributesV1)
+      description: "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityAttributesV1
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+      requestBody:
+        description: A string value representing the json object. For example, '{"key":"value"}'. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Attribute from the request was created or updated. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED', and also sends event msg to the rule engine with msg type 'ATTRIBUTES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request or invalid attributes scope provided.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      tags:
+      - telemetry-controller
+      summary: Delete Entity Attributes (deleteEntityAttributes)
+      description: "Delete entity attributes using provided Entity Id, scope and a list of keys. Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: deleteEntityAttributes
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: Entity attributes was removed for the selected keys in the request. Platform creates an audit log event about entity attributes removal with action type 'ATTRIBUTES_DELETED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Platform returns a bad request in case if keys or scope are not specified.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to delete entity attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity attributes removal with action type 'ATTRIBUTES_DELETED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/timeseries/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save or Update Time Series Data (saveEntityTelemetry)
+      description: "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"ts\":1634712588000,\"values\":{\"temperature\":25, \"humidity\":88}}]\n```\n\n The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable. Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityTelemetry
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: Value is deprecated, reserved for backward compatibility and not used in the API call implementation. Specify any scope for compatibility
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANY
+      requestBody:
+        description: A JSON with the telemetry values. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Time series from the request was created or updated. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity time series for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/timeseries/{scope}/{ttl}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save or Update Time Series Data with TTL (saveEntityTelemetryWithTTL)
+      description: "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"ts\":1634712588000,\"values\":{\"temperature\":25, \"humidity\":88}}]\n```\n\n The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable. \n\nThe ttl parameter takes affect only in case of Cassandra DB.Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityTelemetryWithTTL
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: Value is deprecated, reserved for backward compatibility and not used in the API call implementation. Specify any scope for compatibility
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANY
+      - name: ttl
+        in: path
+        description: A long value representing TTL (Time to Live) parameter.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: A JSON with the telemetry values. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Time series from the request was created or updated. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity time series for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/attributes/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save Entity Attributes (saveEntityAttributesV2)
+      description: "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityAttributesV2
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+      requestBody:
+        description: A string value representing the json object. For example, '{"key":"value"}'. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Attribute from the request was created or updated. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED', and also sends event msg to the rule engine with msg type 'ATTRIBUTES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request or invalid attributes scope provided.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{deviceId}/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save Device Attributes (saveDeviceAttributes)
+      description: "Creates or updates the device attributes based on device id and specified attribute scope. The request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\n\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveDeviceAttributes
+      parameters:
+      - name: deviceId
+        in: path
+        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+      requestBody:
+        description: A string value representing the json object. For example, '{"key":"value"}'. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Attribute from the request was created or updated. Platform creates an audit log event about device attributes updates with action type 'ATTRIBUTES_UPDATED', and also sends event msg to the rule engine with msg type 'ATTRIBUTES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request or invalid attributes scope provided.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save device attributes for selected device. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about device attributes updates with action type 'ATTRIBUTES_UPDATED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      tags:
+      - telemetry-controller
+      summary: Delete Device Attributes (deleteDeviceAttributes)
+      description: 'Delete device attributes using provided Device Id, scope and a list of keys. Referencing a non-existing Device Id will cause an error
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: deleteDeviceAttributes
+      parameters:
+      - name: deviceId
+        in: path
+        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: Device attributes was removed for the selected keys in the request. Platform creates an audit log event about device attributes removal with action type 'ATTRIBUTES_DELETED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Platform returns a bad request in case if keys or scope are not specified.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to delete device attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about device attributes removal with action type 'ATTRIBUTES_DELETED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/values/timeseries:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Time Series Data (getTimeseries)
+      description: "Returns a range of time series values for specified entity. Returns not aggregated data by default. Use aggregation function ('agg') and aggregation interval ('interval') to enable aggregation of the results on the database / server side. The aggregation is generally more efficient then fetching all records. \n\n```json\n{\n  \"temperature\": [\n    {\n      \"value\": 36.7,\n      \"ts\": 1609459200000\n    },\n    {\n      \"value\": 36.6,\n      \"ts\": 1609459201000\n    }\n  ]\n}\n```\n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getLatestTimeseries
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of telemetry keys. If keys are not selected, the result will return all latest time series. For example, 'temperature,humidity'. If telemetry keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: useStrictDataTypes
+        in: query
+        description: Enables/disables conversion of telemetry values to strings. Conversion is enabled by default. Set parameter to 'true' in order to disable the conversion.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      - name: startTs
+        in: query
+        description: A long value representing the start timestamp of the time range in milliseconds, UTC.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: endTs
+        in: query
+        description: A long value representing the end timestamp of the time range in milliseconds, UTC.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: intervalType
+        in: query
+        description: A string value representing the type fo the interval.
+        required: false
+        schema:
+          type: string
+          enum:
+          - MILLISECONDS
+          - WEEK
+          - WEEK_ISO
+          - MONTH
+          - QUARTER
+      - name: interval
+        in: query
+        description: A long value representing the aggregation interval range in milliseconds.
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 0
+      - name: timeZone
+        in: query
+        description: A string value representing the timezone that will be used to calculate exact timestamps for 'WEEK', 'WEEK_ISO', 'MONTH' and 'QUARTER' interval types.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: An integer value that represents a max number of time series data points to fetch. This parameter is used only in the case if 'agg' parameter is set to 'NONE'.
+        required: false
+        schema:
+          type: string
+      - name: agg
+        in: query
+        description: A string value representing the aggregation function. If the interval is not specified, 'agg' parameter will use 'NONE' value.
+        required: false
+        schema:
+          type: string
+          enum:
+          - MIN
+          - MAX
+          - AVG
+          - SUM
+          - COUNT
+          - NONE
+      - name: orderBy
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/values/attributes:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Attributes (getAttributes)
+      description: "Returns all attributes that belong to specified entity. Use optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n[\n  {\"key\": \"stringAttributeKey\", \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": false, \"lastUpdateTs\": 1609459200001},\n  {\"key\": \"doubleAttributeKey\", \"value\": 42.2, \"lastUpdateTs\": 1609459200002},\n  {\"key\": \"longKeyExample\", \"value\": 73, \"lastUpdateTs\": 1609459200003},\n  {\"key\": \"jsonKeyExample\",\n    \"value\": {\n      \"someNumber\": 42,\n      \"someArray\": [1,2,3],\n      \"someNestedObject\": {\"key\": \"value\"}\n    },\n    \"lastUpdateTs\": 1609459200004\n  }\n]\n```\n\n Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributes
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/values/attributes/{scope}:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Attributes by Scope (getAttributesByScope)
+      description: "Returns all attributes of a specified scope that belong to specified entity. List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices;\n * CLIENT_SCOPE - supported for devices. \n\nUse optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n[\n  {\"key\": \"stringAttributeKey\", \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": false, \"lastUpdateTs\": 1609459200001},\n  {\"key\": \"doubleAttributeKey\", \"value\": 42.2, \"lastUpdateTs\": 1609459200002},\n  {\"key\": \"longKeyExample\", \"value\": 73, \"lastUpdateTs\": 1609459200003},\n  {\"key\": \"jsonKeyExample\",\n    \"value\": {\n      \"someNumber\": 42,\n      \"someArray\": [1,2,3],\n      \"someNestedObject\": {\"key\": \"value\"}\n    },\n    \"lastUpdateTs\": 1609459200004\n  }\n]\n```\n\n Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributesByScope
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/keys/timeseries:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Time Series Keys (getTimeseriesKeys)
+      description: "Returns a set of unique time series key names for the selected entity. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getTimeseriesKeys
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/keys/attributes:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get All Attribute Keys (getAttributeKeys)
+      description: "Returns a set of unique attribute key names for the selected entity. The response will include merged key names set for all attribute scopes:\n\n * SERVER_SCOPE - supported for all entity types;\n * CLIENT_SCOPE - supported for devices;\n * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributeKeys
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/keys/attributes/{scope}:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get All Attribute Keys by Scope (getAttributeKeysByScope)
+      description: "Returns a set of unique attribute key names for the selected entity and attributes scope: \n\n * SERVER_SCOPE - supported for all entity types;\n * CLIENT_SCOPE - supported for devices;\n * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributeKeysByScope
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/timeseries/delete:
+    delete:
+      tags:
+      - telemetry-controller
+      summary: Delete Entity Time Series Data (deleteEntityTimeseries)
+      description: "Delete time series for selected entity based on entity id, entity type and keys. Use 'deleteAllDataForKeys' to delete all time series data. Use 'startTs' and 'endTs' to specify time-range instead.  Use 'deleteLatest' to delete latest value (stored in separate table for performance) if the value's timestamp matches the time-range.  Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) if the value's timestamp matches the time-range and 'deleteLatest' param is true. The replacement value will be fetched from the 'time series' table, and its timestamp will be the most recent one before the defined time-range. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: deleteEntityTimeseries
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of telemetry keys. If keys are not selected, the result will return all latest time series. For example, 'temperature,humidity'. If telemetry keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: deleteAllDataForKeys
+        in: query
+        description: A boolean value to specify if should be deleted all data for selected keys or only data that are in the selected time range.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: startTs
+        in: query
+        description: A long value representing the start timestamp of removal time range in milliseconds.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTs
+        in: query
+        description: A long value representing the end timestamp of removal time range in milliseconds.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: deleteLatest
+        in: query
+        description: If the parameter is set to true, the latest telemetry can be removed, otherwise, in case that parameter is set to false the latest value will not removed.
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: rewriteLatestIfDeleted
+        in: query
+        description: If the parameter is set to true, the latest telemetry will be rewritten in case that current latest value was removed, otherwise, in case that parameter is set to false the new latest value will not set.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: Time series for the selected keys in the request was removed. Platform creates an audit log event about entity time series removal with action type 'TIMESERIES_DELETED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Platform returns a bad request in case if keys list is empty or start and end timestamp values is empty when deleteAllDataForKeys is set to false.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to delete entity time series for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity time series removal with action type 'TIMESERIES_DELETED' that includes an error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    MultiValueMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      properties:
+        all:
+          type: object
+          additionalProperties:
+            type: string
+          writeOnly: true
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

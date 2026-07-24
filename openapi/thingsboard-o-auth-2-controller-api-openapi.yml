@@ -1,0 +1,517 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller o-auth-2-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: o-auth-2-controller
+  description: O Auth 2
+paths:
+  /api/oauth2/client:
+    post:
+      tags:
+      - o-auth-2-controller
+      summary: Save OAuth2 Client (saveOAuth2Client)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: saveOAuth2Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuth2Client'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuth2Client'
+  /api/noauth/oauth2Clients:
+    post:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Clients (getOAuth2Clients)
+      description: Get the list of OAuth2 clients to log in with, available for such domain scheme (HTTP or HTTPS) (if x-forwarded-proto request header is present - the scheme is known from it) and domain name and port (port may be known from x-forwarded-port header)
+      operationId: getOAuth2Clients
+      parameters:
+      - name: pkgName
+        in: query
+        description: Mobile application package name, to find OAuth2 clients where there is configured mobile application with such package name
+        required: false
+        schema:
+          type: string
+      - name: platform
+        in: query
+        description: Platform type to search OAuth2 clients for which the usage with this platform type is allowed in the settings. If platform type is not one of allowable values - it will just be ignored
+        required: false
+        schema:
+          type: string
+          enum:
+          - WEB
+          - ANDROID
+          - IOS
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OAuth2ClientLoginInfo'
+  /api/oauth2/loginProcessingUrl:
+    get:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Log in Processing URL (getLoginProcessingUrl)
+      description: 'Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider, it makes a redirect to this path so that the platform can do further log in processing. This URL may be configured as ''security.oauth2.loginProcessingUrl'' property in yml configuration file, or as ''SECURITY_OAUTH2_LOGIN_PROCESSING_URL'' env variable. By default it is ''/login/oauth2/code/''
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getLoginProcessingUrl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/oauth2/client/{id}:
+    get:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Client by Id (getOAuth2ClientById)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getOAuth2ClientById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuth2Client'
+    delete:
+      tags:
+      - o-auth-2-controller
+      summary: Delete Oauth2 Client (deleteOauth2Client)
+      description: 'Deletes the oauth2 client. Referencing non-existing oauth2 client Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteOauth2Client
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/oauth2/client/infos:
+    get:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Client Infos by Ids (findTenantOAuth2ClientInfosByIds)
+      description: "Fetch OAuth2 Client info objects based on the provided ids. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: findTenantOAuth2ClientInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: Case-insensitive 'substring' filter based on client's title
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+      - name: clientIds
+        in: query
+        description: A list of oauth2 ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/OAuth2ClientInfo'
+                - $ref: '#/components/schemas/PageDataOAuth2ClientInfo'
+components:
+  schemas:
+    OAuth2CustomMapperConfig:
+      type: object
+      properties:
+        url:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        sendToken:
+          type: boolean
+    PageDataOAuth2ClientInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/OAuth2ClientInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    OAuth2Client:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional info of OAuth2 client (e.g. providerName)
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        title:
+          type: string
+          description: Oauth2 client title
+          minLength: 1
+        mapperConfig:
+          $ref: '#/components/schemas/OAuth2MapperConfig'
+          description: Config for mapping OAuth2 log in response to platform entities
+        clientId:
+          type: string
+          description: OAuth2 client ID. Cannot be empty
+          minLength: 1
+        clientSecret:
+          type: string
+          description: OAuth2 client secret. Cannot be empty
+          minLength: 1
+        authorizationUri:
+          type: string
+          description: Authorization URI of the OAuth2 provider. Cannot be empty
+          minLength: 1
+        accessTokenUri:
+          type: string
+          description: Access token URI of the OAuth2 provider. Cannot be empty
+          minLength: 1
+        scope:
+          type: array
+          description: OAuth scopes that will be requested from OAuth2 platform. Cannot be empty
+          items:
+            type: string
+          minItems: 1
+        userInfoUri:
+          type: string
+          description: User info URI of the OAuth2 provider
+        userNameAttributeName:
+          type: string
+          description: Name of the username attribute in OAuth2 provider response. Cannot be empty
+          minLength: 1
+        jwkSetUri:
+          type: string
+          description: JSON Web Key URI of the OAuth2 provider
+        clientAuthenticationMethod:
+          type: string
+          description: 'Client authentication method to use: ''BASIC'' or ''POST''. Cannot be empty'
+          minLength: 1
+        loginButtonLabel:
+          type: string
+          description: OAuth2 provider label. Cannot be empty
+          minLength: 1
+        loginButtonIcon:
+          type: string
+          description: Log in button icon for OAuth2 provider
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
+          type: string
+          readOnly: true
+      required:
+      - accessTokenUri
+      - additionalInfo
+      - authorizationUri
+      - clientAuthenticationMethod
+      - clientId
+      - clientSecret
+      - loginButtonLabel
+      - mapperConfig
+      - scope
+      - title
+      - userNameAttributeName
+    OAuth2BasicMapperConfig:
+      type: object
+      properties:
+        emailAttributeKey:
+          type: string
+          description: Email attribute key of OAuth2 principal attributes. Must be specified for BASIC mapper type and cannot be specified for GITHUB type
+        firstNameAttributeKey:
+          type: string
+          description: First name attribute key
+        lastNameAttributeKey:
+          type: string
+          description: Last name attribute key
+        tenantNameStrategy:
+          type: string
+          description: Tenant naming strategy. For DOMAIN type, domain for tenant name will be taken from the email (substring before '@')
+          enum:
+          - DOMAIN
+          - EMAIL
+          - CUSTOM
+        tenantNamePattern:
+          type: string
+          description: Tenant name pattern for CUSTOM naming strategy. OAuth2 attributes in the pattern can be used by enclosing attribute key in '%{' and '}'
+          example: '%{email}'
+        customerNamePattern:
+          type: string
+          description: Customer name pattern. When creating a user on the first OAuth2 log in, if specified, customer name will be used to create or find existing customer in the platform and assign customerId to the user
+        defaultDashboardName:
+          type: string
+          description: Name of the tenant's dashboard to set as default dashboard for newly created user
+        alwaysFullScreen:
+          type: boolean
+          description: Whether default dashboard should be open in full screen
+      required:
+      - tenantNameStrategy
+    OAuth2ClientId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    OAuth2ClientInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        title:
+          type: string
+          description: Oauth2 client registration title (e.g. My google)
+        providerName:
+          type: string
+          description: Oauth2 client provider name (e.g. Google)
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
+          type: string
+          readOnly: true
+    OAuth2MapperConfig:
+      type: object
+      properties:
+        allowUserCreation:
+          type: boolean
+          description: Whether user should be created if not yet present on the platform after successful authentication
+        activateUser:
+          type: boolean
+          description: Whether user credentials should be activated when user is created after successful authentication
+        type:
+          type: string
+          description: Type of OAuth2 mapper. Depending on this param, different mapper config fields must be specified
+          enum:
+          - BASIC
+          - CUSTOM
+          - GITHUB
+          - APPLE
+        basic:
+          $ref: '#/components/schemas/OAuth2BasicMapperConfig'
+          description: Mapper config for BASIC and GITHUB mapper types
+        custom:
+          $ref: '#/components/schemas/OAuth2CustomMapperConfig'
+          description: Mapper config for CUSTOM mapper type
+      required:
+      - type
+    OAuth2ClientLoginInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: OAuth2 client name
+          example: GitHub
+        icon:
+          type: string
+          description: Name of the icon, displayed on OAuth2 log in button
+          example: github-logo
+        url:
+          type: string
+          description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
+          example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

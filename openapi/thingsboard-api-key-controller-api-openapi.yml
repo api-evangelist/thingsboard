@@ -1,0 +1,362 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller api-key-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: api-key-controller
+  description: Api Key
+paths:
+  /api/apiKey/{id}/enabled/{enabledValue}:
+    put:
+      tags:
+      - api-key-controller
+      summary: Enable or Disable API Key (enableApiKey)
+      description: "Updates api key with enabled = true/false. \n\nAvailable for any authorized user. "
+      operationId: enableApiKey
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the API key to enable/disable
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: enabledValue
+        in: path
+        description: Enabled or disabled api key
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyInfo'
+  /api/apiKey/{id}/description:
+    put:
+      tags:
+      - api-key-controller
+      summary: Update API Key Description
+      description: 'Updates the description of the existing API key by apiKeyId. Only the description can be updated. Referencing a non-existing ApiKey Id will cause a ''Not Found'' error.
+
+
+        Available for any authorized user. '
+      operationId: updateApiKeyDescription
+      parameters:
+      - name: id
+        in: path
+        description: A string value representing the api key id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: New description for the API key
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyInfo'
+  /api/apiKey:
+    post:
+      tags:
+      - api-key-controller
+      summary: Save API Key for User (saveApiKey)
+      description: 'Creates an API key for the given user and returns the token ONCE as ''ApiKey <value>''.
+
+
+        Available for any authorized user. '
+      operationId: saveApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyInfo'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+  /api/apiKeys/{userId}:
+    get:
+      tags:
+      - api-key-controller
+      summary: Get User Api Keys (getUserApiKeys)
+      description: "Returns a page of api keys owned by user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. "
+      operationId: getUserApiKeys
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the description.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - expirationTime
+          - description
+          - enabled
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataApiKeyInfo'
+  /api/apiKey/{id}:
+    delete:
+      tags:
+      - api-key-controller
+      summary: Delete API Key by ID (deleteApiKey)
+      description: 'Deletes the API key. Referencing non-existing ApiKey Id will cause an error.
+
+
+        Available for any authorized user. '
+      operationId: deleteApiKey
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    ApiKeyInfo:
+      type: object
+      description: A JSON value representing the Api Key token.
+      properties:
+        id:
+          $ref: '#/components/schemas/ApiKeyId'
+          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
+          readOnly: true
+        userId:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with User Id. User Id of the API key cannot be changed.
+        expirationTime:
+          type: integer
+          format: int64
+          description: Expiration time of the API key.
+        description:
+          type: string
+          description: API Key description.
+          example: API Key description
+          minLength: 1
+        enabled:
+          type: boolean
+          description: Enabled/disabled API key.
+          example: true
+        expired:
+          type: boolean
+          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
+          example: false
+          readOnly: true
+      required:
+      - description
+    PageDataApiKeyInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/ApiKeyInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    ApiKeyId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - API_KEY
+          example: API_KEY
+      required:
+      - entityType
+      - id
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    ApiKey:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ApiKeyId'
+          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
+          readOnly: true
+        userId:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with User Id. User Id of the API key cannot be changed.
+        expirationTime:
+          type: integer
+          format: int64
+          description: Expiration time of the API key.
+        description:
+          type: string
+          description: API Key description.
+          example: API Key description
+          minLength: 1
+        enabled:
+          type: boolean
+          description: Enabled/disabled API key.
+          example: true
+        value:
+          type: string
+          description: API key value
+        expired:
+          type: boolean
+          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
+          example: false
+          readOnly: true
+      required:
+      - description
+      - value
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

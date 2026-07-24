@@ -1,0 +1,766 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller tenant-profile-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: tenant-profile-controller
+  description: Tenant Profile
+paths:
+  /api/tenantProfile:
+    post:
+      tags:
+      - tenant-profile-controller
+      summary: Create or Update Tenant Profile (saveTenantProfile)
+      description: "Create or update the Tenant Profile. When creating tenant profile, platform generates Tenant Profile Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Tenant Profile Id will be present in the response. Specify existing Tenant Profile Id id to update the Tenant Profile. Referencing non-existing Tenant Profile Id will cause 'Not Found' error. \n\nUpdate of the tenant profile configuration will cause immediate recalculation of API limits for all affected Tenants. \n\nThe **'profileData'** object is the part of Tenant Profile that defines API limits and Rate limits. \n\nYou have an ability to define maximum number of devices ('maxDevice'), assets ('maxAssets') and other entities. You may also define maximum number of messages to be processed per month ('maxTransportMessages', 'maxREExecutions', etc). The '*RateLimit' defines the rate limits using simple syntax. For example, '1000:1,20000:60' means up to 1000 events per second but no more than 20000 event per minute. Let's review the example of tenant profile data below: \n\n```json\n{\n  \"name\": \"Your name\",\n  \"description\": \"Your description\",\n  \"isolatedTbRuleEngine\": false,\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"DEFAULT\",\n      \"maxDevices\": 0,\n      \"maxAssets\": 0,\n      \"maxCustomers\": 0,\n      \"maxUsers\": 0,\n      \"maxDashboards\": 0,\n      \"maxRuleChains\": 0,\n      \"maxResourcesInBytes\": 0,\n      \"maxOtaPackagesInBytes\": 0,\n      \"maxResourceSize\": 0,\n      \"transportTenantMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"1000:1,20000:60\",\n      \"transportDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"maxTransportMessages\": 10000000,\n      \"maxTransportDataPoints\": 10000000,\n      \"maxREExecutions\": 4000000,\n      \"maxJSExecutions\": 5000000,\n      \"maxDPStorageDays\": 0,\n      \"maxRuleNodeExecutionsPerMessage\": 50,\n      \"maxDebugModeDurationMinutes\": 15,\n      \"maxEmails\": 0,\n      \"maxSms\": 0,\n      \"maxCreatedAlarms\": 1000,\n      \"defaultStorageTtlDays\": 0,\n      \"alarmsTtlDays\": 0,\n      \"rpcTtlDays\": 0,\n      \"queueStatsTtlDays\": 0,\n      \"ruleEngineExceptionsTtlDays\": 0,\n      \"warnThreshold\": 0,\n      \"maxCalculatedFieldsPerEntity\": 5,\n      \"maxArgumentsPerCF\": 10,\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": 10,\n      \"maxRelationLevelPerCfArgument\": 2,\n      \"maxRelatedEntitiesToReturnPerCfArgument\": 100,\n      \"maxDataPointsPerRollingArg\": 1000,\n      \"maxStateSizeInKBytes\": 32,\n      \"maxSingleValueArgumentSizeInKBytes\": 2,      \"minAllowedDeduplicationIntervalInSecForCF\": 10,      \"minAllowedAggregationIntervalInSecForCF\": 60,      \"intermediateAggregationIntervalInSecForCF\": 300,      \"cfReevaluationCheckInterval\": 60,      \"alarmsReevaluationInterval\": 60    }\n  },\n  \"default\": false\n}\n```Remove 'id', from the request body example (below) to create new Tenant Profile entity.\n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: saveTenantProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantProfile'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantProfile'
+  /api/tenantProfile/{tenantProfileId}/default:
+    post:
+      tags:
+      - tenant-profile-controller
+      summary: Make Tenant Profile Default (setDefaultTenantProfile)
+      description: "Makes specified tenant profile to be default. Referencing non-existing tenant profile Id will cause an error. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: setDefaultTenantProfile
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantProfile'
+  /api/tenantProfiles:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profiles (getTenantProfiles)
+      description: "Returns a page of tenant profiles registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantProfiles
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the tenant profile name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - description
+          - isDefault
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: ids
+        in: query
+        description: Comma-separated list of tenant profile ids
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/TenantProfile'
+                - $ref: '#/components/schemas/PageDataTenantProfile'
+  /api/tenantProfileInfos:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profiles Info (getTenantProfileInfos)
+      description: "Returns a page of tenant profile info objects registered in the platform. Tenant Profile Info is a lightweight object that contains only id and name of the profile. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantProfileInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the tenant profile name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - name
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityInfo'
+  /api/tenantProfileInfo/{tenantProfileId}:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profile Info (getTenantProfileInfoById)
+      description: "Fetch the Tenant Profile Info object based on the provided Tenant Profile Id. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantProfileInfoById
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityInfo'
+  /api/tenantProfileInfo/default:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Default Tenant Profile Info (getDefaultTenantProfileInfo)
+      description: "Fetch the default Tenant Profile Info object based. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getDefaultTenantProfileInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityInfo'
+  /api/tenantProfile/{tenantProfileId}:
+    get:
+      tags:
+      - tenant-profile-controller
+      summary: Get Tenant Profile (getTenantProfileById)
+      description: "Fetch the Tenant Profile object based on the provided Tenant Profile Id. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantProfileById
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantProfile'
+    delete:
+      tags:
+      - tenant-profile-controller
+      summary: Delete Tenant Profile (deleteTenantProfile)
+      description: "Deletes the tenant profile. Referencing non-existing tenant profile Id will cause an error. Referencing profile that is used by the tenants will cause an error. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: deleteTenantProfile
+      parameters:
+      - name: tenantProfileId
+        in: path
+        description: A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    ProcessingStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - SKIP_ALL_FAILURES
+          - SKIP_ALL_FAILURES_AND_TIMED_OUT
+          - RETRY_ALL
+          - RETRY_FAILED
+          - RETRY_TIMED_OUT
+          - RETRY_FAILED_AND_TIMED_OUT
+        retries:
+          type: integer
+          format: int32
+        failurePercentage:
+          type: number
+          format: double
+        pauseBetweenRetries:
+          type: integer
+          format: int64
+        maxPauseBetweenRetries:
+          type: integer
+          format: int64
+    PageDataEntityInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    EntityInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
+          type: string
+          description: Entity Name
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    DefaultTenantProfileConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/TenantProfileConfiguration'
+      - type: object
+        properties:
+          maxDevices:
+            type: integer
+            format: int64
+          maxAssets:
+            type: integer
+            format: int64
+          maxCustomers:
+            type: integer
+            format: int64
+          maxUsers:
+            type: integer
+            format: int64
+          maxDashboards:
+            type: integer
+            format: int64
+          maxRuleChains:
+            type: integer
+            format: int64
+          maxEdges:
+            type: integer
+            format: int64
+          maxResourcesInBytes:
+            type: integer
+            format: int64
+          maxOtaPackagesInBytes:
+            type: integer
+            format: int64
+          maxResourceSize:
+            type: integer
+            format: int64
+          transportTenantMsgRateLimit:
+            type: string
+            example: 1000:1,20000:60
+          transportTenantTelemetryMsgRateLimit:
+            type: string
+            example: 1000:1,20000:60
+          transportTenantTelemetryDataPointsRateLimit:
+            type: string
+            example: 1000:1,20000:60
+          transportDeviceMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportDeviceTelemetryMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportDeviceTelemetryDataPointsRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayTelemetryMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayTelemetryDataPointsRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayDeviceMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayDeviceTelemetryMsgRateLimit:
+            type: string
+            example: 20:1,600:60
+          transportGatewayDeviceTelemetryDataPointsRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantEntityExportRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantEntityImportRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantNotificationRequestsRateLimit:
+            type: string
+            example: 20:1,600:60
+          tenantNotificationRequestsPerRuleRateLimit:
+            type: string
+            example: 20:1,600:60
+          maxTransportMessages:
+            type: integer
+            format: int64
+            example: 10000000
+          maxTransportDataPoints:
+            type: integer
+            format: int64
+            example: 10000000
+          maxREExecutions:
+            type: integer
+            format: int64
+            example: 4000000
+          maxJSExecutions:
+            type: integer
+            format: int64
+            example: 5000000
+          maxTbelExecutions:
+            type: integer
+            format: int64
+            example: 5000000
+          maxDPStorageDays:
+            type: integer
+            format: int64
+            example: 0
+          maxRuleNodeExecutionsPerMessage:
+            type: integer
+            format: int32
+            example: 50
+          maxDebugModeDurationMinutes:
+            type: integer
+            format: int32
+            example: 15
+          maxEmails:
+            type: integer
+            format: int64
+            example: 0
+          smsEnabled:
+            type: boolean
+            example: true
+          maxSms:
+            type: integer
+            format: int64
+            example: 0
+          maxCreatedAlarms:
+            type: integer
+            format: int64
+            example: 1000
+          tenantServerRestLimitsConfiguration:
+            type: string
+          customerServerRestLimitsConfiguration:
+            type: string
+          maxWsSessionsPerTenant:
+            type: integer
+            format: int32
+          maxWsSessionsPerCustomer:
+            type: integer
+            format: int32
+          maxWsSessionsPerRegularUser:
+            type: integer
+            format: int32
+          maxWsSessionsPerPublicUser:
+            type: integer
+            format: int32
+          wsMsgQueueLimitPerSession:
+            type: integer
+            format: int32
+          maxWsSubscriptionsPerTenant:
+            type: integer
+            format: int64
+          maxWsSubscriptionsPerCustomer:
+            type: integer
+            format: int64
+          maxWsSubscriptionsPerRegularUser:
+            type: integer
+            format: int64
+          maxWsSubscriptionsPerPublicUser:
+            type: integer
+            format: int64
+          wsUpdatesPerSessionRateLimit:
+            type: string
+          cassandraReadQueryTenantCoreRateLimits:
+            type: string
+          cassandraWriteQueryTenantCoreRateLimits:
+            type: string
+          cassandraReadQueryTenantRuleEngineRateLimits:
+            type: string
+          cassandraWriteQueryTenantRuleEngineRateLimits:
+            type: string
+          edgeEventRateLimits:
+            type: string
+          edgeEventRateLimitsPerEdge:
+            type: string
+          edgeUplinkMessagesRateLimits:
+            type: string
+          edgeUplinkMessagesRateLimitsPerEdge:
+            type: string
+          defaultStorageTtlDays:
+            type: integer
+            format: int32
+          alarmsTtlDays:
+            type: integer
+            format: int32
+          rpcTtlDays:
+            type: integer
+            format: int32
+          queueStatsTtlDays:
+            type: integer
+            format: int32
+          ruleEngineExceptionsTtlDays:
+            type: integer
+            format: int32
+          warnThreshold:
+            type: number
+            format: double
+          maxCalculatedFieldsPerEntity:
+            type: integer
+            format: int64
+            example: 5
+          maxArgumentsPerCF:
+            type: integer
+            format: int64
+            example: 10
+          minAllowedScheduledUpdateIntervalInSecForCF:
+            type: integer
+            format: int32
+            example: 10
+          maxRelationLevelPerCfArgument:
+            type: integer
+            format: int32
+            example: 2
+          maxRelatedEntitiesToReturnPerCfArgument:
+            type: integer
+            format: int32
+            example: 100
+          maxDataPointsPerRollingArg:
+            type: integer
+            format: int64
+            example: 1000
+          maxStateSizeInKBytes:
+            type: integer
+            format: int64
+            example: 32
+          maxSingleValueArgumentSizeInKBytes:
+            type: integer
+            format: int64
+            example: 2
+          minAllowedDeduplicationIntervalInSecForCF:
+            type: integer
+            format: int64
+            example: 10
+          minAllowedAggregationIntervalInSecForCF:
+            type: integer
+            format: int64
+            example: 60
+          intermediateAggregationIntervalInSecForCF:
+            type: integer
+            format: int64
+            example: 300
+          cfReevaluationCheckInterval:
+            type: integer
+            format: int64
+            example: 60
+          alarmsReevaluationInterval:
+            type: integer
+            format: int64
+            example: 60
+    TenantProfileConfiguration:
+      discriminator:
+        propertyName: type
+        mapping:
+          DEFAULT: '#/components/schemas/DefaultTenantProfileConfiguration'
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TenantProfileId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT_PROFILE
+          example: TENANT_PROFILE
+      required:
+      - entityType
+      - id
+    TenantProfileData:
+      type: object
+      properties:
+        configuration:
+          description: 'Complex JSON object that contains profile settings: max devices, max assets, rate limits, etc.'
+          oneOf:
+          - $ref: '#/components/schemas/DefaultTenantProfileConfiguration'
+        queueConfiguration:
+          type: array
+          description: JSON array of queue configuration per tenant profile
+          items:
+            $ref: '#/components/schemas/TenantProfileQueueConfiguration'
+    TenantProfileQueueConfiguration:
+      type: object
+      properties:
+        name:
+          type: string
+        topic:
+          type: string
+        pollInterval:
+          type: integer
+          format: int32
+        partitions:
+          type: integer
+          format: int32
+        consumerPerPartition:
+          type: boolean
+        packProcessingTimeout:
+          type: integer
+          format: int64
+        submitStrategy:
+          $ref: '#/components/schemas/SubmitStrategy'
+        processingStrategy:
+          $ref: '#/components/schemas/ProcessingStrategy'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+    SubmitStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - BURST
+          - BATCH
+          - SEQUENTIAL_BY_ORIGINATOR
+          - SEQUENTIAL_BY_TENANT
+          - SEQUENTIAL
+        batchSize:
+          type: integer
+          format: int32
+    PageDataTenantProfile:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TenantProfile'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    TenantProfile:
+      type: object
+      description: A JSON value representing the tenant profile.
+      properties:
+        id:
+          $ref: '#/components/schemas/TenantProfileId'
+          description: JSON object with the tenant profile Id. Specify this field to update the tenant profile. Referencing non-existing tenant profile Id will cause error. Omit this field to create new tenant profile.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the tenant profile creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        name:
+          type: string
+          description: Name of the tenant profile
+          example: High Priority Tenants
+        description:
+          type: string
+          description: Description of the tenant profile
+          example: Any text
+        isolatedTbRuleEngine:
+          type: boolean
+          description: If enabled, will push all messages related to this tenant and processed by the rule engine into separate queue. Useful for complex microservices deployments, to isolate processing of the data for specific tenants
+          example: false
+        profileData:
+          $ref: '#/components/schemas/TenantProfileData'
+        default:
+          type: boolean
+          description: Default Tenant profile to be used.
+          example: false
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

@@ -1,9 +1,7 @@
-# ThingsBoard ThingsBoard RPC API
-# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
 openapi: 3.1.0
 info:
-  title: ThingsBoard RPC API
-  description: "ThingsBoard RPC API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Rpc V 1, Rpc V 2."
+  title: ThingsBoard Admin admin-controller rpc-v-2-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -18,8 +16,6 @@ servers:
 - url: http://localhost:8080
   description: Local ThingsBoard server
 tags:
-- name: rpc-v-1-controller
-  description: Rpc V 1
 - name: rpc-v-2-controller
   description: Rpc V 2
 paths:
@@ -28,16 +24,7 @@ paths:
       tags:
       - rpc-v-2-controller
       summary: Send Two-way RPC Request
-      description: "Sends the two-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name\
-        \ ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n\
-        \  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists\
-        \ of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n\
-        * **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing\
-        \ timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone).\
-        \ Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will\
-        \ be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n\
-        ### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is the response from device, or 504 Gateway Timeout if device\
-        \ is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: "Sends the two-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n* **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone). Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is the response from device, or 504 Gateway Timeout if device is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
       operationId: handleTwoWayDeviceRPCRequest
       parameters:
       - name: deviceId
@@ -89,16 +76,7 @@ paths:
       tags:
       - rpc-v-2-controller
       summary: Send One-way RPC Request
-      description: "Sends the one-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name\
-        \ ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n\
-        \  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists\
-        \ of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n\
-        * **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing\
-        \ timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone).\
-        \ Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will\
-        \ be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n\
-        ### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504\
-        \ Gateway Timeout if device is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: "Sends the one-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n* **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone). Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
       operationId: handleOneWayDeviceRPCRequest
       parameters:
       - name: deviceId
@@ -141,68 +119,6 @@ paths:
                 type: string
         '504':
           description: Timeout to process the RPC call. Most likely, device is offline.
-          content:
-            application/json:
-              schema:
-                type: string
-  /api/plugins/rpc/twoway/{deviceId}:
-    post:
-      tags:
-      - rpc-v-1-controller
-      summary: Send Two-way RPC Request (handleTwoWayDeviceRPCRequest)
-      description: 'Deprecated. See ''Rpc V 2 Controller'' instead.
-
-
-        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
-      operationId: handleTwoWayDeviceRPCRequest_1
-      parameters:
-      - name: deviceId
-        in: path
-        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-              description: A JSON value representing the RPC request.
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-  /api/plugins/rpc/oneway/{deviceId}:
-    post:
-      tags:
-      - rpc-v-1-controller
-      summary: Send One-way RPC Request (handleOneWayDeviceRPCRequest)
-      description: 'Deprecated. See ''Rpc V 2 Controller'' instead.
-
-
-        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
-      operationId: handleOneWayDeviceRPCRequest_1
-      parameters:
-      - name: deviceId
-        in: path
-        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-              description: A JSON value representing the RPC request.
-        required: true
-      responses:
-        '200':
-          description: OK
           content:
             application/json:
               schema:
@@ -330,27 +246,6 @@ paths:
                 type: string
 components:
   schemas:
-    DeviceId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - DEVICE
-          example: DEVICE
-      required:
-      - entityType
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     Rpc:
       type: object
       properties:
@@ -401,23 +296,10 @@ components:
           $ref: '#/components/schemas/JsonNode'
           description: Additional info used in the rule engine to process the updates to the RPC state.
           readOnly: true
-    RpcId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - RPC
-          example: RPC
-      required:
-      - entityType
-      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     TenantId:
       type: object
       properties:
@@ -432,6 +314,40 @@ components:
           enum:
           - TENANT
           example: TENANT
+      required:
+      - entityType
+      - id
+    DeviceId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DEVICE
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    RpcId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - RPC
+          example: RPC
       required:
       - entityType
       - id

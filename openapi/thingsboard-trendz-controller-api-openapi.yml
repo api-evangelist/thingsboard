@@ -1,0 +1,87 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller trendz-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: trendz-controller
+  description: Trendz
+paths:
+  /api/trendz/settings:
+    get:
+      tags:
+      - trendz-controller
+      summary: Get Trendz Settings (getTrendzSettings)
+      description: 'Retrieves Trendz settings for this tenant.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getTrendzSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendzSettings'
+    post:
+      tags:
+      - trendz-controller
+      summary: Save Trendz Settings (saveTrendzSettings)
+      description: "Saves Trendz settings for this tenant.\n\n\nHere is an example of the Trendz settings:\n```json\n{\n  \"enabled\": true,\n  \"baseUrl\": \"https://some.domain.com:18888/also_necessary_prefix\"\n}\n```\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveTrendzSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrendzSettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendzSettings'
+components:
+  schemas:
+    TrendzSettings:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        baseUrl:
+          type: string
+        apiKey:
+          type: string
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

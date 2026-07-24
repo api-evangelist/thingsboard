@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller device-connectivity-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: device-connectivity-controller
+  description: Device Connectivity
+paths:
+  /api/device-connectivity/{protocol}/certificate/download:
+    get:
+      tags:
+      - device-connectivity-controller
+      summary: Download Server Certificate Using File Path Defined in Device.connectivity Properties (downloadServerCertificate)
+      description: Download server certificate.
+      operationId: downloadServerCertificate
+      parameters:
+      - name: protocol
+        in: path
+        description: 'A string value representing the device connectivity protocol. Possible values: ''mqtt'', ''mqtts'', ''http'', ''https'', ''coap'', ''coaps'''
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+  /api/device-connectivity/{deviceId}:
+    get:
+      tags:
+      - device-connectivity-controller
+      summary: Get Commands to Publish Device Telemetry (getDevicePublishTelemetryCommands)
+      description: "Fetch the list of commands to publish device telemetry based on device profile If the user has the authority of 'Tenant Administrator', the server checks that the device is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the device is assigned to the same customer. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getDevicePublishTelemetryCommands
+      parameters:
+      - name: deviceId
+        in: path
+        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                http:
+                  description: http
+                  value: curl -v -X POST http://localhost:8080/api/v1/0ySs4FTOn5WU15XLmal8/telemetry --header Content-Type:application/json --data {temperature:25}
+                mqtt:
+                  description: mqtt
+                  value: mosquitto_pub -d -q 1 -h localhost -t v1/devices/me/telemetry -i myClient1 -u myUsername1 -P myPassword -m {temperature:25}
+                coap:
+                  description: coap
+                  value: coap-client -m POST coap://localhost:5683/api/v1/0ySs4FTOn5WU15XLmal8/telemetry -t json -e {temperature:25}
+  /api/device-connectivity/gateway-launch/{deviceId}/docker-compose/download:
+    get:
+      tags:
+      - device-connectivity-controller
+      summary: Download Generated Docker-compose.yml File for Gateway (downloadGatewayDockerCompose)
+      description: Download generated docker-compose.yml for gateway.
+      operationId: downloadGatewayDockerCompose
+      parameters:
+      - name: deviceId
+        in: path
+        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+components:
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

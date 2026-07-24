@@ -1,0 +1,260 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller sign-up-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: sign-up-controller
+  description: Sign Up
+paths:
+  /api/signup/acceptPrivacyPolicy:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: acceptPrivacyPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/noauth/signup:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: signUp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                - SUCCESS
+                - INACTIVE_USER_EXISTS
+  /api/noauth/resendEmailActivation:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: resendEmailActivation
+      parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: pkgName
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/noauth/activateByEmailCode:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: activateUserByEmailCode
+      parameters:
+      - name: emailCode
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: pkgName
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/signup/privacyPolicyAccepted:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: privacyPolicyAccepted
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /api/noauth/signup/recaptchaPublicKey:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: getRecaptchaPublicKey
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/noauth/signup/recaptchaParams:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: getRecaptchaParams
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaptchaClientParams'
+  /api/noauth/login:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: mobileLogin
+      parameters:
+      - name: pkgName
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/noauth/activateEmail:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: activateEmail
+      parameters:
+      - name: emailCode
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: pkgName
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/signup/tenantAccount:
+    delete:
+      tags:
+      - sign-up-controller
+      operationId: deleteTenantAccount
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    CaptchaClientParams:
+      type: object
+      properties:
+        captchaSiteKey:
+          type: string
+        captchaVersion:
+          type: string
+        captchaAction:
+          type: string
+    JwtPair:
+      type: object
+      description: JWT Pair
+      properties:
+        token:
+          type: string
+          description: The JWT Access Token. Used to perform API calls.
+          example: AAB254FF67D..
+        refreshToken:
+          type: string
+          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
+          example: AAB254FF67D..
+        scope:
+          type: string
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+    SignUpRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First Name
+          example: John
+        lastName:
+          type: string
+          description: Last Name
+          example: Doe
+        email:
+          type: string
+          description: Email will be used for new user to login
+          example: john.doe@company.com
+        password:
+          type: string
+          description: New User Password
+          example: secret
+        recaptchaResponse:
+          type: string
+          description: Response from reCAPTCHA validation
+        pkgName:
+          type: string
+          description: For mobile apps only. Mobile app package name
+        appSecret:
+          type: string
+          description: For mobile apps only. Mobile app secret
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

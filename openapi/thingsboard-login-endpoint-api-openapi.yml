@@ -1,0 +1,355 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller login-endpoint API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: login-endpoint
+  description: Login
+paths:
+  /api/auth/login:
+    post:
+      tags:
+      - login-endpoint
+      summary: Login Method to Get User JWT Token Data
+      description: 'Login method used to authenticate user and get JWT token data.
+
+
+        Value of the response **token** field can be used as **X-Authorization** header value:
+
+
+        `X-Authorization: Bearer $JWT_TOKEN_VALUE`.'
+      requestBody:
+        description: Login request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardErrorResponse'
+              examples:
+                account-disabled:
+                  summary: Disabled account
+                  value:
+                    status: 401
+                    message: User account is not active
+                    errorCode: 10
+                    timestamp: 1770209248175
+                bad-credentials:
+                  summary: Bad credentials
+                  value:
+                    status: 401
+                    message: Invalid username or password
+                    errorCode: 10
+                    timestamp: 1770209248175
+                account-locked:
+                  summary: Locked account
+                  value:
+                    status: 401
+                    message: User account is locked due to security policy
+                    errorCode: 10
+                    timestamp: 1770209248175
+                token-expired:
+                  summary: JWT token expired
+                  value:
+                    status: 401
+                    message: Token has expired
+                    errorCode: 11
+                    timestamp: 1770209248175
+                authentication-failed:
+                  summary: General authentication error
+                  value:
+                    status: 401
+                    message: Authentication failed
+                    errorCode: 10
+                    timestamp: 1770209248175
+        '401 ':
+          description: Unauthorized (**Expired credentials**)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardCredentialsExpiredResponse'
+              examples:
+                credentials-expired:
+                  summary: Expired credentials
+                  value:
+                    status: 401
+                    message: User password expired!
+                    errorCode: 15
+                    timestamp: 1770209248182
+                    resetToken: 59B5IkNuDrCyn98QB8LJ1sWFzwA03A
+  /api/auth/token:
+    post:
+      tags:
+      - login-endpoint
+      summary: Refresh User JWT Token Data
+      description: 'Method to refresh JWT token. Provide a valid refresh token to get a new JWT token.
+
+
+        The response contains a new token that can be used for authorization.
+
+
+        `X-Authorization: Bearer $JWT_TOKEN_VALUE`'
+      requestBody:
+        description: Refresh token request
+        content:
+          application/json:
+            schema:
+              properties:
+                refreshToken: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardErrorResponse'
+              examples:
+                account-disabled:
+                  summary: Disabled account
+                  value:
+                    status: 401
+                    message: User account is not active
+                    errorCode: 10
+                    timestamp: 1770209248175
+                bad-credentials:
+                  summary: Bad credentials
+                  value:
+                    status: 401
+                    message: Invalid username or password
+                    errorCode: 10
+                    timestamp: 1770209248175
+                account-locked:
+                  summary: Locked account
+                  value:
+                    status: 401
+                    message: User account is locked due to security policy
+                    errorCode: 10
+                    timestamp: 1770209248175
+                token-expired:
+                  summary: JWT token expired
+                  value:
+                    status: 401
+                    message: Token has expired
+                    errorCode: 11
+                    timestamp: 1770209248175
+                authentication-failed:
+                  summary: General authentication error
+                  value:
+                    status: 401
+                    message: Authentication failed
+                    errorCode: 10
+                    timestamp: 1770209248175
+        '401 ':
+          description: Unauthorized (**Expired credentials**)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardCredentialsExpiredResponse'
+              examples:
+                credentials-expired:
+                  summary: Expired credentials
+                  value:
+                    status: 401
+                    message: User password expired!
+                    errorCode: 15
+                    timestamp: 1770209248182
+                    resetToken: 59B5IkNuDrCyn98QB8LJ1sWFzwA03A
+components:
+  schemas:
+    ThingsboardCredentialsExpiredResponse:
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP Response Status Code
+          example: 401
+          readOnly: true
+        message:
+          type: string
+          description: Error message
+          example: Authentication failed
+          readOnly: true
+        errorCode:
+          type: integer
+          format: int32
+          description: 'Platform error code:
+
+            * `2` - General error (HTTP: 500 - Internal Server Error)
+
+
+            * `10` - Authentication failed (HTTP: 401 - Unauthorized)
+
+
+            * `11` - JWT token expired (HTTP: 401 - Unauthorized)
+
+
+            * `15` - Credentials expired (HTTP: 401 - Unauthorized)
+
+
+            * `20` - Permission denied (HTTP: 403 - Forbidden)
+
+
+            * `30` - Invalid arguments (HTTP: 400 - Bad Request)
+
+
+            * `31` - Bad request params (HTTP: 400 - Bad Request)
+
+
+            * `32` - Item not found (HTTP: 404 - Not Found)
+
+
+            * `33` - Too many requests (HTTP: 429 - Too Many Requests)
+
+
+            * `34` - Too many updates (Too many updates over Websocket session)
+
+
+            * `40` - Subscription violation (HTTP: 403 - Forbidden)
+
+
+            * `41` - Entities limit exceeded (HTTP: 403 - Forbidden)'
+          example: 10
+          readOnly: true
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp
+          readOnly: true
+        resetToken:
+          type: string
+          description: Password reset token
+          readOnly: true
+    LoginRequest:
+      properties:
+        username:
+          type: string
+          description: User email
+          example: tenant@thingsboard.org
+        password:
+          type: string
+          description: User password
+          example: tenant
+      required:
+      - password
+      - username
+    LoginResponse:
+      properties:
+        token:
+          type: string
+          description: JWT token
+          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
+        refreshToken:
+          type: string
+          description: Refresh token
+          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
+      required:
+      - refreshToken
+      - token
+    ThingsboardErrorResponse:
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP Response Status Code
+          example: 401
+          readOnly: true
+        message:
+          type: string
+          description: Error message
+          example: Authentication failed
+          readOnly: true
+        errorCode:
+          type: integer
+          format: int32
+          description: 'Platform error code:
+
+            * `2` - General error (HTTP: 500 - Internal Server Error)
+
+
+            * `10` - Authentication failed (HTTP: 401 - Unauthorized)
+
+
+            * `11` - JWT token expired (HTTP: 401 - Unauthorized)
+
+
+            * `15` - Credentials expired (HTTP: 401 - Unauthorized)
+
+
+            * `20` - Permission denied (HTTP: 403 - Forbidden)
+
+
+            * `30` - Invalid arguments (HTTP: 400 - Bad Request)
+
+
+            * `31` - Bad request params (HTTP: 400 - Bad Request)
+
+
+            * `32` - Item not found (HTTP: 404 - Not Found)
+
+
+            * `33` - Too many requests (HTTP: 429 - Too Many Requests)
+
+
+            * `34` - Too many updates (Too many updates over Websocket session)
+
+
+            * `40` - Subscription violation (HTTP: 403 - Forbidden)
+
+
+            * `41` - Entities limit exceeded (HTTP: 403 - Forbidden)'
+          example: 10
+          readOnly: true
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp
+          readOnly: true
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

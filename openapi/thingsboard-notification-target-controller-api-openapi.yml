@@ -1,0 +1,591 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller notification-target-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: notification-target-controller
+  description: Notification Target
+paths:
+  /api/notification/target:
+    post:
+      tags:
+      - notification-target-controller
+      summary: Save Notification Target (saveNotificationTarget)
+      description: "Creates or updates notification target.\n\nAvailable `configuration` types are `PLATFORM_USERS` and `SLACK`.\nFor `PLATFORM_USERS` the `usersFilter` must be specified. For tenant, there are following users filter types available: `USER_LIST`, `CUSTOMER_USERS`, `TENANT_ADMINISTRATORS`, `ALL_USERS`, `ORIGINATOR_ENTITY_OWNER_USERS`, `AFFECTED_USER`.\nFor sysadmin: `TENANT_ADMINISTRATORS`, `AFFECTED_TENANT_ADMINISTRATORS`, `SYSTEM_ADMINISTRATORS`, `ALL_USERS`.\n\nHere is an example of tenant-level notification target to send notification to customer's users:\n```json\n{\n  \"name\": \"Users of Customer A\",\n  \"configuration\": {\n    \"type\": \"PLATFORM_USERS\",\n    \"usersFilter\": {\n      \"type\": \"CUSTOMER_USERS\",\n      \"customerId\": \"32499a20-d785-11ed-a06c-21dd57dd88ca\"\n    },\n    \"description\": \"Users of Customer A\"\n  }\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: saveNotificationTarget
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationTarget'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationTarget'
+  /api/notification/target/recipients:
+    post:
+      tags:
+      - notification-target-controller
+      summary: Get Recipients for Notification Target Config (getRecipientsForNotificationTargetConfig)
+      description: 'Returns the page of recipients for such notification target configuration.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getRecipientsForNotificationTargetConfig
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationTarget'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataUser'
+  /api/notification/targets:
+    get:
+      tags:
+      - notification-target-controller
+      summary: Get Notification Targets by Ids (getNotificationTargetsByIds)
+      description: 'Returns the list of notification targets found by provided ids.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getNotificationTargets
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: Case-insensitive 'substring' filed based on the target's name
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+      - name: notificationType
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - GENERAL
+          - ALARM
+          - DEVICE_ACTIVITY
+          - ENTITY_ACTION
+          - ALARM_COMMENT
+          - RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT
+          - ALARM_ASSIGNMENT
+          - NEW_PLATFORM_VERSION
+          - ENTITIES_LIMIT
+          - ENTITIES_LIMIT_INCREASE_REQUEST
+          - API_USAGE_LIMIT
+          - RULE_NODE
+          - RATE_LIMITS
+          - EDGE_CONNECTION
+          - EDGE_COMMUNICATION_FAILURE
+          - TASK_PROCESSING_FAILURE
+          - RESOURCES_SHORTAGE
+      - name: ids
+        in: query
+        description: Comma-separated list of uuids representing targets ids
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/NotificationTarget'
+                - $ref: '#/components/schemas/PageDataNotificationTarget'
+  /api/notification/target/{id}:
+    get:
+      tags:
+      - notification-target-controller
+      summary: Get Notification Target by Id (getNotificationTargetById)
+      description: 'Fetches notification target by id.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getNotificationTargetById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationTarget'
+    delete:
+      tags:
+      - notification-target-controller
+      summary: Delete Notification Target by Id (deleteNotificationTargetById)
+      description: 'Deletes notification target by its id.
+
+
+        This target cannot be referenced by existing scheduled notification requests or any notification rules.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteNotificationTargetById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    MicrosoftTeamsNotificationTargetConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationTargetConfig'
+      - type: object
+        properties:
+          webhookUrl:
+            type: string
+            minLength: 1
+          channelName:
+            type: string
+            minLength: 1
+          useOldApi:
+            type: boolean
+          id: {}
+          title:
+            type: string
+          email:
+            type: string
+          firstName:
+            type: string
+          lastName:
+            type: string
+      required:
+      - channelName
+      - webhookUrl
+    AffectedTenantAdministratorsFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+    CustomerUsersFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+      - type: object
+        properties:
+          customerId:
+            type: string
+            format: uuid
+      required:
+      - customerId
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    PageDataUser:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/User'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    AllUsersFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+    AffectedUserFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+    UserListFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+      - type: object
+        properties:
+          usersIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            minItems: 1
+      required:
+      - usersIds
+    SlackNotificationTargetConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationTargetConfig'
+      - type: object
+        properties:
+          conversationType:
+            type: string
+            enum:
+            - DIRECT
+            - PUBLIC_CHANNEL
+            - PRIVATE_CHANNEL
+          conversation:
+            $ref: '#/components/schemas/SlackConversation'
+      required:
+      - conversation
+    SlackConversation:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - DIRECT
+          - PUBLIC_CHANNEL
+          - PRIVATE_CHANNEL
+        id:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        wholeName:
+          type: string
+        email:
+          type: string
+        title:
+          type: string
+      required:
+      - id
+      - name
+      - type
+    NotificationTargetId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - NOTIFICATION_TARGET
+          example: NOTIFICATION_TARGET
+      required:
+      - entityType
+      - id
+    User:
+      type: object
+      description: A JSON value representing the User.
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with the User Id. Specify this field to update the device. Referencing non-existing User Id will cause error. Omit this field to create new customer.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the user creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with the Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with the Customer Id.
+          readOnly: true
+        email:
+          type: string
+          description: Email of the user
+          example: user@example.com
+        authority:
+          type: string
+          description: Authority
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+          example: SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER
+        firstName:
+          type: string
+          description: First name of the user
+          example: John
+        lastName:
+          type: string
+          description: Last name of the user
+          example: Doe
+        phone:
+          type: string
+          description: Phone number of the user
+          example: 38012345123
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Duplicates the email of the user, readonly
+          example: user@example.com
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the user
+      required:
+      - authority
+      - email
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    PlatformUsersNotificationTargetConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationTargetConfig'
+      - type: object
+        properties:
+          usersFilter:
+            oneOf:
+            - $ref: '#/components/schemas/AffectedTenantAdministratorsFilter'
+            - $ref: '#/components/schemas/AffectedUserFilter'
+            - $ref: '#/components/schemas/AllUsersFilter'
+            - $ref: '#/components/schemas/CustomerUsersFilter'
+            - $ref: '#/components/schemas/OriginatorEntityOwnerUsersFilter'
+            - $ref: '#/components/schemas/SystemAdministratorsFilter'
+            - $ref: '#/components/schemas/TenantAdministratorsFilter'
+            - $ref: '#/components/schemas/UserListFilter'
+      required:
+      - usersFilter
+    NotificationTarget:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/NotificationTargetId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        name:
+          type: string
+          minLength: 1
+        configuration:
+          oneOf:
+          - $ref: '#/components/schemas/MicrosoftTeamsNotificationTargetConfig'
+          - $ref: '#/components/schemas/PlatformUsersNotificationTargetConfig'
+          - $ref: '#/components/schemas/SlackNotificationTargetConfig'
+      required:
+      - configuration
+      - name
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    SystemAdministratorsFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+    UsersFilter:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TenantAdministratorsFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+      - type: object
+        properties:
+          tenantsIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            uniqueItems: true
+          tenantProfilesIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            uniqueItems: true
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    PageDataNotificationTarget:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/NotificationTarget'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    OriginatorEntityOwnerUsersFilter:
+      allOf:
+      - $ref: '#/components/schemas/UsersFilter'
+    NotificationTargetConfig:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        description:
+          type: string
+        type:
+          type: string
+      required:
+      - type
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

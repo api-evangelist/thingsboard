@@ -1,0 +1,642 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller mobile-app-bundle-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: mobile-app-bundle-controller
+  description: Mobile App Bundle
+paths:
+  /api/mobile/bundle/{id}/oauth2Clients:
+    put:
+      tags:
+      - mobile-app-bundle-controller
+      summary: Update Oauth2 Clients (updateOauth2Clients)
+      description: 'Update oauth2 clients of the specified mobile app bundle.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: updateOauth2Clients
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/mobile/bundle:
+    post:
+      tags:
+      - mobile-app-bundle-controller
+      summary: Save or Update Mobile App Bundle (saveMobileAppBundle)
+      description: 'Create or update the Mobile app bundle that represents tha pair of ANDROID and IOS app and mobile settings like oauth2 clients, self-registration and layout configuration.When creating mobile app bundle, platform generates Mobile App Bundle Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Mobile App Bundle Id will be present in the response. Referencing non-existing Mobile App Bundle Id will cause ''Not Found'' error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: saveMobileAppBundle
+      parameters:
+      - name: oauth2ClientIds
+        in: query
+        description: A list of oauth2 client ids, separated by comma ','
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileAppBundle'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileAppBundle'
+  /api/mobile/bundle/infos:
+    get:
+      tags:
+      - mobile-app-bundle-controller
+      summary: Get Mobile App Bundle Infos (getTenantMobileAppBundleInfos)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getTenantMobileAppBundleInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: Case-insensitive 'substring' filter based on app's name
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataMobileAppBundleInfo'
+  /api/mobile/bundle/info/{id}:
+    get:
+      tags:
+      - mobile-app-bundle-controller
+      summary: Get Mobile App Bundle Info by Id (getMobileAppBundleInfoById)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getMobileAppBundleInfoById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileAppBundleInfo'
+  /api/mobile/bundle/{id}:
+    delete:
+      tags:
+      - mobile-app-bundle-controller
+      summary: Delete Mobile App Bundle by ID (deleteMobileAppBundle)
+      description: 'Deletes Mobile App Bundle by ID. Referencing non-existing mobile app bundle Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteMobileAppBundle
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    MobilePage:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+          enum:
+          - DEFAULT
+          - DASHBOARD
+          - WEB_VIEW
+          - CUSTOM
+        visible:
+          type: boolean
+    MobileAppBundleId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    CustomMobilePage:
+      allOf:
+      - $ref: '#/components/schemas/MobilePage'
+      - type: object
+        properties:
+          path:
+            type: string
+            description: Path to custom page
+            example: /alarmDetails/868c7083-032d-4f52-b8b4-7859aebb6a4e
+          label:
+            type: string
+            description: Page label
+            example: Air quality
+          visible:
+            type: boolean
+            description: Indicates if page is visible
+            example: true
+          icon:
+            type: string
+            description: URL of the page icon
+            example: home_icon
+      required:
+      - visible
+    MobileLayoutConfig:
+      type: object
+      properties:
+        pages:
+          type: array
+          description: List of pages
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CustomMobilePage'
+            - $ref: '#/components/schemas/DashboardPage'
+            - $ref: '#/components/schemas/DefaultMobilePage'
+            - $ref: '#/components/schemas/WebViewPage'
+    MobileAppBundle:
+      type: object
+      description: A JSON value representing the Mobile Application Bundle.
+      properties:
+        id:
+          $ref: '#/components/schemas/MobileAppBundleId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        title:
+          type: string
+          description: Application bundle title. Cannot be empty
+          minLength: 1
+        description:
+          type: string
+          description: Application bundle description.
+        androidAppId:
+          $ref: '#/components/schemas/MobileAppId'
+          description: Android application id
+        iosAppId:
+          $ref: '#/components/schemas/MobileAppId'
+          description: IOS application id
+        layoutConfig:
+          $ref: '#/components/schemas/MobileLayoutConfig'
+          description: Application layout configuration
+        oauth2Enabled:
+          type: boolean
+          description: Whether OAuth2 settings are enabled or not
+        name:
+          type: string
+          description: Mobile app bundle title
+          example: My main application
+          readOnly: true
+      required:
+      - title
+    MobileAppBundleInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/MobileAppBundleId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        title:
+          type: string
+          description: Application bundle title. Cannot be empty
+          minLength: 1
+        description:
+          type: string
+          description: Application bundle description.
+        androidAppId:
+          $ref: '#/components/schemas/MobileAppId'
+          description: Android application id
+        iosAppId:
+          $ref: '#/components/schemas/MobileAppId'
+          description: IOS application id
+        layoutConfig:
+          $ref: '#/components/schemas/MobileLayoutConfig'
+          description: Application layout configuration
+        oauth2Enabled:
+          type: boolean
+          description: Whether OAuth2 settings are enabled or not
+        androidPkgName:
+          type: string
+          description: Android package name
+        iosPkgName:
+          type: string
+          description: IOS package name
+        oauth2ClientInfos:
+          type: array
+          description: List of available oauth2 clients
+          items:
+            $ref: '#/components/schemas/OAuth2ClientInfo'
+        qrCodeEnabled:
+          type: boolean
+          description: Indicates if qr code is available for bundle
+        name:
+          type: string
+          description: Mobile app bundle title
+          example: My main application
+          readOnly: true
+      required:
+      - title
+    PageDataMobileAppBundleInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/MobileAppBundleInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    OAuth2ClientId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    DashboardPage:
+      allOf:
+      - $ref: '#/components/schemas/MobilePage'
+      - type: object
+        properties:
+          dashboardId:
+            type: string
+            description: Dashboard id
+            example: 784f394c-42b6-435a-983c-b7beff2784f9
+          label:
+            type: string
+            description: Page label
+            example: Air quality
+          visible:
+            type: boolean
+            description: Indicates if page is visible
+            example: true
+          icon:
+            type: string
+            description: URL of the page icon
+            example: home_icon
+      required:
+      - visible
+    DefaultMobilePage:
+      allOf:
+      - $ref: '#/components/schemas/MobilePage'
+      - type: object
+        properties:
+          id:
+            type: string
+            description: Identifier for default page
+            enum:
+            - HOME
+            - ALARMS
+            - DEVICES
+            - CUSTOMERS
+            - ASSETS
+            - AUDIT_LOGS
+            - NOTIFICATIONS
+            - DEVICE_LIST
+            - DASHBOARDS
+            example: HOME
+          label:
+            type: string
+            description: Page label
+            example: Air quality
+          visible:
+            type: boolean
+            description: Indicates if page is visible
+            example: true
+          icon:
+            type: string
+            description: URL of the page icon
+            example: home_icon
+      required:
+      - visible
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    OAuth2ClientInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        title:
+          type: string
+          description: Oauth2 client registration title (e.g. My google)
+        providerName:
+          type: string
+          description: Oauth2 client provider name (e.g. Google)
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
+          type: string
+          readOnly: true
+    WebViewPage:
+      allOf:
+      - $ref: '#/components/schemas/MobilePage'
+      - type: object
+        properties:
+          url:
+            type: string
+            description: Url
+            example: /url
+          label:
+            type: string
+            description: Page label
+            example: Air quality
+          visible:
+            type: boolean
+            description: Indicates if page is visible
+            example: true
+          icon:
+            type: string
+            description: URL of the page icon
+            example: home_icon
+      required:
+      - visible
+    MobileAppId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

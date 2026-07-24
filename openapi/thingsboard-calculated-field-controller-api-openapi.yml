@@ -1,0 +1,879 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller calculated-field-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: calculated-field-controller
+  description: Calculated Field
+paths:
+  /api/calculatedField:
+    post:
+      tags:
+      - calculated-field-controller
+      summary: Create or Update Calculated Field (saveCalculatedField)
+      description: "Creates or Updates the Calculated Field. When creating calculated field, platform generates Calculated Field Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Calculated Field Id will be present in the response. Specify existing Calculated Field Id to update the calculated field. Referencing non-existing Calculated Field Id will cause 'Not Found' error. Remove 'id', 'tenantId' from the request body example (below) to create new Calculated Field entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveCalculatedField
+      requestBody:
+        description: A JSON value representing the calculated field.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculatedField'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculatedField'
+  /api/calculatedField/testScript:
+    post:
+      tags:
+      - calculated-field-controller
+      summary: Test Script Expression
+      description: "Execute the Script expression and return the result. The format of request: \n\n```json\n{\n  \"expression\": \"var temp = 0; foreach(element: temperature.values) {temp += element.value;} var avgTemperature = temp / temperature.values.size(); var adjustedTemperature = avgTemperature + 0.1 * humidity.value; return {\\\"adjustedTemperature\\\": adjustedTemperature};\",\n  \"arguments\": {\n    \"temperature\": {\n      \"type\": \"TS_ROLLING\",\n      \"timeWindow\": {\n        \"startTs\": 1739775630002,\n        \"endTs\": 65432211,\n        \"limit\": 5\n      },\n      \"values\": [\n        { \"ts\": 1739775639851, \"value\": 23 },\n        { \"ts\": 1739775664561, \"value\": 43 },\n        { \"ts\": 1739775713079, \"value\": 15 },\n        { \"ts\": 1739775999522, \"value\": 34 },\n        { \"ts\": 1739776228452, \"value\": 22 }\n      ]\n    },\n    \"humidity\": { \"type\": \"SINGLE_VALUE\", \"ts\": 1739776478057, \"value\": 23 }\n  }\n}\n```\n\n Expected result JSON contains \"output\" and \"error\".\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: testScript_1
+      requestBody:
+        description: Test calculated field TBEL expression.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonNode'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+  /api/{entityType}/{entityId}/calculatedFields:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Fields by Entity Id (getCalculatedFieldsByEntityId)
+      description: Fetch the Calculated Fields based on the provided Entity Id.
+      operationId: getCalculatedFieldsByEntityId
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: Calculated field type. If not specified, all types will be returned.
+        required: false
+        schema:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the calculated field name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataCalculatedField'
+  /api/calculatedFields:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Fields (getCalculatedFields)
+      description: Fetch tenant calculated fields based on the filter.
+      operationId: getCalculatedFields
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: types
+        in: query
+        description: Calculated field types filter.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - SIMPLE
+            - SCRIPT
+            - GEOFENCING
+            - ALARM
+            - PROPAGATION
+            - RELATED_ENTITIES_AGGREGATION
+            - ENTITY_AGGREGATION
+          uniqueItems: true
+      - name: entityType
+        in: query
+        description: Entity type filter. If not specified, calculated fields for all supported entity types will be returned.
+        required: false
+        schema:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+      - name: entities
+        in: query
+        description: Entities filter. If not specified, calculated fields for entity type filter will be returned.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+      - name: name
+        in: query
+        description: Name filter. To specify multiple names, duplicate 'name' parameter for each name, for example '?name=name1&name=name2
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the calculated field name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataCalculatedFieldInfo'
+  /api/calculatedFields/names:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Field Names (getCalculatedFieldNames)
+      description: Fetch the list of calculated field names for specified type.
+      operationId: getCalculatedFieldNames
+      parameters:
+      - name: type
+        in: query
+        description: Calculated field type filter.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the calculated field name.
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataString'
+  /api/calculatedField/{calculatedFieldId}:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Field (getCalculatedFieldById)
+      description: Fetch the Calculated Field object based on the provided Calculated Field Id.
+      operationId: getCalculatedFieldById
+      parameters:
+      - name: calculatedFieldId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculatedField'
+    delete:
+      tags:
+      - calculated-field-controller
+      summary: Delete Calculated Field (deleteCalculatedField)
+      description: 'Deletes the calculated field. Referencing non-existing Calculated Field Id will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: deleteCalculatedField
+      parameters:
+      - name: calculatedFieldId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/calculatedField/{calculatedFieldId}/debug:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Latest Calculated Field Debug Event (getLatestCalculatedFieldDebugEvent)
+      description: "Gets latest calculated field debug event for specified calculated field id. Referencing non-existing calculated field id will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getLatestCalculatedFieldDebugEvent
+      parameters:
+      - name: calculatedFieldId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+components:
+  schemas:
+    TimeSeriesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
+    OutputStrategy: {}
+    AttributesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+    TimeSeriesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    SimpleCalculatedFieldConfiguration:
+      type: object
+      properties:
+        arguments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Argument'
+          minProperties: 1
+        expression:
+          type: string
+        output:
+          oneOf:
+          - $ref: '#/components/schemas/AttributesOutput'
+          - $ref: '#/components/schemas/TimeSeriesOutput'
+        useLatestTs:
+          type: boolean
+      required:
+      - arguments
+      - output
+    Argument:
+      type: object
+      properties:
+        refEntityId:
+          $ref: '#/components/schemas/EntityId'
+        refDynamicSourceConfiguration:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
+          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
+        refEntityKey:
+          $ref: '#/components/schemas/ReferencedEntityKey'
+        defaultValue:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        timeWindow:
+          type: integer
+          format: int64
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    CalculatedField:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CalculatedFieldId'
+          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the calculated field creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+        name:
+          type: string
+          description: User defined name of the calculated field.
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        configurationVersion:
+          type: integer
+          format: int32
+          description: Version of calculated field configuration.
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
+        version:
+          type: integer
+          format: int64
+      required:
+      - configuration
+    AttributesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
+    CalculatedFieldInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CalculatedFieldId'
+          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the calculated field creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+        name:
+          type: string
+          description: User defined name of the calculated field.
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        configurationVersion:
+          type: integer
+          format: int32
+          description: Version of calculated field configuration.
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
+        version:
+          type: integer
+          format: int64
+        entityName:
+          type: string
+      required:
+      - configuration
+    RelationPathQueryDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+      - type: object
+        properties:
+          levels:
+            type: array
+            items:
+              $ref: '#/components/schemas/RelationPathLevel'
+    PageDataString:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            type: string
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    CurrentOwnerDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+    DebugSettings:
+      type: object
+      properties:
+        failuresEnabled:
+          type: boolean
+          description: 'Debug failures. '
+          example: false
+        allEnabled:
+          type: boolean
+          description: Debug All. Used as a trigger for updating debugAllUntil.
+          example: false
+        allEnabledUntil:
+          type: integer
+          format: int64
+          description: Timestamp of the end time for the processing debug events.
+    PageDataCalculatedField:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataCalculatedFieldInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/CalculatedFieldInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    Output:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        name:
+          type: string
+        scope:
+          type: string
+          enum:
+          - CLIENT_SCOPE
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+        decimalsByDefault:
+          type: integer
+          format: int32
+        strategy:
+          $ref: '#/components/schemas/OutputStrategy'
+        type:
+          type: string
+      required:
+      - type
+    MultiValueMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      properties:
+        all:
+          type: object
+          additionalProperties:
+            type: string
+          writeOnly: true
+    AttributesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+      - type: object
+        properties:
+          sendAttributesUpdatedNotification:
+            type: boolean
+          updateAttributesOnlyOnValueChange:
+            type: boolean
+          saveAttribute:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    TimeSeriesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+    ReferencedEntityKey:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
+          type: string
+          enum:
+          - TS_LATEST
+          - ATTRIBUTE
+          - TS_ROLLING
+        scope:
+          type: string
+          enum:
+          - CLIENT_SCOPE
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+    CfArgumentDynamicSourceConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    CalculatedFieldId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CALCULATED_FIELD
+          example: CALCULATED_FIELD
+      required:
+      - entityType
+      - id
+    AttributesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    RelationPathLevel:
+      type: object
+      properties:
+        direction:
+          type: string
+          enum:
+          - FROM
+          - TO
+        relationType:
+          type: string
+          minLength: 1
+      required:
+      - direction
+      - relationType
+    TimeSeriesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+      - type: object
+        properties:
+          ttl:
+            type: integer
+            format: int64
+          saveTimeSeries:
+            type: boolean
+          saveLatest:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

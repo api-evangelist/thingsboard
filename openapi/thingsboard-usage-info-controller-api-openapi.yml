@@ -1,0 +1,131 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller usage-info-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: usage-info-controller
+  description: Usage Info
+paths:
+  /api/usage:
+    get:
+      tags:
+      - usage-info-controller
+      operationId: getTenantUsageInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageInfo'
+components:
+  schemas:
+    UsageInfo:
+      type: object
+      properties:
+        devices:
+          type: integer
+          format: int64
+        maxDevices:
+          type: integer
+          format: int64
+        assets:
+          type: integer
+          format: int64
+        maxAssets:
+          type: integer
+          format: int64
+        customers:
+          type: integer
+          format: int64
+        maxCustomers:
+          type: integer
+          format: int64
+        users:
+          type: integer
+          format: int64
+        maxUsers:
+          type: integer
+          format: int64
+        dashboards:
+          type: integer
+          format: int64
+        maxDashboards:
+          type: integer
+          format: int64
+        edges:
+          type: integer
+          format: int64
+        maxEdges:
+          type: integer
+          format: int64
+        transportMessages:
+          type: integer
+          format: int64
+        maxTransportMessages:
+          type: integer
+          format: int64
+        jsExecutions:
+          type: integer
+          format: int64
+        tbelExecutions:
+          type: integer
+          format: int64
+        maxJsExecutions:
+          type: integer
+          format: int64
+        maxTbelExecutions:
+          type: integer
+          format: int64
+        emails:
+          type: integer
+          format: int64
+        maxEmails:
+          type: integer
+          format: int64
+        sms:
+          type: integer
+          format: int64
+        maxSms:
+          type: integer
+          format: int64
+        smsEnabled:
+          type: boolean
+        alarms:
+          type: integer
+          format: int64
+        maxAlarms:
+          type: integer
+          format: int64
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

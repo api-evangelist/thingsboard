@@ -1,0 +1,184 @@
+openapi: 3.1.0
+info:
+  title: ThingsBoard Admin admin-controller rule-engine-controller API
+  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: rule-engine-controller
+  description: Rule Engine
+paths:
+  /api/rule-engine/{entityType}/{entityId}:
+    post:
+      tags:
+      - rule-engine-controller
+      summary: Push Entity Message to the Rule Engine (handleRuleEngineRequest)
+      description: "Creates the Message with type 'REST_API_REQUEST' and payload taken from the request body. Uses specified Entity Id as the Rule Engine message originator. This method allows you to extend the regular platform API with the power of Rule Engine. You may use default and custom rule nodes to handle the message. The generated message contains two important metadata fields:\n\n * **'serviceId'** to identify the platform server that received the request;\n * **'requestUUID'** to identify the request and route possible response from the Rule Engine;\n\nUse **'rest call reply'** rule node to push the reply from rule engine back as a REST API call response. The default timeout of the request processing is 10 seconds.\n\n Security check is performed to verify that the user has 'WRITE' permission for the entity (entities)."
+      operationId: handleRuleEngineRequest
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: A JSON value representing the message.
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/rule-engine/{entityType}/{entityId}/{timeout}:
+    post:
+      tags:
+      - rule-engine-controller
+      summary: Push Entity Message with Timeout to the Rule Engine (handleRuleEngineRequest)
+      description: "Creates the Message with type 'REST_API_REQUEST' and payload taken from the request body. Uses specified Entity Id as the Rule Engine message originator. This method allows you to extend the regular platform API with the power of Rule Engine. You may use default and custom rule nodes to handle the message. The generated message contains two important metadata fields:\n\n * **'serviceId'** to identify the platform server that received the request;\n * **'requestUUID'** to identify the request and route possible response from the Rule Engine;\n\nUse **'rest call reply'** rule node to push the reply from rule engine back as a REST API call response. The platform expects the timeout value in milliseconds.\n\n Security check is performed to verify that the user has 'WRITE' permission for the entity (entities)."
+      operationId: handleRuleEngineRequest_1
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: timeout
+        in: path
+        description: Timeout to process the request in milliseconds
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: A JSON value representing the message.
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/rule-engine/{entityType}/{entityId}/{queueName}/{timeout}:
+    post:
+      tags:
+      - rule-engine-controller
+      summary: Push Entity Message with Timeout and Specified Queue to the Rule Engine (handleRuleEngineRequest)
+      description: "Creates the Message with type 'REST_API_REQUEST' and payload taken from the request body. Uses specified Entity Id as the Rule Engine message originator. This method allows you to extend the regular platform API with the power of Rule Engine. You may use default and custom rule nodes to handle the message. The generated message contains two important metadata fields:\n\n * **'serviceId'** to identify the platform server that received the request;\n * **'requestUUID'** to identify the request and route possible response from the Rule Engine;\n\nUse **'rest call reply'** rule node to push the reply from rule engine back as a REST API call response. If request sent for Device/Device Profile or Asset/Asset Profile entity, specified queue will be used instead of the queue selected in the device or asset profile. The platform expects the timeout value in milliseconds.\n\n Security check is performed to verify that the user has 'WRITE' permission for the entity (entities)."
+      operationId: handleRuleEngineRequest_2
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: queueName
+        in: path
+        description: Queue name to process the request in the rule engine
+        required: true
+        schema:
+          type: string
+      - name: timeout
+        in: path
+        description: Timeout to process the request in milliseconds
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: A JSON value representing the message.
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/rule-engine/:
+    post:
+      tags:
+      - rule-engine-controller
+      summary: Push User Message to the Rule Engine (handleRuleEngineRequest)
+      description: "Creates the Message with type 'REST_API_REQUEST' and payload taken from the request body. Uses current User Id ( the one which credentials is used to perform the request) as the Rule Engine message originator. This method allows you to extend the regular platform API with the power of Rule Engine. You may use default and custom rule nodes to handle the message. The generated message contains two important metadata fields:\n\n * **'serviceId'** to identify the platform server that received the request;\n * **'requestUUID'** to identify the request and route possible response from the Rule Engine;\n\nUse **'rest call reply'** rule node to push the reply from rule engine back as a REST API call response. The default timeout of the request processing is 10 seconds.\n\n Security check is performed to verify that the user has 'WRITE' permission for the entity (entities)."
+      operationId: handleRuleEngineRequest_3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: A JSON value representing the message.
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header
