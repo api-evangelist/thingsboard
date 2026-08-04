@@ -1,0 +1,2613 @@
+# ThingsBoard ThingsBoard Authentication API
+# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
+openapi: 3.1.0
+info:
+  title: ThingsBoard Authentication API
+  description: "ThingsBoard Authentication API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth\
+    \ 2, O Auth 2 Config Template, Domain."
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: login-endpoint
+  description: Login
+- name: auth-controller
+  description: Auth
+- name: sign-up-controller
+  description: Sign Up
+- name: api-key-controller
+  description: Api Key
+- name: two-factor-auth-controller
+  description: Two Factor Auth
+- name: two-factor-auth-config-controller
+  description: Two Factor Auth Config
+- name: o-auth-2-controller
+  description: O Auth 2
+- name: o-auth-2-config-template-controller
+  description: O Auth 2 Config Template
+- name: domain-controller
+  description: Domain
+paths:
+  /api/auth/login:
+    post:
+      tags:
+      - login-endpoint
+      summary: Login Method to Get User JWT Token Data
+      description: 'Login method used to authenticate user and get JWT token data.
+
+
+        Value of the response **token** field can be used as **X-Authorization** header value:
+
+
+        `X-Authorization: Bearer $JWT_TOKEN_VALUE`.'
+      requestBody:
+        description: Login request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardErrorResponse'
+              examples:
+                account-disabled:
+                  summary: Disabled account
+                  value:
+                    status: 401
+                    message: User account is not active
+                    errorCode: 10
+                    timestamp: 1770209248175
+                bad-credentials:
+                  summary: Bad credentials
+                  value:
+                    status: 401
+                    message: Invalid username or password
+                    errorCode: 10
+                    timestamp: 1770209248175
+                account-locked:
+                  summary: Locked account
+                  value:
+                    status: 401
+                    message: User account is locked due to security policy
+                    errorCode: 10
+                    timestamp: 1770209248175
+                token-expired:
+                  summary: JWT token expired
+                  value:
+                    status: 401
+                    message: Token has expired
+                    errorCode: 11
+                    timestamp: 1770209248175
+                authentication-failed:
+                  summary: General authentication error
+                  value:
+                    status: 401
+                    message: Authentication failed
+                    errorCode: 10
+                    timestamp: 1770209248175
+        '401 ':
+          description: Unauthorized (**Expired credentials**)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardCredentialsExpiredResponse'
+              examples:
+                credentials-expired:
+                  summary: Expired credentials
+                  value:
+                    status: 401
+                    message: User password expired!
+                    errorCode: 15
+                    timestamp: 1770209248182
+                    resetToken: 59B5IkNuDrCyn98QB8LJ1sWFzwA03A
+  /api/auth/token:
+    post:
+      tags:
+      - login-endpoint
+      summary: Refresh User JWT Token Data
+      description: 'Method to refresh JWT token. Provide a valid refresh token to get a new JWT token.
+
+
+        The response contains a new token that can be used for authorization.
+
+
+        `X-Authorization: Bearer $JWT_TOKEN_VALUE`'
+      requestBody:
+        description: Refresh token request
+        content:
+          application/json:
+            schema:
+              properties:
+                refreshToken: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardErrorResponse'
+              examples:
+                account-disabled:
+                  summary: Disabled account
+                  value:
+                    status: 401
+                    message: User account is not active
+                    errorCode: 10
+                    timestamp: 1770209248175
+                bad-credentials:
+                  summary: Bad credentials
+                  value:
+                    status: 401
+                    message: Invalid username or password
+                    errorCode: 10
+                    timestamp: 1770209248175
+                account-locked:
+                  summary: Locked account
+                  value:
+                    status: 401
+                    message: User account is locked due to security policy
+                    errorCode: 10
+                    timestamp: 1770209248175
+                token-expired:
+                  summary: JWT token expired
+                  value:
+                    status: 401
+                    message: Token has expired
+                    errorCode: 11
+                    timestamp: 1770209248175
+                authentication-failed:
+                  summary: General authentication error
+                  value:
+                    status: 401
+                    message: Authentication failed
+                    errorCode: 10
+                    timestamp: 1770209248175
+        '401 ':
+          description: Unauthorized (**Expired credentials**)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingsboardCredentialsExpiredResponse'
+              examples:
+                credentials-expired:
+                  summary: Expired credentials
+                  value:
+                    status: 401
+                    message: User password expired!
+                    errorCode: 15
+                    timestamp: 1770209248182
+                    resetToken: 59B5IkNuDrCyn98QB8LJ1sWFzwA03A
+  /api/domain/{id}/oauth2Clients:
+    put:
+      tags:
+      - domain-controller
+      summary: Update Oauth2 Clients (updateOauth2Clients)
+      description: 'Update oauth2 clients for the specified domain. '
+      operationId: updateOauth2Clients_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/apiKey/{id}/enabled/{enabledValue}:
+    put:
+      tags:
+      - api-key-controller
+      summary: Enable or Disable API Key (enableApiKey)
+      description: "Updates api key with enabled = true/false. \n\nAvailable for any authorized user. "
+      operationId: enableApiKey
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the API key to enable/disable
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: enabledValue
+        in: path
+        description: Enabled or disabled api key
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyInfo'
+  /api/apiKey/{id}/description:
+    put:
+      tags:
+      - api-key-controller
+      summary: Update API Key Description
+      description: 'Updates the description of the existing API key by apiKeyId. Only the description can be updated. Referencing a non-existing ApiKey Id will cause a ''Not Found'' error.
+
+
+        Available for any authorized user. '
+      operationId: updateApiKeyDescription
+      parameters:
+      - name: id
+        in: path
+        description: A string value representing the api key id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: New description for the API key
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyInfo'
+  /api/2fa/account/config:
+    put:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Update 2FA Account Config (updateTwoFaAccountConfig)
+      description: "Update config for a given provider type. \nUpdate request example:\n```\n{\n  \"useByDefault\": true\n}\n```\nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized\
+        \ user. "
+      operationId: updateTwoFaAccountConfig
+      parameters:
+      - name: providerType
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - TOTP
+          - SMS
+          - EMAIL
+          - BACKUP_CODE
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFaAccountConfigUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTwoFaSettings'
+    post:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Verify and Save 2FA Account Config (verifyAndSaveTwoFaAccountConfig)
+      description: "Checks the verification code for submitted config, and if it is correct, saves the provided account config. \n\nReturns whole account's 2FA settings object.\nWill throw an error (Bad\
+        \ Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+      operationId: verifyAndSaveTwoFaAccountConfig
+      parameters:
+      - name: verificationCode
+        in: query
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/BackupCodeTwoFaAccountConfig'
+              - $ref: '#/components/schemas/EmailTwoFaAccountConfig'
+              - $ref: '#/components/schemas/SmsTwoFaAccountConfig'
+              - $ref: '#/components/schemas/TotpTwoFaAccountConfig'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTwoFaSettings'
+    delete:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Delete 2FA Account Config (deleteTwoFaAccountConfig)
+      description: "Delete 2FA config for a given 2FA provider type. \nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. "
+      operationId: deleteTwoFaAccountConfig
+      parameters:
+      - name: providerType
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - TOTP
+          - SMS
+          - EMAIL
+          - BACKUP_CODE
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTwoFaSettings'
+  /api/signup/acceptPrivacyPolicy:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: acceptPrivacyPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/oauth2/config/template:
+    get:
+      tags:
+      - o-auth-2-config-template-controller
+      summary: Get the List of All OAuth2 Client Registration Templates (getClientRegistrationTemplates) Available for Users with 'SYS_ADMIN' or 'TENANT_ADMIN' Authority.
+      description: Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients
+      operationId: getClientRegistrationTemplates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OAuth2ClientRegistrationTemplate'
+    post:
+      tags:
+      - o-auth-2-config-template-controller
+      summary: Create or Update OAuth2 Client Registration Template (saveClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.
+      description: Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients
+      operationId: saveClientRegistrationTemplate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuth2ClientRegistrationTemplate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuth2ClientRegistrationTemplate'
+  /api/oauth2/client:
+    post:
+      tags:
+      - o-auth-2-controller
+      summary: Save OAuth2 Client (saveOAuth2Client)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: saveOAuth2Client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuth2Client'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuth2Client'
+  /api/noauth/signup:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: signUp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                - SUCCESS
+                - INACTIVE_USER_EXISTS
+  /api/noauth/resetPassword:
+    get:
+      tags:
+      - auth-controller
+      summary: Check Password Reset Token (checkResetToken)
+      description: Checks the password reset token and forwards user to 'Reset Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Reset Password'
+        page and same 'resetToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page.
+      operationId: checkResetToken
+      parameters:
+      - name: resetToken
+        in: query
+        description: The reset token string.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+      - auth-controller
+      summary: Reset Password (resetPassword)
+      description: Checks the password reset token and updates the password. If token is not valid, returns '400 Bad Request'.
+      operationId: resetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/noauth/resetPasswordByEmail:
+    post:
+      tags:
+      - auth-controller
+      summary: Request Reset Password Email (requestResetPasswordByEmail)
+      description: Request to send the reset password email if the user with specified email address is present in the database. Always return '200 OK' status for security purposes.
+      operationId: requestResetPasswordByEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordEmailRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/noauth/resendEmailActivation:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: resendEmailActivation
+      parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: pkgName
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/noauth/oauth2Clients:
+    post:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Clients (getOAuth2Clients)
+      description: Get the list of OAuth2 clients to log in with, available for such domain scheme (HTTP or HTTPS) (if x-forwarded-proto request header is present - the scheme is known from it) and domain
+        name and port (port may be known from x-forwarded-port header)
+      operationId: getOAuth2Clients
+      parameters:
+      - name: pkgName
+        in: query
+        description: Mobile application package name, to find OAuth2 clients where there is configured mobile application with such package name
+        required: false
+        schema:
+          type: string
+      - name: platform
+        in: query
+        description: Platform type to search OAuth2 clients for which the usage with this platform type is allowed in the settings. If platform type is not one of allowable values - it will just be ignored
+        required: false
+        schema:
+          type: string
+          enum:
+          - WEB
+          - ANDROID
+          - IOS
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OAuth2ClientLoginInfo'
+  /api/noauth/activate:
+    get:
+      tags:
+      - auth-controller
+      summary: Check Activate User Token (checkActivateToken)
+      description: Checks the activation token and forwards user to 'Create Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Create Password'
+        page and same 'activateToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page.
+      operationId: checkActivateToken
+      parameters:
+      - name: activateToken
+        in: query
+        description: The activate token string.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+      - auth-controller
+      summary: Activate User
+      description: Checks the activation token and updates corresponding user password in the database. Now the user may start using his password to login. The response already contains the [JWT](https://jwt.io)
+        activation and refresh tokens, to simplify the user activation flow and avoid asking user to input password again after activation. If token is valid, returns the object that contains [JWT](https://jwt.io/)
+        access and refresh tokens. If token is not valid, returns '400 Bad Request'.
+      operationId: activateUser
+      parameters:
+      - name: sendActivationMail
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateUserRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/noauth/activateByEmailCode:
+    post:
+      tags:
+      - sign-up-controller
+      operationId: activateUserByEmailCode
+      parameters:
+      - name: emailCode
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: pkgName
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/domain:
+    post:
+      tags:
+      - domain-controller
+      summary: Save or Update Domain (saveDomain)
+      description: 'Create or update the Domain. When creating domain, platform generates Domain Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).
+        The newly created Domain Id will be present in the response. Specify existing Domain Id to update the domain. Referencing non-existing Domain Id will cause ''Not Found'' error.
+
+
+        Domain name is unique for entire platform setup.
+
+
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: saveDomain
+      parameters:
+      - name: oauth2ClientIds
+        in: query
+        description: A list of oauth2 client registration ids, separated by comma ','
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Domain'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+  /api/auth/logout:
+    post:
+      tags:
+      - auth-controller
+      summary: Logout (logout)
+      description: 'Special API call to record the ''logout'' of the user to the Audit Logs. Since platform uses [JWT](https://jwt.io/), the actual logout is the procedure of clearing the [JWT](https://jwt.io/)
+        token on the client side. '
+      operationId: logout
+      responses:
+        '200':
+          description: OK
+  /api/auth/changePassword:
+    post:
+      tags:
+      - auth-controller
+      summary: Change Password for Current User (changePassword)
+      description: Change the password for the User which credentials are used to perform this REST API call. Be aware that previously generated [JWT](https://jwt.io/) tokens will be still valid until they
+        expire.
+      operationId: changePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/auth/2fa/verification/send:
+    post:
+      tags:
+      - two-factor-auth-controller
+      summary: Request 2FA Verification Code (requestTwoFaVerificationCode)
+      description: 'Request 2FA verification code.
+
+
+        To make a request to this endpoint, you need an access token with the scope of PRE_VERIFICATION_TOKEN, which is issued on username/password auth if 2FA is enabled.
+
+
+        The API method is rate limited (using rate limit config from TwoFactorAuthSettings). Will return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate
+        limits are exceeded.'
+      operationId: requestTwoFaVerificationCode
+      parameters:
+      - name: providerType
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - TOTP
+          - SMS
+          - EMAIL
+          - BACKUP_CODE
+      responses:
+        '200':
+          description: OK
+  /api/auth/2fa/verification/check:
+    post:
+      tags:
+      - two-factor-auth-controller
+      summary: Check 2FA Verification Code (checkTwoFaVerificationCode)
+      description: 'Checks 2FA verification code, and if it is correct the method returns a regular access and refresh token pair.
+
+
+        The API method is rate limited (using rate limit config from TwoFactorAuthSettings), and also will block a user after X unsuccessful verification attempts if such behavior is configured (in TwoFactorAuthSettings).
+
+
+        Will return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded.'
+      operationId: checkTwoFaVerificationCode
+      parameters:
+      - name: providerType
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - TOTP
+          - SMS
+          - EMAIL
+          - BACKUP_CODE
+      - name: verificationCode
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/auth/2fa/login:
+    post:
+      tags:
+      - two-factor-auth-controller
+      summary: Get Regular Token Pair After Successfully Configuring 2FA
+      description: Checks 2FA is configured, returning token pair on success.
+      operationId: authenticateByTwoFaConfigurationToken
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtPair'
+  /api/apiKey:
+    post:
+      tags:
+      - api-key-controller
+      summary: Save API Key for User (saveApiKey)
+      description: 'Creates an API key for the given user and returns the token ONCE as ''ApiKey <value>''.
+
+
+        Available for any authorized user. '
+      operationId: saveApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyInfo'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+  /api/2fa/settings:
+    get:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Get Platform 2FA Settings (getPlatformTwoFaSettings)
+      description: 'Get platform settings for 2FA. The settings are described for savePlatformTwoFaSettings API method. If 2FA is not configured, then an empty response will be returned.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getPlatformTwoFaSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformTwoFaSettings'
+    post:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Save Platform 2FA Settings (savePlatformTwoFaSettings)
+      description: "Save 2FA settings for platform. The settings have following properties:\n- `providers` - the list of 2FA providers' configs. Users will only be allowed to use 2FA providers from this\
+        \ list. \n\n- `minVerificationCodeSendPeriod` - minimal period in seconds to wait after verification code send request to send next request. \n- `verificationCodeCheckRateLimit` - rate limit configuration\
+        \ for verification code checking.\nThe format is standard: 'amountOfRequests:periodInSeconds'. The value of '1:60' would limit verification code checking requests to one per minute.\n- `maxVerificationFailuresBeforeUserLockout`\
+        \ - maximum number of verification failures before a user gets disabled.\n- `totalAllowedTimeForVerification` - total amount of time in seconds allotted for verification. Basically, this property\
+        \ sets a lifetime for pre-verification token. If not set, default value of 30 minutes is used.\n\n\nTOTP 2FA provider config has following settings:\n- `issuerName` - issuer name that will be displayed\
+        \ in an authenticator app near a username. Must not be blank.\n\nFor SMS 2FA provider:\n- `smsVerificationMessageTemplate` - verification message template.  Available template variables are ${code}\
+        \ and ${userEmail}. It must not be blank and must contain verification code variable.\n- `verificationCodeLifetime` - verification code lifetime in seconds. Required to be positive.\n\nFor EMAIL\
+        \ provider type:\n- `verificationCodeLifetime` - the same as for SMS.\n\nExample of the settings:\n```\n{\n  \"providers\": [\n    {\n      \"providerType\": \"TOTP\",\n      \"issuerName\": \"\
+        TB\"\n    },\n    {\n      \"providerType\": \"EMAIL\",\n      \"verificationCodeLifetime\": 60\n    },\n    {\n      \"providerType\": \"SMS\",\n      \"verificationCodeLifetime\": 60,\n      \"\
+        smsVerificationMessageTemplate\": \"Here is your verification code: ${code}\"\n    }\n  ],\n  \"minVerificationCodeSendPeriod\": 60,\n  \"verificationCodeCheckRateLimit\": \"3:900\",\n  \"maxVerificationFailuresBeforeUserLockout\"\
+        : 10,\n  \"totalAllowedTimeForVerification\": 600\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: savePlatformTwoFaSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformTwoFaSettings'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformTwoFaSettings'
+  /api/2fa/account/config/submit:
+    post:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Submit 2FA Account Config (submitTwoFaAccountConfig)
+      description: "Submit 2FA account config to prepare for a future verification. Basically, this method will send a verification code for a given account config, if this has sense for a chosen 2FA provider.\
+        \ This code is needed to then verify and save the account config.\n\nExample of EMAIL 2FA account config:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": true,\n  \"email\": \"separate-email-for-2fa@thingsboard.org\"\
+        \n}\n```\n\nExample of SMS 2FA account config:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": \"+38012312321\"\n}\n```\n\nFor TOTP this method does nothing.\n\
+        \nWill throw an error (Bad Request) if submitted account config is not valid, or if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+      operationId: submitTwoFaAccountConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/BackupCodeTwoFaAccountConfig'
+              - $ref: '#/components/schemas/EmailTwoFaAccountConfig'
+              - $ref: '#/components/schemas/SmsTwoFaAccountConfig'
+              - $ref: '#/components/schemas/TotpTwoFaAccountConfig'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/2fa/account/config/generate:
+    post:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Generate 2FA Account Config (generateTwoFaAccountConfig)
+      description: "Generate new 2FA account config template for specified provider type. \n\nFor TOTP, this will return a corresponding account config template with a generated OTP auth URL (with new random\
+        \ secret key for each API call) that can be then converted to a QR code to scan with an authenticator app. Example:\n```\n{\n  \"providerType\": \"TOTP\",\n  \"useByDefault\": false,\n  \"authUrl\"\
+        : \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=PNJDNWJVAK4ZTUYT7RFGPQLXA7XGU7PX\"\n}\n```\n\nFor EMAIL, the generated config will contain email from user's account:\n```\n\
+        {\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": false,\n  \"email\": \"tenant@thingsboard.org\"\n}\n```\n\nFor SMS 2FA this method will just return a config with empty/default values as there\
+        \ is nothing to generate/preset:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": null\n}\n```\n\nWill throw an error (Bad Request) if the provider is not configured\
+        \ for usage. \n\nAvailable for any authorized user. "
+      operationId: generateTwoFaAccountConfig
+      parameters:
+      - name: providerType
+        in: query
+        description: 2FA provider type to generate new account config for
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BackupCodeTwoFaAccountConfig'
+                - $ref: '#/components/schemas/EmailTwoFaAccountConfig'
+                - $ref: '#/components/schemas/SmsTwoFaAccountConfig'
+                - $ref: '#/components/schemas/TotpTwoFaAccountConfig'
+  /api/signup/privacyPolicyAccepted:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: privacyPolicyAccepted
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /api/oauth2/loginProcessingUrl:
+    get:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Log in Processing URL (getLoginProcessingUrl)
+      description: 'Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider, it makes a redirect to this path so that the platform can do further log in processing.
+        This URL may be configured as ''security.oauth2.loginProcessingUrl'' property in yml configuration file, or as ''SECURITY_OAUTH2_LOGIN_PROCESSING_URL'' env variable. By default it is ''/login/oauth2/code/''
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getLoginProcessingUrl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/oauth2/client/{id}:
+    get:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Client by Id (getOAuth2ClientById)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getOAuth2ClientById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuth2Client'
+    delete:
+      tags:
+      - o-auth-2-controller
+      summary: Delete Oauth2 Client (deleteOauth2Client)
+      description: 'Deletes the oauth2 client. Referencing non-existing oauth2 client Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteOauth2Client
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/oauth2/client/infos:
+    get:
+      tags:
+      - o-auth-2-controller
+      summary: Get OAuth2 Client Infos by Ids (findTenantOAuth2ClientInfosByIds)
+      description: "Fetch OAuth2 Client info objects based on the provided ids. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: findTenantOAuth2ClientInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: Case-insensitive 'substring' filter based on client's title
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+      - name: clientIds
+        in: query
+        description: A list of oauth2 ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/OAuth2ClientInfo'
+                - $ref: '#/components/schemas/PageDataOAuth2ClientInfo'
+  /api/noauth/userPasswordPolicy:
+    get:
+      tags:
+      - auth-controller
+      summary: Get the Current User Password Policy (getUserPasswordPolicy)
+      description: API call to get the password policy for the password validation form(s).
+      operationId: getUserPasswordPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPasswordPolicy'
+  /api/noauth/signup/recaptchaPublicKey:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: getRecaptchaPublicKey
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/noauth/signup/recaptchaParams:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: getRecaptchaParams
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaptchaClientParams'
+  /api/noauth/login:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: mobileLogin
+      parameters:
+      - name: pkgName
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/noauth/activateEmail:
+    get:
+      tags:
+      - sign-up-controller
+      operationId: activateEmail
+      parameters:
+      - name: emailCode
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: pkgName
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/domain/infos:
+    get:
+      tags:
+      - domain-controller
+      summary: Get Domain Infos (getTenantDomainInfos)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: getTenantDomainInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: Case-insensitive 'substring' filter based on domain's name
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataDomainInfo'
+  /api/domain/info/{id}:
+    get:
+      tags:
+      - domain-controller
+      summary: Get Domain Info by Id (getDomainInfoById)
+      description: '
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: getDomainInfoById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainInfo'
+  /api/auth/user:
+    get:
+      tags:
+      - auth-controller
+      summary: Get Current User (getUser)
+      description: Get the information about the User which credentials are used to perform this REST API call.
+      operationId: getUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/auth/2fa/providers:
+    get:
+      tags:
+      - two-factor-auth-controller
+      summary: Get Available 2FA Providers (getAvailableTwoFaProviders)
+      description: "Get the list of 2FA provider infos available for user to use. Example:\n```\n[\n  {\n    \"type\": \"EMAIL\",\n    \"default\": true,\n    \"contact\": \"ab*****ko@gmail.com\"\n  },\n\
+        \  {\n    \"type\": \"TOTP\",\n    \"default\": false,\n    \"contact\": null\n  },\n  {\n    \"type\": \"SMS\",\n    \"default\": false,\n    \"contact\": \"+38********12\"\n  }\n]\n```"
+      operationId: getAvailableTwoFaProviders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TwoFaProviderInfo'
+  /api/apiKeys/{userId}:
+    get:
+      tags:
+      - api-key-controller
+      summary: Get User Api Keys (getUserApiKeys)
+      description: "Returns a page of api keys owned by user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using\
+        \ pagination. See response schema for more details. \n\nAvailable for any authorized user. "
+      operationId: getUserApiKeys
+      parameters:
+      - name: userId
+        in: path
+        description: A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the description.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - expirationTime
+          - description
+          - enabled
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataApiKeyInfo'
+  /api/2fa/providers:
+    get:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Get Available 2FA Providers (getAvailableTwoFaProviders)
+      description: "Get the list of provider types available for user to use (the ones configured by tenant or sysadmin).\nExample of response:\n```\n[\n  \"TOTP\",\n  \"EMAIL\",\n  \"SMS\"\n]\n```\n\n\
+        Available for any authorized user. "
+      operationId: getAvailableTwoFaProviders_1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  enum:
+                  - TOTP
+                  - SMS
+                  - EMAIL
+                  - BACKUP_CODE
+  /api/2fa/account/settings:
+    get:
+      tags:
+      - two-factor-auth-config-controller
+      summary: Get Account 2FA Settings (getAccountTwoFaSettings)
+      description: "Get user's account 2FA configuration. Configuration contains configs for different 2FA providers.\n\nExample:\n```\n{\n  \"configs\": {\n    \"EMAIL\": {\n      \"providerType\": \"\
+        EMAIL\",\n      \"useByDefault\": true,\n      \"email\": \"tenant@thingsboard.org\"\n    },\n    \"TOTP\": {\n      \"providerType\": \"TOTP\",\n      \"useByDefault\": false,\n      \"authUrl\"\
+        : \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=P6Z2TLYTASOGP6LCJZAD24ETT5DACNNX\"\n    },\n    \"SMS\": {\n      \"providerType\": \"SMS\",\n      \"useByDefault\": false,\n\
+        \      \"phoneNumber\": \"+380501253652\"\n    }\n  }\n}\n```\n\nAvailable for any authorized user. "
+      operationId: getAccountTwoFaSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTwoFaSettings'
+  /api/signup/tenantAccount:
+    delete:
+      tags:
+      - sign-up-controller
+      operationId: deleteTenantAccount
+      responses:
+        '200':
+          description: OK
+  /api/oauth2/config/template/{clientRegistrationTemplateId}:
+    delete:
+      tags:
+      - o-auth-2-config-template-controller
+      summary: Delete OAuth2 Client Registration Template by Id (deleteClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.
+      description: Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients
+      operationId: deleteClientRegistrationTemplate
+      parameters:
+      - name: clientRegistrationTemplateId
+        in: path
+        description: String representation of client registration template id to delete
+        required: true
+        schema:
+          type: string
+        example: 139b1f81-2f5d-11ec-9dbe-9b627e1a88f4
+      responses:
+        '200':
+          description: OK
+  /api/domain/{id}:
+    delete:
+      tags:
+      - domain-controller
+      summary: Delete Domain by ID (deleteDomain)
+      description: 'Deletes Domain by ID. Referencing non-existing domain Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
+      operationId: deleteDomain
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/apiKey/{id}:
+    delete:
+      tags:
+      - api-key-controller
+      summary: Delete API Key by ID (deleteApiKey)
+      description: 'Deletes the API key. Referencing non-existing ApiKey Id will cause an error.
+
+
+        Available for any authorized user. '
+      operationId: deleteApiKey
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    AccountTwoFaSettings:
+      type: object
+      properties:
+        configs:
+          type: object
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/BackupCodeTwoFaAccountConfig'
+            - $ref: '#/components/schemas/EmailTwoFaAccountConfig'
+            - $ref: '#/components/schemas/SmsTwoFaAccountConfig'
+            - $ref: '#/components/schemas/TotpTwoFaAccountConfig'
+    ActivateUserRequest:
+      type: object
+      description: Activate user request.
+      properties:
+        activateToken:
+          type: string
+          description: The activate token to verify
+          example: AAB254FF67D..
+        password:
+          type: string
+          description: The new password to set
+          example: secret
+    ApiKey:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ApiKeyId'
+          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
+          readOnly: true
+        userId:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with User Id. User Id of the API key cannot be changed.
+        expirationTime:
+          type: integer
+          format: int64
+          description: Expiration time of the API key.
+        description:
+          type: string
+          description: API Key description.
+          example: API Key description
+          minLength: 1
+        enabled:
+          type: boolean
+          description: Enabled/disabled API key.
+          example: true
+        value:
+          type: string
+          description: API key value
+        expired:
+          type: boolean
+          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
+          example: false
+          readOnly: true
+      required:
+      - description
+      - value
+    ApiKeyId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - API_KEY
+          example: API_KEY
+      required:
+      - entityType
+      - id
+    ApiKeyInfo:
+      type: object
+      description: A JSON value representing the Api Key token.
+      properties:
+        id:
+          $ref: '#/components/schemas/ApiKeyId'
+          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
+          readOnly: true
+        userId:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with User Id. User Id of the API key cannot be changed.
+        expirationTime:
+          type: integer
+          format: int64
+          description: Expiration time of the API key.
+        description:
+          type: string
+          description: API Key description.
+          example: API Key description
+          minLength: 1
+        enabled:
+          type: boolean
+          description: Enabled/disabled API key.
+          example: true
+        expired:
+          type: boolean
+          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
+          example: false
+          readOnly: true
+      required:
+      - description
+    BackupCodeTwoFaAccountConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaAccountConfig'
+      - type: object
+        properties:
+          codes:
+            type: array
+            items:
+              type: string
+            minItems: 1
+            uniqueItems: true
+          codesLeft:
+            type: integer
+            format: int32
+      required:
+      - codes
+    BackupCodeTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          codesQuantity:
+            type: integer
+            format: int32
+            minimum: 1
+    CaptchaClientParams:
+      type: object
+      properties:
+        captchaSiteKey:
+          type: string
+        captchaVersion:
+          type: string
+        captchaAction:
+          type: string
+    ChangePasswordRequest:
+      type: object
+      description: Change Password Request
+      properties:
+        currentPassword:
+          type: string
+          description: The old password
+          example: OldPassword
+        newPassword:
+          type: string
+          description: The new password
+          example: NewPassword
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    Domain:
+      type: object
+      description: A JSON value representing the Domain.
+      properties:
+        id:
+          $ref: '#/components/schemas/DomainId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        name:
+          type: string
+          description: Domain name. Cannot be empty
+          minLength: 1
+        oauth2Enabled:
+          type: boolean
+          description: Whether OAuth2 settings are enabled or not
+        propagateToEdge:
+          type: boolean
+          description: Whether OAuth2 settings are enabled on Edge or not
+      required:
+      - name
+    DomainId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    DomainInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DomainId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        name:
+          type: string
+          description: Domain name. Cannot be empty
+          minLength: 1
+        oauth2Enabled:
+          type: boolean
+          description: Whether OAuth2 settings are enabled or not
+        propagateToEdge:
+          type: boolean
+          description: Whether OAuth2 settings are enabled on Edge or not
+        oauth2ClientInfos:
+          type: array
+          description: List of available oauth2 clients
+          items:
+            $ref: '#/components/schemas/OAuth2ClientInfo'
+      required:
+      - name
+    EmailTwoFaAccountConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaAccountConfig'
+      - type: object
+        properties:
+          email:
+            type: string
+            minLength: 1
+      required:
+      - email
+    EmailTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          verificationCodeLifetime:
+            type: integer
+            format: int32
+            minimum: 1
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    JwtPair:
+      type: object
+      description: JWT Pair
+      properties:
+        token:
+          type: string
+          description: The JWT Access Token. Used to perform API calls.
+          example: AAB254FF67D..
+        refreshToken:
+          type: string
+          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
+          example: AAB254FF67D..
+        scope:
+          type: string
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+    LoginRequest:
+      properties:
+        username:
+          type: string
+          description: User email
+          example: tenant@thingsboard.org
+        password:
+          type: string
+          description: User password
+          example: tenant
+      required:
+      - password
+      - username
+    LoginResponse:
+      properties:
+        token:
+          type: string
+          description: JWT token
+          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
+        refreshToken:
+          type: string
+          description: Refresh token
+          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
+      required:
+      - refreshToken
+      - token
+    OAuth2BasicMapperConfig:
+      type: object
+      properties:
+        emailAttributeKey:
+          type: string
+          description: Email attribute key of OAuth2 principal attributes. Must be specified for BASIC mapper type and cannot be specified for GITHUB type
+        firstNameAttributeKey:
+          type: string
+          description: First name attribute key
+        lastNameAttributeKey:
+          type: string
+          description: Last name attribute key
+        tenantNameStrategy:
+          type: string
+          description: Tenant naming strategy. For DOMAIN type, domain for tenant name will be taken from the email (substring before '@')
+          enum:
+          - DOMAIN
+          - EMAIL
+          - CUSTOM
+        tenantNamePattern:
+          type: string
+          description: Tenant name pattern for CUSTOM naming strategy. OAuth2 attributes in the pattern can be used by enclosing attribute key in '%{' and '}'
+          example: '%{email}'
+        customerNamePattern:
+          type: string
+          description: Customer name pattern. When creating a user on the first OAuth2 log in, if specified, customer name will be used to create or find existing customer in the platform and assign customerId
+            to the user
+        defaultDashboardName:
+          type: string
+          description: Name of the tenant's dashboard to set as default dashboard for newly created user
+        alwaysFullScreen:
+          type: boolean
+          description: Whether default dashboard should be open in full screen
+      required:
+      - tenantNameStrategy
+    OAuth2Client:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional info of OAuth2 client (e.g. providerName)
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        title:
+          type: string
+          description: Oauth2 client title
+          minLength: 1
+        mapperConfig:
+          $ref: '#/components/schemas/OAuth2MapperConfig'
+          description: Config for mapping OAuth2 log in response to platform entities
+        clientId:
+          type: string
+          description: OAuth2 client ID. Cannot be empty
+          minLength: 1
+        clientSecret:
+          type: string
+          description: OAuth2 client secret. Cannot be empty
+          minLength: 1
+        authorizationUri:
+          type: string
+          description: Authorization URI of the OAuth2 provider. Cannot be empty
+          minLength: 1
+        accessTokenUri:
+          type: string
+          description: Access token URI of the OAuth2 provider. Cannot be empty
+          minLength: 1
+        scope:
+          type: array
+          description: OAuth scopes that will be requested from OAuth2 platform. Cannot be empty
+          items:
+            type: string
+          minItems: 1
+        userInfoUri:
+          type: string
+          description: User info URI of the OAuth2 provider
+        userNameAttributeName:
+          type: string
+          description: Name of the username attribute in OAuth2 provider response. Cannot be empty
+          minLength: 1
+        jwkSetUri:
+          type: string
+          description: JSON Web Key URI of the OAuth2 provider
+        clientAuthenticationMethod:
+          type: string
+          description: 'Client authentication method to use: ''BASIC'' or ''POST''. Cannot be empty'
+          minLength: 1
+        loginButtonLabel:
+          type: string
+          description: OAuth2 provider label. Cannot be empty
+          minLength: 1
+        loginButtonIcon:
+          type: string
+          description: Log in button icon for OAuth2 provider
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
+          type: string
+          readOnly: true
+      required:
+      - accessTokenUri
+      - additionalInfo
+      - authorizationUri
+      - clientAuthenticationMethod
+      - clientId
+      - clientSecret
+      - loginButtonLabel
+      - mapperConfig
+      - scope
+      - title
+      - userNameAttributeName
+    OAuth2ClientId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    OAuth2ClientInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        title:
+          type: string
+          description: Oauth2 client registration title (e.g. My google)
+        providerName:
+          type: string
+          description: Oauth2 client provider name (e.g. Google)
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
+          type: string
+          readOnly: true
+    OAuth2ClientLoginInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: OAuth2 client name
+          example: GitHub
+        icon:
+          type: string
+          description: Name of the icon, displayed on OAuth2 log in button
+          example: github-logo
+        url:
+          type: string
+          description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
+          example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
+    OAuth2ClientRegistrationTemplate:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientRegistrationTemplateId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        providerId:
+          type: string
+          description: OAuth2 provider identifier (e.g. its name)
+        mapperConfig:
+          $ref: '#/components/schemas/OAuth2MapperConfig'
+          description: Default config for mapping OAuth2 log in response to platform entities
+        authorizationUri:
+          type: string
+          description: Default authorization URI of the OAuth2 provider
+        accessTokenUri:
+          type: string
+          description: Default access token URI of the OAuth2 provider
+        scope:
+          type: array
+          description: Default OAuth scopes that will be requested from OAuth2 platform
+          items:
+            type: string
+        userInfoUri:
+          type: string
+          description: Default user info URI of the OAuth2 provider
+        userNameAttributeName:
+          type: string
+          description: Default name of the username attribute in OAuth2 provider log in response
+        jwkSetUri:
+          type: string
+          description: Default JSON Web Key URI of the OAuth2 provider
+        clientAuthenticationMethod:
+          type: string
+          description: 'Default client authentication method to use: ''BASIC'' or ''POST'''
+        comment:
+          type: string
+          description: Comment for OAuth2 provider
+        loginButtonIcon:
+          type: string
+          description: Default log in button icon for OAuth2 provider
+        loginButtonLabel:
+          type: string
+          description: Default OAuth2 provider label
+        helpLink:
+          type: string
+          description: Help link for OAuth2 provider
+        name:
+          type: string
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+      required:
+      - providerId
+    OAuth2ClientRegistrationTemplateId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    OAuth2CustomMapperConfig:
+      type: object
+      properties:
+        url:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        sendToken:
+          type: boolean
+    OAuth2MapperConfig:
+      type: object
+      properties:
+        allowUserCreation:
+          type: boolean
+          description: Whether user should be created if not yet present on the platform after successful authentication
+        activateUser:
+          type: boolean
+          description: Whether user credentials should be activated when user is created after successful authentication
+        type:
+          type: string
+          description: Type of OAuth2 mapper. Depending on this param, different mapper config fields must be specified
+          enum:
+          - BASIC
+          - CUSTOM
+          - GITHUB
+          - APPLE
+        basic:
+          $ref: '#/components/schemas/OAuth2BasicMapperConfig'
+          description: Mapper config for BASIC and GITHUB mapper types
+        custom:
+          $ref: '#/components/schemas/OAuth2CustomMapperConfig'
+          description: Mapper config for CUSTOM mapper type
+      required:
+      - type
+    PageDataApiKeyInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/ApiKeyInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataDomainInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/DomainInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataOAuth2ClientInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/OAuth2ClientInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PlatformTwoFaSettings:
+      type: object
+      description: Settings value
+      properties:
+        providers:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/BackupCodeTwoFaProviderConfig'
+            - $ref: '#/components/schemas/EmailTwoFaProviderConfig'
+            - $ref: '#/components/schemas/SmsTwoFaProviderConfig'
+            - $ref: '#/components/schemas/TotpTwoFaProviderConfig'
+        minVerificationCodeSendPeriod:
+          type: integer
+          format: int32
+          minimum: 5
+        verificationCodeCheckRateLimit:
+          type: string
+          pattern: '[1-9]\d*:[1-9]\d*'
+        maxVerificationFailuresBeforeUserLockout:
+          type: integer
+          format: int32
+          minimum: 0
+        totalAllowedTimeForVerification:
+          type: integer
+          format: int32
+          minimum: 60
+        enforceTwoFa:
+          type: boolean
+        enforcedUsersFilter:
+          $ref: '#/components/schemas/SystemLevelUsersFilter'
+      required:
+      - minVerificationCodeSendPeriod
+      - providers
+      - totalAllowedTimeForVerification
+    ResetPasswordEmailRequest:
+      type: object
+      description: The JSON object representing the reset password email request.
+      properties:
+        email:
+          type: string
+          description: The email of the user
+          example: user@example.com
+    ResetPasswordRequest:
+      type: object
+      description: Reset password request.
+      properties:
+        resetToken:
+          type: string
+          description: The reset token to verify
+          example: AAB254FF67D..
+        password:
+          type: string
+          description: The new password to set
+          example: secret
+    SignUpRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First Name
+          example: John
+        lastName:
+          type: string
+          description: Last Name
+          example: Doe
+        email:
+          type: string
+          description: Email will be used for new user to login
+          example: john.doe@company.com
+        password:
+          type: string
+          description: New User Password
+          example: secret
+        recaptchaResponse:
+          type: string
+          description: Response from reCAPTCHA validation
+        pkgName:
+          type: string
+          description: For mobile apps only. Mobile app package name
+        appSecret:
+          type: string
+          description: For mobile apps only. Mobile app secret
+    SmsTwoFaAccountConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaAccountConfig'
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            minLength: 1
+            pattern: ^\+[1-9]\d{1,14}$
+      required:
+      - phoneNumber
+    SmsTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          verificationCodeLifetime:
+            type: integer
+            format: int32
+            minimum: 1
+          smsVerificationMessageTemplate:
+            type: string
+            minLength: 1
+            pattern: .*\$\{code}.*
+      required:
+      - smsVerificationMessageTemplate
+    SystemLevelUsersFilter: {}
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    ThingsboardCredentialsExpiredResponse:
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP Response Status Code
+          example: 401
+          readOnly: true
+        message:
+          type: string
+          description: Error message
+          example: Authentication failed
+          readOnly: true
+        errorCode:
+          type: integer
+          format: int32
+          description: 'Platform error code:
+
+            * `2` - General error (HTTP: 500 - Internal Server Error)
+
+
+            * `10` - Authentication failed (HTTP: 401 - Unauthorized)
+
+
+            * `11` - JWT token expired (HTTP: 401 - Unauthorized)
+
+
+            * `15` - Credentials expired (HTTP: 401 - Unauthorized)
+
+
+            * `20` - Permission denied (HTTP: 403 - Forbidden)
+
+
+            * `30` - Invalid arguments (HTTP: 400 - Bad Request)
+
+
+            * `31` - Bad request params (HTTP: 400 - Bad Request)
+
+
+            * `32` - Item not found (HTTP: 404 - Not Found)
+
+
+            * `33` - Too many requests (HTTP: 429 - Too Many Requests)
+
+
+            * `34` - Too many updates (Too many updates over Websocket session)
+
+
+            * `40` - Subscription violation (HTTP: 403 - Forbidden)
+
+
+            * `41` - Entities limit exceeded (HTTP: 403 - Forbidden)'
+          example: 10
+          readOnly: true
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp
+          readOnly: true
+        resetToken:
+          type: string
+          description: Password reset token
+          readOnly: true
+    ThingsboardErrorResponse:
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP Response Status Code
+          example: 401
+          readOnly: true
+        message:
+          type: string
+          description: Error message
+          example: Authentication failed
+          readOnly: true
+        errorCode:
+          type: integer
+          format: int32
+          description: 'Platform error code:
+
+            * `2` - General error (HTTP: 500 - Internal Server Error)
+
+
+            * `10` - Authentication failed (HTTP: 401 - Unauthorized)
+
+
+            * `11` - JWT token expired (HTTP: 401 - Unauthorized)
+
+
+            * `15` - Credentials expired (HTTP: 401 - Unauthorized)
+
+
+            * `20` - Permission denied (HTTP: 403 - Forbidden)
+
+
+            * `30` - Invalid arguments (HTTP: 400 - Bad Request)
+
+
+            * `31` - Bad request params (HTTP: 400 - Bad Request)
+
+
+            * `32` - Item not found (HTTP: 404 - Not Found)
+
+
+            * `33` - Too many requests (HTTP: 429 - Too Many Requests)
+
+
+            * `34` - Too many updates (Too many updates over Websocket session)
+
+
+            * `40` - Subscription violation (HTTP: 403 - Forbidden)
+
+
+            * `41` - Entities limit exceeded (HTTP: 403 - Forbidden)'
+          example: 10
+          readOnly: true
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp
+          readOnly: true
+    TotpTwoFaAccountConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaAccountConfig'
+      - type: object
+        properties:
+          authUrl:
+            type: string
+            minLength: 1
+            pattern: otpauth://totp/(\S+?):(\S+?)\?issuer=(\S+?)&secret=(\w+?)
+      required:
+      - authUrl
+    TotpTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          issuerName:
+            type: string
+            minLength: 1
+      required:
+      - issuerName
+    TwoFaAccountConfig:
+      type: object
+      discriminator:
+        propertyName: providerType
+      properties:
+        useByDefault:
+          type: boolean
+        providerType:
+          type: string
+      required:
+      - providerType
+    TwoFaAccountConfigUpdateRequest:
+      type: object
+      properties:
+        useByDefault:
+          type: boolean
+    TwoFaProviderConfig:
+      discriminator:
+        propertyName: providerType
+      properties:
+        providerType:
+          type: string
+      required:
+      - providerType
+    TwoFaProviderInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - TOTP
+          - SMS
+          - EMAIL
+          - BACKUP_CODE
+        isDefault:
+          type: boolean
+          writeOnly: true
+        contact:
+          type: string
+        minVerificationCodeSendPeriod:
+          type: integer
+          format: int32
+        default:
+          type: boolean
+    User:
+      type: object
+      description: A JSON value representing the User.
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with the User Id. Specify this field to update the device. Referencing non-existing User Id will cause error. Omit this field to create new customer.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the user creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with the Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with the Customer Id.
+          readOnly: true
+        email:
+          type: string
+          description: Email of the user
+          example: user@example.com
+        authority:
+          type: string
+          description: Authority
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+          example: SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER
+        firstName:
+          type: string
+          description: First name of the user
+          example: John
+        lastName:
+          type: string
+          description: Last name of the user
+          example: Doe
+        phone:
+          type: string
+          description: Phone number of the user
+          example: 38012345123
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Duplicates the email of the user, readonly
+          example: user@example.com
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the user
+      required:
+      - authority
+      - email
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    UserPasswordPolicy:
+      type: object
+      properties:
+        minimumLength:
+          type: integer
+          format: int32
+          description: Minimum number of symbols in the password.
+        maximumLength:
+          type: integer
+          format: int32
+          description: Maximum number of symbols in the password.
+        minimumUppercaseLetters:
+          type: integer
+          format: int32
+          description: Minimum number of uppercase letters in the password.
+        minimumLowercaseLetters:
+          type: integer
+          format: int32
+          description: Minimum number of lowercase letters in the password.
+        minimumDigits:
+          type: integer
+          format: int32
+          description: Minimum number of digits in the password.
+        minimumSpecialCharacters:
+          type: integer
+          format: int32
+          description: Minimum number of special in the password.
+        allowWhitespaces:
+          type: boolean
+          description: Allow whitespaces
+        forceUserToResetPasswordIfNotValid:
+          type: boolean
+          description: Force user to update password if existing one does not pass validation
+        passwordExpirationPeriodDays:
+          type: integer
+          format: int32
+          description: Password expiration period (days). Force expiration of the password.
+        passwordReuseFrequencyDays:
+          type: integer
+          format: int32
+          description: Password reuse frequency (days). Disallow to use the same password for the defined number of days
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

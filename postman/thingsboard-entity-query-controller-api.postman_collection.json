@@ -1,0 +1,823 @@
+{
+  "info": {
+    "_postman_id": "e33d7e2a-8726-405e-917a-a2ea8361f69e",
+    "name": "ThingsBoard Admin admin-controller entity-query-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:38.000Z",
+    "updatedAt": "2026-07-28T03:12:39.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e33d7e2a-8726-405e-917a-a2ea8361f69e"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "entitiesQuery",
+          "item": [
+            {
+              "name": "find",
+              "item": [
+                {
+                  "name": "keys",
+                  "item": [
+                    {
+                      "name": "Find Available Entity Keys by Query",
+                      "id": "52670286-5cd1-49da-b058-6ddab7aa691e",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_CUSTOMER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"CLIENT_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/entitiesQuery/find/keys?timeseries=<boolean>&attributes=<boolean>&scope=CLIENT_SCOPE",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "entitiesQuery",
+                            "find",
+                            "keys"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) When true, includes unique time series key names in the response.\nWhen false, the 'timeseries' list will be empty.",
+                              "key": "timeseries",
+                              "value": "<boolean>"
+                            },
+                            {
+                              "description": "(Required) When true, includes unique attribute key names in the response.\nWhen false, the 'attribute' list will be empty. Use 'scope' parameter to filter by attribute scope.",
+                              "key": "attributes",
+                              "value": "<boolean>"
+                            },
+                            {
+                              "description": "Filters attribute keys by scope. Only applies when 'attributes' is true.\nIf not specified, returns attribute keys from all scopes.",
+                              "key": "scope",
+                              "value": "CLIENT_SCOPE"
+                            }
+                          ]
+                        },
+                        "description": "Returns unique time series and/or attribute key names from entities matching the query.\n\nExecutes the Entity Data Query to find up to 100 entities, then fetches and aggregates all distinct key names.\n\nPrimarily used for UI features like autocomplete suggestions.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "b72fe54f-7e35-44c7-bb01-635346f21e05",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_CUSTOMER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"CLIENT_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/entitiesQuery/find/keys?timeseries=<boolean>&attributes=<boolean>&scope=CLIENT_SCOPE",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "entitiesQuery",
+                                "find",
+                                "keys"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) When true, includes unique time series key names in the response.\nWhen false, the 'timeseries' list will be empty.",
+                                  "key": "timeseries",
+                                  "value": "<boolean>"
+                                },
+                                {
+                                  "description": "(Required) When true, includes unique attribute key names in the response.\nWhen false, the 'attribute' list will be empty. Use 'scope' parameter to filter by attribute scope.",
+                                  "key": "attributes",
+                                  "value": "<boolean>"
+                                },
+                                {
+                                  "description": "Filters attribute keys by scope. Only applies when 'attributes' is true.\nIf not specified, returns attribute keys from all scopes.",
+                                  "key": "scope",
+                                  "value": "CLIENT_SCOPE"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"attribute\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entityTypes\": [\n    \"WIDGETS_BUNDLE\",\n    \"EDGE\"\n  ],\n  \"timeseries\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                          "createdAt": "2026-07-28T03:12:39.000Z",
+                          "updatedAt": "2026-07-28T03:12:39.000Z",
+                          "uid": "35240-b72fe54f-7e35-44c7-bb01-635346f21e05"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:39.000Z",
+                      "updatedAt": "2026-07-28T03:12:39.000Z",
+                      "uid": "35240-52670286-5cd1-49da-b058-6ddab7aa691e"
+                    }
+                  ],
+                  "id": "411401de-66c8-40e2-9425-964160341783",
+                  "createdAt": "2026-07-28T03:12:39.000Z",
+                  "updatedAt": "2026-07-28T03:12:39.000Z",
+                  "uid": "35240-411401de-66c8-40e2-9425-964160341783"
+                },
+                {
+                  "name": "Find Entity Data by Query",
+                  "id": "934ddf11-a09e-4dbc-92f5-b3f8ea394ad8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_CUSTOMER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"CLIENT_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/entitiesQuery/find",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "entitiesQuery",
+                        "find"
+                      ]
+                    },
+                    "description": "Allows to run complex queries over platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the paginated result of the query that contains requested entity fields and latest values of requested attributes and time series data.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter results of the **entity filter** by complex criteria against main entity fields (name, label, type, etc), attributes and telemetry. For example, \"temperature > 20 or temperature< 10\" or \"name starts with 'T', and attribute 'model' is 'T1000', and time series field 'batteryLevel' > 40\".\n\nThe **entity fields** and **latest values** contains list of entity fields and latest attribute/telemetry fields to fetch for each entity.\n\nThe **page link** contains information about the page to fetch and the sort ordering.\n\nLet's review the example:\n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\",\n    \"resolveMultiple\": true,\n    \"entityType\": \"DEVICE\"\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"temperature\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"operation\": \"GREATER\",\n        \"value\": {\n          \"defaultValue\": 0,\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"temperatureThreshold\",\n            \"inherit\": false\n          }\n        },\n        \"type\": \"NUMERIC\"\n      }\n    }\n  ],\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"name\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"label\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"additionalInfo\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"model\"\n    },\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"temperature\"\n    }\n  ],\n  \"pageLink\": {\n    \"page\": 0,\n    \"pageSize\": 10,\n    \"sortOrder\": {\n      \"key\": {\n        \"key\": \"name\",\n        \"type\": \"ENTITY_FIELD\"\n      },\n      \"direction\": \"ASC\"\n    }\n  }\n}\n```\n\n Example mentioned above search all devices which have attribute 'active' set to 'true'. Now let's review available entity filters and key filters syntax:\n\n # Entity Filters\nEntity Filter body depends on the 'type' parameter. Let's review available entity filter types. In fact, they do correspond to available dashboard aliases.\n\n## Single Entity\n\nAllows to filter only one entity based on the id. For example, this entity filter selects certain device:\n\n```json\n{\n  \"type\": \"singleEntity\",\n  \"singleEntity\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"DEVICE\"\n  }\n}\n```\n\n## Entity List Filter\n\nAllows to filter entities of the same type using their ids. For example, this entity filter selects two devices:\n\n```json\n{\n  \"type\": \"entityList\",\n  \"entityType\": \"DEVICE\",\n  \"entityList\": [\n    \"e6501f30-2a7a-11ec-94eb-213c95f54092\",\n    \"e6657bf0-2a7a-11ec-94eb-213c95f54092\"\n  ]\n}\n```\n\n## Entity Name Filter\n\nAllows to filter entities of the same type using the **'starts with'** expression over entity name. For example, this entity filter selects all devices which name starts with 'Air Quality':\n\n```json\n{\n  \"type\": \"entityName\",\n  \"entityType\": \"DEVICE\",\n  \"entityNameFilter\": \"Air Quality\"\n}\n```\n\n## Entity Type Filter\n\nAllows to filter entities based on their type (CUSTOMER, USER, DASHBOARD, ASSET, DEVICE, etc)For example, this entity filter selects all tenant customers:\n\n```json\n{\n  \"type\": \"entityType\",\n  \"entityType\": \"CUSTOMER\"\n}\n```\n\n## Asset Type Filter\n\nAllows to filter assets based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'charging station' assets which name starts with 'Tesla':\n\n```json\n{\n  \"type\": \"assetType\",\n  \"assetType\": \"charging station\",\n  \"assetNameFilter\": \"Tesla\"\n}\n```\n\n## Device Type Filter\n\nAllows to filter devices based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Temperature Sensor' devices which name starts with 'ABC':\n\n```json\n{\n  \"type\": \"deviceType\",\n  \"deviceType\": \"Temperature Sensor\",\n  \"deviceNameFilter\": \"ABC\"\n}\n```\n\n## Edge Type Filter\n\nAllows to filter edge instances based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Factory' edge instances which name starts with 'Nevada':\n\n```json\n{\n  \"type\": \"edgeType\",\n  \"edgeType\": \"Factory\",\n  \"edgeNameFilter\": \"Nevada\"\n}\n```\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```\n\n## Api Usage Filter\n\nAllows to query for Api Usage based on optional customer id. If the customer id is not set, returns current tenant API usage.For example, this entity filter selects the 'Api Usage' entity for customer with id 'e6501f30-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"apiUsageState\",\n  \"customerId\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"CUSTOMER\"\n  }\n}\n```\n\n## Relations Query Filter\n\nAllows to filter entities that are related to the provided root entity. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'filter' object allows you to define the relation type and set of acceptable entity types to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only those who match the 'filters'.\n\nFor example, this entity filter selects all devices and assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"relationsQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"DEVICE\",\n        \"ASSET\"\n      ]\n    }\n  ]\n}\n```\n\n## Asset Search Query\n\nAllows to filter assets that are related to the provided root entity. Filters related assets based on the relation type and set of asset types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'assetTypes' defines the type of the asset to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only assets that match 'relationType' and 'assetTypes' conditions.\n\nFor example, this entity filter selects 'charging station' assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"assetSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"assetTypes\": [\n    \"charging station\"\n  ]\n}\n```\n\n## Device Search Query\n\nAllows to filter devices that are related to the provided root entity. Filters related devices based on the relation type and set of device types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Charging port' and 'Air Quality Sensor' devices which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"deviceTypes\": [\n    \"Air Quality Sensor\",\n    \"Charging port\"\n  ]\n}\n```\n\n## Entity View Query\n\nAllows to filter entity views that are related to the provided root entity. Filters related entity views based on the relation type and set of entity view types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'entityViewTypes' defines the type of the entity view to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Concrete mixer' entity views which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"entityViewSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"entityViewTypes\": [\n    \"Concrete mixer\"\n  ]\n}\n```\n\n## Edge Search Query\n\nAllows to filter edge instances that are related to the provided root entity. Filters related edge instances based on the relation type and set of edge types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Factory' edge instances which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"edgeTypes\": [\n    \"Factory\"\n  ]\n}\n```\n\n # Key Filters\nKey Filter allows you to define complex logical expressions over entity field, attribute or latest time series value. The filter is defined using 'key', 'valueType' and 'predicate' objects. Single Entity Query may have zero, one or multiple predicates. If multiple filters are defined, they are evaluated using logical 'AND'. The example below checks that temperature of the entity is above 20 degrees:\n\n```json\n{\n  \"key\": {\n    \"type\": \"TIME_SERIES\",\n    \"key\": \"temperature\"\n  },\n  \"valueType\": \"NUMERIC\",\n  \"predicate\": {\n    \"operation\": \"GREATER\",\n    \"value\": {\n      \"defaultValue\": 20,\n      \"dynamicValue\": null\n    },\n    \"type\": \"NUMERIC\"\n  }\n}\n```\n\n Now let's review 'key', 'valueType' and 'predicate' objects in detail.\n\n## Filter Key\n\nFilter Key defines either entity field, attribute or telemetry. It is a JSON object that consists the key name and type. The following filter key types are supported: \n\n * 'CLIENT_ATTRIBUTE' - used for client attributes; \n * 'SHARED_ATTRIBUTE' - used for shared attributes; \n * 'SERVER_ATTRIBUTE' - used for server attributes; \n * 'ATTRIBUTE' - used for any of the above; \n * 'TIME_SERIES' - used for time series values; \n * 'ENTITY_FIELD' - used for accessing entity fields like 'name', 'label', etc. The list of available fields depends on the entity type; \n * 'ALARM_FIELD' - similar to entity field, but is used in alarm queries only; \n\n\n Let's review the example:\n\n```json\n{\n  \"type\": \"TIME_SERIES\",\n  \"key\": \"temperature\"\n}\n```\n\n## Value Type and Operations\n\nProvides a hint about the data type of the entity field that is defined in the filter key. The value type impacts the list of possible operations that you may use in the corresponding predicate. For example, you may use 'STARTS_WITH' or 'END_WITH', but you can't use 'GREATER_OR_EQUAL' for string values.The following filter value types and corresponding predicate operations are supported: \n\n * 'STRING' - used to filter any 'String' or 'JSON' values. Operations: EQUAL, NOT_EQUAL, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS; \n * 'NUMERIC' - used for 'Long' and 'Double' values. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n * 'BOOLEAN' - used for boolean values. Operations: EQUAL, NOT_EQUAL;\n * 'DATE_TIME' - similar to numeric, transforms value to milliseconds since epoch. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n\n\n## Filter Predicate\n\nFilter Predicate defines the logical expression to evaluate. The list of available operations depends on the filter value type, see above. Platform supports 4 predicate types: 'STRING', 'NUMERIC', 'BOOLEAN' and 'COMPLEX'. The last one allows to combine multiple operations over one filter key.\n\nSimple predicate example to check 'value < 100': \n\n```json\n{\n  \"operation\": \"LESS\",\n  \"value\": {\n    \"defaultValue\": 100,\n    \"dynamicValue\": null\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nComplex predicate example, to check 'value < 10 or value > 20': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"operation\": \"GREATER\",\n      \"value\": {\n        \"defaultValue\": 20,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    }\n  ]\n}\n```\n\nMore complex predicate example, to check 'value < 10 or (value > 50 && value < 60)': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"type\": \"COMPLEX\",\n      \"operation\": \"AND\",\n      \"predicates\": [\n        {\n          \"operation\": \"GREATER\",\n          \"value\": {\n            \"defaultValue\": 50,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        },\n        {\n          \"operation\": \"LESS\",\n          \"value\": {\n            \"defaultValue\": 60,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n You may also want to replace hardcoded values (for example, temperature > 20) with the more dynamic expression (for example, temperature > 'value of the tenant attribute with key 'temperatureThreshold'). It is possible to use 'dynamicValue' to define attribute of the tenant, customer or user that is performing the API call. See example below: \n\n```json\n{\n  \"operation\": \"GREATER\",\n  \"value\": {\n    \"defaultValue\": 0,\n    \"dynamicValue\": {\n      \"sourceType\": \"CURRENT_USER\",\n      \"sourceAttribute\": \"temperatureThreshold\"\n    }\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\n Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'. The 'defaultValue' is used when the attribute with such a name is not defined for the chosen source.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "5c5aed71-77ed-4985-bc61-859fcafe1592",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_CUSTOMER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"CLIENT_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/entitiesQuery/find",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "entitiesQuery",
+                            "find"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"entityId\": {\n        \"entityType\": \"NOTIFICATION_REQUEST\",\n        \"id\": \"<uuid>\"\n      },\n      \"latest\": {\n        \"sed047\": {\n          \"aliquipebd\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"sunt_b6\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        },\n        \"dolore_4a\": {\n          \"minimfa\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"amet_63\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        }\n      },\n      \"timeseries\": {\n        \"dolore_27c\": [\n          {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        ],\n        \"adipisicing_e\": [\n          {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        ]\n      },\n      \"aggLatest\": {\n        \"sint_a21\": {\n          \"current\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"previous\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        }\n      }\n    },\n    {\n      \"entityId\": {\n        \"entityType\": \"ALARM\",\n        \"id\": \"<uuid>\"\n      },\n      \"latest\": {\n        \"in33\": {\n          \"adipisicing524\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"mollit_a\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        },\n        \"ullamco0\": {\n          \"enim_b\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"quicd6\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"culpade2\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        }\n      },\n      \"timeseries\": {\n        \"laborumb7b\": [\n          {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        ]\n      },\n      \"aggLatest\": {\n        \"aliquip07\": {\n          \"current\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"previous\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        },\n        \"exercitation_3\": {\n          \"current\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"previous\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        }\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                      "createdAt": "2026-07-28T03:12:39.000Z",
+                      "updatedAt": "2026-07-28T03:12:39.000Z",
+                      "uid": "35240-5c5aed71-77ed-4985-bc61-859fcafe1592"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:39.000Z",
+                  "updatedAt": "2026-07-28T03:12:39.000Z",
+                  "uid": "35240-934ddf11-a09e-4dbc-92f5-b3f8ea394ad8"
+                }
+              ],
+              "id": "335cb7bb-f3c4-44e5-9a41-d9931fd6d81e",
+              "createdAt": "2026-07-28T03:12:39.000Z",
+              "updatedAt": "2026-07-28T03:12:39.000Z",
+              "uid": "35240-335cb7bb-f3c4-44e5-9a41-d9931fd6d81e"
+            },
+            {
+              "name": "count",
+              "item": [
+                {
+                  "name": "Count Entities by Query",
+                  "id": "1b110261-1283-4081-81dd-efb178ac08cb",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"SHARED_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_DEVICE\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/entitiesQuery/count",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "entitiesQuery",
+                        "count"
+                      ]
+                    },
+                    "description": "Allows to run complex queries to search the count of platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the number of entities that match the query definition.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter results of the entity filter by complex criteria against main entity fields (name, label, type, etc), attributes and telemetry. For example, \"temperature > 20 or temperature< 10\" or \"name starts with 'T', and attribute 'model' is 'T1000', and time series field 'batteryLevel' > 40\".\n\nLet's review the example:\n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\",\n    \"entityType\": \"DEVICE\"\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"ATTRIBUTE\",\n        \"key\": \"active\"\n      },\n      \"valueType\": \"BOOLEAN\",\n      \"predicate\": {\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": true,\n          \"dynamicValue\": null\n        },\n        \"type\": \"BOOLEAN\"\n      }\n    }\n  ]\n}\n```\n\n Example mentioned above search all devices which have attribute 'active' set to 'true'. Now let's review available entity filters and key filters syntax:\n\n # Entity Filters\nEntity Filter body depends on the 'type' parameter. Let's review available entity filter types. In fact, they do correspond to available dashboard aliases.\n\n## Single Entity\n\nAllows to filter only one entity based on the id. For example, this entity filter selects certain device:\n\n```json\n{\n  \"type\": \"singleEntity\",\n  \"singleEntity\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"DEVICE\"\n  }\n}\n```\n\n## Entity List Filter\n\nAllows to filter entities of the same type using their ids. For example, this entity filter selects two devices:\n\n```json\n{\n  \"type\": \"entityList\",\n  \"entityType\": \"DEVICE\",\n  \"entityList\": [\n    \"e6501f30-2a7a-11ec-94eb-213c95f54092\",\n    \"e6657bf0-2a7a-11ec-94eb-213c95f54092\"\n  ]\n}\n```\n\n## Entity Name Filter\n\nAllows to filter entities of the same type using the **'starts with'** expression over entity name. For example, this entity filter selects all devices which name starts with 'Air Quality':\n\n```json\n{\n  \"type\": \"entityName\",\n  \"entityType\": \"DEVICE\",\n  \"entityNameFilter\": \"Air Quality\"\n}\n```\n\n## Entity Type Filter\n\nAllows to filter entities based on their type (CUSTOMER, USER, DASHBOARD, ASSET, DEVICE, etc)For example, this entity filter selects all tenant customers:\n\n```json\n{\n  \"type\": \"entityType\",\n  \"entityType\": \"CUSTOMER\"\n}\n```\n\n## Asset Type Filter\n\nAllows to filter assets based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'charging station' assets which name starts with 'Tesla':\n\n```json\n{\n  \"type\": \"assetType\",\n  \"assetType\": \"charging station\",\n  \"assetNameFilter\": \"Tesla\"\n}\n```\n\n## Device Type Filter\n\nAllows to filter devices based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Temperature Sensor' devices which name starts with 'ABC':\n\n```json\n{\n  \"type\": \"deviceType\",\n  \"deviceType\": \"Temperature Sensor\",\n  \"deviceNameFilter\": \"ABC\"\n}\n```\n\n## Edge Type Filter\n\nAllows to filter edge instances based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Factory' edge instances which name starts with 'Nevada':\n\n```json\n{\n  \"type\": \"edgeType\",\n  \"edgeType\": \"Factory\",\n  \"edgeNameFilter\": \"Nevada\"\n}\n```\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```\n\n## Api Usage Filter\n\nAllows to query for Api Usage based on optional customer id. If the customer id is not set, returns current tenant API usage.For example, this entity filter selects the 'Api Usage' entity for customer with id 'e6501f30-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"apiUsageState\",\n  \"customerId\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"CUSTOMER\"\n  }\n}\n```\n\n## Relations Query Filter\n\nAllows to filter entities that are related to the provided root entity. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'filter' object allows you to define the relation type and set of acceptable entity types to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only those who match the 'filters'.\n\nFor example, this entity filter selects all devices and assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"relationsQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"DEVICE\",\n        \"ASSET\"\n      ]\n    }\n  ]\n}\n```\n\n## Asset Search Query\n\nAllows to filter assets that are related to the provided root entity. Filters related assets based on the relation type and set of asset types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'assetTypes' defines the type of the asset to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only assets that match 'relationType' and 'assetTypes' conditions.\n\nFor example, this entity filter selects 'charging station' assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"assetSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"assetTypes\": [\n    \"charging station\"\n  ]\n}\n```\n\n## Device Search Query\n\nAllows to filter devices that are related to the provided root entity. Filters related devices based on the relation type and set of device types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Charging port' and 'Air Quality Sensor' devices which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"deviceTypes\": [\n    \"Air Quality Sensor\",\n    \"Charging port\"\n  ]\n}\n```\n\n## Entity View Query\n\nAllows to filter entity views that are related to the provided root entity. Filters related entity views based on the relation type and set of entity view types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'entityViewTypes' defines the type of the entity view to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Concrete mixer' entity views which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"entityViewSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"entityViewTypes\": [\n    \"Concrete mixer\"\n  ]\n}\n```\n\n## Edge Search Query\n\nAllows to filter edge instances that are related to the provided root entity. Filters related edge instances based on the relation type and set of edge types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Factory' edge instances which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"edgeTypes\": [\n    \"Factory\"\n  ]\n}\n```\n\n # Key Filters\nKey Filter allows you to define complex logical expressions over entity field, attribute or latest time series value. The filter is defined using 'key', 'valueType' and 'predicate' objects. Single Entity Query may have zero, one or multiple predicates. If multiple filters are defined, they are evaluated using logical 'AND'. The example below checks that temperature of the entity is above 20 degrees:\n\n```json\n{\n  \"key\": {\n    \"type\": \"TIME_SERIES\",\n    \"key\": \"temperature\"\n  },\n  \"valueType\": \"NUMERIC\",\n  \"predicate\": {\n    \"operation\": \"GREATER\",\n    \"value\": {\n      \"defaultValue\": 20,\n      \"dynamicValue\": null\n    },\n    \"type\": \"NUMERIC\"\n  }\n}\n```\n\n Now let's review 'key', 'valueType' and 'predicate' objects in detail.\n\n## Filter Key\n\nFilter Key defines either entity field, attribute or telemetry. It is a JSON object that consists the key name and type. The following filter key types are supported: \n\n * 'CLIENT_ATTRIBUTE' - used for client attributes; \n * 'SHARED_ATTRIBUTE' - used for shared attributes; \n * 'SERVER_ATTRIBUTE' - used for server attributes; \n * 'ATTRIBUTE' - used for any of the above; \n * 'TIME_SERIES' - used for time series values; \n * 'ENTITY_FIELD' - used for accessing entity fields like 'name', 'label', etc. The list of available fields depends on the entity type; \n * 'ALARM_FIELD' - similar to entity field, but is used in alarm queries only; \n\n\n Let's review the example:\n\n```json\n{\n  \"type\": \"TIME_SERIES\",\n  \"key\": \"temperature\"\n}\n```\n\n## Value Type and Operations\n\nProvides a hint about the data type of the entity field that is defined in the filter key. The value type impacts the list of possible operations that you may use in the corresponding predicate. For example, you may use 'STARTS_WITH' or 'END_WITH', but you can't use 'GREATER_OR_EQUAL' for string values.The following filter value types and corresponding predicate operations are supported: \n\n * 'STRING' - used to filter any 'String' or 'JSON' values. Operations: EQUAL, NOT_EQUAL, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS; \n * 'NUMERIC' - used for 'Long' and 'Double' values. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n * 'BOOLEAN' - used for boolean values. Operations: EQUAL, NOT_EQUAL;\n * 'DATE_TIME' - similar to numeric, transforms value to milliseconds since epoch. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n\n\n## Filter Predicate\n\nFilter Predicate defines the logical expression to evaluate. The list of available operations depends on the filter value type, see above. Platform supports 4 predicate types: 'STRING', 'NUMERIC', 'BOOLEAN' and 'COMPLEX'. The last one allows to combine multiple operations over one filter key.\n\nSimple predicate example to check 'value < 100': \n\n```json\n{\n  \"operation\": \"LESS\",\n  \"value\": {\n    \"defaultValue\": 100,\n    \"dynamicValue\": null\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nComplex predicate example, to check 'value < 10 or value > 20': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"operation\": \"GREATER\",\n      \"value\": {\n        \"defaultValue\": 20,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    }\n  ]\n}\n```\n\nMore complex predicate example, to check 'value < 10 or (value > 50 && value < 60)': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"type\": \"COMPLEX\",\n      \"operation\": \"AND\",\n      \"predicates\": [\n        {\n          \"operation\": \"GREATER\",\n          \"value\": {\n            \"defaultValue\": 50,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        },\n        {\n          \"operation\": \"LESS\",\n          \"value\": {\n            \"defaultValue\": 60,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n You may also want to replace hardcoded values (for example, temperature > 20) with the more dynamic expression (for example, temperature > 'value of the tenant attribute with key 'temperatureThreshold'). It is possible to use 'dynamicValue' to define attribute of the tenant, customer or user that is performing the API call. See example below: \n\n```json\n{\n  \"operation\": \"GREATER\",\n  \"value\": {\n    \"defaultValue\": 0,\n    \"dynamicValue\": {\n      \"sourceType\": \"CURRENT_USER\",\n      \"sourceAttribute\": \"temperatureThreshold\"\n    }\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\n Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'. The 'defaultValue' is used when the attribute with such a name is not defined for the chosen source.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "52ad5139-d167-4b8e-a608-61bf710ac085",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"SHARED_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_DEVICE\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/entitiesQuery/count",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "entitiesQuery",
+                            "count"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<long>",
+                      "createdAt": "2026-07-28T03:12:39.000Z",
+                      "updatedAt": "2026-07-28T03:12:39.000Z",
+                      "uid": "35240-52ad5139-d167-4b8e-a608-61bf710ac085"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:39.000Z",
+                  "updatedAt": "2026-07-28T03:12:39.000Z",
+                  "uid": "35240-1b110261-1283-4081-81dd-efb178ac08cb"
+                }
+              ],
+              "id": "dfc81fb4-a45e-491f-8364-e362e2004297",
+              "createdAt": "2026-07-28T03:12:39.000Z",
+              "updatedAt": "2026-07-28T03:12:39.000Z",
+              "uid": "35240-dfc81fb4-a45e-491f-8364-e362e2004297"
+            }
+          ],
+          "id": "76ea9d4a-4423-4e8d-8ec6-57586ee9dee5",
+          "createdAt": "2026-07-28T03:12:39.000Z",
+          "updatedAt": "2026-07-28T03:12:39.000Z",
+          "uid": "35240-76ea9d4a-4423-4e8d-8ec6-57586ee9dee5"
+        },
+        {
+          "name": "edqs",
+          "item": [
+            {
+              "name": "system",
+              "item": [
+                {
+                  "name": "request",
+                  "item": [
+                    {
+                      "name": "process System Edqs Request",
+                      "id": "6953abd9-e16b-454e-be4c-0036b39af32b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"syncRequest\": {\n    \"objectTypes\": [\n      \"OAUTH2_DOMAIN\",\n      \"OAUTH2_DOMAIN\"\n    ]\n  },\n  \"apiEnabled\": \"<boolean>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edqs/system/request",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edqs",
+                            "system",
+                            "request"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "63199a86-ed3d-494f-bb8e-bc58329dae4f",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"syncRequest\": {\n    \"objectTypes\": [\n      \"OAUTH2_DOMAIN\",\n      \"OAUTH2_DOMAIN\"\n    ]\n  },\n  \"apiEnabled\": \"<boolean>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edqs/system/request",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edqs",
+                                "system",
+                                "request"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T03:12:39.000Z",
+                          "updatedAt": "2026-07-28T03:12:39.000Z",
+                          "uid": "35240-63199a86-ed3d-494f-bb8e-bc58329dae4f"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:39.000Z",
+                      "updatedAt": "2026-07-28T03:12:39.000Z",
+                      "uid": "35240-6953abd9-e16b-454e-be4c-0036b39af32b"
+                    }
+                  ],
+                  "id": "fb883dc8-7c7f-4a27-8a36-e16c7c6dc543",
+                  "createdAt": "2026-07-28T03:12:39.000Z",
+                  "updatedAt": "2026-07-28T03:12:39.000Z",
+                  "uid": "35240-fb883dc8-7c7f-4a27-8a36-e16c7c6dc543"
+                }
+              ],
+              "id": "f7aa5f13-356b-40b1-9916-ab9072c6d0d4",
+              "createdAt": "2026-07-28T03:12:39.000Z",
+              "updatedAt": "2026-07-28T03:12:39.000Z",
+              "uid": "35240-f7aa5f13-356b-40b1-9916-ab9072c6d0d4"
+            },
+            {
+              "name": "state",
+              "item": [
+                {
+                  "name": "get Edqs State",
+                  "id": "24336dc6-8899-478b-8394-e8e01470145e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edqs/state",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edqs",
+                        "state"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "id": "b45ac3e2-f839-438a-9d54-612c579c3f09",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edqs/state",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edqs",
+                            "state"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"edqsReady\": \"<boolean>\",\n  \"syncStatus\": \"REQUESTED\",\n  \"apiMode\": \"AUTO_DISABLED\"\n}",
+                      "createdAt": "2026-07-28T03:12:39.000Z",
+                      "updatedAt": "2026-07-28T03:12:39.000Z",
+                      "uid": "35240-b45ac3e2-f839-438a-9d54-612c579c3f09"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:39.000Z",
+                  "updatedAt": "2026-07-28T03:12:39.000Z",
+                  "uid": "35240-24336dc6-8899-478b-8394-e8e01470145e"
+                }
+              ],
+              "id": "71d7a124-fea4-4fdf-ad7e-8ec7281175a5",
+              "createdAt": "2026-07-28T03:12:39.000Z",
+              "updatedAt": "2026-07-28T03:12:39.000Z",
+              "uid": "35240-71d7a124-fea4-4fdf-ad7e-8ec7281175a5"
+            }
+          ],
+          "id": "4859fb63-f7eb-495d-8c55-58ef377c2b39",
+          "createdAt": "2026-07-28T03:12:39.000Z",
+          "updatedAt": "2026-07-28T03:12:39.000Z",
+          "uid": "35240-4859fb63-f7eb-495d-8c55-58ef377c2b39"
+        },
+        {
+          "name": "alarmsQuery",
+          "item": [
+            {
+              "name": "find",
+              "item": [
+                {
+                  "name": "Find Alarms by Query",
+                  "id": "e7a2a9c6-08ca-4299-b536-b4aaabfe14b1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"ENTITY_FIELD\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"startTs\": \"<long>\",\n    \"endTs\": \"<long>\",\n    \"timeWindow\": \"<long>\",\n    \"typeList\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"statusList\": [\n      \"CLEARED\",\n      \"CLEARED\"\n    ],\n    \"severityList\": [\n      \"WARNING\",\n      \"INDETERMINATE\"\n    ],\n    \"searchPropagatedAlarms\": \"<boolean>\",\n    \"assigneeId\": {\n      \"entityType\": \"USER\",\n      \"id\": \"<uuid>\"\n    },\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"SHARED_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"SHARED_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"alarmFields\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"CLIENT_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/alarmsQuery/find",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "alarmsQuery",
+                        "find"
+                      ]
+                    },
+                    "description": "This method description defines how Alarm Data Query extends the Entity Data Query. See method 'Find Entity Data by Query' first to get the info about 'Entity Data Query'.\n\n The platform will first search the entities that match the entity and key filters. Then, the platform will use 'Alarm Page Link' to filter the alarms related to those entities. Finally, platform fetch the properties of alarm that are defined in the **'alarmFields'** and combine them with the other entity, attribute and latest time series fields to return the result. \n\n See example of the alarm query below. The query will search first 100 active alarms with type 'Temperature Alarm' or 'Fire Alarm' for any device with current temperature > 0. The query will return combination of the entity fields: name of the device, device model and latest temperature reading and alarms fields: createdTime, type, severity and status: \n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\",\n    \"resolveMultiple\": true,\n    \"entityType\": \"DEVICE\"\n  },\n  \"pageLink\": {\n    \"page\": 0,\n    \"pageSize\": 100,\n    \"textSearch\": null,\n    \"searchPropagatedAlarms\": false,\n    \"statusList\": [\n      \"ACTIVE\"\n    ],\n    \"severityList\": [\n      \"CRITICAL\",\n      \"MAJOR\"\n    ],\n    \"typeList\": [\n      \"Temperature Alarm\",\n      \"Fire Alarm\"\n    ],\n    \"sortOrder\": {\n      \"key\": {\n        \"key\": \"createdTime\",\n        \"type\": \"ALARM_FIELD\"\n      },\n      \"direction\": \"DESC\"\n    },\n    \"timeWindow\": 86400000\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"temperature\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"operation\": \"GREATER\",\n        \"value\": {\n          \"defaultValue\": 0,\n          \"dynamicValue\": null\n        },\n        \"type\": \"NUMERIC\"\n      }\n    }\n  ],\n  \"alarmFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"createdTime\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"type\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"severity\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"status\"\n    }\n  ],\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"name\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"model\"\n    },\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"temperature\"\n    }\n  ]\n}\n```"
+                  },
+                  "response": [
+                    {
+                      "id": "5701fff3-0251-4592-8cf7-302f6e3ae6ea",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"ENTITY_FIELD\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"startTs\": \"<long>\",\n    \"endTs\": \"<long>\",\n    \"timeWindow\": \"<long>\",\n    \"typeList\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"statusList\": [\n      \"CLEARED\",\n      \"CLEARED\"\n    ],\n    \"severityList\": [\n      \"WARNING\",\n      \"INDETERMINATE\"\n    ],\n    \"searchPropagatedAlarms\": \"<boolean>\",\n    \"assigneeId\": {\n      \"entityType\": \"USER\",\n      \"id\": \"<uuid>\"\n    },\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"SHARED_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"SHARED_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"alarmFields\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"CLIENT_ATTRIBUTE\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/alarmsQuery/find",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "alarmsQuery",
+                            "find"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"acknowledged\": \"<boolean>\",\n      \"cleared\": \"<boolean>\",\n      \"name\": \"<string>\",\n      \"originator\": {\n        \"entityType\": \"QUEUE\",\n        \"id\": \"<uuid>\"\n      },\n      \"severity\": \"CRITICAL\",\n      \"status\": \"CLEARED_UNACK\",\n      \"type\": \"<string>\",\n      \"entityId\": {\n        \"entityType\": \"CALCULATED_FIELD\",\n        \"id\": \"<uuid>\"\n      },\n      \"latest\": {\n        \"non_91\": {\n          \"amet_c\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"eu_31d\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"sed_bae\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        },\n        \"laborisa_d\": {\n          \"idb26\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"aliquip98_\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        },\n        \"eiusmodde\": {\n          \"occaecat_bec\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"ut53\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        }\n      },\n      \"id\": {\n        \"entityType\": \"ALARM\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"assigneeId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"startTs\": \"<long>\",\n      \"endTs\": \"<long>\",\n      \"ackTs\": \"<long>\",\n      \"clearTs\": \"<long>\",\n      \"assignTs\": \"<long>\",\n      \"propagate\": \"<boolean>\",\n      \"propagateToOwner\": \"<boolean>\",\n      \"propagateToTenant\": \"<boolean>\",\n      \"propagateRelationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"originatorName\": \"<string>\",\n      \"originatorLabel\": \"<string>\",\n      \"originatorDisplayName\": \"<string>\",\n      \"assignee\": {\n        \"id\": {\n          \"entityType\": \"USER\",\n          \"id\": \"<uuid>\"\n        },\n        \"firstName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"details\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"acknowledged\": \"<boolean>\",\n      \"cleared\": \"<boolean>\",\n      \"name\": \"<string>\",\n      \"originator\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"severity\": \"INDETERMINATE\",\n      \"status\": \"CLEARED_UNACK\",\n      \"type\": \"<string>\",\n      \"entityId\": {\n        \"entityType\": \"WIDGET_TYPE\",\n        \"id\": \"<uuid>\"\n      },\n      \"latest\": {\n        \"consectetur_0\": {\n          \"deserunt_9\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"eiusmod2ac\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"nulla__0d\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"cupidatat_c8\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        },\n        \"reprehenderit2\": {\n          \"aliquaf\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"Duisd5\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"ea_5a\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          },\n          \"dolor95\": {\n            \"ts\": \"<long>\",\n            \"value\": \"<string>\",\n            \"count\": \"<long>\"\n          }\n        }\n      },\n      \"id\": {\n        \"entityType\": \"ALARM\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"assigneeId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"startTs\": \"<long>\",\n      \"endTs\": \"<long>\",\n      \"ackTs\": \"<long>\",\n      \"clearTs\": \"<long>\",\n      \"assignTs\": \"<long>\",\n      \"propagate\": \"<boolean>\",\n      \"propagateToOwner\": \"<boolean>\",\n      \"propagateToTenant\": \"<boolean>\",\n      \"propagateRelationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"originatorName\": \"<string>\",\n      \"originatorLabel\": \"<string>\",\n      \"originatorDisplayName\": \"<string>\",\n      \"assignee\": {\n        \"id\": {\n          \"entityType\": \"USER\",\n          \"id\": \"<uuid>\"\n        },\n        \"firstName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"details\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                      "createdAt": "2026-07-28T03:12:39.000Z",
+                      "updatedAt": "2026-07-28T03:12:39.000Z",
+                      "uid": "35240-5701fff3-0251-4592-8cf7-302f6e3ae6ea"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:39.000Z",
+                  "updatedAt": "2026-07-28T03:12:39.000Z",
+                  "uid": "35240-e7a2a9c6-08ca-4299-b536-b4aaabfe14b1"
+                }
+              ],
+              "id": "b6c61aff-e084-44a0-a83f-0d2a9ee7a247",
+              "createdAt": "2026-07-28T03:12:39.000Z",
+              "updatedAt": "2026-07-28T03:12:39.000Z",
+              "uid": "35240-b6c61aff-e084-44a0-a83f-0d2a9ee7a247"
+            },
+            {
+              "name": "count",
+              "item": [
+                {
+                  "name": "Count Alarms by Query (countAlarmsByQuery)",
+                  "id": "8a944100-e49f-4524-8d85-b0adb51526c8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"startTs\": \"<long>\",\n  \"endTs\": \"<long>\",\n  \"timeWindow\": \"<long>\",\n  \"typeList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"statusList\": [\n    \"UNACK\",\n    \"ANY\"\n  ],\n  \"severityList\": [\n    \"MINOR\",\n    \"MINOR\"\n  ],\n  \"searchPropagatedAlarms\": \"<boolean>\",\n  \"assigneeId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"<uuid>\"\n  },\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"DATE_TIME\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/alarmsQuery/count",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "alarmsQuery",
+                        "count"
+                      ]
+                    },
+                    "description": "Returns the number of alarms that match the query definition."
+                  },
+                  "response": [
+                    {
+                      "id": "02e99c2f-fb7a-4d6b-b53c-6d8f2c25f6b4",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"startTs\": \"<long>\",\n  \"endTs\": \"<long>\",\n  \"timeWindow\": \"<long>\",\n  \"typeList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"statusList\": [\n    \"UNACK\",\n    \"ANY\"\n  ],\n  \"severityList\": [\n    \"MINOR\",\n    \"MINOR\"\n  ],\n  \"searchPropagatedAlarms\": \"<boolean>\",\n  \"assigneeId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"<uuid>\"\n  },\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"SERVER_ATTRIBUTE\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"DATE_TIME\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": \"<boolean>\",\n          \"userValue\": \"<boolean>\",\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_TENANT\",\n            \"sourceAttribute\": \"<string>\",\n            \"inherit\": \"<boolean>\",\n            \"resolvedValue\": \"<boolean>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/alarmsQuery/count",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "alarmsQuery",
+                            "count"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<long>",
+                      "createdAt": "2026-07-28T03:12:39.000Z",
+                      "updatedAt": "2026-07-28T03:12:39.000Z",
+                      "uid": "35240-02e99c2f-fb7a-4d6b-b53c-6d8f2c25f6b4"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:39.000Z",
+                  "updatedAt": "2026-07-28T03:12:39.000Z",
+                  "uid": "35240-8a944100-e49f-4524-8d85-b0adb51526c8"
+                }
+              ],
+              "id": "20c98505-67f5-4f7f-87a8-6f836b88ab85",
+              "createdAt": "2026-07-28T03:12:39.000Z",
+              "updatedAt": "2026-07-28T03:12:39.000Z",
+              "uid": "35240-20c98505-67f5-4f7f-87a8-6f836b88ab85"
+            }
+          ],
+          "id": "7a9a148e-cdcf-4981-a811-929ec0d5672a",
+          "createdAt": "2026-07-28T03:12:39.000Z",
+          "updatedAt": "2026-07-28T03:12:39.000Z",
+          "uid": "35240-7a9a148e-cdcf-4981-a811-929ec0d5672a"
+        }
+      ],
+      "id": "0c3f6c5f-49ab-4956-8418-b3331f43bfd5",
+      "createdAt": "2026-07-28T03:12:39.000Z",
+      "updatedAt": "2026-07-28T03:12:39.000Z",
+      "uid": "35240-0c3f6c5f-49ab-4956-8418-b3331f43bfd5"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

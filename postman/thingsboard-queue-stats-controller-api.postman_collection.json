@@ -1,0 +1,271 @@
+{
+  "info": {
+    "_postman_id": "7ae57631-e391-44f7-9ee6-ab8ea96e2200",
+    "name": "ThingsBoard Admin admin-controller queue-stats-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:13:04.000Z",
+    "updatedAt": "2026-07-28T03:13:04.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-7ae57631-e391-44f7-9ee6-ab8ea96e2200"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "queueStats",
+          "item": [
+            {
+              "name": "{queueStatsId}",
+              "item": [
+                {
+                  "name": "Get Queue Stats Entity by Id (getQueueStatsById)",
+                  "id": "690af7af-86ac-4a8c-a880-fced610c9abf",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/queueStats/:queueStatsId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "queueStats",
+                        ":queueStatsId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "dd7f90c3-3662-4bef-960a-5649a7bc2342",
+                          "key": "queueStatsId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the queue stats id. For example, '687f294c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Fetch the Queue stats object based on the provided Queue stats id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "234cfb7f-28e8-44ba-9817-4e0883c98cac",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/queueStats/:queueStatsId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "queueStats",
+                            ":queueStatsId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "queueStatsId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": {\n    \"entityType\": \"QUEUE_STATS\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"queueName\": \"<string>\",\n  \"serviceId\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:13:05.000Z",
+                      "updatedAt": "2026-07-28T03:13:05.000Z",
+                      "uid": "35240-234cfb7f-28e8-44ba-9817-4e0883c98cac"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:13:05.000Z",
+                  "updatedAt": "2026-07-28T03:13:05.000Z",
+                  "uid": "35240-690af7af-86ac-4a8c-a880-fced610c9abf"
+                }
+              ],
+              "id": "976c02bc-0a8c-4364-a15e-142d917b5db1",
+              "createdAt": "2026-07-28T03:13:05.000Z",
+              "updatedAt": "2026-07-28T03:13:05.000Z",
+              "uid": "35240-976c02bc-0a8c-4364-a15e-142d917b5db1"
+            },
+            {
+              "name": "Get Queue Stats Entities (getTenantQueueStats)",
+              "id": "efb8b7be-550f-45a0-b383-d069826919b9",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/queueStats?queueStatsIds=<string>&queueStatsIds=<string>&pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "queueStats"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) A list of queue stats ids, separated by comma ','",
+                      "key": "queueStatsIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) A list of queue stats ids, separated by comma ','",
+                      "key": "queueStatsIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) Maximum amount of entities in a one page",
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "(Required) Sequence number of page starting from 0",
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "The case insensitive 'substring' filter based on the queue name or service id.",
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Property of entity to sort by",
+                      "key": "sortProperty",
+                      "value": "createdTime"
+                    },
+                    {
+                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                      "key": "sortOrder",
+                      "value": "DESC"
+                    }
+                  ]
+                },
+                "description": "Returns a page of queue stats objects that are designed to collect queue statistics for every service. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+              },
+              "response": [
+                {
+                  "id": "79d768e5-144c-43f0-b5c7-dd652c770ef0",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/queueStats?queueStatsIds=<string>&pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "queueStats"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) A list of queue stats ids, separated by comma ','",
+                          "key": "queueStatsIds",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the queue name or service id.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "createdTime"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"QUEUE_STATS\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"queueName\": \"<string>\",\n      \"serviceId\": \"<string>\"\n    },\n    {\n      \"id\": {\n        \"entityType\": \"QUEUE_STATS\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"queueName\": \"<string>\",\n      \"serviceId\": \"<string>\"\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                  "createdAt": "2026-07-28T03:13:05.000Z",
+                  "updatedAt": "2026-07-28T03:13:05.000Z",
+                  "uid": "35240-79d768e5-144c-43f0-b5c7-dd652c770ef0"
+                }
+              ],
+              "createdAt": "2026-07-28T03:13:05.000Z",
+              "updatedAt": "2026-07-28T03:13:05.000Z",
+              "uid": "35240-efb8b7be-550f-45a0-b383-d069826919b9"
+            }
+          ],
+          "id": "4f2b7b2d-cd45-48a4-9c01-6a97d1511aaf",
+          "createdAt": "2026-07-28T03:13:05.000Z",
+          "updatedAt": "2026-07-28T03:13:05.000Z",
+          "uid": "35240-4f2b7b2d-cd45-48a4-9c01-6a97d1511aaf"
+        }
+      ],
+      "id": "26a5249f-cea9-4f4b-a9b6-e4ec58e2bfbc",
+      "createdAt": "2026-07-28T03:13:05.000Z",
+      "updatedAt": "2026-07-28T03:13:05.000Z",
+      "uid": "35240-26a5249f-cea9-4f4b-a9b6-e4ec58e2bfbc"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

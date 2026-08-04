@@ -1,0 +1,1030 @@
+{
+  "info": {
+    "_postman_id": "cc8801bd-10ca-4b01-896e-c88381b4900e",
+    "name": "ThingsBoard Admin admin-controller calculated-field-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:06.000Z",
+    "updatedAt": "2026-07-28T03:12:06.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-cc8801bd-10ca-4b01-896e-c88381b4900e"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "calculatedField",
+          "item": [
+            {
+              "name": "testScript",
+              "item": [
+                {
+                  "name": "Test Script Expression",
+                  "id": "28584420-f40d-45f9-9890-53231456685c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"description\": \"A value representing the any type (object or primitive)\",\n  \"examples\": [\n    {}\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/calculatedField/testScript",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "calculatedField",
+                        "testScript"
+                      ]
+                    },
+                    "description": "Execute the Script expression and return the result. The format of request: \n\n```json\n{\n  \"expression\": \"var temp = 0; foreach(element: temperature.values) {temp += element.value;} var avgTemperature = temp / temperature.values.size(); var adjustedTemperature = avgTemperature + 0.1 * humidity.value; return {\\\"adjustedTemperature\\\": adjustedTemperature};\",\n  \"arguments\": {\n    \"temperature\": {\n      \"type\": \"TS_ROLLING\",\n      \"timeWindow\": {\n        \"startTs\": 1739775630002,\n        \"endTs\": 65432211,\n        \"limit\": 5\n      },\n      \"values\": [\n        { \"ts\": 1739775639851, \"value\": 23 },\n        { \"ts\": 1739775664561, \"value\": 43 },\n        { \"ts\": 1739775713079, \"value\": 15 },\n        { \"ts\": 1739775999522, \"value\": 34 },\n        { \"ts\": 1739776228452, \"value\": 22 }\n      ]\n    },\n    \"humidity\": { \"type\": \"SINGLE_VALUE\", \"ts\": 1739776478057, \"value\": 23 }\n  }\n}\n```\n\n Expected result JSON contains \"output\" and \"error\".\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "17ef590a-eea2-488b-be97-1d5d1c86ed2f",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"description\": \"A value representing the any type (object or primitive)\",\n  \"examples\": [\n    {}\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/calculatedField/testScript",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "calculatedField",
+                            "testScript"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"description\": \"A value representing the any type (object or primitive)\",\n  \"examples\": [\n    {}\n  ]\n}",
+                      "createdAt": "2026-07-28T03:12:07.000Z",
+                      "updatedAt": "2026-07-28T03:12:07.000Z",
+                      "uid": "35240-17ef590a-eea2-488b-be97-1d5d1c86ed2f"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-28584420-f40d-45f9-9890-53231456685c"
+                }
+              ],
+              "id": "706d3a7a-dafa-4238-8cba-7fa6d95a35b8",
+              "createdAt": "2026-07-28T03:12:07.000Z",
+              "updatedAt": "2026-07-28T03:12:07.000Z",
+              "uid": "35240-706d3a7a-dafa-4238-8cba-7fa6d95a35b8"
+            },
+            {
+              "name": "{calculatedFieldId}",
+              "item": [
+                {
+                  "name": "debug",
+                  "item": [
+                    {
+                      "name": "Get Latest Calculated Field Debug Event (getLatestCalculatedFieldDebugEvent)",
+                      "id": "2b63833c-0ecd-4322-9861-54d7932c6677",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/calculatedField/:calculatedFieldId/debug",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "calculatedField",
+                            ":calculatedFieldId",
+                            "debug"
+                          ],
+                          "variable": [
+                            {
+                              "id": "858920d1-d717-40ce-91da-9184304187ac",
+                              "key": "calculatedFieldId",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Gets latest calculated field debug event for specified calculated field id. Referencing non-existing calculated field id will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "6c9a95e6-1cad-458a-8c0a-1e86f1313298",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/calculatedField/:calculatedFieldId/debug",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "calculatedField",
+                                ":calculatedFieldId",
+                                "debug"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "calculatedFieldId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"description\": \"A value representing the any type (object or primitive)\",\n  \"examples\": [\n    {}\n  ]\n}",
+                          "createdAt": "2026-07-28T03:12:07.000Z",
+                          "updatedAt": "2026-07-28T03:12:07.000Z",
+                          "uid": "35240-6c9a95e6-1cad-458a-8c0a-1e86f1313298"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:07.000Z",
+                      "updatedAt": "2026-07-28T03:12:07.000Z",
+                      "uid": "35240-2b63833c-0ecd-4322-9861-54d7932c6677"
+                    }
+                  ],
+                  "id": "b88a5ba6-b576-47eb-8d98-ea7db2caf2bd",
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-b88a5ba6-b576-47eb-8d98-ea7db2caf2bd"
+                },
+                {
+                  "name": "Get Calculated Field (getCalculatedFieldById)",
+                  "id": "4b1236cc-7d44-412a-b69a-b7b391587bed",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/calculatedField/:calculatedFieldId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "calculatedField",
+                        ":calculatedFieldId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "bb04a407-0835-4e09-98cd-120f42ec8b15",
+                          "key": "calculatedFieldId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Fetch the Calculated Field object based on the provided Calculated Field Id."
+                  },
+                  "response": [
+                    {
+                      "id": "996c33ab-152b-43e7-84ba-c98549304038",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/calculatedField/:calculatedFieldId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "calculatedField",
+                            ":calculatedFieldId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "calculatedFieldId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"configuration\": {\n    \"arguments\": {\n      \"qui_f\": {\n        \"refEntityId\": {\n          \"entityType\": \"DASHBOARD\",\n          \"id\": \"<uuid>\"\n        },\n        \"refDynamicSourceConfiguration\": {\n          \"type\": \"<string>\"\n        },\n        \"refEntityKey\": {\n          \"key\": \"<string>\",\n          \"type\": \"ATTRIBUTE\",\n          \"scope\": \"SHARED_SCOPE\"\n        },\n        \"defaultValue\": \"<string>\",\n        \"limit\": \"<integer>\",\n        \"timeWindow\": \"<long>\"\n      }\n    },\n    \"output\": {\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"scope\": \"SERVER_SCOPE\",\n      \"decimalsByDefault\": \"<integer>\",\n      \"strategy\": {\n        \"type\": \"<string>\",\n        \"sendAttributesUpdatedNotification\": \"<boolean>\",\n        \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n        \"saveAttribute\": \"<boolean>\",\n        \"sendWsUpdate\": \"<boolean>\",\n        \"processCfs\": \"<boolean>\"\n      }\n    },\n    \"expression\": \"<string>\",\n    \"useLatestTs\": \"<boolean>\"\n  },\n  \"id\": {\n    \"entityType\": \"CALCULATED_FIELD\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"entityId\": {\n    \"entityType\": \"TB_RESOURCE\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"GEOFENCING\",\n  \"name\": \"<string>\",\n  \"debugMode\": \"<boolean>\",\n  \"debugSettings\": {\n    \"failuresEnabled\": \"<boolean>\",\n    \"allEnabled\": \"<boolean>\",\n    \"allEnabledUntil\": \"<long>\"\n  },\n  \"configurationVersion\": \"<integer>\",\n  \"version\": \"<long>\"\n}",
+                      "createdAt": "2026-07-28T03:12:07.000Z",
+                      "updatedAt": "2026-07-28T03:12:07.000Z",
+                      "uid": "35240-996c33ab-152b-43e7-84ba-c98549304038"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-4b1236cc-7d44-412a-b69a-b7b391587bed"
+                },
+                {
+                  "name": "Delete Calculated Field (deleteCalculatedField)",
+                  "id": "e5840948-7a02-41be-b776-007ba17ed730",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/calculatedField/:calculatedFieldId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "calculatedField",
+                        ":calculatedFieldId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "ab42aab7-14fa-43fa-b554-688c965bbdd8",
+                          "key": "calculatedFieldId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Deletes the calculated field. Referencing non-existing Calculated Field Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "9c3d7002-600c-4445-af16-ab79753188e0",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/calculatedField/:calculatedFieldId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "calculatedField",
+                            ":calculatedFieldId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "calculatedFieldId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T03:12:07.000Z",
+                      "updatedAt": "2026-07-28T03:12:07.000Z",
+                      "uid": "35240-9c3d7002-600c-4445-af16-ab79753188e0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-e5840948-7a02-41be-b776-007ba17ed730"
+                }
+              ],
+              "id": "67df40cf-2d57-4a34-ab1b-ab39641d10d9",
+              "createdAt": "2026-07-28T03:12:07.000Z",
+              "updatedAt": "2026-07-28T03:12:07.000Z",
+              "uid": "35240-67df40cf-2d57-4a34-ab1b-ab39641d10d9"
+            },
+            {
+              "name": "Create or Update Calculated Field (saveCalculatedField)",
+              "id": "66bd0b91-5840-4654-a316-9eaa9c538516",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configuration\": {\n    \"arguments\": {\n      \"qui_f\": {\n        \"refEntityId\": {\n          \"entityType\": \"DASHBOARD\",\n          \"id\": \"<uuid>\"\n        },\n        \"refDynamicSourceConfiguration\": {\n          \"type\": \"<string>\"\n        },\n        \"refEntityKey\": {\n          \"key\": \"<string>\",\n          \"type\": \"ATTRIBUTE\",\n          \"scope\": \"SHARED_SCOPE\"\n        },\n        \"defaultValue\": \"<string>\",\n        \"limit\": \"<integer>\",\n        \"timeWindow\": \"<long>\"\n      }\n    },\n    \"output\": {\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"scope\": \"SERVER_SCOPE\",\n      \"decimalsByDefault\": \"<integer>\",\n      \"strategy\": {\n        \"type\": \"<string>\",\n        \"sendAttributesUpdatedNotification\": \"<boolean>\",\n        \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n        \"saveAttribute\": \"<boolean>\",\n        \"sendWsUpdate\": \"<boolean>\",\n        \"processCfs\": \"<boolean>\"\n      }\n    },\n    \"expression\": \"<string>\",\n    \"useLatestTs\": \"<boolean>\"\n  },\n  \"id\": {\n    \"entityType\": \"CALCULATED_FIELD\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"entityId\": {\n    \"entityType\": \"TB_RESOURCE\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"GEOFENCING\",\n  \"name\": \"<string>\",\n  \"debugMode\": \"<boolean>\",\n  \"debugSettings\": {\n    \"failuresEnabled\": \"<boolean>\",\n    \"allEnabled\": \"<boolean>\",\n    \"allEnabledUntil\": \"<long>\"\n  },\n  \"configurationVersion\": \"<integer>\",\n  \"version\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/calculatedField",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "calculatedField"
+                  ]
+                },
+                "description": "Creates or Updates the Calculated Field. When creating calculated field, platform generates Calculated Field Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Calculated Field Id will be present in the response. Specify existing Calculated Field Id to update the calculated field. Referencing non-existing Calculated Field Id will cause 'Not Found' error. Remove 'id', 'tenantId' from the request body example (below) to create new Calculated Field entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+              },
+              "response": [
+                {
+                  "id": "7fdb814c-70fc-4e14-ba0a-109e785ea642",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"configuration\": {\n    \"arguments\": {\n      \"qui_f\": {\n        \"refEntityId\": {\n          \"entityType\": \"DASHBOARD\",\n          \"id\": \"<uuid>\"\n        },\n        \"refDynamicSourceConfiguration\": {\n          \"type\": \"<string>\"\n        },\n        \"refEntityKey\": {\n          \"key\": \"<string>\",\n          \"type\": \"ATTRIBUTE\",\n          \"scope\": \"SHARED_SCOPE\"\n        },\n        \"defaultValue\": \"<string>\",\n        \"limit\": \"<integer>\",\n        \"timeWindow\": \"<long>\"\n      }\n    },\n    \"output\": {\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"scope\": \"SERVER_SCOPE\",\n      \"decimalsByDefault\": \"<integer>\",\n      \"strategy\": {\n        \"type\": \"<string>\",\n        \"sendAttributesUpdatedNotification\": \"<boolean>\",\n        \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n        \"saveAttribute\": \"<boolean>\",\n        \"sendWsUpdate\": \"<boolean>\",\n        \"processCfs\": \"<boolean>\"\n      }\n    },\n    \"expression\": \"<string>\",\n    \"useLatestTs\": \"<boolean>\"\n  },\n  \"id\": {\n    \"entityType\": \"CALCULATED_FIELD\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"entityId\": {\n    \"entityType\": \"TB_RESOURCE\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"GEOFENCING\",\n  \"name\": \"<string>\",\n  \"debugMode\": \"<boolean>\",\n  \"debugSettings\": {\n    \"failuresEnabled\": \"<boolean>\",\n    \"allEnabled\": \"<boolean>\",\n    \"allEnabledUntil\": \"<long>\"\n  },\n  \"configurationVersion\": \"<integer>\",\n  \"version\": \"<long>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/calculatedField",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "calculatedField"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"configuration\": {\n    \"arguments\": {\n      \"qui_f\": {\n        \"refEntityId\": {\n          \"entityType\": \"DASHBOARD\",\n          \"id\": \"<uuid>\"\n        },\n        \"refDynamicSourceConfiguration\": {\n          \"type\": \"<string>\"\n        },\n        \"refEntityKey\": {\n          \"key\": \"<string>\",\n          \"type\": \"ATTRIBUTE\",\n          \"scope\": \"SHARED_SCOPE\"\n        },\n        \"defaultValue\": \"<string>\",\n        \"limit\": \"<integer>\",\n        \"timeWindow\": \"<long>\"\n      }\n    },\n    \"output\": {\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"scope\": \"SERVER_SCOPE\",\n      \"decimalsByDefault\": \"<integer>\",\n      \"strategy\": {\n        \"type\": \"<string>\",\n        \"sendAttributesUpdatedNotification\": \"<boolean>\",\n        \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n        \"saveAttribute\": \"<boolean>\",\n        \"sendWsUpdate\": \"<boolean>\",\n        \"processCfs\": \"<boolean>\"\n      }\n    },\n    \"expression\": \"<string>\",\n    \"useLatestTs\": \"<boolean>\"\n  },\n  \"id\": {\n    \"entityType\": \"CALCULATED_FIELD\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"entityId\": {\n    \"entityType\": \"TB_RESOURCE\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"GEOFENCING\",\n  \"name\": \"<string>\",\n  \"debugMode\": \"<boolean>\",\n  \"debugSettings\": {\n    \"failuresEnabled\": \"<boolean>\",\n    \"allEnabled\": \"<boolean>\",\n    \"allEnabledUntil\": \"<long>\"\n  },\n  \"configurationVersion\": \"<integer>\",\n  \"version\": \"<long>\"\n}",
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-7fdb814c-70fc-4e14-ba0a-109e785ea642"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:07.000Z",
+              "updatedAt": "2026-07-28T03:12:07.000Z",
+              "uid": "35240-66bd0b91-5840-4654-a316-9eaa9c538516"
+            }
+          ],
+          "id": "4bc6500d-cd10-483e-9226-1ddbf137358f",
+          "createdAt": "2026-07-28T03:12:07.000Z",
+          "updatedAt": "2026-07-28T03:12:07.000Z",
+          "uid": "35240-4bc6500d-cd10-483e-9226-1ddbf137358f"
+        },
+        {
+          "name": "{entityType}",
+          "item": [
+            {
+              "name": "{entityId}",
+              "item": [
+                {
+                  "name": "calculatedFields",
+                  "item": [
+                    {
+                      "name": "Get Calculated Fields by Entity Id (getCalculatedFieldsByEntityId)",
+                      "id": "b3f0cf91-1e5c-45e5-be42-1e5e5fe28e20",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/:entityType/:entityId/calculatedFields?pageSize=<integer>&page=<integer>&type=SCRIPT&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            ":entityType",
+                            ":entityId",
+                            "calculatedFields"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Calculated field type. If not specified, all types will be returned.",
+                              "key": "type",
+                              "value": "SCRIPT"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the calculated field name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "name"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "b683989d-8dac-4192-8913-7953f9b5cec6",
+                              "key": "entityType",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                            },
+                            {
+                              "id": "9b63f415-f0da-4348-8ff0-8c43e44273aa",
+                              "key": "entityId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Fetch the Calculated Fields based on the provided Entity Id."
+                      },
+                      "response": [
+                        {
+                          "id": "01e8ff11-6337-4d04-947c-d993d0ecf776",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/:entityType/:entityId/calculatedFields?pageSize=<integer>&page=<integer>&type=SCRIPT&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                ":entityType",
+                                ":entityId",
+                                "calculatedFields"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Calculated field type. If not specified, all types will be returned.",
+                                  "key": "type",
+                                  "value": "SCRIPT"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on the calculated field name.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "name"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "DESC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "entityType"
+                                },
+                                {
+                                  "key": "entityId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": [\n    {\n      \"configuration\": {\n        \"arguments\": {\n          \"incididuntb\": {\n            \"refEntityId\": {\n              \"entityType\": \"WIDGET_TYPE\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"TS_LATEST\",\n              \"scope\": \"SERVER_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          },\n          \"nullad9\": {\n            \"refEntityId\": {\n              \"entityType\": \"JOB\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"TS_ROLLING\",\n              \"scope\": \"SHARED_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          },\n          \"minim_70c\": {\n            \"refEntityId\": {\n              \"entityType\": \"AI_MODEL\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"TS_ROLLING\",\n              \"scope\": \"SERVER_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          }\n        },\n        \"output\": {\n          \"type\": \"<string>\",\n          \"name\": \"<string>\",\n          \"scope\": \"SHARED_SCOPE\",\n          \"decimalsByDefault\": \"<integer>\",\n          \"strategy\": {\n            \"type\": \"<string>\",\n            \"sendAttributesUpdatedNotification\": \"<boolean>\",\n            \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n            \"saveAttribute\": \"<boolean>\",\n            \"sendWsUpdate\": \"<boolean>\",\n            \"processCfs\": \"<boolean>\"\n          }\n        },\n        \"expression\": \"<string>\",\n        \"useLatestTs\": \"<boolean>\"\n      },\n      \"id\": {\n        \"entityType\": \"CALCULATED_FIELD\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"API_KEY\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"PROPAGATION\",\n      \"name\": \"<string>\",\n      \"debugMode\": \"<boolean>\",\n      \"debugSettings\": {\n        \"failuresEnabled\": \"<boolean>\",\n        \"allEnabled\": \"<boolean>\",\n        \"allEnabledUntil\": \"<long>\"\n      },\n      \"configurationVersion\": \"<integer>\",\n      \"version\": \"<long>\"\n    },\n    {\n      \"configuration\": {\n        \"arguments\": {\n          \"aute52\": {\n            \"refEntityId\": {\n              \"entityType\": \"CUSTOMER\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"TS_LATEST\",\n              \"scope\": \"CLIENT_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          },\n          \"eiusmodfd5\": {\n            \"refEntityId\": {\n              \"entityType\": \"RULE_NODE\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"ATTRIBUTE\",\n              \"scope\": \"SERVER_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          }\n        },\n        \"output\": {\n          \"type\": \"<string>\",\n          \"name\": \"<string>\",\n          \"scope\": \"CLIENT_SCOPE\",\n          \"decimalsByDefault\": \"<integer>\",\n          \"strategy\": {\n            \"type\": \"<string>\",\n            \"sendAttributesUpdatedNotification\": \"<boolean>\",\n            \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n            \"saveAttribute\": \"<boolean>\",\n            \"sendWsUpdate\": \"<boolean>\",\n            \"processCfs\": \"<boolean>\"\n          }\n        },\n        \"expression\": \"<string>\",\n        \"useLatestTs\": \"<boolean>\"\n      },\n      \"id\": {\n        \"entityType\": \"CALCULATED_FIELD\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"NOTIFICATION\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"GEOFENCING\",\n      \"name\": \"<string>\",\n      \"debugMode\": \"<boolean>\",\n      \"debugSettings\": {\n        \"failuresEnabled\": \"<boolean>\",\n        \"allEnabled\": \"<boolean>\",\n        \"allEnabledUntil\": \"<long>\"\n      },\n      \"configurationVersion\": \"<integer>\",\n      \"version\": \"<long>\"\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                          "createdAt": "2026-07-28T03:12:07.000Z",
+                          "updatedAt": "2026-07-28T03:12:07.000Z",
+                          "uid": "35240-01e8ff11-6337-4d04-947c-d993d0ecf776"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:07.000Z",
+                      "updatedAt": "2026-07-28T03:12:07.000Z",
+                      "uid": "35240-b3f0cf91-1e5c-45e5-be42-1e5e5fe28e20"
+                    }
+                  ],
+                  "id": "c4fe29d2-20d4-4fad-911a-9c2fd1d96924",
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-c4fe29d2-20d4-4fad-911a-9c2fd1d96924"
+                }
+              ],
+              "id": "aa545005-7968-4ed0-bb3c-9180d4b20505",
+              "createdAt": "2026-07-28T03:12:07.000Z",
+              "updatedAt": "2026-07-28T03:12:07.000Z",
+              "uid": "35240-aa545005-7968-4ed0-bb3c-9180d4b20505"
+            }
+          ],
+          "id": "fb352509-4ed2-4da8-9d5e-165186cf26cf",
+          "createdAt": "2026-07-28T03:12:07.000Z",
+          "updatedAt": "2026-07-28T03:12:07.000Z",
+          "uid": "35240-fb352509-4ed2-4da8-9d5e-165186cf26cf"
+        },
+        {
+          "name": "calculatedFields",
+          "item": [
+            {
+              "name": "names",
+              "item": [
+                {
+                  "name": "Get Calculated Field Names (getCalculatedFieldNames)",
+                  "id": "0fde7ce7-0365-4733-9599-8ac8e37cdddb",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/calculatedFields/names?type=SCRIPT&pageSize=<integer>&page=<integer>&textSearch=<string>&sortOrder=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "calculatedFields",
+                        "names"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Calculated field type filter.",
+                          "key": "type",
+                          "value": "SCRIPT"
+                        },
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the calculated field name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        }
+                      ]
+                    },
+                    "description": "Fetch the list of calculated field names for specified type."
+                  },
+                  "response": [
+                    {
+                      "id": "5ba82392-bcaf-4aec-8a67-8a90e53e2df3",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/calculatedFields/names?type=SCRIPT&pageSize=<integer>&page=<integer>&textSearch=<string>&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "calculatedFields",
+                            "names"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Calculated field type filter.",
+                              "key": "type",
+                              "value": "SCRIPT"
+                            },
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the calculated field name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                      "createdAt": "2026-07-28T03:12:07.000Z",
+                      "updatedAt": "2026-07-28T03:12:07.000Z",
+                      "uid": "35240-5ba82392-bcaf-4aec-8a67-8a90e53e2df3"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-0fde7ce7-0365-4733-9599-8ac8e37cdddb"
+                }
+              ],
+              "id": "7f1e3f1e-9f87-425a-a126-e756044116c4",
+              "createdAt": "2026-07-28T03:12:07.000Z",
+              "updatedAt": "2026-07-28T03:12:07.000Z",
+              "uid": "35240-7f1e3f1e-9f87-425a-a126-e756044116c4"
+            },
+            {
+              "name": "Get Calculated Fields (getCalculatedFields)",
+              "id": "9fd084e4-f6ac-4887-a11a-7a8a44251494",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/calculatedFields?pageSize=<integer>&page=<integer>&types=ENTITY_AGGREGATION&types=ENTITY_AGGREGATION&entityType=ADMIN_SETTINGS&entities=<uuid>&entities=<uuid>&name=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC&all=[object Object]&dolor0=<string>,<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "calculatedFields"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Maximum amount of entities in a one page",
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "(Required) Sequence number of page starting from 0",
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Calculated field types filter.",
+                      "key": "types",
+                      "value": "ENTITY_AGGREGATION"
+                    },
+                    {
+                      "description": "Calculated field types filter.",
+                      "key": "types",
+                      "value": "ENTITY_AGGREGATION"
+                    },
+                    {
+                      "description": "Entity type filter. If not specified, calculated fields for all supported entity types will be returned.",
+                      "key": "entityType",
+                      "value": "ADMIN_SETTINGS"
+                    },
+                    {
+                      "description": "Entities filter. If not specified, calculated fields for entity type filter will be returned.",
+                      "key": "entities",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "description": "Entities filter. If not specified, calculated fields for entity type filter will be returned.",
+                      "key": "entities",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "description": "Name filter. To specify multiple names, duplicate 'name' parameter for each name, for example '?name=name1&name=name2",
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "The case insensitive 'substring' filter based on the calculated field name.",
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Property of entity to sort by",
+                      "key": "sortProperty",
+                      "value": "name"
+                    },
+                    {
+                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                      "key": "sortOrder",
+                      "value": "DESC"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "all",
+                      "value": "[object Object]"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "dolor0",
+                      "value": "<string>,<string>"
+                    }
+                  ]
+                },
+                "description": "Fetch tenant calculated fields based on the filter."
+              },
+              "response": [
+                {
+                  "id": "6b3ad6eb-7b31-4233-bab3-f23b7df82aa7",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/calculatedFields?pageSize=<integer>&page=<integer>&types=ENTITY_AGGREGATION&entityType=ADMIN_SETTINGS&entities=<uuid>&name=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC&all=[object Object]&dolor0=<string>,<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "calculatedFields"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Calculated field types filter.",
+                          "key": "types",
+                          "value": "ENTITY_AGGREGATION"
+                        },
+                        {
+                          "description": "Entity type filter. If not specified, calculated fields for all supported entity types will be returned.",
+                          "key": "entityType",
+                          "value": "ADMIN_SETTINGS"
+                        },
+                        {
+                          "description": "Entities filter. If not specified, calculated fields for entity type filter will be returned.",
+                          "key": "entities",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Name filter. To specify multiple names, duplicate 'name' parameter for each name, for example '?name=name1&name=name2",
+                          "key": "name",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the calculated field name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "name"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        },
+                        {
+                          "description": "(Required) ",
+                          "key": "all",
+                          "value": "[object Object]"
+                        },
+                        {
+                          "description": "(Required) ",
+                          "key": "dolor0",
+                          "value": "<string>,<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"configuration\": {\n        \"arguments\": {\n          \"dolore54\": {\n            \"refEntityId\": {\n              \"entityType\": \"MOBILE_APP_BUNDLE\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"ATTRIBUTE\",\n              \"scope\": \"SHARED_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          },\n          \"fugiat0\": {\n            \"refEntityId\": {\n              \"entityType\": \"ASSET_PROFILE\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"TS_ROLLING\",\n              \"scope\": \"SHARED_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          }\n        },\n        \"output\": {\n          \"type\": \"<string>\",\n          \"name\": \"<string>\",\n          \"scope\": \"CLIENT_SCOPE\",\n          \"decimalsByDefault\": \"<integer>\",\n          \"strategy\": {\n            \"type\": \"<string>\",\n            \"sendAttributesUpdatedNotification\": \"<boolean>\",\n            \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n            \"saveAttribute\": \"<boolean>\",\n            \"sendWsUpdate\": \"<boolean>\",\n            \"processCfs\": \"<boolean>\"\n          }\n        },\n        \"expression\": \"<string>\",\n        \"useLatestTs\": \"<boolean>\"\n      },\n      \"id\": {\n        \"entityType\": \"CALCULATED_FIELD\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"NOTIFICATION_REQUEST\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"RELATED_ENTITIES_AGGREGATION\",\n      \"name\": \"<string>\",\n      \"debugMode\": \"<boolean>\",\n      \"debugSettings\": {\n        \"failuresEnabled\": \"<boolean>\",\n        \"allEnabled\": \"<boolean>\",\n        \"allEnabledUntil\": \"<long>\"\n      },\n      \"configurationVersion\": \"<integer>\",\n      \"version\": \"<long>\",\n      \"entityName\": \"<string>\"\n    },\n    {\n      \"configuration\": {\n        \"arguments\": {\n          \"reprehenderit_3\": {\n            \"refEntityId\": {\n              \"entityType\": \"QUEUE_STATS\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"ATTRIBUTE\",\n              \"scope\": \"SHARED_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          },\n          \"incididunt3\": {\n            \"refEntityId\": {\n              \"entityType\": \"TB_RESOURCE\",\n              \"id\": \"<uuid>\"\n            },\n            \"refDynamicSourceConfiguration\": {\n              \"type\": \"<string>\"\n            },\n            \"refEntityKey\": {\n              \"key\": \"<string>\",\n              \"type\": \"ATTRIBUTE\",\n              \"scope\": \"CLIENT_SCOPE\"\n            },\n            \"defaultValue\": \"<string>\",\n            \"limit\": \"<integer>\",\n            \"timeWindow\": \"<long>\"\n          }\n        },\n        \"output\": {\n          \"type\": \"<string>\",\n          \"name\": \"<string>\",\n          \"scope\": \"SERVER_SCOPE\",\n          \"decimalsByDefault\": \"<integer>\",\n          \"strategy\": {\n            \"type\": \"<string>\",\n            \"sendAttributesUpdatedNotification\": \"<boolean>\",\n            \"updateAttributesOnlyOnValueChange\": \"<boolean>\",\n            \"saveAttribute\": \"<boolean>\",\n            \"sendWsUpdate\": \"<boolean>\",\n            \"processCfs\": \"<boolean>\"\n          }\n        },\n        \"expression\": \"<string>\",\n        \"useLatestTs\": \"<boolean>\"\n      },\n      \"id\": {\n        \"entityType\": \"CALCULATED_FIELD\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"SIMPLE\",\n      \"name\": \"<string>\",\n      \"debugMode\": \"<boolean>\",\n      \"debugSettings\": {\n        \"failuresEnabled\": \"<boolean>\",\n        \"allEnabled\": \"<boolean>\",\n        \"allEnabledUntil\": \"<long>\"\n      },\n      \"configurationVersion\": \"<integer>\",\n      \"version\": \"<long>\",\n      \"entityName\": \"<string>\"\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                  "createdAt": "2026-07-28T03:12:07.000Z",
+                  "updatedAt": "2026-07-28T03:12:07.000Z",
+                  "uid": "35240-6b3ad6eb-7b31-4233-bab3-f23b7df82aa7"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:07.000Z",
+              "updatedAt": "2026-07-28T03:12:07.000Z",
+              "uid": "35240-9fd084e4-f6ac-4887-a11a-7a8a44251494"
+            }
+          ],
+          "id": "81e1930a-3849-481b-a92a-95952d7537f1",
+          "createdAt": "2026-07-28T03:12:07.000Z",
+          "updatedAt": "2026-07-28T03:12:07.000Z",
+          "uid": "35240-81e1930a-3849-481b-a92a-95952d7537f1"
+        }
+      ],
+      "id": "ab116baf-b456-4ad0-99eb-73e598ddeda7",
+      "createdAt": "2026-07-28T03:12:07.000Z",
+      "updatedAt": "2026-07-28T03:12:07.000Z",
+      "uid": "35240-ab116baf-b456-4ad0-99eb-73e598ddeda7"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

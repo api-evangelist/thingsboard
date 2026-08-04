@@ -1,0 +1,3448 @@
+# ThingsBoard ThingsBoard Dashboards API
+# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
+openapi: 3.1.0
+info:
+  title: ThingsBoard Dashboards API
+  description: "ThingsBoard Dashboards API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Dashboard, Widget Type, Widgets Bundle, Image, Tb Resource, Ui Settings."
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: dashboard-controller
+  description: Dashboard
+- name: widget-type-controller
+  description: Widget Type
+- name: widgets-bundle-controller
+  description: Widgets Bundle
+- name: image-controller
+  description: Image
+- name: tb-resource-controller
+  description: Tb Resource
+- name: ui-settings-controller
+  description: Ui Settings
+paths:
+  /api/resource/{id}/info:
+    put:
+      tags:
+      - tb-resource-controller
+      operationId: updateResourceInfo
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the Resource to update
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TbResourceInfo'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/resource/{id}/data:
+    put:
+      tags:
+      - tb-resource-controller
+      operationId: updateResourceData
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the Resource to update
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Resource file.
+              required:
+              - file
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/images/{type}/{key}:
+    get:
+      tags:
+      - image-controller
+      operationId: downloadImage
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: Accept-Encoding
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+    put:
+      tags:
+      - image-controller
+      operationId: updateImage
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+    delete:
+      tags:
+      - image-controller
+      operationId: deleteImage
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbImageDeleteResult'
+  /api/images/{type}/{key}/public/{isPublic}:
+    put:
+      tags:
+      - image-controller
+      operationId: updateImagePublicStatus
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      - name: isPublic
+        in: path
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/images/{type}/{key}/info:
+    get:
+      tags:
+      - image-controller
+      operationId: getImageInfo
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+    put:
+      tags:
+      - image-controller
+      operationId: updateImageInfo
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TbResourceInfo'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/image/import:
+    put:
+      tags:
+      - image-controller
+      operationId: importImage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceExportData'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/widgetsBundle:
+    post:
+      tags:
+      - widgets-bundle-controller
+      summary: Create or Update Widget Bundle (saveWidgetsBundle)
+      description: 'Create or update the Widget Bundle. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case.  When creating the bundle, platform generates
+        Widget Bundle Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Widget Bundle Id will be present in the
+        response. Specify existing Widget Bundle id to update the Widget Bundle. Referencing non-existing Widget Bundle Id will cause ''Not Found'' error.
+
+
+        Widget Bundle alias is unique in the scope of tenant. Special Tenant Id ''13814000-1dd2-11b2-8080-808080808080'' is automatically used if the create bundle request is sent by user with ''SYS_ADMIN''
+        authority.Remove ''id'', ''tenantId'' from the request body example (below) to create new Widgets Bundle entity.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: saveWidgetsBundle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WidgetsBundle'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetsBundle'
+  /api/widgetsBundle/{widgetsBundleId}/widgetTypes:
+    post:
+      tags:
+      - widgets-bundle-controller
+      summary: Update Widgets Bundle Widgets Types List (updateWidgetsBundleWidgetTypes)
+      description: 'Updates widgets bundle widgets list.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: updateWidgetsBundleWidgetTypes
+      parameters:
+      - name: widgetsBundleId
+        in: path
+        description: A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: Ordered list of widget type Ids to be included by widgets bundle
+              items:
+                type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/widgetsBundle/{widgetsBundleId}/widgetTypeFqns:
+    post:
+      tags:
+      - widgets-bundle-controller
+      summary: Update Widgets Bundle Widgets List from Widget Type FQNs List (updateWidgetsBundleWidgetFqns)
+      description: 'Updates widgets bundle widgets list from widget type FQNs list.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: updateWidgetsBundleWidgetFqns
+      parameters:
+      - name: widgetsBundleId
+        in: path
+        description: A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: Ordered list of widget type FQNs to be included by widgets bundle
+              items:
+                type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/widgetType:
+    get:
+      tags:
+      - widget-type-controller
+      summary: Get Widget Type (getWidgetType)
+      description: 'Get the Widget Type by FQN. Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory.
+
+
+        Available for any authorized user. '
+      operationId: getWidgetTypeByBundleAliasAndTypeAlias
+      parameters:
+      - name: isSystem
+        in: query
+        description: System or Tenant
+        required: true
+        schema:
+          type: boolean
+      - name: bundleAlias
+        in: query
+        description: Widget Bundle alias
+        required: true
+        schema:
+          type: string
+      - name: alias
+        in: query
+        description: Widget Type alias
+        required: true
+        schema:
+          type: string
+      - name: fqn
+        in: query
+        description: Widget Type fqn
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetType'
+      deprecated: true
+    post:
+      tags:
+      - widget-type-controller
+      summary: Create or Update Widget Type (saveWidgetType)
+      description: 'Create or update the Widget Type. Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory. When creating the Widget
+        Type, platform generates Widget Type Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Widget Type Id
+        will be present in the response. Specify existing Widget Type id to update the Widget Type. Referencing non-existing Widget Type Id will cause ''Not Found'' error.
+
+
+        Widget Type fqn is unique in the scope of System or Tenant. Special Tenant Id ''13814000-1dd2-11b2-8080-808080808080'' is automatically used if the create request is sent by user with ''SYS_ADMIN''
+        authority.Remove ''id'', ''tenantId'' rom the request body example (below) to create new Widget Type entity.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: saveWidgetType
+      parameters:
+      - name: updateExistingByFqn
+        in: query
+        description: Optional boolean parameter indicating whether to update existing widget type by FQN if present instead of creating new one
+        required: false
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WidgetTypeDetails'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetTypeDetails'
+  /api/tenant/dashboard/home/info:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Tenant Home Dashboard Info (getTenantHomeDashboardInfo)
+      description: "Returns the home dashboard info object that is configured as 'homeDashboardId' parameter in the 'additionalInfo' of the corresponding tenant. \n\nAvailable for users with 'TENANT_ADMIN'\
+        \ authority."
+      operationId: getTenantHomeDashboardInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeDashboardInfo'
+    post:
+      tags:
+      - dashboard-controller
+      summary: Update Tenant Home Dashboard Info (getTenantHomeDashboardInfo)
+      description: "Update the home dashboard assignment for the current tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: setTenantHomeDashboardInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeDashboardInfo'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/resource:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Get Resource Infos by Ids (getSystemOrTenantResourcesByIds)
+      description: "Returns a page of Resource Info objects owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate\
+        \ over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data.\
+        \ \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getResources
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: resourceType
+        in: query
+        description: A string value representing the resource type.
+        required: false
+        schema:
+          type: string
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+      - name: resourceSubType
+        in: query
+        description: A string value representing the resource sub-type.
+        required: false
+        schema:
+          type: string
+          enum:
+          - EXTENSION
+          - MODULE
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the resource title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+          - resourceType
+          - tenantId
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: resourceIds
+        in: query
+        description: A list of resource ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/TbResourceInfo'
+                - $ref: '#/components/schemas/PageDataTbResourceInfo'
+    post:
+      tags:
+      - tb-resource-controller
+      summary: Create or Update Resource (saveResource)
+      description: "Create or update the Resource. When creating the Resource, platform generates Resource id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created Resource id will be present in the response. Specify existing Resource id to update the Resource. Referencing non-existing Resource Id will cause 'Not Found' error. \n\nResource\
+        \ combination of the title with the key is unique in the scope of tenant. Remove 'id', 'tenantId' from the request body example (below) to create new Resource entity.\n\nAvailable for users with\
+        \ 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: saveResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TbResource'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+      deprecated: true
+  /api/resource/upload:
+    post:
+      tags:
+      - tb-resource-controller
+      summary: Upload Resource Via Multipart File (uploadResource)
+      description: "Create the Resource using multipart file upload. \n\nResource combination of the title with the key is unique in the scope of tenant. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN'\
+        \ authority."
+      operationId: uploadResource
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Resource title.
+                resourceType:
+                  type: string
+                  description: Resource type.
+                descriptor:
+                  type: string
+                  description: Resource descriptor (JSON).
+                resourceSubType:
+                  type: string
+                  description: Resource sub type.
+                file:
+                  type: string
+                  format: binary
+                  description: Resource file.
+              required:
+              - file
+              - resourceType
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/image:
+    post:
+      tags:
+      - image-controller
+      operationId: uploadImage
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                title:
+                  type: string
+                imageSubType:
+                  type: string
+              required:
+              - file
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/edge/{edgeId}/dashboard/{dashboardId}:
+    post:
+      tags:
+      - dashboard-controller
+      summary: Assign Dashboard to Edge (assignDashboardToEdge)
+      description: 'Creates assignment of an existing dashboard to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote
+        edge service will receive a copy of assignment dashboard (Edge will receive this instantly, if it''s currently connected, or once it''s going to be connected to platform). Third, once dashboard
+        will be delivered to edge service, it''s going to be available for usage on remote edge instance.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignDashboardToEdge
+      parameters:
+      - name: edgeId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+    delete:
+      tags:
+      - dashboard-controller
+      summary: Unassign Dashboard from Edge (unassignDashboardFromEdge)
+      description: 'Clears assignment of the dashboard to the edge. Unassignment works in async way - first, ''unassign'' notification event pushed to edge queue on platform. Second, remote edge service
+        will receive an ''unassign'' command to remove dashboard (Edge will receive this instantly, if it''s currently connected, or once it''s going to be connected to platform). Third, once ''unassign''
+        command will be delivered to edge service, it''s going to remove dashboard locally.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: unassignDashboardFromEdge
+      parameters:
+      - name: edgeId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+  /api/dashboard:
+    post:
+      tags:
+      - dashboard-controller
+      summary: Create or Update Dashboard (saveDashboard)
+      description: "Create or update the Dashboard. When creating dashboard, platform generates Dashboard Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created Dashboard id will be present in the response. Specify existing Dashboard id to update the dashboard. Referencing non-existing dashboard Id will cause 'Not Found' error. Remove\
+        \ 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Dashboard entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveDashboard
+      parameters:
+      - name: Accept-Encoding
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: A JSON value representing the dashboard.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dashboard'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/dashboard/{dashboardId}/customers:
+    post:
+      tags:
+      - dashboard-controller
+      summary: Update the Dashboard Customers (updateDashboardCustomers)
+      description: "Updates the list of Customers that this Dashboard is assigned to. Removes previous assignments to customers that are not in the provided list. Returns the Dashboard object. \n\nAvailable\
+        \ for users with 'TENANT_ADMIN' authority."
+      operationId: updateDashboardCustomers
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: JSON array with the list of customer ids, or empty to remove all customers
+              items:
+                type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+  /api/dashboard/{dashboardId}/customers/remove:
+    post:
+      tags:
+      - dashboard-controller
+      summary: Remove the Dashboard Customers (removeDashboardCustomers)
+      description: 'Removes the list of Customers from the existing list of assignments for the Dashboard. Keeps other assignments to customers that are not in the provided list. Returns the Dashboard object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: removeDashboardCustomers
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: JSON array with the list of customer ids
+              items:
+                type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+  /api/dashboard/{dashboardId}/customers/add:
+    post:
+      tags:
+      - dashboard-controller
+      summary: Adds the Dashboard Customers (addDashboardCustomers)
+      description: 'Adds the list of Customers to the existing list of assignments for the Dashboard. Keeps previous assignments to customers that are not in the provided list. Returns the Dashboard object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: addDashboardCustomers
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: JSON array with the list of customer ids
+              items:
+                type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+  /api/customer/{customerId}/dashboard/{dashboardId}:
+    post:
+      tags:
+      - dashboard-controller
+      summary: Assign the Dashboard (assignDashboardToCustomer)
+      description: 'Assign the Dashboard to specified Customer or do nothing if the Dashboard is already assigned to that Customer. Returns the Dashboard object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignDashboardToCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+    delete:
+      tags:
+      - dashboard-controller
+      summary: Unassign the Dashboard (unassignDashboardFromCustomer)
+      description: 'Unassign the Dashboard from specified Customer or do nothing if the Dashboard is already assigned to that Customer. Returns the Dashboard object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: unassignDashboardFromCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+  /api/customer/public/dashboard/{dashboardId}:
+    post:
+      tags:
+      - dashboard-controller
+      summary: Assign the Dashboard to Public Customer (assignDashboardToPublicCustomer)
+      description: 'Assigns the dashboard to a special, auto-generated ''Public'' Customer. Once assigned, unauthenticated users may browse the dashboard. This method is useful if you like to embed the
+        dashboard on public web pages to be available for users that are not logged in. Be aware that making the dashboard public does not mean that it automatically makes all devices and assets you use
+        in the dashboard to be public.Use [assign Asset to Public Customer](#!/asset-controller/assignAssetToPublicCustomerUsingPOST) and [assign Device to Public Customer](#!/device-controller/assignDeviceToPublicCustomerUsingPOST)
+        for this purpose. Returns the Dashboard object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignDashboardToPublicCustomer
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+    delete:
+      tags:
+      - dashboard-controller
+      summary: Unassign the Dashboard from Public Customer (unassignDashboardFromPublicCustomer)
+      description: 'Unassigns the dashboard from a special, auto-generated ''Public'' Customer. Once unassigned, unauthenticated users may no longer browse the dashboard. Returns the Dashboard object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: unassignDashboardFromPublicCustomer
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+  /api/widgetsBundles:
+    get:
+      tags:
+      - widgets-bundle-controller
+      summary: Get Widget Bundles (getWidgetsBundles)
+      description: "Returns a page of Widget Bundle objects available for current user. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case.  You can\
+        \ specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable\
+        \ for any authorized user. "
+      operationId: getWidgetsBundles
+      parameters:
+      - name: widgetsBundleIds
+        in: query
+        description: A list of widgets bundle ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the widget bundle title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+          - tenantId
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: tenantOnly
+        in: query
+        description: Optional boolean parameter to include only tenant-level bundles without system
+        required: false
+        schema:
+          type: boolean
+      - name: fullSearch
+        in: query
+        description: Optional boolean parameter indicating extended search of widget bundles by description and by name / description of related widget types
+        required: false
+        schema:
+          type: boolean
+      - name: scadaFirst
+        in: query
+        description: Optional boolean parameter indicating whether to fetch widgets bundles with SCADA symbols first. Works only when fullSearch parameter is enabled
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/PageDataWidgetsBundle'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/WidgetsBundle'
+  /api/widgetsBundle/{widgetsBundleId}:
+    get:
+      tags:
+      - widgets-bundle-controller
+      summary: Get Widget Bundle (getWidgetsBundleById)
+      description: "Get the Widget Bundle based on the provided Widget Bundle Id. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case. \n\nAvailable\
+        \ for any authorized user. "
+      operationId: getWidgetsBundleById
+      parameters:
+      - name: widgetsBundleId
+        in: path
+        description: A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: inlineImages
+        in: query
+        description: Inline images as a data URL (Base64)
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetsBundle'
+    delete:
+      tags:
+      - widgets-bundle-controller
+      summary: Delete Widgets Bundle (deleteWidgetsBundle)
+      description: 'Deletes the widget bundle. Referencing non-existing Widget Bundle Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteWidgetsBundle
+      parameters:
+      - name: widgetsBundleId
+        in: path
+        description: A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/widgetTypes:
+    get:
+      tags:
+      - widget-type-controller
+      summary: Get All Widget Types for Specified Bundle (getBundleWidgetTypesByBundleAlias) (Deprecated)
+      description: "Returns an array of Widget Type objects that belong to specified Widget Bundle.Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and\
+        \ object in OOP theory. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getBundleWidgetTypes
+      parameters:
+      - name: widgetsBundleId
+        in: query
+        description: Widget Bundle Id
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the widget type name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - deprecated
+          - tenantId
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC, DESC
+      - name: tenantOnly
+        in: query
+        description: Optional boolean parameter indicating whether only tenant widget types should be returned
+        required: false
+        schema:
+          type: boolean
+      - name: fullSearch
+        in: query
+        description: Optional boolean parameter indicating whether search widgets by description not only by name
+        required: false
+        schema:
+          type: boolean
+      - name: deprecatedFilter
+        in: query
+        description: Optional string parameter indicating whether to include deprecated widgets
+        required: false
+        schema:
+          type: string
+          enum:
+          - ALL
+          - ACTUAL
+          - DEPRECATED
+      - name: widgetTypeList
+        in: query
+        description: A list of string values separated by comma ',' representing one of the widget type value
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - timeseries
+            - latest
+            - control
+            - alarm
+            - static
+      - name: scadaFirst
+        in: query
+        description: Optional boolean parameter indicating whether to fetch SCADA symbol widgets first
+        required: false
+        schema:
+          type: boolean
+      - name: isSystem
+        in: query
+        description: System or Tenant
+        required: true
+        schema:
+          type: boolean
+      - name: bundleAlias
+        in: query
+        description: Widget Bundle alias
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/PageDataWidgetTypeInfo'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/WidgetType'
+      deprecated: true
+  /api/widgetTypesInfos:
+    get:
+      tags:
+      - widget-type-controller
+      summary: Get Widget Type Info Objects (getBundleWidgetTypesInfosByBundleAlias) (Deprecated)
+      description: 'Get the Widget Type Info objects based on the provided parameters. Widget Type Info is a lightweight object that represents Widget Type but does not contain the heavyweight widget descriptor
+        JSON
+
+
+        Available for any authorized user. '
+      operationId: getBundleWidgetTypesInfos
+      parameters:
+      - name: widgetsBundleId
+        in: query
+        description: Widget Bundle Id
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the widget type name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - deprecated
+          - tenantId
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: fullSearch
+        in: query
+        description: Optional boolean parameter indicating whether search widgets by description not only by name
+        required: false
+        schema:
+          type: boolean
+      - name: deprecatedFilter
+        in: query
+        description: Optional string parameter indicating whether to include deprecated widgets
+        required: false
+        schema:
+          type: string
+          enum:
+          - ALL
+          - ACTUAL
+          - DEPRECATED
+      - name: widgetTypeList
+        in: query
+        description: A list of string values separated by comma ',' representing one of the widget type value
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - timeseries
+            - latest
+            - control
+            - alarm
+            - static
+      - name: isSystem
+        in: query
+        description: System or Tenant
+        required: true
+        schema:
+          type: boolean
+      - name: bundleAlias
+        in: query
+        description: Widget Bundle alias
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/WidgetTypeInfo'
+                - $ref: '#/components/schemas/PageDataWidgetTypeInfo'
+      deprecated: true
+  /api/widgetTypesDetails:
+    get:
+      tags:
+      - widget-type-controller
+      summary: Get All Widget Types Details for Specified Bundle (getBundleWidgetTypesDetailsByBundleAlias) (Deprecated)
+      description: "Returns an array of Widget Type Details objects that belong to specified Widget Bundle.Widget Type Details extend Widget Type and add image and description properties. Those properties\
+        \ are useful to edit the Widget Type but they are not required for Dashboard rendering.  \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getBundleWidgetTypesDetails
+      parameters:
+      - name: widgetsBundleId
+        in: query
+        description: Widget Bundle Id
+        required: true
+        schema:
+          type: string
+      - name: includeResources
+        in: query
+        description: Export used resources and replace resource links with resource metadata
+        required: false
+        schema:
+          type: boolean
+      - name: isSystem
+        in: query
+        description: System or Tenant
+        required: true
+        schema:
+          type: boolean
+      - name: bundleAlias
+        in: query
+        description: Widget Bundle alias
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WidgetTypeDetails'
+      deprecated: true
+  /api/widgetTypeInfo/{widgetTypeId}:
+    get:
+      tags:
+      - widget-type-controller
+      summary: Get Widget Type Info (getWidgetTypeInfoById)
+      description: "Get the Widget Type Info based on the provided Widget Type Id. Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit the\
+        \ Widget Type but they are not required for Dashboard rendering. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getWidgetTypeInfoById
+      parameters:
+      - name: widgetTypeId
+        in: path
+        description: A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetTypeInfo'
+  /api/widgetTypeFqns:
+    get:
+      tags:
+      - widget-type-controller
+      summary: Get All Widget Type Fqns for Specified Bundle (getBundleWidgetTypeFqns)
+      description: 'Returns an array of Widget Type fqns that belong to specified Widget Bundle.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: getBundleWidgetTypeFqns
+      parameters:
+      - name: widgetsBundleId
+        in: query
+        description: Widget Bundle Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/widgetType/{widgetTypeId}:
+    get:
+      tags:
+      - widget-type-controller
+      summary: Get Widget Type Details (getWidgetTypeById)
+      description: "Get the Widget Type Details based on the provided Widget Type Id. Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit\
+        \ the Widget Type but they are not required for Dashboard rendering. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getWidgetTypeById
+      parameters:
+      - name: widgetTypeId
+        in: path
+        description: A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: includeResources
+        in: query
+        description: Export used resources and replace resource links with resource metadata
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetTypeDetails'
+    delete:
+      tags:
+      - widget-type-controller
+      summary: Delete Widget Type (deleteWidgetType)
+      description: 'Deletes the  Widget Type. Referencing non-existing Widget Type Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteWidgetType
+      parameters:
+      - name: widgetTypeId
+        in: path
+        description: A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/uiSettings/helpBaseUrl:
+    get:
+      tags:
+      - ui-settings-controller
+      summary: Get UI Help Base Url (getHelpBaseUrl)
+      description: Get UI help base url used to fetch help assets. The actual value of the base url is configurable in the system configuration file.
+      operationId: getHelpBaseUrl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/tenant/{tenantId}/dashboards:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Tenant Dashboards by System Administrator (getTenantDashboards)
+      description: "Returns a page of dashboard info objects owned by tenant. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does\
+        \ not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination.\
+        \ See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      operationId: getTenantDashboards
+      parameters:
+      - name: tenantId
+        in: path
+        description: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the dashboard title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataDashboardInfo'
+  /api/tenant/dashboards:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Tenant Dashboards (getTenantDashboards)
+      description: "Returns a page of dashboard info objects owned by the tenant of a current user. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned\
+        \ customers) but does not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over\
+        \ result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getTenantDashboards_1
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: mobile
+        in: query
+        description: Exclude dashboards that are hidden for mobile
+        required: false
+        schema:
+          type: boolean
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the dashboard title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataDashboardInfo'
+  /api/resource/{resourceType}/{scope}/{key}:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Download Resource (downloadResource)
+      description: 'Download resource with a given type and key for the given scope
+
+
+        Available for any authorized user. '
+      operationId: downloadResourceIfChanged
+      parameters:
+      - name: resourceType
+        in: path
+        description: Type of the resource
+        required: true
+        schema:
+          type: string
+          enum:
+          - lwm2m_model
+          - jks
+          - pkcs_12
+          - js_module
+          - dashboard
+      - name: scope
+        in: path
+        description: Scope of the resource
+        required: true
+        schema:
+          type: string
+          enum:
+          - system
+          - tenant
+      - name: key
+        in: path
+        description: Key of the resource, e.g. 'extension.js'
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+  /api/resource/{resourceType}/{scope}/{key}/info:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Get Resource Info (getResourceInfo)
+      description: "Get info for the resource with the given type, scope and key. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data.\
+        \ \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getResourceInfo
+      parameters:
+      - name: resourceType
+        in: path
+        description: Type of the resource
+        required: true
+        schema:
+          type: string
+          enum:
+          - lwm2m_model
+          - jks
+          - pkcs_12
+          - js_module
+          - dashboard
+      - name: scope
+        in: path
+        description: Scope of the resource
+        required: true
+        schema:
+          type: string
+          enum:
+          - system
+          - tenant
+      - name: key
+        in: path
+        description: Key of the resource, e.g. 'extension.js'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/resource/{resourceId}:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Get Resource (getResourceById)
+      description: "Fetch the Resource object based on the provided Resource Id. Resource is a heavyweight object that includes main information about the Resource and also data. \n\nAvailable for users\
+        \ with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getResourceById
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResource'
+      deprecated: true
+    delete:
+      tags:
+      - tb-resource-controller
+      summary: Delete Resource (deleteResource)
+      description: 'Deletes the Resource. Referencing non-existing Resource Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: deleteResource
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceDeleteResult'
+  /api/resource/{resourceId}/download:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Download Resource (downloadResource)
+      description: 'Download Resource based on the provided Resource Id.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: downloadResource
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+  /api/resource/tenant:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Get All Resource Infos (getAllResources)
+      description: "Returns a page of Resource Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over\
+        \ result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\n\
+        Available for users with 'TENANT_ADMIN' authority."
+      operationId: getTenantResources
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the resource title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+          - resourceType
+          - tenantId
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataTbResourceInfo'
+  /api/resource/pkcs12/{resourceId}/download:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Download PKCS_12 Resource (downloadPkcs12ResourceIfChanged)
+      description: 'Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: downloadPkcs12ResourceIfChanged
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/x-pkcs12:
+              schema:
+                type: string
+                format: binary
+  /api/resource/lwm2m:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Get LwM2M Objects (getLwm2mListObjects)
+      description: "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. LwM2M Object is a object\
+        \ that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getLwm2mListObjects
+      parameters:
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: true
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: true
+        schema:
+          type: string
+          enum:
+          - id
+          - name
+      - name: objectIds
+        in: query
+        description: LwM2M Object ids.
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LwM2mObject'
+  /api/resource/lwm2m/{resourceId}/download:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Download LWM2M Resource (downloadLwm2mResourceIfChanged)
+      description: 'Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: downloadLwm2mResourceIfChanged
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+  /api/resource/lwm2m/page:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Get LwM2M Objects (getLwm2mListObjectsPage)
+      description: "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with\
+        \ PageData object that allows you to iterate over result set using pagination. See response schema for more details. LwM2M Object is a object that includes information about the LwM2M model which\
+        \ can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getLwm2mListObjectsPage
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the resource title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - name
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LwM2mObject'
+  /api/resource/js/{resourceId}/download:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Download JS Resource (downloadJsResourceIfChanged)
+      description: 'Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.
+
+
+        Available for any authorized user. '
+      operationId: downloadJsResourceIfChanged
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/javascript:
+              schema:
+                type: string
+                format: binary
+  /api/resource/jks/{resourceId}/download:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Download JKS Resource (downloadJksResourceIfChanged)
+      description: 'Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
+      operationId: downloadJksResourceIfChanged
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/x-java-keystore:
+              schema:
+                type: string
+                format: binary
+  /api/resource/info/{resourceId}:
+    get:
+      tags:
+      - tb-resource-controller
+      summary: Get Resource Info (getResourceInfoById)
+      description: "Fetch the Resource Info object based on the provided Resource Id. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data.\
+        \ \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      operationId: getResourceInfoById
+      parameters:
+      - name: resourceId
+        in: path
+        description: A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TbResourceInfo'
+  /api/images:
+    get:
+      tags:
+      - image-controller
+      operationId: getImages
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: imageSubType
+        in: query
+        description: A string value representing resource sub-type.
+        required: false
+        schema:
+          type: string
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+      - name: includeSystemImages
+        in: query
+        description: Use 'true' to include system images. Disabled by default. Ignored for requests by users with system administrator authority.
+        required: false
+        schema:
+          type: boolean
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the resource title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+          - resourceType
+          - tenantId
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataTbResourceInfo'
+  /api/images/{type}/{key}/preview:
+    get:
+      tags:
+      - image-controller
+      operationId: downloadImagePreview
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: Accept-Encoding
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+  /api/images/{type}/{key}/export:
+    get:
+      tags:
+      - image-controller
+      operationId: exportImage
+      parameters:
+      - name: type
+        in: path
+        description: 'Type of the image: tenant or system'
+        required: true
+        schema:
+          type: string
+          enum:
+          - tenant
+          - system
+      - name: key
+        in: path
+        description: Image resource key, for example thermostats_dashboard_background.jpeg
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceExportData'
+  /api/images/public/{publicResourceKey}:
+    get:
+      tags:
+      - image-controller
+      operationId: downloadPublicImage
+      parameters:
+      - name: publicResourceKey
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: Accept-Encoding
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+  /api/edge/{edgeId}/dashboards:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Edge Dashboards (getEdgeDashboards)
+      description: "Returns a page of dashboard info objects assigned to the specified edge. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers)\
+        \ but does not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set\
+        \ using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getEdgeDashboards
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the dashboard title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataDashboardInfo'
+  /api/dashboards:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Dashboards by Dashboard Ids (getDashboardsByIds)
+      description: "Returns a list of DashboardInfo objects based on the provided ids. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getDashboardsByIds
+      parameters:
+      - name: dashboardIds
+        in: query
+        description: A list of dashboard ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DashboardInfo'
+  /api/dashboard/{dashboardId}:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Dashboard (getDashboardById)
+      description: 'Get the dashboard based on ''dashboardId'' parameter. The Dashboard object is a heavyweight object that contains information about the dashboard (e.g. title, image, assigned customers)
+        and also configuration JSON (e.g. layouts, widgets, entity aliases).
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getDashboardById
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: includeResources
+        in: query
+        description: Export used resources and replace resource links with resource metadata
+        required: false
+        schema:
+          type: boolean
+      - name: Accept-Encoding
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+      - dashboard-controller
+      summary: Delete the Dashboard (deleteDashboard)
+      description: 'Delete the Dashboard.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: deleteDashboard
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/dashboard/serverTime:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Server Time (getServerTime)
+      description: Get the server time (milliseconds since January 1, 1970 UTC). Used to adjust view of the dashboards according to the difference between browser and server time.
+      operationId: getServerTime
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example: 1636023857137
+  /api/dashboard/maxDatapointsLimit:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Max Data Points Limit (getMaxDatapointsLimit)
+      description: Get the maximum number of data points that dashboard may request from the server per in a single subscription command. This value impacts the time window behavior. It impacts 'Max values'
+        parameter in case user selects 'None' as 'Data aggregation function'. It also impacts the 'Grouping interval' in case of any other 'Data aggregation function' is selected. The actual value of the
+        limit is configurable in the system configuration file.
+      operationId: getMaxDatapointsLimit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example: 5000
+  /api/dashboard/info/{dashboardId}:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Dashboard Info (getDashboardInfoById)
+      description: Get the information about the dashboard based on 'dashboardId' parameter. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers)
+        but does not contain the heavyweight configuration JSON.
+      operationId: getDashboardInfoById
+      parameters:
+      - name: dashboardId
+        in: path
+        description: A string value representing the dashboard id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardInfo'
+  /api/dashboard/home:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Home Dashboard (getHomeDashboard)
+      description: 'Returns the home dashboard object that is configured as ''homeDashboardId'' parameter in the ''additionalInfo'' of the User. If ''homeDashboardId'' parameter is not set on the User level
+        and the User has authority ''CUSTOMER_USER'', check the same parameter for the corresponding Customer. If ''homeDashboardId'' parameter is not set on the User and Customer levels then checks the
+        same parameter for the Tenant that owns the user. The Dashboard object is a heavyweight object that contains information about the dashboard (e.g. title, image, assigned customers) and also configuration
+        JSON (e.g. layouts, widgets, entity aliases).
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getHomeDashboard
+      parameters:
+      - name: Accept-Encoding
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/dashboard/home/info:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Home Dashboard Info (getHomeDashboardInfo)
+      description: "Returns the home dashboard info object that is configured as 'homeDashboardId' parameter in the 'additionalInfo' of the User. If 'homeDashboardId' parameter is not set on the User level\
+        \ and the User has authority 'CUSTOMER_USER', check the same parameter for the corresponding Customer. If 'homeDashboardId' parameter is not set on the User and Customer levels then checks the same\
+        \ parameter for the Tenant that owns the user. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getHomeDashboardInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeDashboardInfo'
+  /api/customer/{customerId}/dashboards:
+    get:
+      tags:
+      - dashboard-controller
+      summary: Get Customer Dashboards (getCustomerDashboards)
+      description: "Returns a page of dashboard info objects owned by the specified customer. The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned\
+        \ customers) but does not contain the heavyweight configuration JSON. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over\
+        \ result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getCustomerDashboards
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: mobile
+        in: query
+        description: Exclude dashboards that are hidden for mobile
+        required: false
+        schema:
+          type: boolean
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the dashboard title.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - title
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataDashboardInfo'
+components:
+  schemas:
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    Dashboard:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the dashboard.
+        image:
+          type: string
+          description: Thumbnail picture for rendering of the dashboards in a grid view on mobile devices.
+          readOnly: true
+        mobileHide:
+          type: boolean
+          description: Hide dashboard from mobile devices. Useful if the dashboard is not designed for small screens.
+          readOnly: true
+        mobileOrder:
+          type: integer
+          format: int32
+          description: Order on mobile devices. Useful to adjust sorting of the dashboards for mobile applications
+          readOnly: true
+        configuration:
+          $ref: '#/components/schemas/JsonNode'
+          description: 'JSON object with main configuration of the dashboard: layouts, widgets, aliases, etc. The JSON structure of the dashboard configuration is quite complex. The easiest way to learn
+            it is to export existing dashboard to JSON.'
+        name:
+          type: string
+          description: Same as title of the dashboard. Read-only field. Update the 'title' to change the 'name' of the dashboard.
+          readOnly: true
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceExportData'
+        id:
+          $ref: '#/components/schemas/DashboardId'
+          description: JSON object with the dashboard Id. Specify existing dashboard Id to update the dashboard. Referencing non-existing dashboard id will cause error. Omit this field to create new dashboard.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the dashboard creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the dashboard can't be changed.
+          readOnly: true
+        assignedCustomers:
+          type: array
+          description: List of assigned customers with their info.
+          items:
+            $ref: '#/components/schemas/ShortCustomerInfo'
+          readOnly: true
+          uniqueItems: true
+        version:
+          type: integer
+          format: int64
+      required:
+      - title
+    DashboardId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DASHBOARD
+          example: DASHBOARD
+      required:
+      - entityType
+      - id
+    DashboardInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DashboardId'
+          description: JSON object with the dashboard Id. Specify existing dashboard Id to update the dashboard. Referencing non-existing dashboard id will cause error. Omit this field to create new dashboard.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the dashboard creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the dashboard can't be changed.
+          readOnly: true
+        title:
+          type: string
+          description: Title of the dashboard.
+        image:
+          type: string
+          description: Thumbnail picture for rendering of the dashboards in a grid view on mobile devices.
+          readOnly: true
+        assignedCustomers:
+          type: array
+          description: List of assigned customers with their info.
+          items:
+            $ref: '#/components/schemas/ShortCustomerInfo'
+          readOnly: true
+          uniqueItems: true
+        mobileHide:
+          type: boolean
+          description: Hide dashboard from mobile devices. Useful if the dashboard is not designed for small screens.
+          readOnly: true
+        mobileOrder:
+          type: integer
+          format: int32
+          description: Order on mobile devices. Useful to adjust sorting of the dashboards for mobile applications
+          readOnly: true
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Same as title of the dashboard. Read-only field. Update the 'title' to change the 'name' of the dashboard.
+          readOnly: true
+      required:
+      - title
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    EntityInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
+          type: string
+          description: Entity Name
+    HasIdObject:
+      type: object
+      properties:
+        id: {}
+    HomeDashboardInfo:
+      type: object
+      description: A JSON object that represents home dashboard id and other parameters
+      properties:
+        dashboardId:
+          $ref: '#/components/schemas/DashboardId'
+          description: JSON object with the dashboard Id.
+        hideDashboardToolbar:
+          type: boolean
+          description: Hide dashboard toolbar flag. Useful for rendering dashboards on mobile.
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    LwM2mInstance:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: LwM2M Instance id.
+          example: 0
+        resources:
+          type: array
+          description: LwM2M Resource observe.
+          items:
+            $ref: '#/components/schemas/LwM2mResourceObserve'
+    LwM2mObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: LwM2M Object id.
+          example: 19
+        keyId:
+          type: string
+          description: LwM2M Object key id.
+          example: '19_1.0'
+        name:
+          type: string
+          description: LwM2M Object name.
+          example: BinaryAppDataContainer
+        multiple:
+          type: boolean
+          description: LwM2M Object multiple.
+          example: true
+        mandatory:
+          type: boolean
+          description: LwM2M Object mandatory.
+          example: false
+        instances:
+          type: array
+          description: LwM2M Object instances.
+          items:
+            $ref: '#/components/schemas/LwM2mInstance'
+    LwM2mResourceObserve:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: LwM2M Resource Observe id.
+          example: 0
+        name:
+          type: string
+          description: LwM2M Resource Observe name.
+          example: Data
+        observe:
+          type: boolean
+          description: LwM2M Resource Observe observe.
+          example: false
+        attribute:
+          type: boolean
+          description: LwM2M Resource Observe attribute.
+          example: false
+        telemetry:
+          type: boolean
+          description: LwM2M Resource Observe telemetry.
+          example: false
+        keyName:
+          type: string
+          description: LwM2M Resource Observe key name.
+          example: data
+    PageDataDashboardInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/DashboardInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataTbResourceInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TbResourceInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataWidgetTypeInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/WidgetTypeInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataWidgetsBundle:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/WidgetsBundle'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    ResourceExportData:
+      type: object
+      properties:
+        link:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+          - IMAGE
+          - DASHBOARD
+          - GENERAL
+        subType:
+          type: string
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+          - EXTENSION
+          - MODULE
+        resourceKey:
+          type: string
+        fileName:
+          type: string
+        publicResourceKey:
+          type: string
+        isPublic:
+          type: boolean
+          writeOnly: true
+        mediaType:
+          type: string
+        data:
+          type: string
+        public:
+          type: boolean
+    ShortCustomerInfo:
+      type: object
+      properties:
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with the customer Id.
+        title:
+          type: string
+          description: Title of the customer.
+        isPublic:
+          type: boolean
+          writeOnly: true
+        public:
+          type: boolean
+    TbImageDeleteResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        references:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/HasIdObject'
+    TbResource:
+      type: object
+      description: A JSON value representing the Resource.
+      properties:
+        id:
+          $ref: '#/components/schemas/TbResourceId'
+          description: JSON object with the Resource Id. Specify this field to update the Resource. Referencing non-existing Resource Id will cause error. Omit this field to create new Resource.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the resource creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the resource can't be changed.
+          readOnly: true
+        title:
+          type: string
+          description: Resource title.
+          example: BinaryAppDataContainer id=19 v1.0
+        resourceType:
+          type: string
+          description: Resource type.
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+          - IMAGE
+          - DASHBOARD
+          - GENERAL
+          example: LWM2M_MODEL
+          readOnly: true
+        resourceSubType:
+          type: string
+          description: Resource sub type.
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+          - EXTENSION
+          - MODULE
+          example: IOT_SVG
+          readOnly: true
+        resourceKey:
+          type: string
+          description: Resource key.
+          example: '19_1.0'
+          readOnly: true
+        publicResourceKey:
+          type: string
+        etag:
+          type: string
+          description: Resource etag.
+          example: 33a64df551425fcc55e4d42a148795d9f25f89d4
+          readOnly: true
+        fileName:
+          type: string
+          description: Resource file name.
+          example: 19.xml
+          readOnly: true
+        descriptor:
+          $ref: '#/components/schemas/JsonNode'
+        data:
+          type: string
+          description: Resource data.
+          example: 77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLQpGSUxFIElORk9STUFUSU9OCgpPTUEgUGVybWFuZW50IERvY3VtZW50CiAgIEZpbGU6IE9NQS1TVVAtTHdNMk1fQmluYXJ5QXBwRGF0YUNvbnRhaW5lci1WMV8wXzEtMjAxOTAyMjEtQQogICBUeXBlOiB4bWwKClB1YmxpYyBSZWFjaGFibGUgSW5mb3JtYXRpb24KICAgUGF0aDogaHR0cDovL3d3dy5vcGVubW9iaWxlYWxsaWFuY2Uub3JnL3RlY2gvcHJvZmlsZXMKICAgTmFtZTogTHdNMk1fQmluYXJ5QXBwRGF0YUNvbnRhaW5lci12MV8wXzEueG1sCgpOT1JNQVRJVkUgSU5GT1JNQVRJT04KCiAgSW5mb3JtYXRpb24gYWJvdXQgdGhpcyBmaWxlIGNhbiBiZSBmb3VuZCBpbiB0aGUgbGF0ZXN0IHJldmlzaW9uIG9mCgogIE9NQS1UUy1MV00yTV9CaW5hcnlBcHBEYXRhQ29udGFpbmVyLVYxXzBfMQoKICBUaGlzIGlzIGF2YWlsYWJsZSBhdCBodHRwOi8vd3d3Lm9wZW5tb2JpbGVhbGxpYW5jZS5vcmcvCgogIFNlbmQgY29tbWVudHMgdG8gaHR0cHM6Ly9naXRodWIuY29tL09wZW5Nb2JpbGVBbGxpYW5jZS9PTUFfTHdNMk1fZm9yX0RldmVsb3BlcnMvaXNzdWVzCgpDSEFOR0UgSElTVE9SWQoKMTUwNjIwMTggU3RhdHVzIGNoYW5nZWQgdG8gQXBwcm92ZWQgYnkgRE0sIERvYyBSZWYgIyBPTUEtRE0mU0UtMjAxOC0wMDYxLUlOUF9MV00yTV9BUFBEQVRBX1YxXzBfRVJQX2Zvcl9maW5hbF9BcHByb3ZhbAoyMTAyMjAxOSBTdGF0dXMgY2hhbmdlZCB0byBBcHByb3ZlZCBieSBJUFNPLCBEb2MgUmVmICMgT01BLUlQU08tMjAxOS0wMDI1LUlOUF9Md00yTV9PYmplY3RfQXBwX0RhdGFfQ29udGFpbmVyXzFfMF8xX2Zvcl9GaW5hbF9BcHByb3ZhbAoKTEVHQUwgRElTQ0xBSU1FUgoKQ29weXJpZ2h0IDIwMTkgT3BlbiBNb2JpbGUgQWxsaWFuY2UuCgpSZWRpc3RyaWJ1dGlvbiBhbmQgdXNlIGluIHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKbW9kaWZpY2F0aW9uLCBhcmUgcGVybWl0dGVkIHByb3ZpZGVkIHRoYXQgdGhlIGZvbGxvd2luZyBjb25kaXRpb25zCmFyZSBtZXQ6CgoxLiBSZWRpc3RyaWJ1dGlvbnMgb2Ygc291cmNlIGNvZGUgbXVzdCByZXRhaW4gdGhlIGFib3ZlIGNvcHlyaWdodApub3RpY2UsIHRoaXMgbGlzdCBvZiBjb25kaXRpb25zIGFuZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIuCjIuIFJlZGlzdHJpYnV0aW9ucyBpbiBiaW5hcnkgZm9ybSBtdXN0IHJlcHJvZHVjZSB0aGUgYWJvdmUgY29weXJpZ2h0Cm5vdGljZSwgdGhpcyBsaXN0IG9mIGNvbmRpdGlvbnMgYW5kIHRoZSBmb2xsb3dpbmcgZGlzY2xhaW1lciBpbiB0aGUKZG9jdW1lbnRhdGlvbiBhbmQvb3Igb3RoZXIgbWF0ZXJpYWxzIHByb3ZpZGVkIHdpdGggdGhlIGRpc3RyaWJ1dGlvbi4KMy4gTmVpdGhlciB0aGUgbmFtZSBvZiB0aGUgY29weXJpZ2h0IGhvbGRlciBub3IgdGhlIG5hbWVzIG9mIGl0cwpjb250cmlidXRvcnMgbWF5IGJlIHVzZWQgdG8gZW5kb3JzZSBvciBwcm9tb3RlIHByb2R1Y3RzIGRlcml2ZWQKZnJvbSB0aGlzIHNvZnR3YXJlIHdpdGhvdXQgc3BlY2lmaWMgcHJpb3Igd3JpdHRlbiBwZXJtaXNzaW9uLgoKVEhJUyBTT0ZUV0FSRSBJUyBQUk9WSURFRCBCWSBUSEUgQ09QWVJJR0hUIEhPTERFUlMgQU5EIENPTlRSSUJVVE9SUwoiQVMgSVMiIEFORCBBTlkgRVhQUkVTUyBPUiBJTVBMSUVEIFdBUlJBTlRJRVMsIElOQ0xVRElORywgQlVUIE5PVApMSU1JVEVEIFRPLCBUSEUgSU1QTElFRCBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSBBTkQgRklUTkVTUwpGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQVJFIERJU0NMQUlNRUQuIElOIE5PIEVWRU5UIFNIQUxMIFRIRQpDT1BZUklHSFQgSE9MREVSIE9SIENPTlRSSUJVVE9SUyBCRSBMSUFCTEUgRk9SIEFOWSBESVJFQ1QsIElORElSRUNULApJTkNJREVOVEFMLCBTUEVDSUFMLCBFWEVNUExBUlksIE9SIENPTlNFUVVFTlRJQUwgREFNQUdFUyAoSU5DTFVESU5HLApCVVQgTk9UIExJTUlURUQgVE8sIFBST0NVUkVNRU5UIE9GIFNVQlNUSVRVVEUgR09PRFMgT1IgU0VSVklDRVM7CkxPU1MgT0YgVVNFLCBEQVRBLCBPUiBQUk9GSVRTOyBPUiBCVVNJTkVTUyBJTlRFUlJVUFRJT04pIEhPV0VWRVIKQ0FVU0VEIEFORCBPTiBBTlkgVEhFT1JZIE9GIExJQUJJTElUWSwgV0hFVEhFUiBJTiBDT05UUkFDVCwgU1RSSUNUCkxJQUJJTElUWSwgT1IgVE9SVCAoSU5DTFVESU5HIE5FR0xJR0VOQ0UgT1IgT1RIRVJXSVNFKSBBUklTSU5HIElOCkFOWSBXQVkgT1VUIE9GIFRIRSBVU0UgT0YgVEhJUyBTT0ZUV0FSRSwgRVZFTiBJRiBBRFZJU0VEIE9GIFRIRQpQT1NTSUJJTElUWSBPRiBTVUNIIERBTUFHRS4KClRoZSBhYm92ZSBsaWNlbnNlIGlzIHVzZWQgYXMgYSBsaWNlbnNlIHVuZGVyIGNvcHlyaWdodCBvbmx5LiBQbGVhc2UKcmVmZXJlbmNlIHRoZSBPTUEgSVBSIFBvbGljeSBmb3IgcGF0ZW50IGxpY2Vuc2luZyB0ZXJtczoKaHR0cHM6Ly93d3cub21hc3BlY3dvcmtzLm9yZy9hYm91dC9pbnRlbGxlY3R1YWwtcHJvcGVydHktcmlnaHRzLwoKLS0+CjxMV00yTSB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4c2k6bm9OYW1lc3BhY2VTY2hlbWFMb2NhdGlvbj0iaHR0cDovL29wZW5tb2JpbGVhbGxpYW5jZS5vcmcvdGVjaC9wcm9maWxlcy9MV00yTS54c2QiPgoJPE9iamVjdCBPYmplY3RUeXBlPSJNT0RlZmluaXRpb24iPgoJCTxOYW1lPkJpbmFyeUFwcERhdGFDb250YWluZXI8L05hbWU+CgkJPERlc2NyaXB0aW9uMT48IVtDREFUQVtUaGlzIEx3TTJNIE9iamVjdHMgcHJvdmlkZXMgdGhlIGFwcGxpY2F0aW9uIHNlcnZpY2UgZGF0YSByZWxhdGVkIHRvIGEgTHdNMk0gU2VydmVyLCBlZy4gV2F0ZXIgbWV0ZXIgZGF0YS4gClRoZXJlIGFyZSBzZXZlcmFsIG1ldGhvZHMgdG8gY3JlYXRlIGluc3RhbmNlIHRvIGluZGljYXRlIHRoZSBtZXNzYWdlIGRpcmVjdGlvbiBiYXNlZCBvbiB0aGUgbmVnb3RpYXRpb24gYmV0d2VlbiBBcHBsaWNhdGlvbiBhbmQgTHdNMk0uIFRoZSBDbGllbnQgYW5kIFNlcnZlciBzaG91bGQgbmVnb3RpYXRlIHRoZSBpbnN0YW5jZShzKSB1c2VkIHRvIGV4Y2hhbmdlIHRoZSBkYXRhLiBGb3IgZXhhbXBsZToKIC0gVXNpbmcgYSBzaW5nbGUgaW5zdGFuY2UgZm9yIGJvdGggZGlyZWN0aW9ucyBjb21tdW5pY2F0aW9uLCBmcm9tIENsaWVudCB0byBTZXJ2ZXIgYW5kIGZyb20gU2VydmVyIHRvIENsaWVudC4KIC0gVXNpbmcgYW4gaW5zdGFuY2UgZm9yIGNvbW11bmljYXRpb24gZnJvbSBDbGllbnQgdG8gU2VydmVyIGFuZCBhbm90aGVyIG9uZSBmb3IgY29tbXVuaWNhdGlvbiBmcm9tIFNlcnZlciB0byBDbGllbnQKIC0gVXNpbmcgc2V2ZXJhbCBpbnN0YW5jZXMKXV0+PC9EZXNjcmlwdGlvbjE+CgkJPE9iamVjdElEPjE5PC9PYmplY3RJRD4KCQk8T2JqZWN0VVJOPnVybjpvbWE6bHdtMm06b21hOjE5PC9PYmplY3RVUk4+CgkJPExXTTJNVmVyc2lvbj4xLjA8L0xXTTJNVmVyc2lvbj4KCQk8T2JqZWN0VmVyc2lvbj4xLjA8L09iamVjdFZlcnNpb24+CgkJPE11bHRpcGxlSW5zdGFuY2VzPk11bHRpcGxlPC9NdWx0aXBsZUluc3RhbmNlcz4KCQk8TWFuZGF0b3J5Pk9wdGlvbmFsPC9NYW5kYXRvcnk+CgkJPFJlc291cmNlcz4KCQkJPEl0ZW0gSUQ9IjAiPjxOYW1lPkRhdGE8L05hbWU+CgkJCQk8T3BlcmF0aW9ucz5SVzwvT3BlcmF0aW9ucz4KCQkJCTxNdWx0aXBsZUluc3RhbmNlcz5NdWx0aXBsZTwvTXVsdGlwbGVJbnN0YW5jZXM+CgkJCQk8TWFuZGF0b3J5Pk1hbmRhdG9yeTwvTWFuZGF0b3J5PgoJCQkJPFR5cGU+T3BhcXVlPC9UeXBlPgoJCQkJPFJhbmdlRW51bWVyYXRpb24gLz4KCQkJCTxVbml0cyAvPgoJCQkJPERlc2NyaXB0aW9uPjwhW0NEQVRBW0luZGljYXRlcyB0aGUgYXBwbGljYXRpb24gZGF0YSBjb250ZW50Ll1dPjwvRGVzY3JpcHRpb24+CgkJCTwvSXRlbT4KCQkJPEl0ZW0gSUQ9IjEiPjxOYW1lPkRhdGEgUHJpb3JpdHk8L05hbWU+CgkJCQk8T3BlcmF0aW9ucz5SVzwvT3BlcmF0aW9ucz4KCQkJCTxNdWx0aXBsZUluc3RhbmNlcz5TaW5nbGU8L011bHRpcGxlSW5zdGFuY2VzPgoJCQkJPE1hbmRhdG9yeT5PcHRpb25hbDwvTWFuZGF0b3J5PgoJCQkJPFR5cGU+SW50ZWdlcjwvVHlwZT4KCQkJCTxSYW5nZUVudW1lcmF0aW9uPjEgYnl0ZXM8L1JhbmdlRW51bWVyYXRpb24+CgkJCQk8VW5pdHMgLz4KCQkJCTxEZXNjcmlwdGlvbj48IVtDREFUQVtJbmRpY2F0ZXMgdGhlIEFwcGxpY2F0aW9uIGRhdGEgcHJpb3JpdHk6CjA6SW1tZWRpYXRlCjE6QmVzdEVmZm9ydAoyOkxhdGVzdAozLTEwMDogUmVzZXJ2ZWQgZm9yIGZ1dHVyZSB1c2UuCjEwMS0yNTQ6IFByb3ByaWV0YXJ5IG1vZGUuXV0+PC9EZXNjcmlwdGlvbj4KCQkJPC9JdGVtPgoJCQk8SXRlbSBJRD0iMiI+PE5hbWU+RGF0YSBDcmVhdGlvbiBUaW1lPC9OYW1lPgoJCQkJPE9wZXJhdGlvbnM+Ulc8L09wZXJhdGlvbnM+CgkJCQk8TXVsdGlwbGVJbnN0YW5jZXM+U2luZ2xlPC9NdWx0aXBsZUluc3RhbmNlcz4KCQkJCTxNYW5kYXRvcnk+T3B0aW9uYWw8L01hbmRhdG9yeT4KCQkJCTxUeXBlPlRpbWU8L1R5cGU+CgkJCQk8UmFuZ2VFbnVtZXJhdGlvbiAvPgoJCQkJPFVuaXRzIC8+CgkJCQk8RGVzY3JpcHRpb24+PCFbQ0RBVEFbSW5kaWNhdGVzIHRoZSBEYXRhIGluc3RhbmNlIGNyZWF0aW9uIHRpbWVzdGFtcC5dXT48L0Rlc2NyaXB0aW9uPgoJCQk8L0l0ZW0+CgkJCTxJdGVtIElEPSIzIj48TmFtZT5EYXRhIERlc2NyaXB0aW9uPC9OYW1lPgoJCQkJPE9wZXJhdGlvbnM+Ulc8L09wZXJhdGlvbnM+CgkJCQk8TXVsdGlwbGVJbnN0YW5jZXM+U2luZ2xlPC9NdWx0aXBsZUluc3RhbmNlcz4KCQkJCTxNYW5kYXRvcnk+T3B0aW9uYWw8L01hbmRhdG9yeT4KCQkJCTxUeXBlPlN0cmluZzwvVHlwZT4KCQkJCTxSYW5nZUVudW1lcmF0aW9uPjMyIGJ5dGVzPC9SYW5nZUVudW1lcmF0aW9uPgoJCQkJPFVuaXRzIC8+CgkJCQk8RGVzY3JpcHRpb24+PCFbQ0RBVEFbSW5kaWNhdGVzIHRoZSBkYXRhIGRlc2NyaXB0aW9uLgplLmcuICJtZXRlciByZWFkaW5nIi5dXT48L0Rlc2NyaXB0aW9uPgoJCQk8L0l0ZW0+CgkJCTxJdGVtIElEPSI0Ij48TmFtZT5EYXRhIEZvcm1hdDwvTmFtZT4KCQkJCTxPcGVyYXRpb25zPlJXPC9PcGVyYXRpb25zPgoJCQkJPE11bHRpcGxlSW5zdGFuY2VzPlNpbmdsZTwvTXVsdGlwbGVJbnN0YW5jZXM+CgkJCQk8TWFuZGF0b3J5Pk9wdGlvbmFsPC9NYW5kYXRvcnk+CgkJCQk8VHlwZT5TdHJpbmc8L1R5cGU+CgkJCQk8UmFuZ2VFbnVtZXJhdGlvbj4zMiBieXRlczwvUmFuZ2VFbnVtZXJhdGlvbj4KCQkJCTxVbml0cyAvPgoJCQkJPERlc2NyaXB0aW9uPjwhW0NEQVRBW0luZGljYXRlcyB0aGUgZm9ybWF0IG9mIHRoZSBBcHBsaWNhdGlvbiBEYXRhLgplLmcuIFlHLU1ldGVyLVdhdGVyLVJlYWRpbmcKVVRGOC1zdHJpbmcKXV0+PC9EZXNjcmlwdGlvbj4KCQkJPC9JdGVtPgoJCQk8SXRlbSBJRD0iNSI+PE5hbWU+QXBwIElEPC9OYW1lPgoJCQkJPE9wZXJhdGlvbnM+Ulc8L09wZXJhdGlvbnM+CgkJCQk8TXVsdGlwbGVJbnN0YW5jZXM+U2luZ2xlPC9NdWx0aXBsZUluc3RhbmNlcz4KCQkJCTxNYW5kYXRvcnk+T3B0aW9uYWw8L01hbmRhdG9yeT4KCQkJCTxUeXBlPkludGVnZXI8L1R5cGU+CgkJCQk8UmFuZ2VFbnVtZXJhdGlvbj4yIGJ5dGVzPC9SYW5nZUVudW1lcmF0aW9uPgoJCQkJPFVuaXRzIC8+CgkJCQk8RGVzY3JpcHRpb24+PCFbQ0RBVEFbSW5kaWNhdGVzIHRoZSBkZXN0aW5hdGlvbiBBcHBsaWNhdGlvbiBJRC5dXT48L0Rlc2NyaXB0aW9uPgoJCQk8L0l0ZW0+PC9SZXNvdXJjZXM+CgkJPERlc2NyaXB0aW9uMj48IVtDREFUQVtdXT48L0Rlc2NyaXB0aW9uMj4KCTwvT2JqZWN0Pgo8L0xXTTJNPgo=
+        preview:
+          type: string
+        name:
+          type: string
+          readOnly: true
+        public:
+          type: boolean
+        link:
+          type: string
+          readOnly: true
+        publicLink:
+          type: string
+          readOnly: true
+    TbResourceDeleteResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        references:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/EntityInfo'
+    TbResourceId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TB_RESOURCE
+          example: TB_RESOURCE
+      required:
+      - entityType
+      - id
+    TbResourceInfo:
+      type: object
+      description: A JSON value representing the Resource Info.
+      properties:
+        id:
+          $ref: '#/components/schemas/TbResourceId'
+          description: JSON object with the Resource Id. Specify this field to update the Resource. Referencing non-existing Resource Id will cause error. Omit this field to create new Resource.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the resource creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the resource can't be changed.
+          readOnly: true
+        title:
+          type: string
+          description: Resource title.
+          example: BinaryAppDataContainer id=19 v1.0
+        resourceType:
+          type: string
+          description: Resource type.
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+          - IMAGE
+          - DASHBOARD
+          - GENERAL
+          example: LWM2M_MODEL
+          readOnly: true
+        resourceSubType:
+          type: string
+          description: Resource sub type.
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+          - EXTENSION
+          - MODULE
+          example: IOT_SVG
+          readOnly: true
+        resourceKey:
+          type: string
+          description: Resource key.
+          example: '19_1.0'
+          readOnly: true
+        publicResourceKey:
+          type: string
+        etag:
+          type: string
+          description: Resource etag.
+          example: 33a64df551425fcc55e4d42a148795d9f25f89d4
+          readOnly: true
+        fileName:
+          type: string
+          description: Resource file name.
+          example: 19.xml
+          readOnly: true
+        descriptor:
+          $ref: '#/components/schemas/JsonNode'
+        name:
+          type: string
+          readOnly: true
+        public:
+          type: boolean
+        link:
+          type: string
+          readOnly: true
+        publicLink:
+          type: string
+          readOnly: true
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    WidgetBundleInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
+          type: string
+          description: Entity Name
+    WidgetType:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/WidgetTypeId'
+          description: JSON object with the Widget Type Id. Specify this field to update the Widget Type. Referencing non-existing Widget Type Id will cause error. Omit this field to create new Widget Type.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Widget Type creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        fqn:
+          type: string
+          description: Unique FQN that is used in dashboards as a reference widget type
+          readOnly: true
+        name:
+          type: string
+          description: Widget name used in search and UI
+          readOnly: true
+        deprecated:
+          type: boolean
+          description: Whether widget type is deprecated.
+          example: true
+        scada:
+          type: boolean
+          description: Whether widget type is SCADA symbol.
+          example: true
+        version:
+          type: integer
+          format: int64
+        descriptor:
+          $ref: '#/components/schemas/JsonNode'
+          description: Complex JSON object that describes the widget type
+          readOnly: true
+    WidgetTypeDetails:
+      type: object
+      description: A JSON value representing the Widget Type Details.
+      properties:
+        fqn:
+          type: string
+          description: Unique FQN that is used in dashboards as a reference widget type
+          readOnly: true
+        name:
+          type: string
+          description: Widget name used in search and UI
+          readOnly: true
+        deprecated:
+          type: boolean
+          description: Whether widget type is deprecated.
+          example: true
+        image:
+          type: string
+          description: Relative or external image URL. Replaced with image data URL (Base64) in case of relative URL and 'inlineImages' option enabled.
+        description:
+          type: string
+          description: Description of the widget
+        descriptor:
+          $ref: '#/components/schemas/JsonNode'
+          description: Complex JSON object that describes the widget type
+          readOnly: true
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceExportData'
+        id:
+          $ref: '#/components/schemas/WidgetTypeId'
+          description: JSON object with the Widget Type Id. Specify this field to update the Widget Type. Referencing non-existing Widget Type Id will cause error. Omit this field to create new Widget Type.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Widget Type creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        scada:
+          type: boolean
+          description: Whether widget type is SCADA symbol.
+          example: true
+        version:
+          type: integer
+          format: int64
+        tags:
+          type: array
+          description: Tags of the widget type
+          items:
+            type: string
+    WidgetTypeId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - WIDGET_TYPE
+          example: WIDGET_TYPE
+      required:
+      - entityType
+      - id
+    WidgetTypeInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/WidgetTypeId'
+          description: JSON object with the Widget Type Id. Specify this field to update the Widget Type. Referencing non-existing Widget Type Id will cause error. Omit this field to create new Widget Type.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Widget Type creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        fqn:
+          type: string
+          description: Unique FQN that is used in dashboards as a reference widget type
+          readOnly: true
+        name:
+          type: string
+          description: Widget name used in search and UI
+          readOnly: true
+        deprecated:
+          type: boolean
+          description: Whether widget type is deprecated.
+          example: true
+        scada:
+          type: boolean
+          description: Whether widget type is SCADA symbol.
+          example: true
+        version:
+          type: integer
+          format: int64
+        image:
+          type: string
+          description: Base64 encoded widget thumbnail
+          readOnly: true
+        description:
+          type: string
+          description: Description of the widget type
+          readOnly: true
+        tags:
+          type: array
+          description: Tags of the widget type
+          items:
+            type: string
+          readOnly: true
+        widgetType:
+          type: string
+          description: Type of the widget (timeseries, latest, control, alarm or static)
+          readOnly: true
+        bundles:
+          type: array
+          description: Bundles
+          items:
+            $ref: '#/components/schemas/WidgetBundleInfo'
+          readOnly: true
+    WidgetsBundle:
+      type: object
+      description: A JSON value representing the Widget Bundle.
+      properties:
+        id:
+          $ref: '#/components/schemas/WidgetsBundleId'
+          description: JSON object with the Widget Bundle Id. Specify this field to update the Widget Bundle. Referencing non-existing Widget Bundle Id will cause error. Omit this field to create new Widget
+            Bundle.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Widget Bundle creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        alias:
+          type: string
+          description: Unique alias that is used in widget types as a reference widget bundle
+          readOnly: true
+        title:
+          type: string
+          description: Title used in search and UI
+          readOnly: true
+        image:
+          type: string
+          description: Relative or external image URL. Replaced with image data URL (Base64) in case of relative URL and 'inlineImages' option enabled.
+          readOnly: true
+        scada:
+          type: boolean
+          description: Whether widgets bundle contains SCADA symbol widget types.
+          readOnly: true
+        description:
+          type: string
+          description: Description
+          readOnly: true
+        order:
+          type: integer
+          format: int32
+          description: Order
+          readOnly: true
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Same as title of the Widget Bundle. Read-only field. Update the 'title' to change the 'name' of the Widget Bundle.
+          readOnly: true
+    WidgetsBundleId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - WIDGETS_BUNDLE
+          example: WIDGETS_BUNDLE
+      required:
+      - entityType
+      - id
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

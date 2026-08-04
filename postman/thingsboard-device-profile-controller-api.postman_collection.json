@@ -1,0 +1,1196 @@
+{
+  "info": {
+    "_postman_id": "8f17e5c0-78f7-4d9b-a571-8d73a094ba87",
+    "name": "ThingsBoard Admin admin-controller device-profile-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:15.000Z",
+    "updatedAt": "2026-07-28T03:12:16.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8f17e5c0-78f7-4d9b-a571-8d73a094ba87"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "deviceProfile",
+          "item": [
+            {
+              "name": "{deviceProfileId}",
+              "item": [
+                {
+                  "name": "default",
+                  "item": [
+                    {
+                      "name": "Make Device Profile Default (setDefaultDeviceProfile)",
+                      "id": "6915b596-fffd-4a6b-9e87-08aec15f6d6b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/deviceProfile/:deviceProfileId/default",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "deviceProfile",
+                            ":deviceProfileId",
+                            "default"
+                          ],
+                          "variable": [
+                            {
+                              "id": "0a569fd6-343b-4af2-87d7-c7a84014d455",
+                              "key": "deviceProfileId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Marks device profile as default within a tenant scope.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "f65b4e6c-1b23-41e3-b38f-da8ea48c0700",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/deviceProfile/:deviceProfileId/default",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "deviceProfile",
+                                ":deviceProfileId",
+                                "default"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceProfileId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"image\": \"<string>\",\n  \"type\": \"DEFAULT\",\n  \"transportType\": \"COAP\",\n  \"provisionType\": \"ALLOW_CREATE_NEW_DEVICES\",\n  \"defaultRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultDashboardId\": {\n    \"entityType\": \"DASHBOARD\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultQueueName\": \"<string>\",\n  \"provisionDeviceKey\": \"<string>\",\n  \"firmwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"softwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultEdgeRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"default\": \"<boolean>\",\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"<string>\"\n    },\n    \"transportConfiguration\": {\n      \"type\": \"<string>\",\n      \"coapDeviceTypeConfiguration\": {\n        \"coapDeviceType\": \"<string>\",\n        \"transportPayloadTypeConfiguration\": {\n          \"transportPayloadType\": \"<string>\"\n        }\n      },\n      \"clientSettings\": {\n        \"powerMode\": \"E_DRX\",\n        \"psmActivityTimer\": \"<long>\",\n        \"edrxCycle\": \"<long>\",\n        \"pagingTransmissionWindow\": \"<long>\"\n      }\n    },\n    \"provisionConfiguration\": {\n      \"type\": \"<string>\",\n      \"provisionDeviceSecret\": \"<string>\"\n    },\n    \"alarms\": [\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"sit_b\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"BOOLEAN\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"CONSTANT\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"SECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_CUSTOMER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"CONSTANT\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"HOURS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_CUSTOMER\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"CUSTOM\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_DEVICE\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"amet_da_\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"STRING\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_CUSTOMER\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"MICROSECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"STRING\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"DAYS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_DEVICE\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"ANY_TIME\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_USER\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T03:12:16.000Z",
+                          "updatedAt": "2026-07-28T03:12:16.000Z",
+                          "uid": "35240-f65b4e6c-1b23-41e3-b38f-da8ea48c0700"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-6915b596-fffd-4a6b-9e87-08aec15f6d6b"
+                    }
+                  ],
+                  "id": "adb9de71-20a8-4f13-829c-53e36ea66a49",
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-adb9de71-20a8-4f13-829c-53e36ea66a49"
+                },
+                {
+                  "name": "Get Device Profile (getDeviceProfileById)",
+                  "id": "1ee28415-f2c9-4878-9032-c40fbde2bc94",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfile/:deviceProfileId?inlineImages=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfile",
+                        ":deviceProfileId"
+                      ],
+                      "query": [
+                        {
+                          "description": "Inline images as a data URL (Base64)",
+                          "key": "inlineImages",
+                          "value": "<boolean>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "5e65b084-a73c-4755-92e3-a48683321a4b",
+                          "key": "deviceProfileId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Fetch the Device Profile object based on the provided Device Profile Id. The server checks that the device profile is owned by the same tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "3874b097-e672-4833-b296-0e3a42ece5a8",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/deviceProfile/:deviceProfileId?inlineImages=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "deviceProfile",
+                            ":deviceProfileId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Inline images as a data URL (Base64)",
+                              "key": "inlineImages",
+                              "value": "<boolean>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "deviceProfileId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"image\": \"<string>\",\n  \"type\": \"DEFAULT\",\n  \"transportType\": \"COAP\",\n  \"provisionType\": \"ALLOW_CREATE_NEW_DEVICES\",\n  \"defaultRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultDashboardId\": {\n    \"entityType\": \"DASHBOARD\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultQueueName\": \"<string>\",\n  \"provisionDeviceKey\": \"<string>\",\n  \"firmwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"softwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultEdgeRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"default\": \"<boolean>\",\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"<string>\"\n    },\n    \"transportConfiguration\": {\n      \"type\": \"<string>\",\n      \"coapDeviceTypeConfiguration\": {\n        \"coapDeviceType\": \"<string>\",\n        \"transportPayloadTypeConfiguration\": {\n          \"transportPayloadType\": \"<string>\"\n        }\n      },\n      \"clientSettings\": {\n        \"powerMode\": \"E_DRX\",\n        \"psmActivityTimer\": \"<long>\",\n        \"edrxCycle\": \"<long>\",\n        \"pagingTransmissionWindow\": \"<long>\"\n      }\n    },\n    \"provisionConfiguration\": {\n      \"type\": \"<string>\",\n      \"provisionDeviceSecret\": \"<string>\"\n    },\n    \"alarms\": [\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"sit_b\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"BOOLEAN\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"CONSTANT\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"SECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_CUSTOMER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"CONSTANT\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"HOURS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_CUSTOMER\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"CUSTOM\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_DEVICE\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"amet_da_\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"STRING\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_CUSTOMER\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"MICROSECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"STRING\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"DAYS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_DEVICE\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"ANY_TIME\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_USER\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-3874b097-e672-4833-b296-0e3a42ece5a8"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-1ee28415-f2c9-4878-9032-c40fbde2bc94"
+                },
+                {
+                  "name": "Delete Device Profile (deleteDeviceProfile)",
+                  "id": "a56322dd-43b1-4685-b8f2-85a728e1d3e0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfile/:deviceProfileId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfile",
+                        ":deviceProfileId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "a0ab490d-6fbf-4796-a25b-0476158333ee",
+                          "key": "deviceProfileId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Deletes the device profile. Referencing non-existing device profile Id will cause an error. Can't delete the device profile if it is referenced by existing devices.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "fe22eb01-2223-4ef5-8b62-9db2036f3965",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/deviceProfile/:deviceProfileId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "deviceProfile",
+                            ":deviceProfileId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "deviceProfileId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-fe22eb01-2223-4ef5-8b62-9db2036f3965"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-a56322dd-43b1-4685-b8f2-85a728e1d3e0"
+                }
+              ],
+              "id": "59ac3aee-b229-414d-b80e-a488912f2f92",
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-59ac3aee-b229-414d-b80e-a488912f2f92"
+            },
+            {
+              "name": "names",
+              "item": [
+                {
+                  "name": "Get Device Profile Names (getDeviceProfileNames)",
+                  "id": "b040160e-f9e7-4ba6-9ffa-7fd0daafa0ed",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfile/names?activeOnly=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfile",
+                        "names"
+                      ],
+                      "query": [
+                        {
+                          "description": "Flag indicating whether to retrieve exclusively the names of device profiles that are referenced by tenant's devices.",
+                          "key": "activeOnly",
+                          "value": "false"
+                        }
+                      ]
+                    },
+                    "description": "Returns a set of unique device profile names owned by the tenant.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "b7a11431-7197-433c-a155-2489ced2af7a",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/deviceProfile/names?activeOnly=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "deviceProfile",
+                            "names"
+                          ],
+                          "query": [
+                            {
+                              "description": "Flag indicating whether to retrieve exclusively the names of device profiles that are referenced by tenant's devices.",
+                              "key": "activeOnly",
+                              "value": "false"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": {\n      \"entityType\": \"OAUTH2_CLIENT\",\n      \"id\": \"<uuid>\"\n    },\n    \"name\": \"<string>\"\n  },\n  {\n    \"id\": {\n      \"entityType\": \"MOBILE_APP_BUNDLE\",\n      \"id\": \"<uuid>\"\n    },\n    \"name\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-b7a11431-7197-433c-a155-2489ced2af7a"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-b040160e-f9e7-4ba6-9ffa-7fd0daafa0ed"
+                }
+              ],
+              "id": "4a27c3d1-2324-4ba3-b795-1c448ac50d3d",
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-4a27c3d1-2324-4ba3-b795-1c448ac50d3d"
+            },
+            {
+              "name": "devices",
+              "item": [
+                {
+                  "name": "keys",
+                  "item": [
+                    {
+                      "name": "timeseries",
+                      "item": [
+                        {
+                          "name": "Get Time Series Keys (getTimeseriesKeys)",
+                          "id": "7e42008f-0ec6-4e8a-b7d4-d8055055e412",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/deviceProfile/devices/keys/timeseries?deviceProfileId=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "deviceProfile",
+                                "devices",
+                                "keys",
+                                "timeseries"
+                              ],
+                              "query": [
+                                {
+                                  "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                                  "key": "deviceProfileId",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Get a set of unique time series keys used by devices that belong to specified profile. If profile is not set returns a list of unique keys among all profiles. The call is used for auto-complete in the UI forms. The implementation limits the number of devices that participate in search to 100 as a trade of between accurate results and time-consuming queries. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "52753d38-179d-4d09-8e86-9726016ec48d",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/deviceProfile/devices/keys/timeseries?deviceProfileId=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "deviceProfile",
+                                    "devices",
+                                    "keys",
+                                    "timeseries"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                                      "key": "deviceProfileId",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  \"<string>\",\n  \"<string>\"\n]",
+                              "createdAt": "2026-07-28T03:12:16.000Z",
+                              "updatedAt": "2026-07-28T03:12:16.000Z",
+                              "uid": "35240-52753d38-179d-4d09-8e86-9726016ec48d"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:16.000Z",
+                          "updatedAt": "2026-07-28T03:12:16.000Z",
+                          "uid": "35240-7e42008f-0ec6-4e8a-b7d4-d8055055e412"
+                        }
+                      ],
+                      "id": "21ef5663-5153-4b62-9ebb-01cb24bd92d1",
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-21ef5663-5153-4b62-9ebb-01cb24bd92d1"
+                    },
+                    {
+                      "name": "attributes",
+                      "item": [
+                        {
+                          "name": "Get Attribute Keys (getAttributesKeys)",
+                          "id": "3457834d-8dc4-4c2f-b3e2-f74b34cee3f7",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/deviceProfile/devices/keys/attributes?deviceProfileId=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "deviceProfile",
+                                "devices",
+                                "keys",
+                                "attributes"
+                              ],
+                              "query": [
+                                {
+                                  "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                                  "key": "deviceProfileId",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Get a set of unique attribute keys used by devices that belong to specified profile. If profile is not set returns a list of unique keys among all profiles. The call is used for auto-complete in the UI forms. The implementation limits the number of devices that participate in search to 100 as a trade of between accurate results and time-consuming queries. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "c43ef44c-2464-44f4-897f-e2816c94a1df",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/deviceProfile/devices/keys/attributes?deviceProfileId=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "deviceProfile",
+                                    "devices",
+                                    "keys",
+                                    "attributes"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                                      "key": "deviceProfileId",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  \"<string>\",\n  \"<string>\"\n]",
+                              "createdAt": "2026-07-28T03:12:16.000Z",
+                              "updatedAt": "2026-07-28T03:12:16.000Z",
+                              "uid": "35240-c43ef44c-2464-44f4-897f-e2816c94a1df"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:16.000Z",
+                          "updatedAt": "2026-07-28T03:12:16.000Z",
+                          "uid": "35240-3457834d-8dc4-4c2f-b3e2-f74b34cee3f7"
+                        }
+                      ],
+                      "id": "75f80b3a-b289-4434-8db3-11b7c3fa018c",
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-75f80b3a-b289-4434-8db3-11b7c3fa018c"
+                    }
+                  ],
+                  "id": "ade4ca8e-d828-4629-9d25-f21672bcca9d",
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-ade4ca8e-d828-4629-9d25-f21672bcca9d"
+                }
+              ],
+              "id": "b74cab12-31d0-4fef-a06d-f65df11aef17",
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-b74cab12-31d0-4fef-a06d-f65df11aef17"
+            },
+            {
+              "name": "Create or Update Device Profile (saveDeviceProfile)",
+              "id": "3658192a-c24d-45e4-a99d-9cce294e20f1",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"image\": \"<string>\",\n  \"type\": \"DEFAULT\",\n  \"transportType\": \"COAP\",\n  \"provisionType\": \"ALLOW_CREATE_NEW_DEVICES\",\n  \"defaultRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultDashboardId\": {\n    \"entityType\": \"DASHBOARD\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultQueueName\": \"<string>\",\n  \"provisionDeviceKey\": \"<string>\",\n  \"firmwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"softwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultEdgeRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"default\": \"<boolean>\",\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"<string>\"\n    },\n    \"transportConfiguration\": {\n      \"type\": \"<string>\",\n      \"coapDeviceTypeConfiguration\": {\n        \"coapDeviceType\": \"<string>\",\n        \"transportPayloadTypeConfiguration\": {\n          \"transportPayloadType\": \"<string>\"\n        }\n      },\n      \"clientSettings\": {\n        \"powerMode\": \"E_DRX\",\n        \"psmActivityTimer\": \"<long>\",\n        \"edrxCycle\": \"<long>\",\n        \"pagingTransmissionWindow\": \"<long>\"\n      }\n    },\n    \"provisionConfiguration\": {\n      \"type\": \"<string>\",\n      \"provisionDeviceSecret\": \"<string>\"\n    },\n    \"alarms\": [\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"sit_b\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"BOOLEAN\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"CONSTANT\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"SECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_CUSTOMER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"CONSTANT\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"HOURS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_CUSTOMER\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"CUSTOM\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_DEVICE\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"amet_da_\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"STRING\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_CUSTOMER\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"MICROSECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"STRING\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"DAYS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_DEVICE\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"ANY_TIME\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_USER\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/deviceProfile",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "deviceProfile"
+                  ]
+                },
+                "description": "Create or update the Device Profile. When creating device profile, platform generates device profile id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created device profile id will be present in the response. Specify existing device profile id to update the device profile. Referencing non-existing device profile Id will cause 'Not Found' error. \n\nDevice profile name is unique in the scope of tenant. Only one 'default' device profile may exist in scope of tenant.\n\n# Device profile data definition\n\nDevice profile data object contains alarm rules configuration, device provision strategy and transport type configuration for device connectivity. Let's review some examples. First one is the default device profile data configuration and second one - the custom one. \n\n```json\n{\n   \"alarms\":[\n   ],\n   \"configuration\":{\n      \"type\":\"DEFAULT\"\n   },\n   \"provisionConfiguration\":{\n      \"type\":\"DISABLED\",\n      \"provisionDeviceSecret\":null\n   },\n   \"transportConfiguration\":{\n      \"type\":\"DEFAULT\"\n   }\n}\n```\n\n```json\n{\n   \"alarms\":[\n      {\n         \"id\":\"2492b935-1226-59e9-8615-17d8978a4f93\",\n         \"alarmType\":\"Temperature Alarm\",\n         \"clearRule\":{\n            \"schedule\":null,\n            \"condition\":{\n               \"spec\":{\n                  \"type\":\"SIMPLE\"\n               },\n               \"condition\":[\n                  {\n                     \"key\":{\n                        \"key\":\"temperature\",\n                        \"type\":\"TIME_SERIES\"\n                     },\n                     \"value\":null,\n                     \"predicate\":{\n                        \"type\":\"NUMERIC\",\n                        \"value\":{\n                           \"userValue\":null,\n                           \"defaultValue\":30.0,\n                           \"dynamicValue\":null\n                        },\n                        \"operation\":\"LESS\"\n                     },\n                     \"valueType\":\"NUMERIC\"\n                  }\n               ]\n            },\n            \"dashboardId\":null,\n            \"alarmDetails\":null\n         },\n         \"propagate\":false,\n         \"createRules\":{\n            \"MAJOR\":{\n               \"schedule\":{\n                  \"type\":\"SPECIFIC_TIME\",\n                  \"endsOn\":64800000,\n                  \"startsOn\":43200000,\n                  \"timezone\":\"Europe/Kiev\",\n                  \"daysOfWeek\":[\n                     1,\n                     3,\n                     5\n                  ]\n               },\n               \"condition\":{\n                  \"spec\":{\n                     \"type\":\"DURATION\",\n                     \"unit\":\"MINUTES\",\n                     \"predicate\":{\n                        \"userValue\":null,\n                        \"defaultValue\":30,\n                        \"dynamicValue\":null\n                     }\n                  },\n                  \"condition\":[\n                     {\n                        \"key\":{\n                           \"key\":\"temperature\",\n                           \"type\":\"TIME_SERIES\"\n                        },\n                        \"value\":null,\n                        \"predicate\":{\n                           \"type\":\"COMPLEX\",\n                           \"operation\":\"OR\",\n                           \"predicates\":[\n                              {\n                                 \"type\":\"NUMERIC\",\n                                 \"value\":{\n                                    \"userValue\":null,\n                                    \"defaultValue\":50.0,\n                                    \"dynamicValue\":null\n                                 },\n                                 \"operation\":\"LESS_OR_EQUAL\"\n                              },\n                              {\n                                 \"type\":\"NUMERIC\",\n                                 \"value\":{\n                                    \"userValue\":null,\n                                    \"defaultValue\":30.0,\n                                    \"dynamicValue\":null\n                                 },\n                                 \"operation\":\"GREATER\"\n                              }\n                           ]\n                        },\n                        \"valueType\":\"NUMERIC\"\n                     }\n                  ]\n               },\n               \"dashboardId\":null,\n               \"alarmDetails\":null\n            },\n            \"WARNING\":{\n               \"schedule\":{\n                  \"type\":\"CUSTOM\",\n                  \"items\":[\n                     {\n                        \"endsOn\":0,\n                        \"enabled\":false,\n                        \"startsOn\":0,\n                        \"dayOfWeek\":1\n                     },\n                     {\n                        \"endsOn\":64800000,\n                        \"enabled\":true,\n                        \"startsOn\":43200000,\n                        \"dayOfWeek\":2\n                     },\n                     {\n                        \"endsOn\":0,\n                        \"enabled\":false,\n                        \"startsOn\":0,\n                        \"dayOfWeek\":3\n                     },\n                     {\n                        \"endsOn\":57600000,\n                        \"enabled\":true,\n                        \"startsOn\":36000000,\n                        \"dayOfWeek\":4\n                     },\n                     {\n                        \"endsOn\":0,\n                        \"enabled\":false,\n                        \"startsOn\":0,\n                        \"dayOfWeek\":5\n                     },\n                     {\n                        \"endsOn\":0,\n                        \"enabled\":false,\n                        \"startsOn\":0,\n                        \"dayOfWeek\":6\n                     },\n                     {\n                        \"endsOn\":0,\n                        \"enabled\":false,\n                        \"startsOn\":0,\n                        \"dayOfWeek\":7\n                     }\n                  ],\n                  \"timezone\":\"Europe/Kiev\"\n               },\n               \"condition\":{\n                  \"spec\":{\n                     \"type\":\"REPEATING\",\n                     \"predicate\":{\n                        \"userValue\":null,\n                        \"defaultValue\":5,\n                        \"dynamicValue\":null\n                     }\n                  },\n                  \"condition\":[\n                     {\n                        \"key\":{\n                           \"key\":\"tempConstant\",\n                           \"type\":\"CONSTANT\"\n                        },\n                        \"value\":30,\n                        \"predicate\":{\n                           \"type\":\"NUMERIC\",\n                           \"value\":{\n                              \"userValue\":null,\n                              \"defaultValue\":0.0,\n                              \"dynamicValue\":{\n                                 \"inherit\":false,\n                                 \"sourceType\":\"CURRENT_DEVICE\",\n                                 \"sourceAttribute\":\"tempThreshold\"\n                              }\n                           },\n                           \"operation\":\"EQUAL\"\n                        },\n                        \"valueType\":\"NUMERIC\"\n                     }\n                  ]\n               },\n               \"dashboardId\":null,\n               \"alarmDetails\":null\n            },\n            \"CRITICAL\":{\n               \"schedule\":null,\n               \"condition\":{\n                  \"spec\":{\n                     \"type\":\"SIMPLE\"\n                  },\n                  \"condition\":[\n                     {\n                        \"key\":{\n                           \"key\":\"temperature\",\n                           \"type\":\"TIME_SERIES\"\n                        },\n                        \"value\":null,\n                        \"predicate\":{\n                           \"type\":\"NUMERIC\",\n                           \"value\":{\n                              \"userValue\":null,\n                              \"defaultValue\":50.0,\n                              \"dynamicValue\":null\n                           },\n                           \"operation\":\"GREATER\"\n                        },\n                        \"valueType\":\"NUMERIC\"\n                     }\n                  ]\n               },\n               \"dashboardId\":null,\n               \"alarmDetails\":null\n            }\n         },\n         \"propagateRelationTypes\":null\n      }\n   ],\n   \"configuration\":{\n      \"type\":\"DEFAULT\"\n   },\n   \"provisionConfiguration\":{\n      \"type\":\"ALLOW_CREATE_NEW_DEVICES\",\n      \"provisionDeviceSecret\":\"vaxb9hzqdbz3oqukvomg\"\n   },\n   \"transportConfiguration\":{\n      \"type\":\"MQTT\",\n      \"deviceTelemetryTopic\":\"v1/devices/me/telemetry\",\n      \"deviceAttributesTopic\":\"v1/devices/me/attributes\",\n      \"transportPayloadTypeConfiguration\":{\n         \"transportPayloadType\":\"PROTOBUF\",\n         \"deviceTelemetryProtoSchema\":\"syntax =\\\"proto3\\\";\\npackage telemetry;\\n\\nmessage SensorDataReading {\\n\\n  optional double temperature = 1;\\n  optional double humidity = 2;\\n  InnerObject innerObject = 3;\\n\\n  message InnerObject {\\n    optional string key1 = 1;\\n    optional bool key2 = 2;\\n    optional double key3 = 3;\\n    optional int32 key4 = 4;\\n    optional string key5 = 5;\\n  }\\n}\",\n         \"deviceAttributesProtoSchema\":\"syntax =\\\"proto3\\\";\\npackage attributes;\\n\\nmessage SensorConfiguration {\\n  optional string firmwareVersion = 1;\\n  optional string serialNumber = 2;\\n}\",\n         \"deviceRpcRequestProtoSchema\":\"syntax =\\\"proto3\\\";\\npackage rpc;\\n\\nmessage RpcRequestMsg {\\n  optional string method = 1;\\n  optional int32 requestId = 2;\\n  optional string params = 3;\\n}\",\n         \"deviceRpcResponseProtoSchema\":\"syntax =\\\"proto3\\\";\\npackage rpc;\\n\\nmessage RpcResponseMsg {\\n  optional string payload = 1;\\n}\"\n      }\n   }\n}\n```\n\nLet's review some specific objects examples related to the device profile configuration:\n\n# Alarm Schedule\n\nAlarm Schedule JSON object represents the time interval during which the alarm rule is active. Note, \n\n```json\n\"schedule\": null\n```\n\nmeans alarm rule is active all the time. **'daysOfWeek'** field represents Monday as 1, Tuesday as 2 and so on. **'startsOn'** and **'endsOn'** fields represent hours in millis (e.g. 64800000 = 18:00 or 6pm). **'enabled'** flag specifies if item in a custom rule is active for specific day of the week:\n\n## Specific Time Schedule\n\n```json\n{\n   \"schedule\":{\n      \"type\":\"SPECIFIC_TIME\",\n      \"endsOn\":64800000,\n      \"startsOn\":43200000,\n      \"timezone\":\"Europe/Kiev\",\n      \"daysOfWeek\":[\n         1,\n         3,\n         5\n      ]\n   }\n}\n```\n\n## Custom Schedule\n\n```json\n{\n   \"schedule\":{\n      \"type\":\"CUSTOM\",\n      \"items\":[\n         {\n            \"endsOn\":0,\n            \"enabled\":false,\n            \"startsOn\":0,\n            \"dayOfWeek\":1\n         },\n         {\n            \"endsOn\":64800000,\n            \"enabled\":true,\n            \"startsOn\":43200000,\n            \"dayOfWeek\":2\n         },\n         {\n            \"endsOn\":0,\n            \"enabled\":false,\n            \"startsOn\":0,\n            \"dayOfWeek\":3\n         },\n         {\n            \"endsOn\":57600000,\n            \"enabled\":true,\n            \"startsOn\":36000000,\n            \"dayOfWeek\":4\n         },\n         {\n            \"endsOn\":0,\n            \"enabled\":false,\n            \"startsOn\":0,\n            \"dayOfWeek\":5\n         },\n         {\n            \"endsOn\":0,\n            \"enabled\":false,\n            \"startsOn\":0,\n            \"dayOfWeek\":6\n         },\n         {\n            \"endsOn\":0,\n            \"enabled\":false,\n            \"startsOn\":0,\n            \"dayOfWeek\":7\n         }\n      ],\n      \"timezone\":\"Europe/Kiev\"\n   }\n}\n```\n\n# Alarm condition type (**'spec'**)\n\nAlarm condition type can be either simple, duration, or repeating. For example, 5 times in a row or during 5 minutes.\n\nNote, **'userValue'** field is not used and reserved for future usage, **'dynamicValue'** is used for condition appliance by using the value of the **'sourceAttribute'** or else **'defaultValue'** is used (if **'sourceAttribute'** is absent).\n\n**'sourceType'** of the **'sourceAttribute'** can be: \n * 'CURRENT_DEVICE';\n * 'CURRENT_CUSTOMER';\n * 'CURRENT_TENANT'.\n\n**'sourceAttribute'** can be inherited from the owner if **'inherit'** is set to true (for CURRENT_DEVICE and CURRENT_CUSTOMER).\n\n## Repeating alarm condition\n\n```json\n{\n   \"spec\":{\n      \"type\":\"REPEATING\",\n      \"predicate\":{\n         \"userValue\":null,\n         \"defaultValue\":5,\n         \"dynamicValue\":{\n            \"inherit\":true,\n            \"sourceType\":\"CURRENT_DEVICE\",\n            \"sourceAttribute\":\"tempAttr\"\n         }\n      }\n   }\n}\n```\n\n## Duration alarm condition\n\n```json\n{\n   \"spec\":{\n      \"type\":\"DURATION\",\n      \"unit\":\"MINUTES\",\n      \"predicate\":{\n         \"userValue\":null,\n         \"defaultValue\":30,\n         \"dynamicValue\":null\n      }\n   }\n}\n```\n\n**'unit'** can be: \n * 'SECONDS';\n * 'MINUTES';\n * 'HOURS';\n * 'DAYS'.\n\n# Key Filters\n\nKey filter objects are created under the **'condition'** array. They allow you to define complex logical expressions over entity field, attribute, latest time series value or constant. The filter is defined using 'key', 'valueType', 'value' (refers to the value of the 'CONSTANT' alarm filter key type) and 'predicate' objects. Let's review each object:\n\n## Alarm Filter Key\n\nFilter Key defines either entity field, attribute, telemetry or constant. It is a JSON object that consists the key name and type. The following filter key types are supported:\n * 'ATTRIBUTE' - used for attributes values;\n * 'TIME_SERIES' - used for time series values;\n * 'ENTITY_FIELD' - used for accessing entity fields like 'name', 'label', etc. The list of available fields depends on the entity type;\n * 'CONSTANT' - constant value specified.\n\nLet's review the example:\n\n```json\n{\n  \"type\": \"TIME_SERIES\",\n  \"key\": \"temperature\"\n}\n```\n\n## Value Type and Operations\n\nProvides a hint about the data type of the entity field that is defined in the filter key. The value type impacts the list of possible operations that you may use in the corresponding predicate. For example, you may use 'STARTS_WITH' or 'END_WITH', but you can't use 'GREATER_OR_EQUAL' for string values.The following filter value types and corresponding predicate operations are supported: \n\n * 'STRING' - used to filter any 'String' or 'JSON' values. Operations: EQUAL, NOT_EQUAL, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS; \n * 'NUMERIC' - used for 'Long' and 'Double' values. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n * 'BOOLEAN' - used for boolean values. Operations: EQUAL, NOT_EQUAL;\n * 'DATE_TIME' - similar to numeric, transforms value to milliseconds since epoch. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n\n\n\n\n## Filter Predicate\n\nFilter Predicate defines the logical expression to evaluate. The list of available operations depends on the filter value type, see above. Platform supports 4 predicate types: 'STRING', 'NUMERIC', 'BOOLEAN' and 'COMPLEX'. The last one allows to combine multiple operations over one filter key.\n\nSimple predicate example to check 'value < 100': \n\n```json\n{\n  \"operation\": \"LESS\",\n  \"value\": {\n    \"userValue\": null,\n    \"defaultValue\": 100,\n    \"dynamicValue\": null\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nComplex predicate example, to check 'value < 10 or value > 20': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"userValue\": null,\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"operation\": \"GREATER\",\n      \"value\": {\n        \"userValue\": null,\n        \"defaultValue\": 20,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    }\n  ]\n}\n```\n\nMore complex predicate example, to check 'value < 10 or (value > 50 && value < 60)': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"userValue\": null,\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"type\": \"COMPLEX\",\n      \"operation\": \"AND\",\n      \"predicates\": [\n        {\n          \"operation\": \"GREATER\",\n          \"value\": {\n            \"userValue\": null,\n            \"defaultValue\": 50,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        },\n        {\n          \"operation\": \"LESS\",\n          \"value\": {\n            \"userValue\": null,\n            \"defaultValue\": 60,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nYou may also want to replace hardcoded values (for example, temperature > 20) with the more dynamic expression (for example, temperature > value of the tenant attribute with key 'temperatureThreshold'). It is possible to use 'dynamicValue' to define attribute of the tenant, customer or device. See example below:\n\n```json\n{\n  \"operation\": \"GREATER\",\n  \"value\": {\n    \"userValue\": null,\n    \"defaultValue\": 0,\n    \"dynamicValue\": {\n      \"inherit\": false,\n      \"sourceType\": \"CURRENT_TENANT\",\n      \"sourceAttribute\": \"temperatureThreshold\"\n    }\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nNote that you may use 'CURRENT_DEVICE', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'. The 'defaultValue' is used when the attribute with such a name is not defined for the chosen source. The 'sourceAttribute' can be inherited from the owner of the specified 'sourceType' if 'inherit' is set to true.\n\n# Provision Configuration\n\nThere are 3 types of device provision configuration for the device profile: \n * 'DISABLED';\n * 'ALLOW_CREATE_NEW_DEVICES';\n * 'CHECK_PRE_PROVISIONED_DEVICES'.\n\nPlease refer to the [docs](https://thingsboard.io/docs/user-guide/device-provisioning/) for more details.\n\n# Transport Configuration\n\n5 transport configuration types are available:\n * 'DEFAULT';\n * 'MQTT';\n * 'LWM2M';\n * 'COAP';\n * 'SNMP'.\n\nDefault type supports basic MQTT, HTTP, CoAP and LwM2M transports. Please refer to the [docs](https://thingsboard.io/docs/user-guide/device-profiles/#transport-configuration) for more details about other types.\n\nSee another example of COAP transport configuration below:\n\n```json\n{\n   \"type\":\"COAP\",\n   \"clientSettings\":{\n      \"edrxCycle\":null,\n      \"powerMode\":\"DRX\",\n      \"psmActivityTimer\":null,\n      \"pagingTransmissionWindow\":null\n   },\n   \"coapDeviceTypeConfiguration\":{\n      \"coapDeviceType\":\"DEFAULT\",\n      \"transportPayloadTypeConfiguration\":{\n         \"transportPayloadType\":\"JSON\"\n      }\n   }\n}\n```Remove 'id', 'tenantId' from the request body example (below) to create new Device Profile entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+              },
+              "response": [
+                {
+                  "id": "4c8f63f3-74cf-4359-b270-13589ed3511e",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"id\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"image\": \"<string>\",\n  \"type\": \"DEFAULT\",\n  \"transportType\": \"COAP\",\n  \"provisionType\": \"ALLOW_CREATE_NEW_DEVICES\",\n  \"defaultRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultDashboardId\": {\n    \"entityType\": \"DASHBOARD\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultQueueName\": \"<string>\",\n  \"provisionDeviceKey\": \"<string>\",\n  \"firmwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"softwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultEdgeRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"default\": \"<boolean>\",\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"<string>\"\n    },\n    \"transportConfiguration\": {\n      \"type\": \"<string>\",\n      \"coapDeviceTypeConfiguration\": {\n        \"coapDeviceType\": \"<string>\",\n        \"transportPayloadTypeConfiguration\": {\n          \"transportPayloadType\": \"<string>\"\n        }\n      },\n      \"clientSettings\": {\n        \"powerMode\": \"E_DRX\",\n        \"psmActivityTimer\": \"<long>\",\n        \"edrxCycle\": \"<long>\",\n        \"pagingTransmissionWindow\": \"<long>\"\n      }\n    },\n    \"provisionConfiguration\": {\n      \"type\": \"<string>\",\n      \"provisionDeviceSecret\": \"<string>\"\n    },\n    \"alarms\": [\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"sit_b\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"BOOLEAN\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"CONSTANT\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"SECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_CUSTOMER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"CONSTANT\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"HOURS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_CUSTOMER\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"CUSTOM\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_DEVICE\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"amet_da_\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"STRING\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_CUSTOMER\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"MICROSECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"STRING\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"DAYS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_DEVICE\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"ANY_TIME\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_USER\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfile",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfile"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"image\": \"<string>\",\n  \"type\": \"DEFAULT\",\n  \"transportType\": \"COAP\",\n  \"provisionType\": \"ALLOW_CREATE_NEW_DEVICES\",\n  \"defaultRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultDashboardId\": {\n    \"entityType\": \"DASHBOARD\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultQueueName\": \"<string>\",\n  \"provisionDeviceKey\": \"<string>\",\n  \"firmwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"softwareId\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"defaultEdgeRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"default\": \"<boolean>\",\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"<string>\"\n    },\n    \"transportConfiguration\": {\n      \"type\": \"<string>\",\n      \"coapDeviceTypeConfiguration\": {\n        \"coapDeviceType\": \"<string>\",\n        \"transportPayloadTypeConfiguration\": {\n          \"transportPayloadType\": \"<string>\"\n        }\n      },\n      \"clientSettings\": {\n        \"powerMode\": \"E_DRX\",\n        \"psmActivityTimer\": \"<long>\",\n        \"edrxCycle\": \"<long>\",\n        \"pagingTransmissionWindow\": \"<long>\"\n      }\n    },\n    \"provisionConfiguration\": {\n      \"type\": \"<string>\",\n      \"provisionDeviceSecret\": \"<string>\"\n    },\n    \"alarms\": [\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"sit_b\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"BOOLEAN\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"CONSTANT\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"SECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_CUSTOMER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"CONSTANT\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"HOURS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_CUSTOMER\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"CUSTOM\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_DEVICE\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"id\": \"<string>\",\n        \"alarmType\": \"<string>\",\n        \"createRules\": {\n          \"amet_da_\": {\n            \"condition\": {\n              \"condition\": [\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"NUMERIC\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                },\n                {\n                  \"key\": {\n                    \"type\": \"TIME_SERIES\",\n                    \"key\": \"<string>\"\n                  },\n                  \"valueType\": \"STRING\",\n                  \"value\": {\n                    \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                  },\n                  \"predicate\": {\n                    \"type\": \"<string>\",\n                    \"operation\": \"NOT_EQUAL\",\n                    \"value\": {\n                      \"defaultValue\": \"<boolean>\",\n                      \"userValue\": \"<boolean>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_CUSTOMER\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<boolean>\"\n                      }\n                    }\n                  }\n                }\n              ],\n              \"spec\": {\n                \"type\": \"<string>\",\n                \"unit\": \"MICROSECONDS\",\n                \"predicate\": {\n                  \"defaultValue\": \"<long>\",\n                  \"userValue\": \"<long>\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<long>\"\n                  }\n                }\n              }\n            },\n            \"schedule\": {\n              \"type\": \"CUSTOM\",\n              \"dynamicValue\": {\n                \"sourceType\": \"CURRENT_USER\",\n                \"sourceAttribute\": \"<string>\",\n                \"inherit\": \"<boolean>\",\n                \"resolvedValue\": \"<string>\"\n              }\n            },\n            \"alarmDetails\": \"<string>\",\n            \"dashboardId\": {\n              \"entityType\": \"DASHBOARD\",\n              \"id\": \"<uuid>\"\n            }\n          }\n        },\n        \"clearRule\": {\n          \"condition\": {\n            \"condition\": [\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"NUMERIC\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              },\n              {\n                \"key\": {\n                  \"type\": \"TIME_SERIES\",\n                  \"key\": \"<string>\"\n                },\n                \"valueType\": \"STRING\",\n                \"value\": {\n                  \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                },\n                \"predicate\": {\n                  \"type\": \"<string>\",\n                  \"operation\": \"NOT_EQUAL\",\n                  \"value\": {\n                    \"defaultValue\": \"<boolean>\",\n                    \"userValue\": \"<boolean>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_DEVICE\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<boolean>\"\n                    }\n                  }\n                }\n              }\n            ],\n            \"spec\": {\n              \"type\": \"<string>\",\n              \"unit\": \"DAYS\",\n              \"predicate\": {\n                \"defaultValue\": \"<long>\",\n                \"userValue\": \"<long>\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_DEVICE\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<long>\"\n                }\n              }\n            }\n          },\n          \"schedule\": {\n            \"type\": \"ANY_TIME\",\n            \"dynamicValue\": {\n              \"sourceType\": \"CURRENT_USER\",\n              \"sourceAttribute\": \"<string>\",\n              \"inherit\": \"<boolean>\",\n              \"resolvedValue\": \"<string>\"\n            }\n          },\n          \"alarmDetails\": \"<string>\",\n          \"dashboardId\": {\n            \"entityType\": \"DASHBOARD\",\n            \"id\": \"<uuid>\"\n          }\n        },\n        \"propagate\": \"<boolean>\",\n        \"propagateToOwner\": \"<boolean>\",\n        \"propagateToTenant\": \"<boolean>\",\n        \"propagateRelationTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-4c8f63f3-74cf-4359-b270-13589ed3511e"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-3658192a-c24d-45e4-a99d-9cce294e20f1"
+            }
+          ],
+          "id": "af722b84-9532-4cb0-95d8-af572572d08f",
+          "createdAt": "2026-07-28T03:12:16.000Z",
+          "updatedAt": "2026-07-28T03:12:16.000Z",
+          "uid": "35240-af722b84-9532-4cb0-95d8-af572572d08f"
+        },
+        {
+          "name": "deviceProfiles",
+          "item": [
+            {
+              "name": "Get Device Profiles (getDeviceProfiles)",
+              "id": "4d3bb56a-13fc-4778-b391-6ac7c139f513",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/deviceProfiles?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=isDefault&sortOrder=ASC",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "deviceProfiles"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Maximum amount of entities in a one page",
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "(Required) Sequence number of page starting from 0",
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "The case insensitive 'substring' filter based on the device profile name.",
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Property of entity to sort by",
+                      "key": "sortProperty",
+                      "value": "isDefault"
+                    },
+                    {
+                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    }
+                  ]
+                },
+                "description": "Returns a page of devices profile objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+              },
+              "response": [
+                {
+                  "id": "5976139f-3c04-499b-94ba-1232e8d1f51c",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfiles?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=isDefault&sortOrder=ASC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfiles"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the device profile name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "isDefault"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "ASC"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"image\": \"<string>\",\n      \"type\": \"DEFAULT\",\n      \"transportType\": \"SNMP\",\n      \"provisionType\": \"ALLOW_CREATE_NEW_DEVICES\",\n      \"defaultRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"defaultDashboardId\": {\n        \"entityType\": \"DASHBOARD\",\n        \"id\": \"<uuid>\"\n      },\n      \"defaultQueueName\": \"<string>\",\n      \"provisionDeviceKey\": \"<string>\",\n      \"firmwareId\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"softwareId\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"defaultEdgeRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"default\": \"<boolean>\",\n      \"profileData\": {\n        \"configuration\": {\n          \"type\": \"<string>\"\n        },\n        \"transportConfiguration\": {\n          \"type\": \"<string>\",\n          \"coapDeviceTypeConfiguration\": {\n            \"coapDeviceType\": \"<string>\",\n            \"transportPayloadTypeConfiguration\": {\n              \"transportPayloadType\": \"<string>\"\n            }\n          },\n          \"clientSettings\": {\n            \"powerMode\": \"DRX\",\n            \"psmActivityTimer\": \"<long>\",\n            \"edrxCycle\": \"<long>\",\n            \"pagingTransmissionWindow\": \"<long>\"\n          }\n        },\n        \"provisionConfiguration\": {\n          \"type\": \"<string>\",\n          \"provisionDeviceSecret\": \"<string>\"\n        },\n        \"alarms\": [\n          {\n            \"id\": \"<string>\",\n            \"alarmType\": \"<string>\",\n            \"createRules\": {\n              \"veniam_5_1\": {\n                \"condition\": {\n                  \"condition\": [\n                    {\n                      \"key\": {\n                        \"type\": \"CONSTANT\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"NUMERIC\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_USER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    },\n                    {\n                      \"key\": {\n                        \"type\": \"ENTITY_FIELD\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"DATE_TIME\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_CUSTOMER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    }\n                  ],\n                  \"spec\": {\n                    \"type\": \"<string>\",\n                    \"unit\": \"MILLISECONDS\",\n                    \"predicate\": {\n                      \"defaultValue\": \"<long>\",\n                      \"userValue\": \"<long>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_DEVICE\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<long>\"\n                      }\n                    }\n                  }\n                },\n                \"schedule\": {\n                  \"type\": \"SPECIFIC_TIME\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_CUSTOMER\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<string>\"\n                  }\n                },\n                \"alarmDetails\": \"<string>\",\n                \"dashboardId\": {\n                  \"entityType\": \"DASHBOARD\",\n                  \"id\": \"<uuid>\"\n                }\n              }\n            },\n            \"clearRule\": {\n              \"condition\": {\n                \"condition\": [\n                  {\n                    \"key\": {\n                      \"type\": \"TIME_SERIES\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"NUMERIC\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_DEVICE\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  },\n                  {\n                    \"key\": {\n                      \"type\": \"TIME_SERIES\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"NUMERIC\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_CUSTOMER\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  }\n                ],\n                \"spec\": {\n                  \"type\": \"<string>\",\n                  \"unit\": \"MILLISECONDS\",\n                  \"predicate\": {\n                    \"defaultValue\": \"<long>\",\n                    \"userValue\": \"<long>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_USER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<long>\"\n                    }\n                  }\n                }\n              },\n              \"schedule\": {\n                \"type\": \"CUSTOM\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_DEVICE\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<string>\"\n                }\n              },\n              \"alarmDetails\": \"<string>\",\n              \"dashboardId\": {\n                \"entityType\": \"DASHBOARD\",\n                \"id\": \"<uuid>\"\n              }\n            },\n            \"propagate\": \"<boolean>\",\n            \"propagateToOwner\": \"<boolean>\",\n            \"propagateToTenant\": \"<boolean>\",\n            \"propagateRelationTypes\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          },\n          {\n            \"id\": \"<string>\",\n            \"alarmType\": \"<string>\",\n            \"createRules\": {\n              \"tempor_6e\": {\n                \"condition\": {\n                  \"condition\": [\n                    {\n                      \"key\": {\n                        \"type\": \"ENTITY_FIELD\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"DATE_TIME\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_USER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    },\n                    {\n                      \"key\": {\n                        \"type\": \"ENTITY_FIELD\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"BOOLEAN\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"NOT_EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_TENANT\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    }\n                  ],\n                  \"spec\": {\n                    \"type\": \"<string>\",\n                    \"unit\": \"NANOSECONDS\",\n                    \"predicate\": {\n                      \"defaultValue\": \"<long>\",\n                      \"userValue\": \"<long>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<long>\"\n                      }\n                    }\n                  }\n                },\n                \"schedule\": {\n                  \"type\": \"ANY_TIME\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<string>\"\n                  }\n                },\n                \"alarmDetails\": \"<string>\",\n                \"dashboardId\": {\n                  \"entityType\": \"DASHBOARD\",\n                  \"id\": \"<uuid>\"\n                }\n              }\n            },\n            \"clearRule\": {\n              \"condition\": {\n                \"condition\": [\n                  {\n                    \"key\": {\n                      \"type\": \"ENTITY_FIELD\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"NUMERIC\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"NOT_EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_USER\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  },\n                  {\n                    \"key\": {\n                      \"type\": \"CONSTANT\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"BOOLEAN\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_DEVICE\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  }\n                ],\n                \"spec\": {\n                  \"type\": \"<string>\",\n                  \"unit\": \"SECONDS\",\n                  \"predicate\": {\n                    \"defaultValue\": \"<long>\",\n                    \"userValue\": \"<long>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_USER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<long>\"\n                    }\n                  }\n                }\n              },\n              \"schedule\": {\n                \"type\": \"CUSTOM\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_CUSTOMER\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<string>\"\n                }\n              },\n              \"alarmDetails\": \"<string>\",\n              \"dashboardId\": {\n                \"entityType\": \"DASHBOARD\",\n                \"id\": \"<uuid>\"\n              }\n            },\n            \"propagate\": \"<boolean>\",\n            \"propagateToOwner\": \"<boolean>\",\n            \"propagateToTenant\": \"<boolean>\",\n            \"propagateRelationTypes\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        ]\n      }\n    },\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"image\": \"<string>\",\n      \"type\": \"DEFAULT\",\n      \"transportType\": \"DEFAULT\",\n      \"provisionType\": \"CHECK_PRE_PROVISIONED_DEVICES\",\n      \"defaultRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"defaultDashboardId\": {\n        \"entityType\": \"DASHBOARD\",\n        \"id\": \"<uuid>\"\n      },\n      \"defaultQueueName\": \"<string>\",\n      \"provisionDeviceKey\": \"<string>\",\n      \"firmwareId\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"softwareId\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"defaultEdgeRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"default\": \"<boolean>\",\n      \"profileData\": {\n        \"configuration\": {\n          \"type\": \"<string>\"\n        },\n        \"transportConfiguration\": {\n          \"type\": \"<string>\",\n          \"coapDeviceTypeConfiguration\": {\n            \"coapDeviceType\": \"<string>\",\n            \"transportPayloadTypeConfiguration\": {\n              \"transportPayloadType\": \"<string>\"\n            }\n          },\n          \"clientSettings\": {\n            \"powerMode\": \"E_DRX\",\n            \"psmActivityTimer\": \"<long>\",\n            \"edrxCycle\": \"<long>\",\n            \"pagingTransmissionWindow\": \"<long>\"\n          }\n        },\n        \"provisionConfiguration\": {\n          \"type\": \"<string>\",\n          \"provisionDeviceSecret\": \"<string>\"\n        },\n        \"alarms\": [\n          {\n            \"id\": \"<string>\",\n            \"alarmType\": \"<string>\",\n            \"createRules\": {\n              \"dolored\": {\n                \"condition\": {\n                  \"condition\": [\n                    {\n                      \"key\": {\n                        \"type\": \"ATTRIBUTE\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"BOOLEAN\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"NOT_EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_CUSTOMER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    },\n                    {\n                      \"key\": {\n                        \"type\": \"TIME_SERIES\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"STRING\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_TENANT\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    }\n                  ],\n                  \"spec\": {\n                    \"type\": \"<string>\",\n                    \"unit\": \"DAYS\",\n                    \"predicate\": {\n                      \"defaultValue\": \"<long>\",\n                      \"userValue\": \"<long>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<long>\"\n                      }\n                    }\n                  }\n                },\n                \"schedule\": {\n                  \"type\": \"SPECIFIC_TIME\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_TENANT\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<string>\"\n                  }\n                },\n                \"alarmDetails\": \"<string>\",\n                \"dashboardId\": {\n                  \"entityType\": \"DASHBOARD\",\n                  \"id\": \"<uuid>\"\n                }\n              },\n              \"nulla_2a\": {\n                \"condition\": {\n                  \"condition\": [\n                    {\n                      \"key\": {\n                        \"type\": \"ATTRIBUTE\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"DATE_TIME\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"NOT_EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_TENANT\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    },\n                    {\n                      \"key\": {\n                        \"type\": \"CONSTANT\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"STRING\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_CUSTOMER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    }\n                  ],\n                  \"spec\": {\n                    \"type\": \"<string>\",\n                    \"unit\": \"SECONDS\",\n                    \"predicate\": {\n                      \"defaultValue\": \"<long>\",\n                      \"userValue\": \"<long>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_DEVICE\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<long>\"\n                      }\n                    }\n                  }\n                },\n                \"schedule\": {\n                  \"type\": \"SPECIFIC_TIME\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_USER\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<string>\"\n                  }\n                },\n                \"alarmDetails\": \"<string>\",\n                \"dashboardId\": {\n                  \"entityType\": \"DASHBOARD\",\n                  \"id\": \"<uuid>\"\n                }\n              }\n            },\n            \"clearRule\": {\n              \"condition\": {\n                \"condition\": [\n                  {\n                    \"key\": {\n                      \"type\": \"ATTRIBUTE\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"DATE_TIME\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"NOT_EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_TENANT\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  },\n                  {\n                    \"key\": {\n                      \"type\": \"CONSTANT\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"BOOLEAN\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"NOT_EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_TENANT\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  }\n                ],\n                \"spec\": {\n                  \"type\": \"<string>\",\n                  \"unit\": \"MICROSECONDS\",\n                  \"predicate\": {\n                    \"defaultValue\": \"<long>\",\n                    \"userValue\": \"<long>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_CUSTOMER\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<long>\"\n                    }\n                  }\n                }\n              },\n              \"schedule\": {\n                \"type\": \"ANY_TIME\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_USER\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<string>\"\n                }\n              },\n              \"alarmDetails\": \"<string>\",\n              \"dashboardId\": {\n                \"entityType\": \"DASHBOARD\",\n                \"id\": \"<uuid>\"\n              }\n            },\n            \"propagate\": \"<boolean>\",\n            \"propagateToOwner\": \"<boolean>\",\n            \"propagateToTenant\": \"<boolean>\",\n            \"propagateRelationTypes\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          },\n          {\n            \"id\": \"<string>\",\n            \"alarmType\": \"<string>\",\n            \"createRules\": {\n              \"dolore783\": {\n                \"condition\": {\n                  \"condition\": [\n                    {\n                      \"key\": {\n                        \"type\": \"CONSTANT\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"STRING\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"NOT_EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_USER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    },\n                    {\n                      \"key\": {\n                        \"type\": \"TIME_SERIES\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"STRING\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"NOT_EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_CUSTOMER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    }\n                  ],\n                  \"spec\": {\n                    \"type\": \"<string>\",\n                    \"unit\": \"MINUTES\",\n                    \"predicate\": {\n                      \"defaultValue\": \"<long>\",\n                      \"userValue\": \"<long>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_TENANT\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<long>\"\n                      }\n                    }\n                  }\n                },\n                \"schedule\": {\n                  \"type\": \"CUSTOM\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_USER\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<string>\"\n                  }\n                },\n                \"alarmDetails\": \"<string>\",\n                \"dashboardId\": {\n                  \"entityType\": \"DASHBOARD\",\n                  \"id\": \"<uuid>\"\n                }\n              },\n              \"laborum_30\": {\n                \"condition\": {\n                  \"condition\": [\n                    {\n                      \"key\": {\n                        \"type\": \"ENTITY_FIELD\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"STRING\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_TENANT\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    },\n                    {\n                      \"key\": {\n                        \"type\": \"ATTRIBUTE\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"NUMERIC\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"NOT_EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_USER\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    }\n                  ],\n                  \"spec\": {\n                    \"type\": \"<string>\",\n                    \"unit\": \"HOURS\",\n                    \"predicate\": {\n                      \"defaultValue\": \"<long>\",\n                      \"userValue\": \"<long>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_DEVICE\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<long>\"\n                      }\n                    }\n                  }\n                },\n                \"schedule\": {\n                  \"type\": \"ANY_TIME\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_DEVICE\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<string>\"\n                  }\n                },\n                \"alarmDetails\": \"<string>\",\n                \"dashboardId\": {\n                  \"entityType\": \"DASHBOARD\",\n                  \"id\": \"<uuid>\"\n                }\n              },\n              \"voluptate_36\": {\n                \"condition\": {\n                  \"condition\": [\n                    {\n                      \"key\": {\n                        \"type\": \"TIME_SERIES\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"STRING\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_DEVICE\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    },\n                    {\n                      \"key\": {\n                        \"type\": \"TIME_SERIES\",\n                        \"key\": \"<string>\"\n                      },\n                      \"valueType\": \"DATE_TIME\",\n                      \"value\": {\n                        \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                      },\n                      \"predicate\": {\n                        \"type\": \"<string>\",\n                        \"operation\": \"EQUAL\",\n                        \"value\": {\n                          \"defaultValue\": \"<boolean>\",\n                          \"userValue\": \"<boolean>\",\n                          \"dynamicValue\": {\n                            \"sourceType\": \"CURRENT_DEVICE\",\n                            \"sourceAttribute\": \"<string>\",\n                            \"inherit\": \"<boolean>\",\n                            \"resolvedValue\": \"<boolean>\"\n                          }\n                        }\n                      }\n                    }\n                  ],\n                  \"spec\": {\n                    \"type\": \"<string>\",\n                    \"unit\": \"SECONDS\",\n                    \"predicate\": {\n                      \"defaultValue\": \"<long>\",\n                      \"userValue\": \"<long>\",\n                      \"dynamicValue\": {\n                        \"sourceType\": \"CURRENT_DEVICE\",\n                        \"sourceAttribute\": \"<string>\",\n                        \"inherit\": \"<boolean>\",\n                        \"resolvedValue\": \"<long>\"\n                      }\n                    }\n                  }\n                },\n                \"schedule\": {\n                  \"type\": \"CUSTOM\",\n                  \"dynamicValue\": {\n                    \"sourceType\": \"CURRENT_USER\",\n                    \"sourceAttribute\": \"<string>\",\n                    \"inherit\": \"<boolean>\",\n                    \"resolvedValue\": \"<string>\"\n                  }\n                },\n                \"alarmDetails\": \"<string>\",\n                \"dashboardId\": {\n                  \"entityType\": \"DASHBOARD\",\n                  \"id\": \"<uuid>\"\n                }\n              }\n            },\n            \"clearRule\": {\n              \"condition\": {\n                \"condition\": [\n                  {\n                    \"key\": {\n                      \"type\": \"TIME_SERIES\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"STRING\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_USER\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  },\n                  {\n                    \"key\": {\n                      \"type\": \"ATTRIBUTE\",\n                      \"key\": \"<string>\"\n                    },\n                    \"valueType\": \"STRING\",\n                    \"value\": {\n                      \"description\": \"Value used in Constant comparison. For other types, such as TIME_SERIES or ATTRIBUTE, the predicate condition is used\"\n                    },\n                    \"predicate\": {\n                      \"type\": \"<string>\",\n                      \"operation\": \"NOT_EQUAL\",\n                      \"value\": {\n                        \"defaultValue\": \"<boolean>\",\n                        \"userValue\": \"<boolean>\",\n                        \"dynamicValue\": {\n                          \"sourceType\": \"CURRENT_USER\",\n                          \"sourceAttribute\": \"<string>\",\n                          \"inherit\": \"<boolean>\",\n                          \"resolvedValue\": \"<boolean>\"\n                        }\n                      }\n                    }\n                  }\n                ],\n                \"spec\": {\n                  \"type\": \"<string>\",\n                  \"unit\": \"MINUTES\",\n                  \"predicate\": {\n                    \"defaultValue\": \"<long>\",\n                    \"userValue\": \"<long>\",\n                    \"dynamicValue\": {\n                      \"sourceType\": \"CURRENT_TENANT\",\n                      \"sourceAttribute\": \"<string>\",\n                      \"inherit\": \"<boolean>\",\n                      \"resolvedValue\": \"<long>\"\n                    }\n                  }\n                }\n              },\n              \"schedule\": {\n                \"type\": \"CUSTOM\",\n                \"dynamicValue\": {\n                  \"sourceType\": \"CURRENT_DEVICE\",\n                  \"sourceAttribute\": \"<string>\",\n                  \"inherit\": \"<boolean>\",\n                  \"resolvedValue\": \"<string>\"\n                }\n              },\n              \"alarmDetails\": \"<string>\",\n              \"dashboardId\": {\n                \"entityType\": \"DASHBOARD\",\n                \"id\": \"<uuid>\"\n              }\n            },\n            \"propagate\": \"<boolean>\",\n            \"propagateToOwner\": \"<boolean>\",\n            \"propagateToTenant\": \"<boolean>\",\n            \"propagateRelationTypes\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-5976139f-3c04-499b-94ba-1232e8d1f51c"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-4d3bb56a-13fc-4778-b391-6ac7c139f513"
+            }
+          ],
+          "id": "0409c669-813f-486a-bae3-15cd81249fc2",
+          "createdAt": "2026-07-28T03:12:16.000Z",
+          "updatedAt": "2026-07-28T03:12:16.000Z",
+          "uid": "35240-0409c669-813f-486a-bae3-15cd81249fc2"
+        },
+        {
+          "name": "deviceProfileInfos",
+          "item": [
+            {
+              "name": "Get Device Profile Infos by Ids (getDeviceProfilesByIds)",
+              "id": "e660c14b-43b8-46f1-a256-afb5b5bf8427",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/deviceProfileInfos?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=isDefault&sortOrder=ASC&transportType=LWM2M&deviceProfileIds=<string>&deviceProfileIds=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "deviceProfileInfos"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Maximum amount of entities in a one page",
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "(Required) Sequence number of page starting from 0",
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "The case insensitive 'substring' filter based on the device profile name.",
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Property of entity to sort by",
+                      "key": "sortProperty",
+                      "value": "isDefault"
+                    },
+                    {
+                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    },
+                    {
+                      "description": "Type of the transport",
+                      "key": "transportType",
+                      "value": "LWM2M"
+                    },
+                    {
+                      "description": "(Required) A list of device profile ids, separated by comma ','",
+                      "key": "deviceProfileIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) A list of device profile ids, separated by comma ','",
+                      "key": "deviceProfileIds",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Requested device profiles must be owned by tenant which is performing the request. \n\n"
+              },
+              "response": [
+                {
+                  "id": "22b8dac8-51f1-4a49-9c21-b8a85bfaa7f3",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfileInfos?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=isDefault&sortOrder=ASC&transportType=LWM2M&deviceProfileIds=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfileInfos"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the device profile name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "isDefault"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "ASC"
+                        },
+                        {
+                          "description": "Type of the transport",
+                          "key": "transportType",
+                          "value": "LWM2M"
+                        },
+                        {
+                          "description": "(Required) A list of device profile ids, separated by comma ','",
+                          "key": "deviceProfileIds",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"id\": {\n      \"entityType\": \"MOBILE_APP\",\n      \"id\": \"<uuid>\"\n    },\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"name\": \"<string>\",\n    \"image\": \"<string>\",\n    \"defaultDashboardId\": {\n      \"entityType\": \"DASHBOARD\",\n      \"id\": \"<uuid>\"\n    },\n    \"type\": \"DEFAULT\",\n    \"transportType\": \"COAP\"\n  },\n  {\n    \"id\": {\n      \"entityType\": \"OAUTH2_CLIENT\",\n      \"id\": \"<uuid>\"\n    },\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"name\": \"<string>\",\n    \"image\": \"<string>\",\n    \"defaultDashboardId\": {\n      \"entityType\": \"DASHBOARD\",\n      \"id\": \"<uuid>\"\n    },\n    \"type\": \"DEFAULT\",\n    \"transportType\": \"DEFAULT\"\n  }\n]",
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-22b8dac8-51f1-4a49-9c21-b8a85bfaa7f3"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-e660c14b-43b8-46f1-a256-afb5b5bf8427"
+            }
+          ],
+          "id": "f9622961-c798-4b8a-9ede-ef14c8fec695",
+          "createdAt": "2026-07-28T03:12:16.000Z",
+          "updatedAt": "2026-07-28T03:12:16.000Z",
+          "uid": "35240-f9622961-c798-4b8a-9ede-ef14c8fec695"
+        },
+        {
+          "name": "deviceProfileInfo",
+          "item": [
+            {
+              "name": "{deviceProfileId}",
+              "item": [
+                {
+                  "name": "Get Device Profile Info (getDeviceProfileInfoById)",
+                  "id": "c940255d-ede5-414c-bbc1-62d087549d52",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfileInfo/:deviceProfileId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfileInfo",
+                        ":deviceProfileId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "48a107b8-3811-4c2b-987d-9dbf9de4ba07",
+                          "key": "deviceProfileId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Fetch the Device Profile Info object based on the provided Device Profile Id. Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "026ece51-9560-4c26-93cf-a359a9375bf1",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/deviceProfileInfo/:deviceProfileId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "deviceProfileInfo",
+                            ":deviceProfileId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "deviceProfileId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": {\n    \"entityType\": \"AI_MODEL\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"image\": \"<string>\",\n  \"defaultDashboardId\": {\n    \"entityType\": \"DASHBOARD\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"DEFAULT\",\n  \"transportType\": \"SNMP\"\n}",
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-026ece51-9560-4c26-93cf-a359a9375bf1"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-c940255d-ede5-414c-bbc1-62d087549d52"
+                }
+              ],
+              "id": "ea5106b6-5201-4d64-81ae-f14bc2246790",
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-ea5106b6-5201-4d64-81ae-f14bc2246790"
+            },
+            {
+              "name": "default",
+              "item": [
+                {
+                  "name": "Get Default Device Profile (getDefaultDeviceProfileInfo)",
+                  "id": "c55791b5-d7de-4c11-8a0b-9dead4eda8c0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/deviceProfileInfo/default",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "deviceProfileInfo",
+                        "default"
+                      ]
+                    },
+                    "description": "Fetch the Default Device Profile Info object. Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "b08653ec-ed0b-4b43-ae7d-aa69abbc03b1",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/deviceProfileInfo/default",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "deviceProfileInfo",
+                            "default"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": {\n    \"entityType\": \"AI_MODEL\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"image\": \"<string>\",\n  \"defaultDashboardId\": {\n    \"entityType\": \"DASHBOARD\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"DEFAULT\",\n  \"transportType\": \"SNMP\"\n}",
+                      "createdAt": "2026-07-28T03:12:16.000Z",
+                      "updatedAt": "2026-07-28T03:12:16.000Z",
+                      "uid": "35240-b08653ec-ed0b-4b43-ae7d-aa69abbc03b1"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:16.000Z",
+                  "updatedAt": "2026-07-28T03:12:16.000Z",
+                  "uid": "35240-c55791b5-d7de-4c11-8a0b-9dead4eda8c0"
+                }
+              ],
+              "id": "e00cd0a6-0d98-43d0-8ef2-94748d87109b",
+              "createdAt": "2026-07-28T03:12:16.000Z",
+              "updatedAt": "2026-07-28T03:12:16.000Z",
+              "uid": "35240-e00cd0a6-0d98-43d0-8ef2-94748d87109b"
+            }
+          ],
+          "id": "8aeb6372-9cf4-4fe1-bd09-85adbc8c38e0",
+          "createdAt": "2026-07-28T03:12:16.000Z",
+          "updatedAt": "2026-07-28T03:12:16.000Z",
+          "uid": "35240-8aeb6372-9cf4-4fe1-bd09-85adbc8c38e0"
+        }
+      ],
+      "id": "a714bc7f-b1ce-4a35-8c03-adff765b4c92",
+      "createdAt": "2026-07-28T03:12:16.000Z",
+      "updatedAt": "2026-07-28T03:12:16.000Z",
+      "uid": "35240-a714bc7f-b1ce-4a35-8c03-adff765b4c92"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

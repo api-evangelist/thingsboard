@@ -1,0 +1,2241 @@
+{
+  "info": {
+    "_postman_id": "5c511525-363d-4d4f-9be9-771347791a0a",
+    "name": "ThingsBoard Admin admin-controller asset-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:11:59.000Z",
+    "updatedAt": "2026-07-28T03:12:00.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-5c511525-363d-4d4f-9be9-771347791a0a"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "edge",
+          "item": [
+            {
+              "name": "{edgeId}",
+              "item": [
+                {
+                  "name": "asset",
+                  "item": [
+                    {
+                      "name": "{assetId}",
+                      "item": [
+                        {
+                          "name": "Assign Asset to Edge (assignAssetToEdge)",
+                          "id": "cbd6512f-2afe-4e2f-ac90-e50d790dd8af",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/:edgeId/asset/:assetId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                ":edgeId",
+                                "asset",
+                                ":assetId"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "26d79764-0441-4d6b-8d38-510c06cb10b7",
+                                  "key": "edgeId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                },
+                                {
+                                  "id": "d673a948-0265-4d35-bc52-dcd2e9508ecf",
+                                  "key": "assetId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Creates assignment of an existing asset to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote edge service will receive a copy of assignment asset (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once asset will be delivered to edge service, it's going to be available for usage on remote edge instance."
+                          },
+                          "response": [
+                            {
+                              "id": "f462f615-a41c-4c82-98f3-c832b1785f2e",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/edge/:edgeId/asset/:assetId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "edge",
+                                    ":edgeId",
+                                    "asset",
+                                    ":assetId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "edgeId"
+                                    },
+                                    {
+                                      "key": "assetId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                              "createdAt": "2026-07-28T03:12:00.000Z",
+                              "updatedAt": "2026-07-28T03:12:00.000Z",
+                              "uid": "35240-f462f615-a41c-4c82-98f3-c832b1785f2e"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-cbd6512f-2afe-4e2f-ac90-e50d790dd8af"
+                        },
+                        {
+                          "name": "Unassign Asset from Edge (unassignAssetFromEdge)",
+                          "id": "b9b1ab0a-e3bc-48b4-abbd-60a5fce5c5f9",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/:edgeId/asset/:assetId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                ":edgeId",
+                                "asset",
+                                ":assetId"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "9a3946a6-5ab2-4b40-895b-35d8167ba55d",
+                                  "key": "edgeId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                },
+                                {
+                                  "id": "d4bf7f94-76bd-4291-9f29-5f82f8520bba",
+                                  "key": "assetId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Clears assignment of the asset to the edge. Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform. Second, remote edge service will receive an 'unassign' command to remove asset (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once 'unassign' command will be delivered to edge service, it's going to remove asset locally."
+                          },
+                          "response": [
+                            {
+                              "id": "1fdbc0dd-5d61-4a03-993b-6b1991a550ac",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/edge/:edgeId/asset/:assetId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "edge",
+                                    ":edgeId",
+                                    "asset",
+                                    ":assetId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "edgeId"
+                                    },
+                                    {
+                                      "key": "assetId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                              "createdAt": "2026-07-28T03:12:00.000Z",
+                              "updatedAt": "2026-07-28T03:12:00.000Z",
+                              "uid": "35240-1fdbc0dd-5d61-4a03-993b-6b1991a550ac"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-b9b1ab0a-e3bc-48b4-abbd-60a5fce5c5f9"
+                        }
+                      ],
+                      "id": "8b64180e-a21d-481f-b776-86a7f2cd73e4",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-8b64180e-a21d-481f-b776-86a7f2cd73e4"
+                    }
+                  ],
+                  "id": "88058b38-a157-4773-bbbd-7ece0a049416",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-88058b38-a157-4773-bbbd-7ece0a049416"
+                },
+                {
+                  "name": "assets",
+                  "item": [
+                    {
+                      "name": "Get Assets Assigned to Edge (getEdgeAssets)",
+                      "id": "925542f2-e3ef-4499-8820-76752a648379",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/:edgeId/assets?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC&startTime=<long>&endTime=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            ":edgeId",
+                            "assets"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Asset type",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the asset name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "createdTime"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "Timestamp. Assets with creation time before it won't be queried",
+                              "key": "startTime",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "Timestamp. Assets with creation time after it won't be queried",
+                              "key": "endTime",
+                              "value": "<long>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "50076614-c0d4-4da1-8d97-c71599b6abf8",
+                              "key": "edgeId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Returns a page of assets assigned to edge. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+                      },
+                      "response": [
+                        {
+                          "id": "01e67788-046e-462d-b6d3-f6d7bc76d6c9",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/:edgeId/assets?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC&startTime=<long>&endTime=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                ":edgeId",
+                                "assets"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Asset type",
+                                  "key": "type",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on the asset name.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "createdTime"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "DESC"
+                                },
+                                {
+                                  "description": "Timestamp. Assets with creation time before it won't be queried",
+                                  "key": "startTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "Timestamp. Assets with creation time after it won't be queried",
+                                  "key": "endTime",
+                                  "value": "<long>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "edgeId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-01e67788-046e-462d-b6d3-f6d7bc76d6c9"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-925542f2-e3ef-4499-8820-76752a648379"
+                    }
+                  ],
+                  "id": "89063522-8fcd-41ba-89e8-4038b4040fdd",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-89063522-8fcd-41ba-89e8-4038b4040fdd"
+                }
+              ],
+              "id": "0e557848-2624-46f0-bb53-5f46cc97e07f",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-0e557848-2624-46f0-bb53-5f46cc97e07f"
+            }
+          ],
+          "id": "12443907-d815-4f0e-a883-25885d2f9aa2",
+          "createdAt": "2026-07-28T03:12:00.000Z",
+          "updatedAt": "2026-07-28T03:12:00.000Z",
+          "uid": "35240-12443907-d815-4f0e-a883-25885d2f9aa2"
+        },
+        {
+          "name": "customer",
+          "item": [
+            {
+              "name": "{customerId}",
+              "item": [
+                {
+                  "name": "asset",
+                  "item": [
+                    {
+                      "name": "{assetId}",
+                      "item": [
+                        {
+                          "name": "Assign Asset to Customer (assignAssetToCustomer)",
+                          "id": "d16aefe8-8aeb-4c56-8420-e59a01cb0258",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/:customerId/asset/:assetId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                ":customerId",
+                                "asset",
+                                ":assetId"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "7bf10ff9-8f74-474d-8446-0fd1efe5d55e",
+                                  "key": "customerId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                },
+                                {
+                                  "id": "b9487951-982d-46c4-acbd-b5eae218acaa",
+                                  "key": "assetId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Creates assignment of the asset to customer. Customer will be able to query asset afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "7227fd5d-a3fe-45a2-b5ef-f7e034c0a852",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/customer/:customerId/asset/:assetId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "customer",
+                                    ":customerId",
+                                    "asset",
+                                    ":assetId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "customerId"
+                                    },
+                                    {
+                                      "key": "assetId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                              "createdAt": "2026-07-28T03:12:00.000Z",
+                              "updatedAt": "2026-07-28T03:12:00.000Z",
+                              "uid": "35240-7227fd5d-a3fe-45a2-b5ef-f7e034c0a852"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-d16aefe8-8aeb-4c56-8420-e59a01cb0258"
+                        }
+                      ],
+                      "id": "53c07fc5-6d24-4822-a4ab-37d2bf25a00f",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-53c07fc5-6d24-4822-a4ab-37d2bf25a00f"
+                    }
+                  ],
+                  "id": "b9277522-69bb-455d-8379-5fb922f486d6",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-b9277522-69bb-455d-8379-5fb922f486d6"
+                },
+                {
+                  "name": "assets",
+                  "item": [
+                    {
+                      "name": "Get Customer Assets (getCustomerAssets)",
+                      "id": "5b0f7720-9c41-413b-819b-2b03b9995a51",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customer/:customerId/assets?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customer",
+                            ":customerId",
+                            "assets"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Asset type",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the asset name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "createdTime"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "fe5e141e-ea51-4403-bbe0-df0945c8caf5",
+                              "key": "customerId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Returns a page of assets objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+                      },
+                      "response": [
+                        {
+                          "id": "b24a6b79-e710-45ad-9c91-b7d6ab7d362f",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/:customerId/assets?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                ":customerId",
+                                "assets"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Asset type",
+                                  "key": "type",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on the asset name.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "createdTime"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "DESC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-b24a6b79-e710-45ad-9c91-b7d6ab7d362f"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-5b0f7720-9c41-413b-819b-2b03b9995a51"
+                    }
+                  ],
+                  "id": "14360b02-b6cb-4ec9-9f9e-3db3fbba3d78",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-14360b02-b6cb-4ec9-9f9e-3db3fbba3d78"
+                },
+                {
+                  "name": "assetInfos",
+                  "item": [
+                    {
+                      "name": "Get Customer Asset Infos (getCustomerAssetInfos)",
+                      "id": "09dc7106-3d31-4866-b224-ce1e3bd574e9",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customer/:customerId/assetInfos?pageSize=<integer>&page=<integer>&type=<string>&assetProfileId=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customer",
+                            ":customerId",
+                            "assetInfos"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Asset type",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                              "key": "assetProfileId",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the asset name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "createdTime"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "c97b461c-43ca-4205-b371-306b27b71aac",
+                              "key": "customerId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Returns a page of assets info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. "
+                      },
+                      "response": [
+                        {
+                          "id": "bb7983e1-bbf9-45da-8b2a-b2afde26d8b8",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/:customerId/assetInfos?pageSize=<integer>&page=<integer>&type=<string>&assetProfileId=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                ":customerId",
+                                "assetInfos"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Asset type",
+                                  "key": "type",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                                  "key": "assetProfileId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on the asset name.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "createdTime"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "DESC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"assetProfileName\": \"<string>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"assetProfileName\": \"<string>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-bb7983e1-bbf9-45da-8b2a-b2afde26d8b8"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-09dc7106-3d31-4866-b224-ce1e3bd574e9"
+                    }
+                  ],
+                  "id": "df0508a1-a2ae-488a-88d2-873a1a7a0e60",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-df0508a1-a2ae-488a-88d2-873a1a7a0e60"
+                }
+              ],
+              "id": "764d4823-1848-48b9-94d8-b12a51ab211c",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-764d4823-1848-48b9-94d8-b12a51ab211c"
+            },
+            {
+              "name": "public",
+              "item": [
+                {
+                  "name": "asset",
+                  "item": [
+                    {
+                      "name": "{assetId}",
+                      "item": [
+                        {
+                          "name": "Make Asset Publicly Available (assignAssetToPublicCustomer)",
+                          "id": "6efa9fcb-044f-41a7-9427-2cd7ab67a590",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/public/asset/:assetId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                "public",
+                                "asset",
+                                ":assetId"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "eaf3584c-ac18-43d7-9cd4-f19d0e09949a",
+                                  "key": "assetId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Asset will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users that are logged-in and belong to different tenant will not be able to access the asset.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "0339386f-d90b-4ef5-9516-71fe23a92099",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/customer/public/asset/:assetId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "customer",
+                                    "public",
+                                    "asset",
+                                    ":assetId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "assetId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                              "createdAt": "2026-07-28T03:12:00.000Z",
+                              "updatedAt": "2026-07-28T03:12:00.000Z",
+                              "uid": "35240-0339386f-d90b-4ef5-9516-71fe23a92099"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-6efa9fcb-044f-41a7-9427-2cd7ab67a590"
+                        }
+                      ],
+                      "id": "c900f665-a726-4193-bbf7-499e32e85911",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-c900f665-a726-4193-bbf7-499e32e85911"
+                    }
+                  ],
+                  "id": "8715478c-ff69-4c71-9476-64d5583f5105",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-8715478c-ff69-4c71-9476-64d5583f5105"
+                }
+              ],
+              "id": "b8f87005-260c-4a87-b7fc-007e6e2207bb",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-b8f87005-260c-4a87-b7fc-007e6e2207bb"
+            },
+            {
+              "name": "asset",
+              "item": [
+                {
+                  "name": "{assetId}",
+                  "item": [
+                    {
+                      "name": "Unassign Asset from Customer (unassignAssetFromCustomer)",
+                      "id": "e6806e4d-f128-4f7d-83fe-5c62bb67a480",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customer/asset/:assetId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customer",
+                            "asset",
+                            ":assetId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "61d661c8-0c8f-4c39-81ee-141fe52bfcb9",
+                              "key": "assetId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Clears assignment of the asset to customer. Customer will not be able to query asset afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "1baf3af2-4377-423d-a81d-429aafaee204",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/asset/:assetId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                "asset",
+                                ":assetId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "assetId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-1baf3af2-4377-423d-a81d-429aafaee204"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-e6806e4d-f128-4f7d-83fe-5c62bb67a480"
+                    }
+                  ],
+                  "id": "c333dd57-2b31-4ed9-b057-ff5f734738dd",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-c333dd57-2b31-4ed9-b057-ff5f734738dd"
+                }
+              ],
+              "id": "32f4c749-e363-47aa-9d87-ed999c9142c9",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-32f4c749-e363-47aa-9d87-ed999c9142c9"
+            }
+          ],
+          "id": "e6d315a4-d9e0-444d-be86-30777af58990",
+          "createdAt": "2026-07-28T03:12:00.000Z",
+          "updatedAt": "2026-07-28T03:12:00.000Z",
+          "uid": "35240-e6d315a4-d9e0-444d-be86-30777af58990"
+        },
+        {
+          "name": "assets",
+          "item": [
+            {
+              "name": "Get Assets by Ids (getAssetsByIds)",
+              "id": "41b35993-00d4-405b-be5b-d4316538c47a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assets?assetIds=<string>&assetIds=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assets"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) A list of assets ids, separated by comma ','",
+                      "key": "assetIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) A list of assets ids, separated by comma ','",
+                      "key": "assetIds",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Requested assets must be owned by tenant or assigned to customer which user is performing the request. "
+              },
+              "response": [
+                {
+                  "id": "faf7a384-6778-453f-a74d-ef5c31197d44",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/assets?assetIds=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "assets"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) A list of assets ids, separated by comma ','",
+                          "key": "assetIds",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"name\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"type\": \"<string>\",\n    \"label\": \"<string>\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"<uuid>\"\n    },\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"type\": \"<string>\",\n    \"label\": \"<string>\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"<uuid>\"\n    },\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  }\n]",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-faf7a384-6778-453f-a74d-ef5c31197d44"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-41b35993-00d4-405b-be5b-d4316538c47a"
+            },
+            {
+              "name": "Find Related Assets (findByQuery)",
+              "id": "c45d39ed-3fe1-4514-9113-ca89119420bd",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"rootId\": \"<uuid>\",\n    \"rootType\": \"JOB\",\n    \"direction\": \"TO\",\n    \"relationTypeGroup\": \"RULE_CHAIN\",\n    \"maxLevel\": \"<integer>\",\n    \"fetchLastLevelOnly\": \"<boolean>\"\n  },\n  \"relationType\": \"<string>\",\n  \"assetTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/assets",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assets"
+                  ]
+                },
+                "description": "Returns all assets that are related to the specific entity. The entity id, relation type, asset types, depth of the search, and other query parameters defined using complex 'AssetSearchQuery' object. See 'Model' tab of the Parameters for more info."
+              },
+              "response": [
+                {
+                  "id": "47a3e958-20f3-4516-af4e-151813dacd5b",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"parameters\": {\n    \"rootId\": \"<uuid>\",\n    \"rootType\": \"JOB\",\n    \"direction\": \"TO\",\n    \"relationTypeGroup\": \"RULE_CHAIN\",\n    \"maxLevel\": \"<integer>\",\n    \"fetchLastLevelOnly\": \"<boolean>\"\n  },\n  \"relationType\": \"<string>\",\n  \"assetTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/assets",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "assets"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"name\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"type\": \"<string>\",\n    \"label\": \"<string>\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"<uuid>\"\n    },\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"type\": \"<string>\",\n    \"label\": \"<string>\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"<uuid>\"\n    },\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  }\n]",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-47a3e958-20f3-4516-af4e-151813dacd5b"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-c45d39ed-3fe1-4514-9113-ca89119420bd"
+            }
+          ],
+          "id": "e5cf0055-c52e-4fd0-8fc8-4e65a4c27a35",
+          "createdAt": "2026-07-28T03:12:00.000Z",
+          "updatedAt": "2026-07-28T03:12:00.000Z",
+          "uid": "35240-e5cf0055-c52e-4fd0-8fc8-4e65a4c27a35"
+        },
+        {
+          "name": "asset",
+          "item": [
+            {
+              "name": "bulk_import",
+              "item": [
+                {
+                  "name": "Import the Bulk of Assets (processAssetsBulkImport)",
+                  "id": "34545b98-7ecf-46e7-903a-9672d082c342",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"file\": \"<string>\",\n  \"mapping\": {\n    \"columns\": [\n      {\n        \"type\": \"X509\",\n        \"key\": \"<string>\"\n      },\n      {\n        \"type\": \"LABEL\",\n        \"key\": \"<string>\"\n      }\n    ],\n    \"delimiter\": \"<string>\",\n    \"update\": \"<boolean>\",\n    \"header\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/asset/bulk_import",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "asset",
+                        "bulk_import"
+                      ]
+                    },
+                    "description": "There's an ability to import the bulk of assets using the only .csv file."
+                  },
+                  "response": [
+                    {
+                      "id": "1250d928-924a-4ee9-9f69-82b13f8d3610",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"file\": \"<string>\",\n  \"mapping\": {\n    \"columns\": [\n      {\n        \"type\": \"X509\",\n        \"key\": \"<string>\"\n      },\n      {\n        \"type\": \"LABEL\",\n        \"key\": \"<string>\"\n      }\n    ],\n    \"delimiter\": \"<string>\",\n    \"update\": \"<boolean>\",\n    \"header\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/asset/bulk_import",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "asset",
+                            "bulk_import"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"created\": {\n    \"opaque\": \"<integer>\",\n    \"acquire\": \"<integer>\",\n    \"release\": \"<integer>\",\n    \"andIncrement\": \"<integer>\",\n    \"andDecrement\": \"<integer>\",\n    \"plain\": \"<integer>\"\n  },\n  \"updated\": {\n    \"opaque\": \"<integer>\",\n    \"acquire\": \"<integer>\",\n    \"release\": \"<integer>\",\n    \"andIncrement\": \"<integer>\",\n    \"andDecrement\": \"<integer>\",\n    \"plain\": \"<integer>\"\n  },\n  \"errors\": {\n    \"opaque\": \"<integer>\",\n    \"acquire\": \"<integer>\",\n    \"release\": \"<integer>\",\n    \"andIncrement\": \"<integer>\",\n    \"andDecrement\": \"<integer>\",\n    \"plain\": \"<integer>\"\n  },\n  \"errorsList\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-1250d928-924a-4ee9-9f69-82b13f8d3610"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-34545b98-7ecf-46e7-903a-9672d082c342"
+                }
+              ],
+              "id": "62056b1d-d32e-4f74-a579-bcf018772cc1",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-62056b1d-d32e-4f74-a579-bcf018772cc1"
+            },
+            {
+              "name": "{assetId}",
+              "item": [
+                {
+                  "name": "Get Asset (getAssetById)",
+                  "id": "aa86749f-a64e-4491-90e3-831be511e027",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/asset/:assetId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "asset",
+                        ":assetId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "37a5f871-6ddf-4da6-b8c0-e6729cd23b80",
+                          "key": "assetId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Fetch the Asset object based on the provided Asset Id. If the user has the authority of 'Tenant Administrator', the server checks that the asset is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "9665305b-e663-44a0-a812-7b83949465ba",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/asset/:assetId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "asset",
+                            ":assetId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "assetId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-9665305b-e663-44a0-a812-7b83949465ba"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-aa86749f-a64e-4491-90e3-831be511e027"
+                },
+                {
+                  "name": "Delete Asset (deleteAsset)",
+                  "id": "48a69e6f-1a82-4e29-82f1-ee2bc0320073",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/asset/:assetId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "asset",
+                        ":assetId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "a70feb4e-5a3b-45b2-bbb0-29efc11ca990",
+                          "key": "assetId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Deletes the asset and all the relations (from and to the asset). Referencing non-existing asset Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "7c17b943-8377-4e89-b232-2d0b9b7d5f51",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/asset/:assetId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "asset",
+                            ":assetId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "assetId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-7c17b943-8377-4e89-b232-2d0b9b7d5f51"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-48a69e6f-1a82-4e29-82f1-ee2bc0320073"
+                }
+              ],
+              "id": "1fbc86c1-83be-4678-813c-3acd3e85c204",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-1fbc86c1-83be-4678-813c-3acd3e85c204"
+            },
+            {
+              "name": "types",
+              "item": [
+                {
+                  "name": "Get Asset Types (getAssetTypes)",
+                  "id": "f00ede7f-61d8-4cd3-a9bb-45ab51affca4",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/asset/types",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "asset",
+                        "types"
+                      ]
+                    },
+                    "description": "Deprecated. See 'getAssetProfileNames' API from Asset Profile Controller instead.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "3b738731-3ea1-4dd2-bcd8-3ead1586e4ec",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/asset/types",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "asset",
+                            "types"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"entityType\": \"NOTIFICATION_REQUEST\",\n    \"type\": \"<string>\"\n  },\n  {\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"entityType\": \"ASSET\",\n    \"type\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-3b738731-3ea1-4dd2-bcd8-3ead1586e4ec"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-f00ede7f-61d8-4cd3-a9bb-45ab51affca4"
+                }
+              ],
+              "id": "fdcf351f-b970-4b50-b276-c066c8f0bc38",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-fdcf351f-b970-4b50-b276-c066c8f0bc38"
+            },
+            {
+              "name": "info",
+              "item": [
+                {
+                  "name": "{assetId}",
+                  "item": [
+                    {
+                      "name": "Get Asset Info (getAssetInfoById)",
+                      "id": "9aef872d-4d56-4452-b313-37151520b892",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/asset/info/:assetId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "asset",
+                            "info",
+                            ":assetId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "fd80cbd7-448f-4798-a0bf-8fa36ebab29f",
+                              "key": "assetId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Fetch the Asset Info object based on the provided Asset Id. If the user has the authority of 'Tenant Administrator', the server checks that the asset is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "b7225028-24b7-4f07-9ac7-cf6c05ab56d4",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/asset/info/:assetId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "asset",
+                                "info",
+                                ":assetId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "assetId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"customerTitle\": \"<string>\",\n  \"customerIsPublic\": \"<boolean>\",\n  \"assetProfileName\": \"<string>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T03:12:00.000Z",
+                          "updatedAt": "2026-07-28T03:12:00.000Z",
+                          "uid": "35240-b7225028-24b7-4f07-9ac7-cf6c05ab56d4"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-9aef872d-4d56-4452-b313-37151520b892"
+                    }
+                  ],
+                  "id": "4759ea12-3523-4a9b-b823-2b88f901eda8",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-4759ea12-3523-4a9b-b823-2b88f901eda8"
+                }
+              ],
+              "id": "66b27a8e-70f2-4f0c-b4e4-5fcd109764e0",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-66b27a8e-70f2-4f0c-b4e4-5fcd109764e0"
+            },
+            {
+              "name": "Create or Update Asset (saveAsset)",
+              "id": "b93b0422-5417-475c-8f93-ed06d8dda330",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/asset?nameConflictPolicy=FAIL&uniquifySeparator=_&uniquifyStrategy=RANDOM",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "asset"
+                  ],
+                  "query": [
+                    {
+                      "description": "Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs.",
+                      "key": "nameConflictPolicy",
+                      "value": "FAIL"
+                    },
+                    {
+                      "description": "Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'.",
+                      "key": "uniquifySeparator",
+                      "value": "_"
+                    },
+                    {
+                      "description": "Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-1.",
+                      "key": "uniquifyStrategy",
+                      "value": "RANDOM"
+                    }
+                  ]
+                },
+                "description": "Creates or Updates the Asset. When creating asset, platform generates Asset Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Asset id will be present in the response. Specify existing Asset id to update the asset. Referencing non-existing Asset Id will cause 'Not Found' error. Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Asset entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+              },
+              "response": [
+                {
+                  "id": "0365146f-e4ce-4a1b-b45c-70819611e204",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/asset?nameConflictPolicy=FAIL&uniquifySeparator=_&uniquifyStrategy=RANDOM",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "asset"
+                      ],
+                      "query": [
+                        {
+                          "description": "Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs.",
+                          "key": "nameConflictPolicy",
+                          "value": "FAIL"
+                        },
+                        {
+                          "description": "Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'.",
+                          "key": "uniquifySeparator",
+                          "value": "_"
+                        },
+                        {
+                          "description": "Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-1.",
+                          "key": "uniquifyStrategy",
+                          "value": "RANDOM"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-0365146f-e4ce-4a1b-b45c-70819611e204"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-b93b0422-5417-475c-8f93-ed06d8dda330"
+            }
+          ],
+          "id": "d83609fc-5551-449d-b49f-e5c2c83fc107",
+          "createdAt": "2026-07-28T03:12:00.000Z",
+          "updatedAt": "2026-07-28T03:12:00.000Z",
+          "uid": "35240-d83609fc-5551-449d-b49f-e5c2c83fc107"
+        },
+        {
+          "name": "tenant",
+          "item": [
+            {
+              "name": "assets",
+              "item": [
+                {
+                  "name": "Get Tenant Asset (getTenantAsset)",
+                  "id": "f74e61cc-46f9-4982-a999-bc5f10ae4751",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/tenant/assets?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC&assetName=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "tenant",
+                        "assets"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Asset type",
+                          "key": "type",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the asset name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "createdTime"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        },
+                        {
+                          "description": "(Required) A string value representing the Asset name.",
+                          "key": "assetName",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Requested asset must be owned by tenant that the user belongs to. Asset name is an unique property of asset. So it can be used to identify the asset.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "1b6dc072-d995-4422-ad04-0819ec3f1272",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/tenant/assets?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC&assetName=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "tenant",
+                            "assets"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Asset type",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the asset name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "createdTime"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "(Required) A string value representing the Asset name.",
+                              "key": "assetName",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-1b6dc072-d995-4422-ad04-0819ec3f1272"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-f74e61cc-46f9-4982-a999-bc5f10ae4751"
+                }
+              ],
+              "id": "a75e911d-3525-4b75-bc7a-96c1c1dbe536",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-a75e911d-3525-4b75-bc7a-96c1c1dbe536"
+            },
+            {
+              "name": "assetInfos",
+              "item": [
+                {
+                  "name": "Get Tenant Asset Infos (getTenantAssetInfos)",
+                  "id": "0e2f73d0-be4d-47f4-a5a8-55a1349ad8ad",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/tenant/assetInfos?pageSize=<integer>&page=<integer>&type=<string>&assetProfileId=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "tenant",
+                        "assetInfos"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Asset type",
+                          "key": "type",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                          "key": "assetProfileId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the asset name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "createdTime"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        }
+                      ]
+                    },
+                    "description": "Returns a page of assets info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "f97bc097-ae87-4b1d-ac43-aa5fc55360dc",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/tenant/assetInfos?pageSize=<integer>&page=<integer>&type=<string>&assetProfileId=<string>&textSearch=<string>&sortProperty=createdTime&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "tenant",
+                            "assetInfos"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Asset type",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'",
+                              "key": "assetProfileId",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the asset name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "createdTime"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"assetProfileName\": \"<string>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"label\": \"<string>\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"assetProfileName\": \"<string>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                      "createdAt": "2026-07-28T03:12:00.000Z",
+                      "updatedAt": "2026-07-28T03:12:00.000Z",
+                      "uid": "35240-f97bc097-ae87-4b1d-ac43-aa5fc55360dc"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:00.000Z",
+                  "updatedAt": "2026-07-28T03:12:00.000Z",
+                  "uid": "35240-0e2f73d0-be4d-47f4-a5a8-55a1349ad8ad"
+                }
+              ],
+              "id": "e6a51e7d-c258-4138-b03b-5c8c46d8abf8",
+              "createdAt": "2026-07-28T03:12:00.000Z",
+              "updatedAt": "2026-07-28T03:12:00.000Z",
+              "uid": "35240-e6a51e7d-c258-4138-b03b-5c8c46d8abf8"
+            }
+          ],
+          "id": "797f0380-46a4-45d2-8a35-af02c8e01019",
+          "createdAt": "2026-07-28T03:12:00.000Z",
+          "updatedAt": "2026-07-28T03:12:00.000Z",
+          "uid": "35240-797f0380-46a4-45d2-8a35-af02c8e01019"
+        }
+      ],
+      "id": "00c3aa09-3572-4247-b5a3-66c13ae05e9f",
+      "createdAt": "2026-07-28T03:12:00.000Z",
+      "updatedAt": "2026-07-28T03:12:00.000Z",
+      "uid": "35240-00c3aa09-3572-4247-b5a3-66c13ae05e9f"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

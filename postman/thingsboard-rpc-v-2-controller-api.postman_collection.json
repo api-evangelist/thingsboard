@@ -1,0 +1,1124 @@
+{
+  "info": {
+    "_postman_id": "f00d0bb5-a58a-43bf-95a3-f36a3c194ae0",
+    "name": "ThingsBoard Admin admin-controller rpc-v-2-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:13:06.000Z",
+    "updatedAt": "2026-07-28T03:13:07.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-f00d0bb5-a58a-43bf-95a3-f36a3c194ae0"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "rpc",
+          "item": [
+            {
+              "name": "twoway",
+              "item": [
+                {
+                  "name": "{deviceId}",
+                  "item": [
+                    {
+                      "name": "Send Two-way RPC Request",
+                      "id": "e7188e8e-6001-4eea-8d4e-960c88727213",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<string>",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/rpc/twoway/:deviceId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "rpc",
+                            "twoway",
+                            ":deviceId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "5e2f1f0f-0a19-4b02-8d7c-94c17ac58788",
+                              "key": "deviceId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Sends the two-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n* **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone). Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is the response from device, or 504 Gateway Timeout if device is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "798d998e-2ce6-490d-872a-057c3921f744",
+                          "name": "Persistent RPC request was saved to the database or lightweight RPC response received.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/twoway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "twoway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-798d998e-2ce6-490d-872a-057c3921f744"
+                        },
+                        {
+                          "id": "a9396970-6bad-43f8-84fc-226f63c47dd1",
+                          "name": "Invalid structure of the request.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/twoway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "twoway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-a9396970-6bad-43f8-84fc-226f63c47dd1"
+                        },
+                        {
+                          "id": "0503f8de-8460-45ad-a6be-bb571f2fc740",
+                          "name": "User is not authorized to send the RPC request. Most likely, User belongs to different Customer or Tenant.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/twoway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "twoway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-0503f8de-8460-45ad-a6be-bb571f2fc740"
+                        },
+                        {
+                          "id": "b39b25ec-380b-4086-af6b-68abbe1239a0",
+                          "name": "Request payload is too large",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/twoway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "twoway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Request Entity Too Large",
+                          "code": 413,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-b39b25ec-380b-4086-af6b-68abbe1239a0"
+                        },
+                        {
+                          "id": "005dd7a9-d07e-43ff-9402-1a910176254e",
+                          "name": "Timeout to process the RPC call. Most likely, device is offline.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/twoway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "twoway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Gateway Timeout",
+                          "code": 504,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-005dd7a9-d07e-43ff-9402-1a910176254e"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:07.000Z",
+                      "updatedAt": "2026-07-28T03:13:07.000Z",
+                      "uid": "35240-e7188e8e-6001-4eea-8d4e-960c88727213"
+                    }
+                  ],
+                  "id": "a8f72abd-10b6-4fc1-b9f3-8eb240b2f331",
+                  "createdAt": "2026-07-28T03:13:07.000Z",
+                  "updatedAt": "2026-07-28T03:13:07.000Z",
+                  "uid": "35240-a8f72abd-10b6-4fc1-b9f3-8eb240b2f331"
+                }
+              ],
+              "id": "a6ba85e5-7b75-429b-a281-887d2a0d6311",
+              "createdAt": "2026-07-28T03:13:07.000Z",
+              "updatedAt": "2026-07-28T03:13:07.000Z",
+              "uid": "35240-a6ba85e5-7b75-429b-a281-887d2a0d6311"
+            },
+            {
+              "name": "oneway",
+              "item": [
+                {
+                  "name": "{deviceId}",
+                  "item": [
+                    {
+                      "name": "Send One-way RPC Request",
+                      "id": "75301324-28b4-4b94-bc8e-50052499bd16",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<string>",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/rpc/oneway/:deviceId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "rpc",
+                            "oneway",
+                            ":deviceId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "9352504f-0549-468c-a6cc-7f75a79b3132",
+                              "key": "deviceId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Sends the one-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n* **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone). Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "79f3f081-9c57-4bde-9e3e-8d0c103d9e1a",
+                          "name": "Persistent RPC request was saved to the database or lightweight RPC request was sent to the device.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/oneway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "oneway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-79f3f081-9c57-4bde-9e3e-8d0c103d9e1a"
+                        },
+                        {
+                          "id": "0e9c6997-ed0e-40c8-826f-faf96cfcc654",
+                          "name": "Invalid structure of the request.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/oneway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "oneway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-0e9c6997-ed0e-40c8-826f-faf96cfcc654"
+                        },
+                        {
+                          "id": "28224820-8188-4ea7-94e0-bae46d01fe63",
+                          "name": "User is not authorized to send the RPC request. Most likely, User belongs to different Customer or Tenant.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/oneway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "oneway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-28224820-8188-4ea7-94e0-bae46d01fe63"
+                        },
+                        {
+                          "id": "62c79034-e297-4121-bf88-0be24b0ece0c",
+                          "name": "Request payload is too large",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/oneway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "oneway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Request Entity Too Large",
+                          "code": 413,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-62c79034-e297-4121-bf88-0be24b0ece0c"
+                        },
+                        {
+                          "id": "dfd2acfb-532c-44ca-a197-d7f574a80609",
+                          "name": "Timeout to process the RPC call. Most likely, device is offline.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<string>",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/oneway/:deviceId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "oneway",
+                                ":deviceId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deviceId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Gateway Timeout",
+                          "code": 504,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-dfd2acfb-532c-44ca-a197-d7f574a80609"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:07.000Z",
+                      "updatedAt": "2026-07-28T03:13:07.000Z",
+                      "uid": "35240-75301324-28b4-4b94-bc8e-50052499bd16"
+                    }
+                  ],
+                  "id": "69944c90-7c0b-42ec-a944-090c9987b63a",
+                  "createdAt": "2026-07-28T03:13:07.000Z",
+                  "updatedAt": "2026-07-28T03:13:07.000Z",
+                  "uid": "35240-69944c90-7c0b-42ec-a944-090c9987b63a"
+                }
+              ],
+              "id": "9158b2ab-6750-448b-a106-677155757ded",
+              "createdAt": "2026-07-28T03:13:07.000Z",
+              "updatedAt": "2026-07-28T03:13:07.000Z",
+              "uid": "35240-9158b2ab-6750-448b-a106-677155757ded"
+            },
+            {
+              "name": "persistent",
+              "item": [
+                {
+                  "name": "{rpcId}",
+                  "item": [
+                    {
+                      "name": "Get Persistent RPC Request",
+                      "id": "bf5b5fbe-ec5a-42df-98e6-bf08c7416bd9",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/rpc/persistent/:rpcId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "rpc",
+                            "persistent",
+                            ":rpcId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "348140e5-f649-4fc2-b871-b9c382697c51",
+                              "key": "rpcId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Get information about the status of the RPC call.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "e35d8a05-db7e-4c5c-aeae-aa4d5996881a",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/persistent/:rpcId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "persistent",
+                                ":rpcId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "rpcId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": {\n    \"entityType\": \"RPC\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"deviceId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"<uuid>\"\n  },\n  \"expirationTime\": \"<long>\",\n  \"request\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  },\n  \"response\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  },\n  \"status\": \"EXPIRED\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-e35d8a05-db7e-4c5c-aeae-aa4d5996881a"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:07.000Z",
+                      "updatedAt": "2026-07-28T03:13:07.000Z",
+                      "uid": "35240-bf5b5fbe-ec5a-42df-98e6-bf08c7416bd9"
+                    },
+                    {
+                      "name": "Delete Persistent RPC",
+                      "id": "3991c4be-3381-474e-ba01-c75b79b14e61",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/rpc/persistent/:rpcId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "rpc",
+                            "persistent",
+                            ":rpcId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "53965a4c-d5b0-449c-a8c6-a5563e44aa83",
+                              "key": "rpcId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Deletes the persistent RPC request.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "05bfbb57-aec3-4dfa-b4f3-396fda7f38c6",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/persistent/:rpcId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "persistent",
+                                ":rpcId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "rpcId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-05bfbb57-aec3-4dfa-b4f3-396fda7f38c6"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:07.000Z",
+                      "updatedAt": "2026-07-28T03:13:07.000Z",
+                      "uid": "35240-3991c4be-3381-474e-ba01-c75b79b14e61"
+                    }
+                  ],
+                  "id": "b23c14e5-6f0c-4efe-8fff-cdebf4c683e0",
+                  "createdAt": "2026-07-28T03:13:07.000Z",
+                  "updatedAt": "2026-07-28T03:13:07.000Z",
+                  "uid": "35240-b23c14e5-6f0c-4efe-8fff-cdebf4c683e0"
+                },
+                {
+                  "name": "device",
+                  "item": [
+                    {
+                      "name": "{deviceId}",
+                      "item": [
+                        {
+                          "name": "Get Persistent RPC Requests",
+                          "id": "5f5d805c-e55c-4f59-ac3c-0c8ffc5d7e2a",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/rpc/persistent/device/:deviceId?pageSize=<integer>&page=<integer>&rpcStatus=SUCCESSFUL&textSearch=<string>&sortProperty=createdTime&sortOrder=ASC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "rpc",
+                                "persistent",
+                                "device",
+                                ":deviceId"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Status of the RPC",
+                                  "key": "rpcStatus",
+                                  "value": "SUCCESSFUL"
+                                },
+                                {
+                                  "description": "Not implemented. Leave empty.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "createdTime"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "ASC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "682ae05e-e4d7-4580-8ded-eeb6a5a4e153",
+                                  "key": "deviceId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Allows to query RPC calls for specific device using pagination.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "8d62b225-2f35-44a2-8f43-853dbf52fbe3",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/rpc/persistent/device/:deviceId?pageSize=<integer>&page=<integer>&rpcStatus=SUCCESSFUL&textSearch=<string>&sortProperty=createdTime&sortOrder=ASC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "rpc",
+                                    "persistent",
+                                    "device",
+                                    ":deviceId"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Maximum amount of entities in a one page",
+                                      "key": "pageSize",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "(Required) Sequence number of page starting from 0",
+                                      "key": "page",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Status of the RPC",
+                                      "key": "rpcStatus",
+                                      "value": "SUCCESSFUL"
+                                    },
+                                    {
+                                      "description": "Not implemented. Leave empty.",
+                                      "key": "textSearch",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Property of entity to sort by",
+                                      "key": "sortProperty",
+                                      "value": "createdTime"
+                                    },
+                                    {
+                                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                      "key": "sortOrder",
+                                      "value": "ASC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "deviceId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "<string>",
+                              "createdAt": "2026-07-28T03:13:07.000Z",
+                              "updatedAt": "2026-07-28T03:13:07.000Z",
+                              "uid": "35240-8d62b225-2f35-44a2-8f43-853dbf52fbe3"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:13:07.000Z",
+                          "updatedAt": "2026-07-28T03:13:07.000Z",
+                          "uid": "35240-5f5d805c-e55c-4f59-ac3c-0c8ffc5d7e2a"
+                        }
+                      ],
+                      "id": "bb41dbb7-838e-4d00-9d42-86ea684971c4",
+                      "createdAt": "2026-07-28T03:13:07.000Z",
+                      "updatedAt": "2026-07-28T03:13:07.000Z",
+                      "uid": "35240-bb41dbb7-838e-4d00-9d42-86ea684971c4"
+                    }
+                  ],
+                  "id": "4f28f3ee-6af9-4aac-b278-aaaa61e114c9",
+                  "createdAt": "2026-07-28T03:13:07.000Z",
+                  "updatedAt": "2026-07-28T03:13:07.000Z",
+                  "uid": "35240-4f28f3ee-6af9-4aac-b278-aaaa61e114c9"
+                }
+              ],
+              "id": "f4f4edf3-3f86-46d3-b7e9-2b20b024e02b",
+              "createdAt": "2026-07-28T03:13:07.000Z",
+              "updatedAt": "2026-07-28T03:13:07.000Z",
+              "uid": "35240-f4f4edf3-3f86-46d3-b7e9-2b20b024e02b"
+            }
+          ],
+          "id": "6e4ca471-8f2c-45e1-a953-11af2357618f",
+          "createdAt": "2026-07-28T03:13:07.000Z",
+          "updatedAt": "2026-07-28T03:13:07.000Z",
+          "uid": "35240-6e4ca471-8f2c-45e1-a953-11af2357618f"
+        }
+      ],
+      "id": "2f58c5ce-7027-4eb0-b363-d122e1bab24a",
+      "createdAt": "2026-07-28T03:13:07.000Z",
+      "updatedAt": "2026-07-28T03:13:07.000Z",
+      "uid": "35240-2f58c5ce-7027-4eb0-b363-d122e1bab24a"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

@@ -1,0 +1,553 @@
+{
+  "info": {
+    "_postman_id": "65df27fa-ebe3-4be3-90f1-dbe0814f881f",
+    "name": "ThingsBoard Admin admin-controller queue-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:13:03.000Z",
+    "updatedAt": "2026-07-28T03:13:03.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-65df27fa-ebe3-4be3-90f1-dbe0814f881f"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "queues",
+          "item": [
+            {
+              "name": "{queueId}",
+              "item": [
+                {
+                  "name": "Get Queue (getQueueById)",
+                  "id": "207312aa-69ff-42dd-81f3-98c92ddf66ce",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/queues/:queueId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "queues",
+                        ":queueId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "4577a23d-00a5-4163-8499-fe6b426903e2",
+                          "key": "queueId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the queue id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Fetch the Queue object based on the provided Queue Id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "f7920421-e3db-4a41-ada9-99441381e9f0",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/queues/:queueId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "queues",
+                            ":queueId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "queueId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": {\n    \"entityType\": \"QUEUE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"topic\": \"<string>\",\n  \"pollInterval\": \"<integer>\",\n  \"partitions\": \"<integer>\",\n  \"consumerPerPartition\": \"<boolean>\",\n  \"packProcessingTimeout\": \"<long>\",\n  \"submitStrategy\": {\n    \"type\": \"SEQUENTIAL_BY_TENANT\",\n    \"batchSize\": \"<integer>\"\n  },\n  \"processingStrategy\": {\n    \"type\": \"RETRY_TIMED_OUT\",\n    \"retries\": \"<integer>\",\n    \"failurePercentage\": \"<double>\",\n    \"pauseBetweenRetries\": \"<long>\",\n    \"maxPauseBetweenRetries\": \"<long>\"\n  },\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "createdAt": "2026-07-28T03:13:04.000Z",
+                      "updatedAt": "2026-07-28T03:13:04.000Z",
+                      "uid": "35240-f7920421-e3db-4a41-ada9-99441381e9f0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:13:04.000Z",
+                  "updatedAt": "2026-07-28T03:13:04.000Z",
+                  "uid": "35240-207312aa-69ff-42dd-81f3-98c92ddf66ce"
+                },
+                {
+                  "name": "Delete Queue (deleteQueue)",
+                  "id": "1b7999c1-9c00-4a1a-830d-924aa7602a72",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/queues/:queueId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "queues",
+                        ":queueId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "1e5f9efa-6e3b-494e-bf58-9fba07eaca02",
+                          "key": "queueId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the queue id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Deletes the Queue. \n\nAvailable for users with 'SYS_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "3e6bab15-93cc-45b2-b488-e03108a8cf5a",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/queues/:queueId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "queues",
+                            ":queueId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "queueId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T03:13:04.000Z",
+                      "updatedAt": "2026-07-28T03:13:04.000Z",
+                      "uid": "35240-3e6bab15-93cc-45b2-b488-e03108a8cf5a"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:13:04.000Z",
+                  "updatedAt": "2026-07-28T03:13:04.000Z",
+                  "uid": "35240-1b7999c1-9c00-4a1a-830d-924aa7602a72"
+                }
+              ],
+              "id": "fc7bc4f8-4fca-4cb9-b587-5ebc8911b002",
+              "createdAt": "2026-07-28T03:13:04.000Z",
+              "updatedAt": "2026-07-28T03:13:04.000Z",
+              "uid": "35240-fc7bc4f8-4fca-4cb9-b587-5ebc8911b002"
+            },
+            {
+              "name": "name",
+              "item": [
+                {
+                  "name": "{queueName}",
+                  "item": [
+                    {
+                      "name": "Get Queue (getQueueByName)",
+                      "id": "d45e61a4-2bba-42eb-a2e5-0c992a156a0d",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/queues/name/:queueName",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "queues",
+                            "name",
+                            ":queueName"
+                          ],
+                          "variable": [
+                            {
+                              "id": "aa5e4164-e1a9-49f4-9f02-5fbdc4d4e948",
+                              "key": "queueName",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the queue id. For example, 'Main'"
+                            }
+                          ]
+                        },
+                        "description": "Fetch the Queue object based on the provided Queue name. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "65fe0bb2-2a69-4b27-8db7-ec11c3687352",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/queues/name/:queueName",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "queues",
+                                "name",
+                                ":queueName"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "queueName"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": {\n    \"entityType\": \"QUEUE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"topic\": \"<string>\",\n  \"pollInterval\": \"<integer>\",\n  \"partitions\": \"<integer>\",\n  \"consumerPerPartition\": \"<boolean>\",\n  \"packProcessingTimeout\": \"<long>\",\n  \"submitStrategy\": {\n    \"type\": \"SEQUENTIAL_BY_TENANT\",\n    \"batchSize\": \"<integer>\"\n  },\n  \"processingStrategy\": {\n    \"type\": \"RETRY_TIMED_OUT\",\n    \"retries\": \"<integer>\",\n    \"failurePercentage\": \"<double>\",\n    \"pauseBetweenRetries\": \"<long>\",\n    \"maxPauseBetweenRetries\": \"<long>\"\n  },\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T03:13:04.000Z",
+                          "updatedAt": "2026-07-28T03:13:04.000Z",
+                          "uid": "35240-65fe0bb2-2a69-4b27-8db7-ec11c3687352"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:04.000Z",
+                      "updatedAt": "2026-07-28T03:13:04.000Z",
+                      "uid": "35240-d45e61a4-2bba-42eb-a2e5-0c992a156a0d"
+                    }
+                  ],
+                  "id": "ae0a7b6c-0357-443d-b0d9-fc1ae9b3c16d",
+                  "createdAt": "2026-07-28T03:13:04.000Z",
+                  "updatedAt": "2026-07-28T03:13:04.000Z",
+                  "uid": "35240-ae0a7b6c-0357-443d-b0d9-fc1ae9b3c16d"
+                }
+              ],
+              "id": "173acad2-b014-47b1-bc1c-4af01028a4e0",
+              "createdAt": "2026-07-28T03:13:04.000Z",
+              "updatedAt": "2026-07-28T03:13:04.000Z",
+              "uid": "35240-173acad2-b014-47b1-bc1c-4af01028a4e0"
+            },
+            {
+              "name": "Get Queues (getTenantQueuesByServiceType)",
+              "id": "19ea3c3d-24fc-41cd-b87d-07414e166bb9",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/queues?serviceType=JS-EXECUTOR&pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "queues"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Service type (implemented only for the TB-RULE-ENGINE)",
+                      "key": "serviceType",
+                      "value": "JS-EXECUTOR"
+                    },
+                    {
+                      "description": "(Required) Maximum amount of entities in a one page",
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "(Required) Sequence number of page starting from 0",
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "The case insensitive 'substring' filter based on the queue name.",
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Property of entity to sort by",
+                      "key": "sortProperty",
+                      "value": "name"
+                    },
+                    {
+                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                      "key": "sortOrder",
+                      "value": "DESC"
+                    }
+                  ]
+                },
+                "description": "Returns a page of queues registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+              },
+              "response": [
+                {
+                  "id": "783d06cb-da02-4328-939c-8f0575d75e3b",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/queues?serviceType=JS-EXECUTOR&pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "queues"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Service type (implemented only for the TB-RULE-ENGINE)",
+                          "key": "serviceType",
+                          "value": "JS-EXECUTOR"
+                        },
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the queue name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "name"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"QUEUE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"name\": \"<string>\",\n      \"topic\": \"<string>\",\n      \"pollInterval\": \"<integer>\",\n      \"partitions\": \"<integer>\",\n      \"consumerPerPartition\": \"<boolean>\",\n      \"packProcessingTimeout\": \"<long>\",\n      \"submitStrategy\": {\n        \"type\": \"SEQUENTIAL_BY_TENANT\",\n        \"batchSize\": \"<integer>\"\n      },\n      \"processingStrategy\": {\n        \"type\": \"RETRY_FAILED_AND_TIMED_OUT\",\n        \"retries\": \"<integer>\",\n        \"failurePercentage\": \"<double>\",\n        \"pauseBetweenRetries\": \"<long>\",\n        \"maxPauseBetweenRetries\": \"<long>\"\n      },\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"id\": {\n        \"entityType\": \"QUEUE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"name\": \"<string>\",\n      \"topic\": \"<string>\",\n      \"pollInterval\": \"<integer>\",\n      \"partitions\": \"<integer>\",\n      \"consumerPerPartition\": \"<boolean>\",\n      \"packProcessingTimeout\": \"<long>\",\n      \"submitStrategy\": {\n        \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n        \"batchSize\": \"<integer>\"\n      },\n      \"processingStrategy\": {\n        \"type\": \"RETRY_FAILED_AND_TIMED_OUT\",\n        \"retries\": \"<integer>\",\n        \"failurePercentage\": \"<double>\",\n        \"pauseBetweenRetries\": \"<long>\",\n        \"maxPauseBetweenRetries\": \"<long>\"\n      },\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                  "createdAt": "2026-07-28T03:13:04.000Z",
+                  "updatedAt": "2026-07-28T03:13:04.000Z",
+                  "uid": "35240-783d06cb-da02-4328-939c-8f0575d75e3b"
+                }
+              ],
+              "createdAt": "2026-07-28T03:13:04.000Z",
+              "updatedAt": "2026-07-28T03:13:04.000Z",
+              "uid": "35240-19ea3c3d-24fc-41cd-b87d-07414e166bb9"
+            },
+            {
+              "name": "Create or Update Queue (saveQueue)",
+              "id": "1ce9603c-95c9-42b8-a71e-f8458d007b72",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": {\n    \"entityType\": \"QUEUE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"topic\": \"<string>\",\n  \"pollInterval\": \"<integer>\",\n  \"partitions\": \"<integer>\",\n  \"consumerPerPartition\": \"<boolean>\",\n  \"packProcessingTimeout\": \"<long>\",\n  \"submitStrategy\": {\n    \"type\": \"SEQUENTIAL_BY_TENANT\",\n    \"batchSize\": \"<integer>\"\n  },\n  \"processingStrategy\": {\n    \"type\": \"RETRY_TIMED_OUT\",\n    \"retries\": \"<integer>\",\n    \"failurePercentage\": \"<double>\",\n    \"pauseBetweenRetries\": \"<long>\",\n    \"maxPauseBetweenRetries\": \"<long>\"\n  },\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/queues?serviceType=JS-EXECUTOR",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "queues"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Service type (implemented only for the TB-RULE-ENGINE)",
+                      "key": "serviceType",
+                      "value": "JS-EXECUTOR"
+                    }
+                  ]
+                },
+                "description": "Create or update the Queue. When creating queue, platform generates Queue Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). Specify existing Queue id to update the queue. Referencing non-existing Queue Id will cause 'Not Found' error.\n\nQueue name is unique in the scope of sysadmin. Remove 'id', 'tenantId' from the request body example (below) to create new Queue entity. \n\nAvailable for users with 'SYS_ADMIN' authority."
+              },
+              "response": [
+                {
+                  "id": "79235bbb-5d09-4655-81b5-5697a6f3134e",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"id\": {\n    \"entityType\": \"QUEUE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"topic\": \"<string>\",\n  \"pollInterval\": \"<integer>\",\n  \"partitions\": \"<integer>\",\n  \"consumerPerPartition\": \"<boolean>\",\n  \"packProcessingTimeout\": \"<long>\",\n  \"submitStrategy\": {\n    \"type\": \"SEQUENTIAL_BY_TENANT\",\n    \"batchSize\": \"<integer>\"\n  },\n  \"processingStrategy\": {\n    \"type\": \"RETRY_TIMED_OUT\",\n    \"retries\": \"<integer>\",\n    \"failurePercentage\": \"<double>\",\n    \"pauseBetweenRetries\": \"<long>\",\n    \"maxPauseBetweenRetries\": \"<long>\"\n  },\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/queues?serviceType=JS-EXECUTOR",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "queues"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Service type (implemented only for the TB-RULE-ENGINE)",
+                          "key": "serviceType",
+                          "value": "JS-EXECUTOR"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": {\n    \"entityType\": \"QUEUE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"topic\": \"<string>\",\n  \"pollInterval\": \"<integer>\",\n  \"partitions\": \"<integer>\",\n  \"consumerPerPartition\": \"<boolean>\",\n  \"packProcessingTimeout\": \"<long>\",\n  \"submitStrategy\": {\n    \"type\": \"SEQUENTIAL_BY_TENANT\",\n    \"batchSize\": \"<integer>\"\n  },\n  \"processingStrategy\": {\n    \"type\": \"RETRY_TIMED_OUT\",\n    \"retries\": \"<integer>\",\n    \"failurePercentage\": \"<double>\",\n    \"pauseBetweenRetries\": \"<long>\",\n    \"maxPauseBetweenRetries\": \"<long>\"\n  },\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                  "createdAt": "2026-07-28T03:13:04.000Z",
+                  "updatedAt": "2026-07-28T03:13:04.000Z",
+                  "uid": "35240-79235bbb-5d09-4655-81b5-5697a6f3134e"
+                }
+              ],
+              "createdAt": "2026-07-28T03:13:04.000Z",
+              "updatedAt": "2026-07-28T03:13:04.000Z",
+              "uid": "35240-1ce9603c-95c9-42b8-a71e-f8458d007b72"
+            }
+          ],
+          "id": "d159becf-1c97-40bb-a5b3-19024350b3b1",
+          "createdAt": "2026-07-28T03:13:04.000Z",
+          "updatedAt": "2026-07-28T03:13:04.000Z",
+          "uid": "35240-d159becf-1c97-40bb-a5b3-19024350b3b1"
+        }
+      ],
+      "id": "0b28c40c-4d5a-46d1-b627-f9ee107aec15",
+      "createdAt": "2026-07-28T03:13:04.000Z",
+      "updatedAt": "2026-07-28T03:13:04.000Z",
+      "uid": "35240-0b28c40c-4d5a-46d1-b627-f9ee107aec15"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

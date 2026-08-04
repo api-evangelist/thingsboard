@@ -1,0 +1,468 @@
+{
+  "info": {
+    "_postman_id": "7940bcea-5130-4cce-8ce2-46829c0dd135",
+    "name": "ThingsBoard Admin admin-controller login-endpoint API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:47.000Z",
+    "updatedAt": "2026-07-28T03:12:47.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-7940bcea-5130-4cce-8ce2-46829c0dd135"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "auth",
+          "item": [
+            {
+              "name": "login",
+              "item": [
+                {
+                  "name": "Login Method to Get User JWT Token Data",
+                  "id": "ecee1fe8-33d6-4513-8401-dadcf578acb1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/login",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    },
+                    "description": "Login method used to authenticate user and get JWT token data.\n\nValue of the response **token** field can be used as **X-Authorization** header value:\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`."
+                  },
+                  "response": [
+                    {
+                      "id": "a5d22c1d-3971-4058-ae98-f57e5d18ce47",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"refreshToken\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:12:47.000Z",
+                      "updatedAt": "2026-07-28T03:12:47.000Z",
+                      "uid": "35240-a5d22c1d-3971-4058-ae98-f57e5d18ce47"
+                    },
+                    {
+                      "id": "8a89ba22-45c7-468a-a206-fd37a8019eac",
+                      "name": "Unauthorized",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"errorCode\": \"<integer>\",\n  \"timestamp\": \"<long>\"\n}",
+                      "createdAt": "2026-07-28T03:12:47.000Z",
+                      "updatedAt": "2026-07-28T03:12:47.000Z",
+                      "uid": "35240-8a89ba22-45c7-468a-a206-fd37a8019eac"
+                    },
+                    {
+                      "id": "e5f88cc3-59fe-4f50-a379-313ed0901c96",
+                      "name": "Unauthorized (**Expired credentials**)",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"errorCode\": \"<integer>\",\n  \"timestamp\": \"<long>\",\n  \"resetToken\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:12:47.000Z",
+                      "updatedAt": "2026-07-28T03:12:47.000Z",
+                      "uid": "35240-e5f88cc3-59fe-4f50-a379-313ed0901c96"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:47.000Z",
+                  "updatedAt": "2026-07-28T03:12:47.000Z",
+                  "uid": "35240-ecee1fe8-33d6-4513-8401-dadcf578acb1"
+                }
+              ],
+              "id": "b0fc690f-8e21-4fd8-b4c6-c5457e930985",
+              "createdAt": "2026-07-28T03:12:47.000Z",
+              "updatedAt": "2026-07-28T03:12:47.000Z",
+              "uid": "35240-b0fc690f-8e21-4fd8-b4c6-c5457e930985"
+            },
+            {
+              "name": "token",
+              "item": [
+                {
+                  "name": "Refresh User JWT Token Data",
+                  "id": "1b97956d-e1b7-46af-9777-ee36d640d9de",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"refreshToken\": {}\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/token",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "token"
+                      ]
+                    },
+                    "description": "Method to refresh JWT token. Provide a valid refresh token to get a new JWT token.\n\nThe response contains a new token that can be used for authorization.\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`"
+                  },
+                  "response": [
+                    {
+                      "id": "641959c3-9e9b-4979-824d-49deb9e28cb4",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"refreshToken\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "token"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"refreshToken\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:12:47.000Z",
+                      "updatedAt": "2026-07-28T03:12:47.000Z",
+                      "uid": "35240-641959c3-9e9b-4979-824d-49deb9e28cb4"
+                    },
+                    {
+                      "id": "aaebaa56-95be-45c9-9699-a64922c0387f",
+                      "name": "Unauthorized",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"refreshToken\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "token"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"errorCode\": \"<integer>\",\n  \"timestamp\": \"<long>\"\n}",
+                      "createdAt": "2026-07-28T03:12:47.000Z",
+                      "updatedAt": "2026-07-28T03:12:47.000Z",
+                      "uid": "35240-aaebaa56-95be-45c9-9699-a64922c0387f"
+                    },
+                    {
+                      "id": "77ad78c0-fabb-42f5-ae8c-065dc37f0958",
+                      "name": "Unauthorized (**Expired credentials**)",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"refreshToken\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "token"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"errorCode\": \"<integer>\",\n  \"timestamp\": \"<long>\",\n  \"resetToken\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:12:47.000Z",
+                      "updatedAt": "2026-07-28T03:12:47.000Z",
+                      "uid": "35240-77ad78c0-fabb-42f5-ae8c-065dc37f0958"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:47.000Z",
+                  "updatedAt": "2026-07-28T03:12:47.000Z",
+                  "uid": "35240-1b97956d-e1b7-46af-9777-ee36d640d9de"
+                }
+              ],
+              "id": "7b032899-4701-4ef3-9ee8-74c009dd370c",
+              "createdAt": "2026-07-28T03:12:47.000Z",
+              "updatedAt": "2026-07-28T03:12:47.000Z",
+              "uid": "35240-7b032899-4701-4ef3-9ee8-74c009dd370c"
+            }
+          ],
+          "id": "04e439dc-c00b-4f8d-a681-fac7e0e5e69a",
+          "createdAt": "2026-07-28T03:12:47.000Z",
+          "updatedAt": "2026-07-28T03:12:47.000Z",
+          "uid": "35240-04e439dc-c00b-4f8d-a681-fac7e0e5e69a"
+        }
+      ],
+      "id": "c27a4e77-e779-48a0-b55a-0662e3922234",
+      "createdAt": "2026-07-28T03:12:47.000Z",
+      "updatedAt": "2026-07-28T03:12:47.000Z",
+      "uid": "35240-c27a4e77-e779-48a0-b55a-0662e3922234"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

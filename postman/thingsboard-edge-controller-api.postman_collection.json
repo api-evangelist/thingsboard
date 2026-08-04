@@ -1,0 +1,2602 @@
+{
+  "info": {
+    "_postman_id": "6382c1c3-4faa-4662-87e2-6661bb7a74a8",
+    "name": "ThingsBoard Admin admin-controller edge-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:31.000Z",
+    "updatedAt": "2026-07-28T03:12:32.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-6382c1c3-4faa-4662-87e2-6661bb7a74a8"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "edges",
+          "item": [
+            {
+              "name": "enabled",
+              "item": [
+                {
+                  "name": "Is Edges Support Enabled (isEdgesSupportEnabled)",
+                  "id": "da86e1a9-42bc-4004-9e22-8205e921f563",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edges/enabled",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edges",
+                        "enabled"
+                      ]
+                    },
+                    "description": "Returns 'true' if edges support enabled on server, 'false' - otherwise."
+                  },
+                  "response": [
+                    {
+                      "id": "0f8a4802-b6fe-4608-9509-0e5a89c4ef8a",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edges/enabled",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edges",
+                            "enabled"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<boolean>",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-0f8a4802-b6fe-4608-9509-0e5a89c4ef8a"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-da86e1a9-42bc-4004-9e22-8205e921f563"
+                }
+              ],
+              "id": "8fd8f275-573f-4893-bec4-3e06c448a7b6",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-8fd8f275-573f-4893-bec4-3e06c448a7b6"
+            },
+            {
+              "name": "Get Edges by Ids (getEdgesByIds)",
+              "id": "bbd0e7d9-c2f4-4e03-9808-205fba1abc4f",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/edges?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=name&sortOrder=DESC&edgeIds=<string>&edgeIds=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "edges"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Maximum amount of entities in a one page",
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "(Required) Sequence number of page starting from 0",
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "The case insensitive 'substring' filter based on the edge name.",
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Property of entity to sort by",
+                      "key": "sortProperty",
+                      "value": "name"
+                    },
+                    {
+                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                      "key": "sortOrder",
+                      "value": "DESC"
+                    },
+                    {
+                      "description": "(Required) A list of edges ids, separated by comma ','",
+                      "key": "edgeIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) A list of edges ids, separated by comma ','",
+                      "key": "edgeIds",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Requested edges must be owned by tenant or assigned to customer which user is performing the request.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+              },
+              "response": [
+                {
+                  "id": "8098a151-c80c-4cfa-acb8-75c81058f354",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edges?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=name&sortOrder=DESC&edgeIds=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edges"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the edge name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "name"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        },
+                        {
+                          "description": "(Required) A list of edges ids, separated by comma ','",
+                          "key": "edgeIds",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"name\": \"<string>\",\n    \"routingKey\": \"<string>\",\n    \"secret\": \"<string>\",\n    \"type\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"EDGE\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"rootRuleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"<uuid>\"\n    },\n    \"label\": \"<string>\",\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"routingKey\": \"<string>\",\n    \"secret\": \"<string>\",\n    \"type\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"EDGE\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"rootRuleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"<uuid>\"\n    },\n    \"label\": \"<string>\",\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  }\n]",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-8098a151-c80c-4cfa-acb8-75c81058f354"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-bbd0e7d9-c2f4-4e03-9808-205fba1abc4f"
+            },
+            {
+              "name": "Find Related Edges (findByQuery)",
+              "id": "66f3c71b-e50a-4488-882b-5de394fba01b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"rootId\": \"<uuid>\",\n    \"rootType\": \"NOTIFICATION_TEMPLATE\",\n    \"direction\": \"FROM\",\n    \"relationTypeGroup\": \"EDGE\",\n    \"maxLevel\": \"<integer>\",\n    \"fetchLastLevelOnly\": \"<boolean>\"\n  },\n  \"relationType\": \"<string>\",\n  \"edgeTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/edges",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "edges"
+                  ]
+                },
+                "description": "Returns all edges that are related to the specific entity. The entity id, relation type, edge types, depth of the search, and other query parameters defined using complex 'EdgeSearchQuery' object. See 'Model' tab of the Parameters for more info.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+              },
+              "response": [
+                {
+                  "id": "db2b4c19-049c-468b-940f-02ca30ca68cc",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"parameters\": {\n    \"rootId\": \"<uuid>\",\n    \"rootType\": \"NOTIFICATION_TEMPLATE\",\n    \"direction\": \"FROM\",\n    \"relationTypeGroup\": \"EDGE\",\n    \"maxLevel\": \"<integer>\",\n    \"fetchLastLevelOnly\": \"<boolean>\"\n  },\n  \"relationType\": \"<string>\",\n  \"edgeTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edges",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edges"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"name\": \"<string>\",\n    \"routingKey\": \"<string>\",\n    \"secret\": \"<string>\",\n    \"type\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"EDGE\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"rootRuleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"<uuid>\"\n    },\n    \"label\": \"<string>\",\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"routingKey\": \"<string>\",\n    \"secret\": \"<string>\",\n    \"type\": \"<string>\",\n    \"id\": {\n      \"entityType\": \"EDGE\",\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"<uuid>\"\n    },\n    \"rootRuleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"<uuid>\"\n    },\n    \"label\": \"<string>\",\n    \"version\": \"<long>\",\n    \"additionalInfo\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  }\n]",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-db2b4c19-049c-468b-940f-02ca30ca68cc"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-66f3c71b-e50a-4488-882b-5de394fba01b"
+            }
+          ],
+          "id": "9e4fe959-2f2a-43cf-978a-b18fd0854e06",
+          "createdAt": "2026-07-28T03:12:32.000Z",
+          "updatedAt": "2026-07-28T03:12:32.000Z",
+          "uid": "35240-9e4fe959-2f2a-43cf-978a-b18fd0854e06"
+        },
+        {
+          "name": "edge",
+          "item": [
+            {
+              "name": "{edgeId}",
+              "item": [
+                {
+                  "name": "{ruleChainId}",
+                  "item": [
+                    {
+                      "name": "root",
+                      "item": [
+                        {
+                          "name": "Set Root Rule Chain for Provided Edge (setEdgeRootRuleChain)",
+                          "id": "05d35b4e-5dcb-442a-9253-d8ec3897626d",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/:edgeId/:ruleChainId/root",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                ":edgeId",
+                                ":ruleChainId",
+                                "root"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "94963823-71d1-4ea6-bbaf-a999e0e81c26",
+                                  "key": "edgeId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                },
+                                {
+                                  "id": "cf2c7db7-b695-4861-a8d8-b95225f7d535",
+                                  "key": "ruleChainId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Change root rule chain of the edge to the new provided rule chain. \nThis operation will send a notification to update root rule chain on remote edge service.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "d9504e8e-0d06-4e3c-950d-2ab819d4ef2f",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/edge/:edgeId/:ruleChainId/root",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "edge",
+                                    ":edgeId",
+                                    ":ruleChainId",
+                                    "root"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "edgeId"
+                                    },
+                                    {
+                                      "key": "ruleChainId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                              "createdAt": "2026-07-28T03:12:32.000Z",
+                              "updatedAt": "2026-07-28T03:12:32.000Z",
+                              "uid": "35240-d9504e8e-0d06-4e3c-950d-2ab819d4ef2f"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-05d35b4e-5dcb-442a-9253-d8ec3897626d"
+                        }
+                      ],
+                      "id": "3c6ae317-7c78-46ea-84a4-c843ca045ca2",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-3c6ae317-7c78-46ea-84a4-c843ca045ca2"
+                    }
+                  ],
+                  "id": "02398f11-aae9-4203-a44d-5f9324cfa5e8",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-02398f11-aae9-4203-a44d-5f9324cfa5e8"
+                },
+                {
+                  "name": "upgrade",
+                  "item": [
+                    {
+                      "name": "available",
+                      "item": [
+                        {
+                          "name": "Is Edge Upgrade Enabled (isEdgeUpgradeAvailable)",
+                          "id": "db401af6-a51f-43bf-941e-24cfbf4fbfdc",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/:edgeId/upgrade/available",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                ":edgeId",
+                                "upgrade",
+                                "available"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "d3908aee-f0b5-4d29-9e48-8520c9ecce00",
+                                  "key": "edgeId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Returns 'true' if upgrade available for connected edge, 'false' - otherwise."
+                          },
+                          "response": [
+                            {
+                              "id": "5eb5b58f-9f8a-4335-8e36-a0676f0c2834",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/edge/:edgeId/upgrade/available",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "edge",
+                                    ":edgeId",
+                                    "upgrade",
+                                    "available"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "edgeId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "<boolean>",
+                              "createdAt": "2026-07-28T03:12:32.000Z",
+                              "updatedAt": "2026-07-28T03:12:32.000Z",
+                              "uid": "35240-5eb5b58f-9f8a-4335-8e36-a0676f0c2834"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-db401af6-a51f-43bf-941e-24cfbf4fbfdc"
+                        }
+                      ],
+                      "id": "6d1ebf3f-6993-4b37-927b-eb7e21a1e103",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-6d1ebf3f-6993-4b37-927b-eb7e21a1e103"
+                    }
+                  ],
+                  "id": "08ae880a-1a78-478a-8694-e87b7b03b258",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-08ae880a-1a78-478a-8694-e87b7b03b258"
+                },
+                {
+                  "name": "Get Edge (getEdgeById)",
+                  "id": "43876436-bd0b-4582-8c87-a1eba694bef3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edge/:edgeId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edge",
+                        ":edgeId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "b2ec052a-93b2-4cc2-8361-d1894063da7a",
+                          "key": "edgeId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Get the Edge object based on the provided Edge Id. If the user has the authority of 'Tenant Administrator', the server checks that the edge is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the edge is assigned to the same customer.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "1232e87a-7397-42cc-b055-cdc331b1e84d",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/:edgeId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            ":edgeId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "edgeId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-1232e87a-7397-42cc-b055-cdc331b1e84d"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-43876436-bd0b-4582-8c87-a1eba694bef3"
+                },
+                {
+                  "name": "Delete Edge (deleteEdge)",
+                  "id": "8d79f360-7610-4d5d-8494-2030f4105ba7",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edge/:edgeId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edge",
+                        ":edgeId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "f5bc975d-b9dc-4ffe-8388-fd1c73f1f6f2",
+                          "key": "edgeId",
+                          "value": "<string>",
+                          "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                        }
+                      ]
+                    },
+                    "description": "Deletes the edge. Referencing non-existing edge Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "ac932b43-352b-498c-83c8-eba0dcf47ecd",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/:edgeId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            ":edgeId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "edgeId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-ac932b43-352b-498c-83c8-eba0dcf47ecd"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-8d79f360-7610-4d5d-8494-2030f4105ba7"
+                }
+              ],
+              "id": "14b3d3c1-5390-45a2-9387-77f62ed3feae",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-14b3d3c1-5390-45a2-9387-77f62ed3feae"
+            },
+            {
+              "name": "sync",
+              "item": [
+                {
+                  "name": "{edgeId}",
+                  "item": [
+                    {
+                      "name": "Sync Edge (syncEdge)",
+                      "id": "1ae3de58-4e97-4b5a-b575-ac653660a1f0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/sync/:edgeId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            "sync",
+                            ":edgeId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "92277430-0c02-4fdc-a355-859e38638ef9",
+                              "key": "edgeId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Starts synchronization process between edge and cloud. \nAll entities that are assigned to particular edge are going to be send to remote edge service.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "a6e518aa-c82c-4f4c-a54d-daa7dd55f560",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/sync/:edgeId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                "sync",
+                                ":edgeId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "edgeId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-a6e518aa-c82c-4f4c-a54d-daa7dd55f560"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-1ae3de58-4e97-4b5a-b575-ac653660a1f0"
+                    }
+                  ],
+                  "id": "59be1178-2af0-4e9a-affe-4a920fe8aa2f",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-59be1178-2af0-4e9a-affe-4a920fe8aa2f"
+                }
+              ],
+              "id": "fb7630df-e34c-4aa0-a7c5-55fdf45e3dad",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-fb7630df-e34c-4aa0-a7c5-55fdf45e3dad"
+            },
+            {
+              "name": "bulk_import",
+              "item": [
+                {
+                  "name": "Import the Bulk of Edges (processEdgesBulkImport)",
+                  "id": "50198f82-455e-4b80-bd22-b7c13c2dd551",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"file\": \"<string>\",\n  \"mapping\": {\n    \"columns\": [\n      {\n        \"type\": \"MQTT_USER_NAME\",\n        \"key\": \"<string>\"\n      },\n      {\n        \"type\": \"LWM2M_CLIENT_ENDPOINT\",\n        \"key\": \"<string>\"\n      }\n    ],\n    \"delimiter\": \"<string>\",\n    \"update\": \"<boolean>\",\n    \"header\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edge/bulk_import",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edge",
+                        "bulk_import"
+                      ]
+                    },
+                    "description": "There's an ability to import the bulk of edges using the only .csv file.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "d92b7f52-cc5e-4ef1-8212-6ddc59d3f3aa",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"file\": \"<string>\",\n  \"mapping\": {\n    \"columns\": [\n      {\n        \"type\": \"MQTT_USER_NAME\",\n        \"key\": \"<string>\"\n      },\n      {\n        \"type\": \"LWM2M_CLIENT_ENDPOINT\",\n        \"key\": \"<string>\"\n      }\n    ],\n    \"delimiter\": \"<string>\",\n    \"update\": \"<boolean>\",\n    \"header\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/bulk_import",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            "bulk_import"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"created\": {\n    \"opaque\": \"<integer>\",\n    \"acquire\": \"<integer>\",\n    \"release\": \"<integer>\",\n    \"andIncrement\": \"<integer>\",\n    \"andDecrement\": \"<integer>\",\n    \"plain\": \"<integer>\"\n  },\n  \"updated\": {\n    \"opaque\": \"<integer>\",\n    \"acquire\": \"<integer>\",\n    \"release\": \"<integer>\",\n    \"andIncrement\": \"<integer>\",\n    \"andDecrement\": \"<integer>\",\n    \"plain\": \"<integer>\"\n  },\n  \"errors\": {\n    \"opaque\": \"<integer>\",\n    \"acquire\": \"<integer>\",\n    \"release\": \"<integer>\",\n    \"andIncrement\": \"<integer>\",\n    \"andDecrement\": \"<integer>\",\n    \"plain\": \"<integer>\"\n  },\n  \"errorsList\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-d92b7f52-cc5e-4ef1-8212-6ddc59d3f3aa"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-50198f82-455e-4b80-bd22-b7c13c2dd551"
+                }
+              ],
+              "id": "0b7ba794-c426-44ec-b177-b8f51b8ddf7a",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-0b7ba794-c426-44ec-b177-b8f51b8ddf7a"
+            },
+            {
+              "name": "types",
+              "item": [
+                {
+                  "name": "Get Edge Types (getEdgeTypes)",
+                  "id": "d2ce9c1a-7a79-444a-aa55-b3024a662b3f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edge/types",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edge",
+                        "types"
+                      ]
+                    },
+                    "description": "Returns a set of unique edge types based on edges that are either owned by the tenant or assigned to the customer which user is performing the request.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "ac25495b-67f8-477a-86d6-7370a0372c22",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/types",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            "types"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"entityType\": \"MOBILE_APP\",\n    \"type\": \"<string>\"\n  },\n  {\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"<uuid>\"\n    },\n    \"entityType\": \"OAUTH2_CLIENT\",\n    \"type\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-ac25495b-67f8-477a-86d6-7370a0372c22"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-d2ce9c1a-7a79-444a-aa55-b3024a662b3f"
+                }
+              ],
+              "id": "81440ea8-3333-4d37-a434-4643d119351f",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-81440ea8-3333-4d37-a434-4643d119351f"
+            },
+            {
+              "name": "missingToRelatedRuleChains",
+              "item": [
+                {
+                  "name": "{edgeId}",
+                  "item": [
+                    {
+                      "name": "Find Missing Rule Chains (findMissingToRelatedRuleChains)",
+                      "id": "5c73cd71-7354-49a0-a354-d5080d12454b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/missingToRelatedRuleChains/:edgeId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            "missingToRelatedRuleChains",
+                            ":edgeId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "0dd5f404-40f5-4200-9f9b-d147a08e1e08",
+                              "key": "edgeId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Returns list of rule chains ids that are not assigned to particular edge, but these rule chains are present in the already assigned rule chains to edge.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "f62576bb-0ead-404c-9578-d6da04675152",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/missingToRelatedRuleChains/:edgeId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                "missingToRelatedRuleChains",
+                                ":edgeId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "edgeId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<string>",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-f62576bb-0ead-404c-9578-d6da04675152"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-5c73cd71-7354-49a0-a354-d5080d12454b"
+                    }
+                  ],
+                  "id": "994d3d99-94ae-43a0-8b6e-2eced13a53d3",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-994d3d99-94ae-43a0-8b6e-2eced13a53d3"
+                }
+              ],
+              "id": "c77d1d2d-81f5-4511-a513-73d97fab5e75",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-c77d1d2d-81f5-4511-a513-73d97fab5e75"
+            },
+            {
+              "name": "instructions",
+              "item": [
+                {
+                  "name": "upgrade",
+                  "item": [
+                    {
+                      "name": "{edgeVersion}",
+                      "item": [
+                        {
+                          "name": "{method}",
+                          "item": [
+                            {
+                              "name": "Get Edge Upgrade Instructions (getEdgeUpgradeInstructions)",
+                              "id": "2a475933-2fd8-445f-888c-f7215a364792",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/edge/instructions/upgrade/:edgeVersion/:method",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "edge",
+                                    "instructions",
+                                    "upgrade",
+                                    ":edgeVersion",
+                                    ":method"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "49a7b80b-5c98-47cd-8fe0-a2f3402f777c",
+                                      "key": "edgeVersion",
+                                      "value": "<string>",
+                                      "description": "(Required) Edge version"
+                                    },
+                                    {
+                                      "id": "7166093c-5161-45f9-80b5-61a8f1344557",
+                                      "key": "method",
+                                      "value": "docker",
+                                      "description": "(Required) Upgrade method ('docker', 'ubuntu' or 'centos')"
+                                    }
+                                  ]
+                                },
+                                "description": "Get an upgrade instructions for provided edge version.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                              },
+                              "response": [
+                                {
+                                  "id": "e7c34c58-f2ed-49f9-91cc-788619620f72",
+                                  "name": "OK",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/edge/instructions/upgrade/:edgeVersion/:method",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "edge",
+                                        "instructions",
+                                        "upgrade",
+                                        ":edgeVersion",
+                                        ":method"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "edgeVersion"
+                                        },
+                                        {
+                                          "key": "method"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"instructions\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T03:12:32.000Z",
+                                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                                  "uid": "35240-e7c34c58-f2ed-49f9-91cc-788619620f72"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T03:12:32.000Z",
+                              "updatedAt": "2026-07-28T03:12:32.000Z",
+                              "uid": "35240-2a475933-2fd8-445f-888c-f7215a364792"
+                            }
+                          ],
+                          "id": "f98f3736-9807-4b64-82a0-9e3bec50792e",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-f98f3736-9807-4b64-82a0-9e3bec50792e"
+                        }
+                      ],
+                      "id": "c127d40e-562a-4170-878c-90652d27fe3f",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-c127d40e-562a-4170-878c-90652d27fe3f"
+                    }
+                  ],
+                  "id": "e18a7972-faf9-4931-ade9-c32dc5ef00bb",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-e18a7972-faf9-4931-ade9-c32dc5ef00bb"
+                },
+                {
+                  "name": "install",
+                  "item": [
+                    {
+                      "name": "{edgeId}",
+                      "item": [
+                        {
+                          "name": "{method}",
+                          "item": [
+                            {
+                              "name": "Get Edge Install Instructions (getEdgeInstallInstructions)",
+                              "id": "07145927-2bf9-4589-9601-256c49ecbaa7",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/edge/instructions/install/:edgeId/:method",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "edge",
+                                    "instructions",
+                                    "install",
+                                    ":edgeId",
+                                    ":method"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "7bbaa68c-e9a3-40e7-bd1e-11480351e600",
+                                      "key": "edgeId",
+                                      "value": "<string>",
+                                      "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                    },
+                                    {
+                                      "id": "6c637f40-bc1c-4d20-b700-8fc5e8febdb2",
+                                      "key": "method",
+                                      "value": "docker",
+                                      "description": "(Required) Installation method ('docker', 'ubuntu' or 'centos')"
+                                    }
+                                  ]
+                                },
+                                "description": "Get an install instructions for provided edge id.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                              },
+                              "response": [
+                                {
+                                  "id": "504dd4a5-e704-45ad-88fe-8df35493155f",
+                                  "name": "OK",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/edge/instructions/install/:edgeId/:method",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "edge",
+                                        "instructions",
+                                        "install",
+                                        ":edgeId",
+                                        ":method"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "edgeId"
+                                        },
+                                        {
+                                          "key": "method"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"instructions\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T03:12:32.000Z",
+                                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                                  "uid": "35240-504dd4a5-e704-45ad-88fe-8df35493155f"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T03:12:32.000Z",
+                              "updatedAt": "2026-07-28T03:12:32.000Z",
+                              "uid": "35240-07145927-2bf9-4589-9601-256c49ecbaa7"
+                            }
+                          ],
+                          "id": "15af8cfa-e3ba-422f-9d28-fc68a3550441",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-15af8cfa-e3ba-422f-9d28-fc68a3550441"
+                        }
+                      ],
+                      "id": "5072db5d-410e-4500-97fb-18c0d6689434",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-5072db5d-410e-4500-97fb-18c0d6689434"
+                    }
+                  ],
+                  "id": "a610561a-f3cb-40d3-8579-6311ed23d70a",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-a610561a-f3cb-40d3-8579-6311ed23d70a"
+                }
+              ],
+              "id": "1e596a8d-0385-43a9-ae0c-8f772ebe94e2",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-1e596a8d-0385-43a9-ae0c-8f772ebe94e2"
+            },
+            {
+              "name": "info",
+              "item": [
+                {
+                  "name": "{edgeId}",
+                  "item": [
+                    {
+                      "name": "Get Edge Info (getEdgeInfoById)",
+                      "id": "84790165-d566-49d3-962b-bd9923322055",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/info/:edgeId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            "info",
+                            ":edgeId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "ccdaa310-e5e3-480c-a6ee-ed382e6aea6b",
+                              "key": "edgeId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Get the Edge Info object based on the provided Edge Id. If the user has the authority of 'Tenant Administrator', the server checks that the edge is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the edge is assigned to the same customer.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "4bca50ec-c918-4807-923b-09e8d27d328c",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/info/:edgeId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                "info",
+                                ":edgeId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "edgeId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"customerTitle\": \"<string>\",\n  \"customerIsPublic\": \"<boolean>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-4bca50ec-c918-4807-923b-09e8d27d328c"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-84790165-d566-49d3-962b-bd9923322055"
+                    }
+                  ],
+                  "id": "0cf9f6b9-7a96-4109-ae58-a0e3c9b42730",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-0cf9f6b9-7a96-4109-ae58-a0e3c9b42730"
+                }
+              ],
+              "id": "4bd49401-ec8d-4f38-8284-6a7124bfff72",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-4bd49401-ec8d-4f38-8284-6a7124bfff72"
+            },
+            {
+              "name": "Create or Update Edge (saveEdge)",
+              "id": "aa58f91a-ac58-43a4-b9bb-ee885b7f919a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/edge",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "edge"
+                  ]
+                },
+                "description": "Create or update the Edge. When creating edge, platform generates Edge Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created edge id will be present in the response. Specify existing Edge id to update the edge. Referencing non-existing Edge Id will cause 'Not Found' error.\n\nEdge name is unique in the scope of tenant. Use unique identifiers like MAC or IMEI for the edge names and non-unique 'label' field for user-friendly visualization purposes.Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Edge entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+              },
+              "response": [
+                {
+                  "id": "06290a27-b222-4d7b-870f-fc4568c6c93d",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/edge",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "edge"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-06290a27-b222-4d7b-870f-fc4568c6c93d"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-aa58f91a-ac58-43a4-b9bb-ee885b7f919a"
+            }
+          ],
+          "id": "7b1cc6fc-2521-43cf-b470-5023365e91e2",
+          "createdAt": "2026-07-28T03:12:32.000Z",
+          "updatedAt": "2026-07-28T03:12:32.000Z",
+          "uid": "35240-7b1cc6fc-2521-43cf-b470-5023365e91e2"
+        },
+        {
+          "name": "customer",
+          "item": [
+            {
+              "name": "{customerId}",
+              "item": [
+                {
+                  "name": "edge",
+                  "item": [
+                    {
+                      "name": "{edgeId}",
+                      "item": [
+                        {
+                          "name": "Assign Edge to Customer (assignEdgeToCustomer)",
+                          "id": "28a4ae2f-857e-44e1-8bda-fbc254df5587",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/:customerId/edge/:edgeId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                ":customerId",
+                                "edge",
+                                ":edgeId"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "ac247eba-f26d-425d-b4ba-00d18fd31183",
+                                  "key": "customerId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                },
+                                {
+                                  "id": "7eb2b4eb-f384-43e3-a531-2142ab983da9",
+                                  "key": "edgeId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Creates assignment of the edge to customer. Customer will be able to query edge afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "0b625daa-a57c-45e0-8e0b-45085f144b13",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/customer/:customerId/edge/:edgeId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "customer",
+                                    ":customerId",
+                                    "edge",
+                                    ":edgeId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "customerId"
+                                    },
+                                    {
+                                      "key": "edgeId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                              "createdAt": "2026-07-28T03:12:32.000Z",
+                              "updatedAt": "2026-07-28T03:12:32.000Z",
+                              "uid": "35240-0b625daa-a57c-45e0-8e0b-45085f144b13"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-28a4ae2f-857e-44e1-8bda-fbc254df5587"
+                        }
+                      ],
+                      "id": "3ef2dc25-2e39-4be9-b97c-66107cf4b4cf",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-3ef2dc25-2e39-4be9-b97c-66107cf4b4cf"
+                    }
+                  ],
+                  "id": "b8fcf195-00bf-4698-84a5-e6485020f2ac",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-b8fcf195-00bf-4698-84a5-e6485020f2ac"
+                },
+                {
+                  "name": "edges",
+                  "item": [
+                    {
+                      "name": "Get Customer Edges (getCustomerEdges)",
+                      "id": "a8acf909-226b-46ab-b881-81a844b7d8a5",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customer/:customerId/edges?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customer",
+                            ":customerId",
+                            "edges"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "A string value representing the edge type. For example, 'default'",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the edge name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "name"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "e13a4230-68b8-4117-91ae-b66c46d18166",
+                              "key": "customerId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Returns a page of edges objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "46dfa8db-8723-47d0-bfdb-8d47a6a9085a",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/:customerId/edges?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                ":customerId",
+                                "edges"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "A string value representing the edge type. For example, 'default'",
+                                  "key": "type",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on the edge name.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "name"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "DESC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"routingKey\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"rootRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"label\": \"<string>\",\n      \"version\": \"<long>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"routingKey\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"rootRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"label\": \"<string>\",\n      \"version\": \"<long>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-46dfa8db-8723-47d0-bfdb-8d47a6a9085a"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-a8acf909-226b-46ab-b881-81a844b7d8a5"
+                    }
+                  ],
+                  "id": "03ce0924-a97f-4db8-8ce8-19333c2376af",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-03ce0924-a97f-4db8-8ce8-19333c2376af"
+                },
+                {
+                  "name": "edgeInfos",
+                  "item": [
+                    {
+                      "name": "Get Customer Edge Infos (getCustomerEdgeInfos)",
+                      "id": "41bf7237-73c8-4222-8d75-9c6173b67804",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customer/:customerId/edgeInfos?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customer",
+                            ":customerId",
+                            "edgeInfos"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "A string value representing the edge type. For example, 'default'",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the edge name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "name"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "3368ffaa-a6f2-40cf-b322-69fc16f77723",
+                              "key": "customerId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Returns a page of edges info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "a143a836-ec57-467f-8173-a5516b445892",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/:customerId/edgeInfos?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                ":customerId",
+                                "edgeInfos"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "A string value representing the edge type. For example, 'default'",
+                                  "key": "type",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on the edge name.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "name"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "DESC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"routingKey\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"rootRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"label\": \"<string>\",\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"routingKey\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"rootRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"label\": \"<string>\",\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-a143a836-ec57-467f-8173-a5516b445892"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-41bf7237-73c8-4222-8d75-9c6173b67804"
+                    }
+                  ],
+                  "id": "579480ef-ba92-4224-b1c6-fb6c07dd10ef",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-579480ef-ba92-4224-b1c6-fb6c07dd10ef"
+                }
+              ],
+              "id": "fa9b171c-7735-4c05-a449-7d89a6d66702",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-fa9b171c-7735-4c05-a449-7d89a6d66702"
+            },
+            {
+              "name": "public",
+              "item": [
+                {
+                  "name": "edge",
+                  "item": [
+                    {
+                      "name": "{edgeId}",
+                      "item": [
+                        {
+                          "name": "Make Edge Publicly Available (assignEdgeToPublicCustomer)",
+                          "id": "ebfbdad3-c75f-430c-a71e-b92376447992",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/public/edge/:edgeId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                "public",
+                                "edge",
+                                ":edgeId"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "7b071733-d082-458c-b432-4e4ad830e038",
+                                  "key": "edgeId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Edge will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users that are logged-in and belong to different tenant will not be able to access the edge.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "831b50f5-3196-4a4c-b865-46c025b0fd15",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/customer/public/edge/:edgeId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "customer",
+                                    "public",
+                                    "edge",
+                                    ":edgeId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "edgeId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                              "createdAt": "2026-07-28T03:12:32.000Z",
+                              "updatedAt": "2026-07-28T03:12:32.000Z",
+                              "uid": "35240-831b50f5-3196-4a4c-b865-46c025b0fd15"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-ebfbdad3-c75f-430c-a71e-b92376447992"
+                        }
+                      ],
+                      "id": "8f92fc9f-0885-4711-9693-b78f89beb186",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-8f92fc9f-0885-4711-9693-b78f89beb186"
+                    }
+                  ],
+                  "id": "50d90269-134e-419a-8d0c-f6a80f809b93",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-50d90269-134e-419a-8d0c-f6a80f809b93"
+                }
+              ],
+              "id": "90fc5b00-b576-4a84-9023-64114ab1aae0",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-90fc5b00-b576-4a84-9023-64114ab1aae0"
+            },
+            {
+              "name": "edge",
+              "item": [
+                {
+                  "name": "{edgeId}",
+                  "item": [
+                    {
+                      "name": "Unassign Edge from Customer (unassignEdgeFromCustomer)",
+                      "id": "d5b5fef1-b7f5-409f-95f3-9fd24cf051ef",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customer/edge/:edgeId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customer",
+                            "edge",
+                            ":edgeId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "c62a7849-4a16-4e0b-b7e7-bea52bc5a141",
+                              "key": "edgeId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Clears assignment of the edge to customer. Customer will not be able to query edge afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                      },
+                      "response": [
+                        {
+                          "id": "fe2badd7-39ea-4c2d-a1e7-6ca917353afb",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/customer/edge/:edgeId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "customer",
+                                "edge",
+                                ":edgeId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "edgeId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T03:12:32.000Z",
+                          "updatedAt": "2026-07-28T03:12:32.000Z",
+                          "uid": "35240-fe2badd7-39ea-4c2d-a1e7-6ca917353afb"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-d5b5fef1-b7f5-409f-95f3-9fd24cf051ef"
+                    }
+                  ],
+                  "id": "4653c242-1dcb-4a1d-ae45-d1a7868f6f2f",
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-4653c242-1dcb-4a1d-ae45-d1a7868f6f2f"
+                }
+              ],
+              "id": "c41740da-86d4-4378-9963-6084ca9568c6",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-c41740da-86d4-4378-9963-6084ca9568c6"
+            }
+          ],
+          "id": "02ed56f0-d869-4f57-8186-401196641e23",
+          "createdAt": "2026-07-28T03:12:32.000Z",
+          "updatedAt": "2026-07-28T03:12:32.000Z",
+          "uid": "35240-02ed56f0-d869-4f57-8186-401196641e23"
+        },
+        {
+          "name": "tenant",
+          "item": [
+            {
+              "name": "edges",
+              "item": [
+                {
+                  "name": "Get Tenant Edge (getTenantEdge)",
+                  "id": "dd150d5a-e4ea-4855-926a-541c39efe172",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/tenant/edges?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC&edgeName=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "tenant",
+                        "edges"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "A string value representing the edge type. For example, 'default'",
+                          "key": "type",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the edge name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "name"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        },
+                        {
+                          "description": "(Required) Unique name of the edge",
+                          "key": "edgeName",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Requested edge must be owned by tenant or customer that the user belongs to. Edge name is an unique property of edge. So it can be used to identify the edge.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "bd8d881b-7a78-4fac-82ca-b3943ed98f38",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/tenant/edges?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC&edgeName=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "tenant",
+                            "edges"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "A string value representing the edge type. For example, 'default'",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the edge name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "name"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "(Required) Unique name of the edge",
+                              "key": "edgeName",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"name\": \"<string>\",\n  \"routingKey\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"type\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"EDGE\",\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"<uuid>\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"<uuid>\"\n  },\n  \"rootRuleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"<uuid>\"\n  },\n  \"label\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-bd8d881b-7a78-4fac-82ca-b3943ed98f38"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-dd150d5a-e4ea-4855-926a-541c39efe172"
+                }
+              ],
+              "id": "3f799eeb-f56a-4da0-9202-f9b663985dfd",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-3f799eeb-f56a-4da0-9202-f9b663985dfd"
+            },
+            {
+              "name": "edgeInfos",
+              "item": [
+                {
+                  "name": "Get Tenant Edge Infos (getTenantEdgeInfos)",
+                  "id": "4b1a3c06-611a-4e03-b2c6-abc22c99c6c8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/tenant/edgeInfos?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "tenant",
+                        "edgeInfos"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "A string value representing the edge type. For example, 'default'",
+                          "key": "type",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on the edge name.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of entity to sort by",
+                          "key": "sortProperty",
+                          "value": "name"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "DESC"
+                        }
+                      ]
+                    },
+                    "description": "Returns a page of edges info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "7ec8a387-9b3f-44ae-ab51-5b05fc66d221",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/tenant/edgeInfos?pageSize=<integer>&page=<integer>&type=<string>&textSearch=<string>&sortProperty=name&sortOrder=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "tenant",
+                            "edgeInfos"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "A string value representing the edge type. For example, 'default'",
+                              "key": "type",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the edge name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "name"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"routingKey\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"rootRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"label\": \"<string>\",\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"routingKey\": \"<string>\",\n      \"secret\": \"<string>\",\n      \"type\": \"<string>\",\n      \"id\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"rootRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"<uuid>\"\n      },\n      \"label\": \"<string>\",\n      \"version\": \"<long>\",\n      \"customerTitle\": \"<string>\",\n      \"customerIsPublic\": \"<boolean>\",\n      \"additionalInfo\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                      "createdAt": "2026-07-28T03:12:32.000Z",
+                      "updatedAt": "2026-07-28T03:12:32.000Z",
+                      "uid": "35240-7ec8a387-9b3f-44ae-ab51-5b05fc66d221"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:32.000Z",
+                  "updatedAt": "2026-07-28T03:12:32.000Z",
+                  "uid": "35240-4b1a3c06-611a-4e03-b2c6-abc22c99c6c8"
+                }
+              ],
+              "id": "add36e01-96fc-4ddd-b7cc-d716d4e11ea5",
+              "createdAt": "2026-07-28T03:12:32.000Z",
+              "updatedAt": "2026-07-28T03:12:32.000Z",
+              "uid": "35240-add36e01-96fc-4ddd-b7cc-d716d4e11ea5"
+            }
+          ],
+          "id": "cb09fa3c-6e56-40c9-bcb2-0cf63493e699",
+          "createdAt": "2026-07-28T03:12:32.000Z",
+          "updatedAt": "2026-07-28T03:12:32.000Z",
+          "uid": "35240-cb09fa3c-6e56-40c9-bcb2-0cf63493e699"
+        }
+      ],
+      "id": "27b3f663-3bee-456b-85c9-f47be2d46bdf",
+      "createdAt": "2026-07-28T03:12:32.000Z",
+      "updatedAt": "2026-07-28T03:12:32.000Z",
+      "uid": "35240-27b3f663-3bee-456b-85c9-f47be2d46bdf"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

@@ -1,0 +1,348 @@
+{
+  "info": {
+    "_postman_id": "5f5aa99b-87d6-4136-8533-3f8c92a4feb3",
+    "name": "ThingsBoard Admin admin-controller component-descriptor-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:07.000Z",
+    "updatedAt": "2026-07-28T03:12:07.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-5f5aa99b-87d6-4136-8533-3f8c92a4feb3"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "components",
+          "item": [
+            {
+              "name": "{componentType}",
+              "item": [
+                {
+                  "name": "Get Component Descriptors (getComponentDescriptorsByType)",
+                  "id": "5bb518ae-ea04-4d58-a2ec-48f0491c1f20",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/components/:componentType?ruleChainType=CORE",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "components",
+                        ":componentType"
+                      ],
+                      "query": [
+                        {
+                          "description": "Type of the Rule Chain",
+                          "key": "ruleChainType",
+                          "value": "CORE"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "8edd28d4-24c8-4c9e-b712-486576ec9cff",
+                          "key": "componentType",
+                          "value": "ENRICHMENT",
+                          "description": "(Required) Type of the Rule Node"
+                        }
+                      ]
+                    },
+                    "description": "Gets the Component Descriptors using rule node type and optional rule chain type request parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors is persisted to the database.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "49adcdf5-1066-4496-a4b7-709c1c103296",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/components/:componentType?ruleChainType=CORE",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "components",
+                            ":componentType"
+                          ],
+                          "query": [
+                            {
+                              "description": "Type of the Rule Chain",
+                              "key": "ruleChainType",
+                              "value": "CORE"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "componentType"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": {\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"type\": \"EXTERNAL\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"USER_PREFERENCE\",\n    \"name\": \"<string>\",\n    \"clazz\": \"<string>\",\n    \"configurationVersion\": \"<integer>\",\n    \"actions\": \"<string>\",\n    \"hasQueueName\": \"<boolean>\",\n    \"configurationDescriptor\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  },\n  {\n    \"id\": {\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"type\": \"ENRICHMENT\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"USER_PREFERENCE\",\n    \"name\": \"<string>\",\n    \"clazz\": \"<string>\",\n    \"configurationVersion\": \"<integer>\",\n    \"actions\": \"<string>\",\n    \"hasQueueName\": \"<boolean>\",\n    \"configurationDescriptor\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  }\n]",
+                      "createdAt": "2026-07-28T03:12:08.000Z",
+                      "updatedAt": "2026-07-28T03:12:08.000Z",
+                      "uid": "35240-49adcdf5-1066-4496-a4b7-709c1c103296"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:08.000Z",
+                  "updatedAt": "2026-07-28T03:12:08.000Z",
+                  "uid": "35240-5bb518ae-ea04-4d58-a2ec-48f0491c1f20"
+                }
+              ],
+              "id": "76fde232-f3d9-40c1-8a07-1ff6d983f214",
+              "createdAt": "2026-07-28T03:12:08.000Z",
+              "updatedAt": "2026-07-28T03:12:08.000Z",
+              "uid": "35240-76fde232-f3d9-40c1-8a07-1ff6d983f214"
+            },
+            {
+              "name": "Get Component Descriptors (getComponentDescriptorsByTypes)",
+              "id": "4b94a72c-de8b-4414-b06d-f6ca342973bc",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/components?componentTypes=<string>&componentTypes=<string>&ruleChainType=CORE",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "components"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) List of types of the Rule Nodes, (ENRICHMENT, FILTER, TRANSFORMATION, ACTION or EXTERNAL)",
+                      "key": "componentTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) List of types of the Rule Nodes, (ENRICHMENT, FILTER, TRANSFORMATION, ACTION or EXTERNAL)",
+                      "key": "componentTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Type of the Rule Chain",
+                      "key": "ruleChainType",
+                      "value": "CORE"
+                    }
+                  ]
+                },
+                "description": "Gets the Component Descriptors using coma separated list of rule node types and optional rule chain type request parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors is persisted to the database.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+              },
+              "response": [
+                {
+                  "id": "37d8f63a-fa71-4bd7-bb70-d8d9c9f9a31c",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/components?componentTypes=<string>&ruleChainType=CORE",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "components"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) List of types of the Rule Nodes, (ENRICHMENT, FILTER, TRANSFORMATION, ACTION or EXTERNAL)",
+                          "key": "componentTypes",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Type of the Rule Chain",
+                          "key": "ruleChainType",
+                          "value": "CORE"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"id\": {\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"type\": \"EXTERNAL\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"USER_PREFERENCE\",\n    \"name\": \"<string>\",\n    \"clazz\": \"<string>\",\n    \"configurationVersion\": \"<integer>\",\n    \"actions\": \"<string>\",\n    \"hasQueueName\": \"<boolean>\",\n    \"configurationDescriptor\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  },\n  {\n    \"id\": {\n      \"id\": \"<uuid>\"\n    },\n    \"createdTime\": \"<long>\",\n    \"type\": \"ENRICHMENT\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"USER_PREFERENCE\",\n    \"name\": \"<string>\",\n    \"clazz\": \"<string>\",\n    \"configurationVersion\": \"<integer>\",\n    \"actions\": \"<string>\",\n    \"hasQueueName\": \"<boolean>\",\n    \"configurationDescriptor\": {\n      \"description\": \"A value representing the any type (object or primitive)\",\n      \"examples\": [\n        {}\n      ]\n    }\n  }\n]",
+                  "createdAt": "2026-07-28T03:12:08.000Z",
+                  "updatedAt": "2026-07-28T03:12:08.000Z",
+                  "uid": "35240-37d8f63a-fa71-4bd7-bb70-d8d9c9f9a31c"
+                }
+              ],
+              "createdAt": "2026-07-28T03:12:08.000Z",
+              "updatedAt": "2026-07-28T03:12:08.000Z",
+              "uid": "35240-4b94a72c-de8b-4414-b06d-f6ca342973bc"
+            }
+          ],
+          "id": "12370056-4388-42ea-b79d-279bbad2beaa",
+          "createdAt": "2026-07-28T03:12:08.000Z",
+          "updatedAt": "2026-07-28T03:12:08.000Z",
+          "uid": "35240-12370056-4388-42ea-b79d-279bbad2beaa"
+        },
+        {
+          "name": "component",
+          "item": [
+            {
+              "name": "{componentDescriptorClazz}",
+              "item": [
+                {
+                  "name": "Get Component Descriptor (getComponentDescriptorByClazz)",
+                  "id": "84959389-53d6-4913-8592-e7967bdc417d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/component/:componentDescriptorClazz",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "component",
+                        ":componentDescriptorClazz"
+                      ],
+                      "variable": [
+                        {
+                          "id": "49d5505b-316d-43c6-8314-43a9d20dbccb",
+                          "key": "componentDescriptorClazz",
+                          "value": "<string>",
+                          "description": "(Required) Component Descriptor class name"
+                        }
+                      ]
+                    },
+                    "description": "Gets the Component Descriptor object using class name from the path parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors is persisted to the database.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "d9eb40f4-27d0-4119-8cd4-49879f513e01",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/component/:componentDescriptorClazz",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "component",
+                            ":componentDescriptorClazz"
+                          ],
+                          "variable": [
+                            {
+                              "key": "componentDescriptorClazz"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": {\n    \"id\": \"<uuid>\"\n  },\n  \"createdTime\": \"<long>\",\n  \"type\": \"ENRICHMENT\",\n  \"scope\": \"TENANT\",\n  \"clusteringMode\": \"SINGLETON\",\n  \"name\": \"<string>\",\n  \"clazz\": \"<string>\",\n  \"configurationVersion\": \"<integer>\",\n  \"actions\": \"<string>\",\n  \"hasQueueName\": \"<boolean>\",\n  \"configurationDescriptor\": {\n    \"description\": \"A value representing the any type (object or primitive)\",\n    \"examples\": [\n      {}\n    ]\n  }\n}",
+                      "createdAt": "2026-07-28T03:12:08.000Z",
+                      "updatedAt": "2026-07-28T03:12:08.000Z",
+                      "uid": "35240-d9eb40f4-27d0-4119-8cd4-49879f513e01"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:08.000Z",
+                  "updatedAt": "2026-07-28T03:12:08.000Z",
+                  "uid": "35240-84959389-53d6-4913-8592-e7967bdc417d"
+                }
+              ],
+              "id": "6f970bed-df6e-4225-a382-f3eab5641179",
+              "createdAt": "2026-07-28T03:12:08.000Z",
+              "updatedAt": "2026-07-28T03:12:08.000Z",
+              "uid": "35240-6f970bed-df6e-4225-a382-f3eab5641179"
+            }
+          ],
+          "id": "f7c187a9-2c26-4c9c-97c7-e23b05e65c84",
+          "createdAt": "2026-07-28T03:12:08.000Z",
+          "updatedAt": "2026-07-28T03:12:08.000Z",
+          "uid": "35240-f7c187a9-2c26-4c9c-97c7-e23b05e65c84"
+        }
+      ],
+      "id": "611bb6fd-1827-4084-a56a-ab601e212c04",
+      "createdAt": "2026-07-28T03:12:08.000Z",
+      "updatedAt": "2026-07-28T03:12:08.000Z",
+      "uid": "35240-611bb6fd-1827-4084-a56a-ab601e212c04"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

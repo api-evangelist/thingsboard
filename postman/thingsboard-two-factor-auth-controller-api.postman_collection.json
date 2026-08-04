@@ -1,0 +1,415 @@
+{
+  "info": {
+    "_postman_id": "980d8a0e-9474-4bfa-9700-ed5e60ab0c3c",
+    "name": "ThingsBoard Admin admin-controller two-factor-auth-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:13:19.000Z",
+    "updatedAt": "2026-07-28T03:13:19.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-980d8a0e-9474-4bfa-9700-ed5e60ab0c3c"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "auth",
+          "item": [
+            {
+              "name": "2fa",
+              "item": [
+                {
+                  "name": "verification",
+                  "item": [
+                    {
+                      "name": "send",
+                      "item": [
+                        {
+                          "name": "Request 2FA Verification Code (requestTwoFaVerificationCode)",
+                          "id": "d9f4ed34-2de2-4627-ab22-dc12765426d0",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/auth/2fa/verification/send?providerType=SMS",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "auth",
+                                "2fa",
+                                "verification",
+                                "send"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) ",
+                                  "key": "providerType",
+                                  "value": "SMS"
+                                }
+                              ]
+                            },
+                            "description": "Request 2FA verification code.\n\nTo make a request to this endpoint, you need an access token with the scope of PRE_VERIFICATION_TOKEN, which is issued on username/password auth if 2FA is enabled.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings). Will return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded."
+                          },
+                          "response": [
+                            {
+                              "id": "c3896063-ccbb-4d13-8c22-f6684f172576",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/auth/2fa/verification/send?providerType=SMS",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "auth",
+                                    "2fa",
+                                    "verification",
+                                    "send"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "providerType",
+                                      "value": "SMS"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T03:13:19.000Z",
+                              "updatedAt": "2026-07-28T03:13:19.000Z",
+                              "uid": "35240-c3896063-ccbb-4d13-8c22-f6684f172576"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-d9f4ed34-2de2-4627-ab22-dc12765426d0"
+                        }
+                      ],
+                      "id": "880be38b-331f-4167-bdef-ea011975b010",
+                      "createdAt": "2026-07-28T03:13:19.000Z",
+                      "updatedAt": "2026-07-28T03:13:19.000Z",
+                      "uid": "35240-880be38b-331f-4167-bdef-ea011975b010"
+                    },
+                    {
+                      "name": "check",
+                      "item": [
+                        {
+                          "name": "Check 2FA Verification Code (checkTwoFaVerificationCode)",
+                          "id": "aca94eb3-3902-4c73-85ef-78c2e5f36204",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/auth/2fa/verification/check?providerType=SMS&verificationCode=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "auth",
+                                "2fa",
+                                "verification",
+                                "check"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) ",
+                                  "key": "providerType",
+                                  "value": "SMS"
+                                },
+                                {
+                                  "description": "(Required) ",
+                                  "key": "verificationCode",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Checks 2FA verification code, and if it is correct the method returns a regular access and refresh token pair.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings), and also will block a user after X unsuccessful verification attempts if such behavior is configured (in TwoFactorAuthSettings).\n\nWill return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded."
+                          },
+                          "response": [
+                            {
+                              "id": "3db6e76e-4cbb-4b03-8a2d-7b70d052d45c",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/auth/2fa/verification/check?providerType=SMS&verificationCode=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "auth",
+                                    "2fa",
+                                    "verification",
+                                    "check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "providerType",
+                                      "value": "SMS"
+                                    },
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "verificationCode",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"token\": \"<string>\",\n  \"refreshToken\": \"<string>\",\n  \"scope\": \"CUSTOMER_USER\"\n}",
+                              "createdAt": "2026-07-28T03:13:19.000Z",
+                              "updatedAt": "2026-07-28T03:13:19.000Z",
+                              "uid": "35240-3db6e76e-4cbb-4b03-8a2d-7b70d052d45c"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-aca94eb3-3902-4c73-85ef-78c2e5f36204"
+                        }
+                      ],
+                      "id": "9d00d2c1-1751-4f95-a18d-de52d32116bb",
+                      "createdAt": "2026-07-28T03:13:19.000Z",
+                      "updatedAt": "2026-07-28T03:13:19.000Z",
+                      "uid": "35240-9d00d2c1-1751-4f95-a18d-de52d32116bb"
+                    }
+                  ],
+                  "id": "85f372a2-7267-4ce8-832d-a16e0c5d3d77",
+                  "createdAt": "2026-07-28T03:13:19.000Z",
+                  "updatedAt": "2026-07-28T03:13:19.000Z",
+                  "uid": "35240-85f372a2-7267-4ce8-832d-a16e0c5d3d77"
+                },
+                {
+                  "name": "login",
+                  "item": [
+                    {
+                      "name": "Get Regular Token Pair After Successfully Configuring 2FA",
+                      "id": "870aa31b-9917-4a1f-9dc9-78676fcef8d6",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/2fa/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "2fa",
+                            "login"
+                          ]
+                        },
+                        "description": "Checks 2FA is configured, returning token pair on success."
+                      },
+                      "response": [
+                        {
+                          "id": "25e11eb7-e32c-42b2-8cfe-20eceabf98ac",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/auth/2fa/login",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "auth",
+                                "2fa",
+                                "login"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"token\": \"<string>\",\n  \"refreshToken\": \"<string>\",\n  \"scope\": \"CUSTOMER_USER\"\n}",
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-25e11eb7-e32c-42b2-8cfe-20eceabf98ac"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:19.000Z",
+                      "updatedAt": "2026-07-28T03:13:19.000Z",
+                      "uid": "35240-870aa31b-9917-4a1f-9dc9-78676fcef8d6"
+                    }
+                  ],
+                  "id": "87126bee-5905-452a-8245-204bff306bdf",
+                  "createdAt": "2026-07-28T03:13:19.000Z",
+                  "updatedAt": "2026-07-28T03:13:19.000Z",
+                  "uid": "35240-87126bee-5905-452a-8245-204bff306bdf"
+                },
+                {
+                  "name": "providers",
+                  "item": [
+                    {
+                      "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+                      "id": "0d4925af-739b-464c-9a07-9f0933558e1f",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/2fa/providers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "2fa",
+                            "providers"
+                          ]
+                        },
+                        "description": "Get the list of 2FA provider infos available for user to use. Example:\n```\n[\n  {\n    \"type\": \"EMAIL\",\n    \"default\": true,\n    \"contact\": \"ab*****ko@gmail.com\"\n  },\n  {\n    \"type\": \"TOTP\",\n    \"default\": false,\n    \"contact\": null\n  },\n  {\n    \"type\": \"SMS\",\n    \"default\": false,\n    \"contact\": \"+38********12\"\n  }\n]\n```"
+                      },
+                      "response": [
+                        {
+                          "id": "f1c9cfee-9cc7-4d06-9c0f-4857469cc38a",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/auth/2fa/providers",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "auth",
+                                "2fa",
+                                "providers"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "[\n  {\n    \"type\": \"TOTP\",\n    \"isDefault\": \"<boolean>\",\n    \"contact\": \"<string>\",\n    \"minVerificationCodeSendPeriod\": \"<integer>\",\n    \"default\": \"<boolean>\"\n  },\n  {\n    \"type\": \"TOTP\",\n    \"isDefault\": \"<boolean>\",\n    \"contact\": \"<string>\",\n    \"minVerificationCodeSendPeriod\": \"<integer>\",\n    \"default\": \"<boolean>\"\n  }\n]",
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-f1c9cfee-9cc7-4d06-9c0f-4857469cc38a"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:19.000Z",
+                      "updatedAt": "2026-07-28T03:13:19.000Z",
+                      "uid": "35240-0d4925af-739b-464c-9a07-9f0933558e1f"
+                    }
+                  ],
+                  "id": "a8979bc4-03e0-4fd6-a2d9-313975644d80",
+                  "createdAt": "2026-07-28T03:13:19.000Z",
+                  "updatedAt": "2026-07-28T03:13:19.000Z",
+                  "uid": "35240-a8979bc4-03e0-4fd6-a2d9-313975644d80"
+                }
+              ],
+              "id": "cd49da3d-30af-4805-b494-2020e3fc41a4",
+              "createdAt": "2026-07-28T03:13:19.000Z",
+              "updatedAt": "2026-07-28T03:13:19.000Z",
+              "uid": "35240-cd49da3d-30af-4805-b494-2020e3fc41a4"
+            }
+          ],
+          "id": "bed676de-4d56-4bd2-92a1-8abdba1d445d",
+          "createdAt": "2026-07-28T03:13:19.000Z",
+          "updatedAt": "2026-07-28T03:13:19.000Z",
+          "uid": "35240-bed676de-4d56-4bd2-92a1-8abdba1d445d"
+        }
+      ],
+      "id": "af0265c4-7239-4da2-ab44-2fca64fb14d6",
+      "createdAt": "2026-07-28T03:13:19.000Z",
+      "updatedAt": "2026-07-28T03:13:19.000Z",
+      "uid": "35240-af0265c4-7239-4da2-ab44-2fca64fb14d6"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

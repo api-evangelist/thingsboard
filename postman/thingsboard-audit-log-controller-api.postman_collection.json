@@ -1,0 +1,796 @@
+{
+  "info": {
+    "_postman_id": "fd659764-e9d8-498b-bde6-17c4cba11c71",
+    "name": "ThingsBoard Admin admin-controller audit-log-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:04.000Z",
+    "updatedAt": "2026-07-28T03:12:04.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-fd659764-e9d8-498b-bde6-17c4cba11c71"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "audit",
+          "item": [
+            {
+              "name": "logs",
+              "item": [
+                {
+                  "name": "user",
+                  "item": [
+                    {
+                      "name": "{userId}",
+                      "item": [
+                        {
+                          "name": "Get Audit Logs by User Id (getAuditLogsByUserId)",
+                          "id": "7e3661ec-ff34-4a47-a1a1-bdeb7ba37d4c",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/audit/logs/user/:userId?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "audit",
+                                "logs",
+                                "user",
+                                ":userId"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                                  "key": "sortProperty",
+                                  "value": "actionStatus"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "ASC"
+                                },
+                                {
+                                  "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                  "key": "startTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                  "key": "endTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                                  "key": "actionTypes",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "f0f40b2c-0774-486f-9c53-9503eed51cdd",
+                                  "key": "userId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Returns a page of audit logs related to the actions of targeted user. For example, RPC call to a particular device, or alarm acknowledgment for a specific device, etc. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "e71c47fb-2808-4725-a526-468be3d36802",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/audit/logs/user/:userId?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "audit",
+                                    "logs",
+                                    "user",
+                                    ":userId"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Maximum amount of entities in a one page",
+                                      "key": "pageSize",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "(Required) Sequence number of page starting from 0",
+                                      "key": "page",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                                      "key": "textSearch",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                                      "key": "sortProperty",
+                                      "value": "actionStatus"
+                                    },
+                                    {
+                                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                      "key": "sortOrder",
+                                      "value": "ASC"
+                                    },
+                                    {
+                                      "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                      "key": "startTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                      "key": "endTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                                      "key": "actionTypes",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "userId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"UNASSIGNED_FROM_CUSTOMER\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    },\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"MOBILE_APP_BUNDLE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"ALARM_DELETE\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                              "createdAt": "2026-07-28T03:12:05.000Z",
+                              "updatedAt": "2026-07-28T03:12:05.000Z",
+                              "uid": "35240-e71c47fb-2808-4725-a526-468be3d36802"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:05.000Z",
+                          "updatedAt": "2026-07-28T03:12:05.000Z",
+                          "uid": "35240-7e3661ec-ff34-4a47-a1a1-bdeb7ba37d4c"
+                        }
+                      ],
+                      "id": "e372a051-5c26-451c-a89f-9abfd346d4e9",
+                      "createdAt": "2026-07-28T03:12:05.000Z",
+                      "updatedAt": "2026-07-28T03:12:05.000Z",
+                      "uid": "35240-e372a051-5c26-451c-a89f-9abfd346d4e9"
+                    }
+                  ],
+                  "id": "44daa9a7-af24-4489-9d8b-283a40b75c07",
+                  "createdAt": "2026-07-28T03:12:05.000Z",
+                  "updatedAt": "2026-07-28T03:12:05.000Z",
+                  "uid": "35240-44daa9a7-af24-4489-9d8b-283a40b75c07"
+                },
+                {
+                  "name": "entity",
+                  "item": [
+                    {
+                      "name": "{entityType}",
+                      "item": [
+                        {
+                          "name": "{entityId}",
+                          "item": [
+                            {
+                              "name": "Get Audit Logs by Entity Id (getAuditLogsByEntityId)",
+                              "id": "78d5580d-b350-42b8-bc1a-095c0ca2b2a9",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/audit/logs/entity/:entityType/:entityId?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "audit",
+                                    "logs",
+                                    "entity",
+                                    ":entityType",
+                                    ":entityId"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Maximum amount of entities in a one page",
+                                      "key": "pageSize",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "(Required) Sequence number of page starting from 0",
+                                      "key": "page",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                                      "key": "textSearch",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                                      "key": "sortProperty",
+                                      "value": "actionStatus"
+                                    },
+                                    {
+                                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                      "key": "sortOrder",
+                                      "value": "ASC"
+                                    },
+                                    {
+                                      "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                      "key": "startTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                      "key": "endTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                                      "key": "actionTypes",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "4604fc59-8b4a-4974-b12d-cb3f72c62bbd",
+                                      "key": "entityType",
+                                      "value": "<string>",
+                                      "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                                    },
+                                    {
+                                      "id": "0f545309-404d-48fa-b836-ba148587c4a1",
+                                      "key": "entityId",
+                                      "value": "<string>",
+                                      "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                    }
+                                  ]
+                                },
+                                "description": "Returns a page of audit logs related to the actions on the targeted entity. Basically, this API call is used to get the full lifecycle of some specific entity. For example to see when a device was created, updated, assigned to some customer, or even deleted from the system. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                              },
+                              "response": [
+                                {
+                                  "id": "b19100f0-d48a-4e99-99ec-68f99ae634d5",
+                                  "name": "OK",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/audit/logs/entity/:entityType/:entityId?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "audit",
+                                        "logs",
+                                        "entity",
+                                        ":entityType",
+                                        ":entityId"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Maximum amount of entities in a one page",
+                                          "key": "pageSize",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "(Required) Sequence number of page starting from 0",
+                                          "key": "page",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                                          "key": "textSearch",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                                          "key": "sortProperty",
+                                          "value": "actionStatus"
+                                        },
+                                        {
+                                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                          "key": "sortOrder",
+                                          "value": "ASC"
+                                        },
+                                        {
+                                          "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                          "key": "startTime",
+                                          "value": "<long>"
+                                        },
+                                        {
+                                          "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                          "key": "endTime",
+                                          "value": "<long>"
+                                        },
+                                        {
+                                          "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                                          "key": "actionTypes",
+                                          "value": "<string>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "entityType"
+                                        },
+                                        {
+                                          "key": "entityId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"UNASSIGNED_FROM_CUSTOMER\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    },\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"MOBILE_APP_BUNDLE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"ALARM_DELETE\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                                  "createdAt": "2026-07-28T03:12:05.000Z",
+                                  "updatedAt": "2026-07-28T03:12:05.000Z",
+                                  "uid": "35240-b19100f0-d48a-4e99-99ec-68f99ae634d5"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T03:12:05.000Z",
+                              "updatedAt": "2026-07-28T03:12:05.000Z",
+                              "uid": "35240-78d5580d-b350-42b8-bc1a-095c0ca2b2a9"
+                            }
+                          ],
+                          "id": "01611110-ab42-4462-8342-5b4f9faedb74",
+                          "createdAt": "2026-07-28T03:12:05.000Z",
+                          "updatedAt": "2026-07-28T03:12:05.000Z",
+                          "uid": "35240-01611110-ab42-4462-8342-5b4f9faedb74"
+                        }
+                      ],
+                      "id": "5c88fe07-8349-4776-9d65-685e9a31c531",
+                      "createdAt": "2026-07-28T03:12:05.000Z",
+                      "updatedAt": "2026-07-28T03:12:05.000Z",
+                      "uid": "35240-5c88fe07-8349-4776-9d65-685e9a31c531"
+                    }
+                  ],
+                  "id": "604404be-1665-41d3-b35d-edce79e314bd",
+                  "createdAt": "2026-07-28T03:12:05.000Z",
+                  "updatedAt": "2026-07-28T03:12:05.000Z",
+                  "uid": "35240-604404be-1665-41d3-b35d-edce79e314bd"
+                },
+                {
+                  "name": "customer",
+                  "item": [
+                    {
+                      "name": "{customerId}",
+                      "item": [
+                        {
+                          "name": "Get Audit Logs by Customer Id (getAuditLogsByCustomerId)",
+                          "id": "fb95a1c4-05de-4e31-9073-02652ee02980",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/audit/logs/customer/:customerId?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "audit",
+                                "logs",
+                                "customer",
+                                ":customerId"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                                  "key": "sortProperty",
+                                  "value": "actionStatus"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "ASC"
+                                },
+                                {
+                                  "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                  "key": "startTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                  "key": "endTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                                  "key": "actionTypes",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "4758dbfe-21f8-427c-872b-14ae0c8ec49d",
+                                  "key": "customerId",
+                                  "value": "<string>",
+                                  "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                                }
+                              ]
+                            },
+                            "description": "Returns a page of audit logs related to the targeted customer entities (devices, assets, etc.), and users actions (login, logout, etc.) that belong to this customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                          },
+                          "response": [
+                            {
+                              "id": "d54810e2-340a-4efe-8519-1263e7a70807",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/audit/logs/customer/:customerId?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "audit",
+                                    "logs",
+                                    "customer",
+                                    ":customerId"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Maximum amount of entities in a one page",
+                                      "key": "pageSize",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "(Required) Sequence number of page starting from 0",
+                                      "key": "page",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                                      "key": "textSearch",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                                      "key": "sortProperty",
+                                      "value": "actionStatus"
+                                    },
+                                    {
+                                      "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                      "key": "sortOrder",
+                                      "value": "ASC"
+                                    },
+                                    {
+                                      "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                      "key": "startTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                                      "key": "endTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                                      "key": "actionTypes",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "customerId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"UNASSIGNED_FROM_CUSTOMER\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    },\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"MOBILE_APP_BUNDLE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"ALARM_DELETE\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                              "createdAt": "2026-07-28T03:12:05.000Z",
+                              "updatedAt": "2026-07-28T03:12:05.000Z",
+                              "uid": "35240-d54810e2-340a-4efe-8519-1263e7a70807"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:12:05.000Z",
+                          "updatedAt": "2026-07-28T03:12:05.000Z",
+                          "uid": "35240-fb95a1c4-05de-4e31-9073-02652ee02980"
+                        }
+                      ],
+                      "id": "ceefd81f-723c-4226-ba82-3245276391af",
+                      "createdAt": "2026-07-28T03:12:05.000Z",
+                      "updatedAt": "2026-07-28T03:12:05.000Z",
+                      "uid": "35240-ceefd81f-723c-4226-ba82-3245276391af"
+                    }
+                  ],
+                  "id": "c2fca4ab-4dda-47cd-9745-1e335f4afc0f",
+                  "createdAt": "2026-07-28T03:12:05.000Z",
+                  "updatedAt": "2026-07-28T03:12:05.000Z",
+                  "uid": "35240-c2fca4ab-4dda-47cd-9745-1e335f4afc0f"
+                },
+                {
+                  "name": "Get All Audit Logs (getAuditLogs)",
+                  "id": "f20baba5-cda6-4f45-9f1d-32085de08098",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/audit/logs?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "audit",
+                        "logs"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Maximum amount of entities in a one page",
+                          "key": "pageSize",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "(Required) Sequence number of page starting from 0",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                          "key": "textSearch",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                          "key": "sortProperty",
+                          "value": "actionStatus"
+                        },
+                        {
+                          "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                          "key": "sortOrder",
+                          "value": "ASC"
+                        },
+                        {
+                          "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                          "key": "startTime",
+                          "value": "<long>"
+                        },
+                        {
+                          "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                          "key": "endTime",
+                          "value": "<long>"
+                        },
+                        {
+                          "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                          "key": "actionTypes",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns a page of audit logs related to all entities in the scope of the current user's Tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "1a940938-5743-40ed-a9aa-a2050e5a50f3",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/audit/logs?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=actionStatus&sortOrder=ASC&startTime=<long>&endTime=<long>&actionTypes=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "audit",
+                            "logs"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on one of the next properties: entityType, entityName, userName, actionType, actionStatus.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of audit log to sort by. See the 'Model' tab of the Response Class for more details. Note: entityType sort property is not defined in the AuditLog class, however, it can be used to sort audit logs by types of entities that were logged.",
+                              "key": "sortProperty",
+                              "value": "actionStatus"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "ASC"
+                            },
+                            {
+                              "description": "The start timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                              "key": "startTime",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "The end timestamp in milliseconds of the search time range over the AuditLog class field: 'createdTime'.",
+                              "key": "endTime",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "A String value representing comma-separated list of action types. This parameter is optional, but it can be used to filter results to fetch only audit logs of specific action types. For example, 'LOGIN', 'LOGOUT'. See the 'Model' tab of the Response Class for more details.",
+                              "key": "actionTypes",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"UNASSIGNED_FROM_CUSTOMER\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    },\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityId\": {\n        \"entityType\": \"MOBILE_APP_BUNDLE\",\n        \"id\": \"<uuid>\"\n      },\n      \"entityName\": \"<string>\",\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"<uuid>\"\n      },\n      \"userName\": \"<string>\",\n      \"actionType\": \"ALARM_DELETE\",\n      \"actionData\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      },\n      \"actionStatus\": \"FAILURE\",\n      \"actionFailureDetails\": \"<string>\"\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                      "createdAt": "2026-07-28T03:12:05.000Z",
+                      "updatedAt": "2026-07-28T03:12:05.000Z",
+                      "uid": "35240-1a940938-5743-40ed-a9aa-a2050e5a50f3"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:12:05.000Z",
+                  "updatedAt": "2026-07-28T03:12:05.000Z",
+                  "uid": "35240-f20baba5-cda6-4f45-9f1d-32085de08098"
+                }
+              ],
+              "id": "ecf098a6-7ab0-4756-99ff-d407b6a00c93",
+              "createdAt": "2026-07-28T03:12:05.000Z",
+              "updatedAt": "2026-07-28T03:12:05.000Z",
+              "uid": "35240-ecf098a6-7ab0-4756-99ff-d407b6a00c93"
+            }
+          ],
+          "id": "1963a19f-ef10-491d-a738-98ac74dec27f",
+          "createdAt": "2026-07-28T03:12:05.000Z",
+          "updatedAt": "2026-07-28T03:12:05.000Z",
+          "uid": "35240-1963a19f-ef10-491d-a738-98ac74dec27f"
+        }
+      ],
+      "id": "dbd29cd5-f483-42fd-b269-fb2da4b4b88e",
+      "createdAt": "2026-07-28T03:12:05.000Z",
+      "updatedAt": "2026-07-28T03:12:05.000Z",
+      "uid": "35240-dbd29cd5-f483-42fd-b269-fb2da4b4b88e"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

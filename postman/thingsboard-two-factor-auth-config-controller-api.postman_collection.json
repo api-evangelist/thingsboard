@@ -1,0 +1,918 @@
+{
+  "info": {
+    "_postman_id": "e522214f-b731-4033-8f2b-b8a710866def",
+    "name": "ThingsBoard Admin admin-controller two-factor-auth-config-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:13:18.000Z",
+    "updatedAt": "2026-07-28T03:13:18.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e522214f-b731-4033-8f2b-b8a710866def"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "2fa",
+          "item": [
+            {
+              "name": "account",
+              "item": [
+                {
+                  "name": "config",
+                  "item": [
+                    {
+                      "name": "submit",
+                      "item": [
+                        {
+                          "name": "Submit 2FA Account Config (submitTwoFaAccountConfig)",
+                          "id": "e9e2b01e-5513-460e-9118-965a259c12d5",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"codes\": [\n    \"<string>\"\n  ],\n  \"providerType\": \"<string>\",\n  \"useByDefault\": \"<boolean>\",\n  \"codesLeft\": \"<integer>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/2fa/account/config/submit",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "2fa",
+                                "account",
+                                "config",
+                                "submit"
+                              ]
+                            },
+                            "description": "Submit 2FA account config to prepare for a future verification. Basically, this method will send a verification code for a given account config, if this has sense for a chosen 2FA provider. This code is needed to then verify and save the account config.\n\nExample of EMAIL 2FA account config:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": true,\n  \"email\": \"separate-email-for-2fa@thingsboard.org\"\n}\n```\n\nExample of SMS 2FA account config:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": \"+38012312321\"\n}\n```\n\nFor TOTP this method does nothing.\n\nWill throw an error (Bad Request) if submitted account config is not valid, or if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+                          },
+                          "response": [
+                            {
+                              "id": "90f08f40-6ef6-4474-a7d1-eae4fe05af71",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"codes\": [\n    \"<string>\"\n  ],\n  \"providerType\": \"<string>\",\n  \"useByDefault\": \"<boolean>\",\n  \"codesLeft\": \"<integer>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/2fa/account/config/submit",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "2fa",
+                                    "account",
+                                    "config",
+                                    "submit"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T03:13:19.000Z",
+                              "updatedAt": "2026-07-28T03:13:19.000Z",
+                              "uid": "35240-90f08f40-6ef6-4474-a7d1-eae4fe05af71"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:13:18.000Z",
+                          "updatedAt": "2026-07-28T03:13:18.000Z",
+                          "uid": "35240-e9e2b01e-5513-460e-9118-965a259c12d5"
+                        }
+                      ],
+                      "id": "8c2df9ef-a654-46e9-b4cf-c09e732796a9",
+                      "createdAt": "2026-07-28T03:13:18.000Z",
+                      "updatedAt": "2026-07-28T03:13:18.000Z",
+                      "uid": "35240-8c2df9ef-a654-46e9-b4cf-c09e732796a9"
+                    },
+                    {
+                      "name": "generate",
+                      "item": [
+                        {
+                          "name": "Generate 2FA Account Config (generateTwoFaAccountConfig)",
+                          "id": "24bd6be8-458c-46fd-98e2-6ea4991e8ddf",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/2fa/account/config/generate?providerType=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "2fa",
+                                "account",
+                                "config",
+                                "generate"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) 2FA provider type to generate new account config for",
+                                  "key": "providerType",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Generate new 2FA account config template for specified provider type. \n\nFor TOTP, this will return a corresponding account config template with a generated OTP auth URL (with new random secret key for each API call) that can be then converted to a QR code to scan with an authenticator app. Example:\n```\n{\n  \"providerType\": \"TOTP\",\n  \"useByDefault\": false,\n  \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=PNJDNWJVAK4ZTUYT7RFGPQLXA7XGU7PX\"\n}\n```\n\nFor EMAIL, the generated config will contain email from user's account:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": false,\n  \"email\": \"tenant@thingsboard.org\"\n}\n```\n\nFor SMS 2FA this method will just return a config with empty/default values as there is nothing to generate/preset:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": null\n}\n```\n\nWill throw an error (Bad Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+                          },
+                          "response": [
+                            {
+                              "id": "7e64970a-015f-447e-92ee-ca960126069a",
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/2fa/account/config/generate?providerType=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "2fa",
+                                    "account",
+                                    "config",
+                                    "generate"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) 2FA provider type to generate new account config for",
+                                      "key": "providerType",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"codes\": [\n    \"<string>\"\n  ],\n  \"providerType\": \"<string>\",\n  \"useByDefault\": \"<boolean>\",\n  \"codesLeft\": \"<integer>\"\n}",
+                              "createdAt": "2026-07-28T03:13:19.000Z",
+                              "updatedAt": "2026-07-28T03:13:19.000Z",
+                              "uid": "35240-7e64970a-015f-447e-92ee-ca960126069a"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:13:18.000Z",
+                          "updatedAt": "2026-07-28T03:13:18.000Z",
+                          "uid": "35240-24bd6be8-458c-46fd-98e2-6ea4991e8ddf"
+                        }
+                      ],
+                      "id": "9b4aea22-4f4e-4b5c-9e78-7c39bf25fa5f",
+                      "createdAt": "2026-07-28T03:13:18.000Z",
+                      "updatedAt": "2026-07-28T03:13:18.000Z",
+                      "uid": "35240-9b4aea22-4f4e-4b5c-9e78-7c39bf25fa5f"
+                    },
+                    {
+                      "name": "Update 2FA Account Config (updateTwoFaAccountConfig)",
+                      "id": "4b5fe57b-c4c3-445b-9bcf-3057e2298b29",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"useByDefault\": \"<boolean>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/2fa/account/config?providerType=TOTP",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "2fa",
+                            "account",
+                            "config"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) ",
+                              "key": "providerType",
+                              "value": "TOTP"
+                            }
+                          ]
+                        },
+                        "description": "Update config for a given provider type. \nUpdate request example:\n```\n{\n  \"useByDefault\": true\n}\n```\nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. "
+                      },
+                      "response": [
+                        {
+                          "id": "12df4206-a5c0-4255-8af7-6ecf2f7fcc38",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"useByDefault\": \"<boolean>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/2fa/account/config?providerType=TOTP",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "2fa",
+                                "account",
+                                "config"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) ",
+                                  "key": "providerType",
+                                  "value": "TOTP"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"configs\": {\n    \"sunt_d36\": {\n      \"codes\": [\n        \"<string>\"\n      ],\n      \"providerType\": \"<string>\",\n      \"useByDefault\": \"<boolean>\",\n      \"codesLeft\": \"<integer>\"\n    }\n  }\n}",
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-12df4206-a5c0-4255-8af7-6ecf2f7fcc38"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:18.000Z",
+                      "updatedAt": "2026-07-28T03:13:18.000Z",
+                      "uid": "35240-4b5fe57b-c4c3-445b-9bcf-3057e2298b29"
+                    },
+                    {
+                      "name": "Verify and Save 2FA Account Config (verifyAndSaveTwoFaAccountConfig)",
+                      "id": "688fc3f4-e296-4ecc-a73f-0827c5e8113f",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"codes\": [\n    \"<string>\"\n  ],\n  \"providerType\": \"<string>\",\n  \"useByDefault\": \"<boolean>\",\n  \"codesLeft\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/2fa/account/config?verificationCode=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "2fa",
+                            "account",
+                            "config"
+                          ],
+                          "query": [
+                            {
+                              "key": "verificationCode",
+                              "value": "<string>"
+                            }
+                          ]
+                        },
+                        "description": "Checks the verification code for submitted config, and if it is correct, saves the provided account config. \n\nReturns whole account's 2FA settings object.\nWill throw an error (Bad Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+                      },
+                      "response": [
+                        {
+                          "id": "4044889d-2ca1-42e0-a345-f08eb2b33e53",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"codes\": [\n    \"<string>\"\n  ],\n  \"providerType\": \"<string>\",\n  \"useByDefault\": \"<boolean>\",\n  \"codesLeft\": \"<integer>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/2fa/account/config?verificationCode=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "2fa",
+                                "account",
+                                "config"
+                              ],
+                              "query": [
+                                {
+                                  "key": "verificationCode",
+                                  "value": "<string>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"configs\": {\n    \"sunt_d36\": {\n      \"codes\": [\n        \"<string>\"\n      ],\n      \"providerType\": \"<string>\",\n      \"useByDefault\": \"<boolean>\",\n      \"codesLeft\": \"<integer>\"\n    }\n  }\n}",
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-4044889d-2ca1-42e0-a345-f08eb2b33e53"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:18.000Z",
+                      "updatedAt": "2026-07-28T03:13:18.000Z",
+                      "uid": "35240-688fc3f4-e296-4ecc-a73f-0827c5e8113f"
+                    },
+                    {
+                      "name": "Delete 2FA Account Config (deleteTwoFaAccountConfig)",
+                      "id": "a5760d21-4910-4782-b06b-4d0d73544308",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/2fa/account/config?providerType=TOTP",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "2fa",
+                            "account",
+                            "config"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) ",
+                              "key": "providerType",
+                              "value": "TOTP"
+                            }
+                          ]
+                        },
+                        "description": "Delete 2FA config for a given 2FA provider type. \nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. "
+                      },
+                      "response": [
+                        {
+                          "id": "154f0b49-e1d3-4dd1-961d-03379b8a2b80",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/2fa/account/config?providerType=TOTP",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "2fa",
+                                "account",
+                                "config"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) ",
+                                  "key": "providerType",
+                                  "value": "TOTP"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"configs\": {\n    \"sunt_d36\": {\n      \"codes\": [\n        \"<string>\"\n      ],\n      \"providerType\": \"<string>\",\n      \"useByDefault\": \"<boolean>\",\n      \"codesLeft\": \"<integer>\"\n    }\n  }\n}",
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-154f0b49-e1d3-4dd1-961d-03379b8a2b80"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:18.000Z",
+                      "updatedAt": "2026-07-28T03:13:18.000Z",
+                      "uid": "35240-a5760d21-4910-4782-b06b-4d0d73544308"
+                    }
+                  ],
+                  "id": "bad9aa5e-9915-4f76-afd3-d9a7250a91dd",
+                  "createdAt": "2026-07-28T03:13:18.000Z",
+                  "updatedAt": "2026-07-28T03:13:18.000Z",
+                  "uid": "35240-bad9aa5e-9915-4f76-afd3-d9a7250a91dd"
+                },
+                {
+                  "name": "settings",
+                  "item": [
+                    {
+                      "name": "Get Account 2FA Settings (getAccountTwoFaSettings)",
+                      "id": "83c88f6b-68d5-46c6-ade5-cdd0ecd8b19d",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/2fa/account/settings",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "2fa",
+                            "account",
+                            "settings"
+                          ]
+                        },
+                        "description": "Get user's account 2FA configuration. Configuration contains configs for different 2FA providers.\n\nExample:\n```\n{\n  \"configs\": {\n    \"EMAIL\": {\n      \"providerType\": \"EMAIL\",\n      \"useByDefault\": true,\n      \"email\": \"tenant@thingsboard.org\"\n    },\n    \"TOTP\": {\n      \"providerType\": \"TOTP\",\n      \"useByDefault\": false,\n      \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=P6Z2TLYTASOGP6LCJZAD24ETT5DACNNX\"\n    },\n    \"SMS\": {\n      \"providerType\": \"SMS\",\n      \"useByDefault\": false,\n      \"phoneNumber\": \"+380501253652\"\n    }\n  }\n}\n```\n\nAvailable for any authorized user. "
+                      },
+                      "response": [
+                        {
+                          "id": "3de9cdad-bd39-403d-9d90-00ad8bf46d61",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/2fa/account/settings",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "2fa",
+                                "account",
+                                "settings"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"configs\": {\n    \"sunt_d36\": {\n      \"codes\": [\n        \"<string>\"\n      ],\n      \"providerType\": \"<string>\",\n      \"useByDefault\": \"<boolean>\",\n      \"codesLeft\": \"<integer>\"\n    }\n  }\n}",
+                          "createdAt": "2026-07-28T03:13:19.000Z",
+                          "updatedAt": "2026-07-28T03:13:19.000Z",
+                          "uid": "35240-3de9cdad-bd39-403d-9d90-00ad8bf46d61"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:13:18.000Z",
+                      "updatedAt": "2026-07-28T03:13:18.000Z",
+                      "uid": "35240-83c88f6b-68d5-46c6-ade5-cdd0ecd8b19d"
+                    }
+                  ],
+                  "id": "85dc051f-3953-468d-b80d-0ada91359517",
+                  "createdAt": "2026-07-28T03:13:18.000Z",
+                  "updatedAt": "2026-07-28T03:13:18.000Z",
+                  "uid": "35240-85dc051f-3953-468d-b80d-0ada91359517"
+                }
+              ],
+              "id": "f51184b1-abe8-4881-b5e6-b4756d6db519",
+              "createdAt": "2026-07-28T03:13:18.000Z",
+              "updatedAt": "2026-07-28T03:13:18.000Z",
+              "uid": "35240-f51184b1-abe8-4881-b5e6-b4756d6db519"
+            },
+            {
+              "name": "settings",
+              "item": [
+                {
+                  "name": "Get Platform 2FA Settings (getPlatformTwoFaSettings)",
+                  "id": "f9bbe3da-066c-4af8-b2fb-f2293edf5bca",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/2fa/settings",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "2fa",
+                        "settings"
+                      ]
+                    },
+                    "description": "Get platform settings for 2FA. The settings are described for savePlatformTwoFaSettings API method. If 2FA is not configured, then an empty response will be returned.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "7cbaa0e0-bdc1-4557-85df-6ae665d3fc7b",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/2fa/settings",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "2fa",
+                            "settings"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"minVerificationCodeSendPeriod\": \"<integer>\",\n  \"providers\": [\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    },\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    }\n  ],\n  \"totalAllowedTimeForVerification\": \"<integer>\",\n  \"verificationCodeCheckRateLimit\": \"2612767:892510161\",\n  \"maxVerificationFailuresBeforeUserLockout\": \"<integer>\",\n  \"enforceTwoFa\": \"<boolean>\",\n  \"enforcedUsersFilter\": {}\n}",
+                      "createdAt": "2026-07-28T03:13:19.000Z",
+                      "updatedAt": "2026-07-28T03:13:19.000Z",
+                      "uid": "35240-7cbaa0e0-bdc1-4557-85df-6ae665d3fc7b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:13:18.000Z",
+                  "updatedAt": "2026-07-28T03:13:18.000Z",
+                  "uid": "35240-f9bbe3da-066c-4af8-b2fb-f2293edf5bca"
+                },
+                {
+                  "name": "Save Platform 2FA Settings (savePlatformTwoFaSettings)",
+                  "id": "b4d16c56-71cb-492d-ab80-990749585a77",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"minVerificationCodeSendPeriod\": \"<integer>\",\n  \"providers\": [\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    },\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    }\n  ],\n  \"totalAllowedTimeForVerification\": \"<integer>\",\n  \"verificationCodeCheckRateLimit\": \"2612767:892510161\",\n  \"maxVerificationFailuresBeforeUserLockout\": \"<integer>\",\n  \"enforceTwoFa\": \"<boolean>\",\n  \"enforcedUsersFilter\": {}\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/2fa/settings",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "2fa",
+                        "settings"
+                      ]
+                    },
+                    "description": "Save 2FA settings for platform. The settings have following properties:\n- `providers` - the list of 2FA providers' configs. Users will only be allowed to use 2FA providers from this list. \n\n- `minVerificationCodeSendPeriod` - minimal period in seconds to wait after verification code send request to send next request. \n- `verificationCodeCheckRateLimit` - rate limit configuration for verification code checking.\nThe format is standard: 'amountOfRequests:periodInSeconds'. The value of '1:60' would limit verification code checking requests to one per minute.\n- `maxVerificationFailuresBeforeUserLockout` - maximum number of verification failures before a user gets disabled.\n- `totalAllowedTimeForVerification` - total amount of time in seconds allotted for verification. Basically, this property sets a lifetime for pre-verification token. If not set, default value of 30 minutes is used.\n\n\nTOTP 2FA provider config has following settings:\n- `issuerName` - issuer name that will be displayed in an authenticator app near a username. Must not be blank.\n\nFor SMS 2FA provider:\n- `smsVerificationMessageTemplate` - verification message template.  Available template variables are ${code} and ${userEmail}. It must not be blank and must contain verification code variable.\n- `verificationCodeLifetime` - verification code lifetime in seconds. Required to be positive.\n\nFor EMAIL provider type:\n- `verificationCodeLifetime` - the same as for SMS.\n\nExample of the settings:\n```\n{\n  \"providers\": [\n    {\n      \"providerType\": \"TOTP\",\n      \"issuerName\": \"TB\"\n    },\n    {\n      \"providerType\": \"EMAIL\",\n      \"verificationCodeLifetime\": 60\n    },\n    {\n      \"providerType\": \"SMS\",\n      \"verificationCodeLifetime\": 60,\n      \"smsVerificationMessageTemplate\": \"Here is your verification code: ${code}\"\n    }\n  ],\n  \"minVerificationCodeSendPeriod\": 60,\n  \"verificationCodeCheckRateLimit\": \"3:900\",\n  \"maxVerificationFailuresBeforeUserLockout\": 10,\n  \"totalAllowedTimeForVerification\": 600\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+                  },
+                  "response": [
+                    {
+                      "id": "6d9c1017-c2b1-48bc-9a54-80d404cdac80",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"minVerificationCodeSendPeriod\": \"<integer>\",\n  \"providers\": [\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    },\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    }\n  ],\n  \"totalAllowedTimeForVerification\": \"<integer>\",\n  \"verificationCodeCheckRateLimit\": \"2612767:892510161\",\n  \"maxVerificationFailuresBeforeUserLockout\": \"<integer>\",\n  \"enforceTwoFa\": \"<boolean>\",\n  \"enforcedUsersFilter\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/2fa/settings",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "2fa",
+                            "settings"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"minVerificationCodeSendPeriod\": \"<integer>\",\n  \"providers\": [\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    },\n    {\n      \"providerType\": \"<string>\",\n      \"codesQuantity\": \"<integer>\"\n    }\n  ],\n  \"totalAllowedTimeForVerification\": \"<integer>\",\n  \"verificationCodeCheckRateLimit\": \"2612767:892510161\",\n  \"maxVerificationFailuresBeforeUserLockout\": \"<integer>\",\n  \"enforceTwoFa\": \"<boolean>\",\n  \"enforcedUsersFilter\": {}\n}",
+                      "createdAt": "2026-07-28T03:13:19.000Z",
+                      "updatedAt": "2026-07-28T03:13:19.000Z",
+                      "uid": "35240-6d9c1017-c2b1-48bc-9a54-80d404cdac80"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:13:18.000Z",
+                  "updatedAt": "2026-07-28T03:13:18.000Z",
+                  "uid": "35240-b4d16c56-71cb-492d-ab80-990749585a77"
+                }
+              ],
+              "id": "4a653988-a566-4183-ac6f-5e96ae232ace",
+              "createdAt": "2026-07-28T03:13:18.000Z",
+              "updatedAt": "2026-07-28T03:13:18.000Z",
+              "uid": "35240-4a653988-a566-4183-ac6f-5e96ae232ace"
+            },
+            {
+              "name": "providers",
+              "item": [
+                {
+                  "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+                  "id": "1581a8e0-4caf-43bb-a68e-d7d86c56e966",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/2fa/providers",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "2fa",
+                        "providers"
+                      ]
+                    },
+                    "description": "Get the list of provider types available for user to use (the ones configured by tenant or sysadmin).\nExample of response:\n```\n[\n  \"TOTP\",\n  \"EMAIL\",\n  \"SMS\"\n]\n```\n\nAvailable for any authorized user. "
+                  },
+                  "response": [
+                    {
+                      "id": "ef466bab-3ddf-4113-a1ab-2854a6b29dd2",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/2fa/providers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "2fa",
+                            "providers"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  \"TOTP\",\n  \"BACKUP_CODE\"\n]",
+                      "createdAt": "2026-07-28T03:13:19.000Z",
+                      "updatedAt": "2026-07-28T03:13:19.000Z",
+                      "uid": "35240-ef466bab-3ddf-4113-a1ab-2854a6b29dd2"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:13:18.000Z",
+                  "updatedAt": "2026-07-28T03:13:18.000Z",
+                  "uid": "35240-1581a8e0-4caf-43bb-a68e-d7d86c56e966"
+                }
+              ],
+              "id": "6b74e438-8cac-437b-9f9c-ee8e7a03b86b",
+              "createdAt": "2026-07-28T03:13:18.000Z",
+              "updatedAt": "2026-07-28T03:13:18.000Z",
+              "uid": "35240-6b74e438-8cac-437b-9f9c-ee8e7a03b86b"
+            }
+          ],
+          "id": "40912cfc-c6b7-4490-9499-8085e58bc6b3",
+          "createdAt": "2026-07-28T03:13:18.000Z",
+          "updatedAt": "2026-07-28T03:13:18.000Z",
+          "uid": "35240-40912cfc-c6b7-4490-9499-8085e58bc6b3"
+        }
+      ],
+      "id": "e0493f69-66d8-41b0-aa17-1ea49b6fe815",
+      "createdAt": "2026-07-28T03:13:18.000Z",
+      "updatedAt": "2026-07-28T03:13:18.000Z",
+      "uid": "35240-e0493f69-66d8-41b0-aa17-1ea49b6fe815"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

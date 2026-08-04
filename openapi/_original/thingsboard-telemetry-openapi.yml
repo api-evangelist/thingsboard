@@ -1,0 +1,3478 @@
+# ThingsBoard ThingsBoard Telemetry API
+# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
+openapi: 3.1.0
+info:
+  title: ThingsBoard Telemetry API
+  description: "ThingsBoard Telemetry API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Telemetry, Entity Query, Calculated Field."
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: telemetry-controller
+  description: Telemetry
+- name: entity-query-controller
+  description: Entity Query
+- name: calculated-field-controller
+  description: Calculated Field
+paths:
+  /api/plugins/telemetry/{entityType}/{entityId}/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save Entity Attributes (saveEntityAttributesV1)
+      description: "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported\
+        \ for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"\
+        stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\"\
+        : \"value\"}\n }\n}\n```\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityAttributesV1
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+      requestBody:
+        description: A string value representing the json object. For example, '{"key":"value"}'. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Attribute from the request was created or updated. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED', and also sends event
+            msg to the rule engine with msg type 'ATTRIBUTES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request or invalid attributes scope provided.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      tags:
+      - telemetry-controller
+      summary: Delete Entity Attributes (deleteEntityAttributes)
+      description: "Delete entity attributes using provided Entity Id, scope and a list of keys. Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users\
+        \ with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: deleteEntityAttributes
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each
+          key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: Entity attributes was removed for the selected keys in the request. Platform creates an audit log event about entity attributes removal with action type 'ATTRIBUTES_DELETED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Platform returns a bad request in case if keys or scope are not specified.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to delete entity attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity attributes removal with action type 'ATTRIBUTES_DELETED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/timeseries/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save or Update Time Series Data (saveEntityTelemetry)
+      description: "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without\
+        \ timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\"\
+        :26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"ts\":1634712588000,\"values\":{\"temperature\"\
+        :25, \"humidity\":88}}]\n```\n\n The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable. Referencing a non-existing\
+        \ entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityTelemetry
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: Value is deprecated, reserved for backward compatibility and not used in the API call implementation. Specify any scope for compatibility
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANY
+      requestBody:
+        description: A JSON with the telemetry values. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Time series from the request was created or updated. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity time series for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/timeseries/{scope}/{ttl}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save or Update Time Series Data with TTL (saveEntityTelemetryWithTTL)
+      description: "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without\
+        \ timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\"\
+        :26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"ts\":1634712588000,\"values\":{\"temperature\"\
+        :25, \"humidity\":88}}]\n```\n\n The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable. \n\nThe ttl parameter\
+        \ takes affect only in case of Cassandra DB.Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityTelemetryWithTTL
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: Value is deprecated, reserved for backward compatibility and not used in the API call implementation. Specify any scope for compatibility
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANY
+      - name: ttl
+        in: path
+        description: A long value representing TTL (Time to Live) parameter.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: A JSON with the telemetry values. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Time series from the request was created or updated. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity time series for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity time series updates with action type 'TIMESERIES_UPDATED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/attributes/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save Entity Attributes (saveEntityAttributesV2)
+      description: "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported\
+        \ for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"\
+        stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\"\
+        : \"value\"}\n }\n}\n```\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveEntityAttributesV2
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+      requestBody:
+        description: A string value representing the json object. For example, '{"key":"value"}'. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Attribute from the request was created or updated. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED', and also sends event
+            msg to the rule engine with msg type 'ATTRIBUTES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request or invalid attributes scope provided.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save entity attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity attributes updates with action type 'ATTRIBUTES_UPDATED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{deviceId}/{scope}:
+    post:
+      tags:
+      - telemetry-controller
+      summary: Save Device Attributes (saveDeviceAttributes)
+      description: "Creates or updates the device attributes based on device id and specified attribute scope. The request payload is a JSON object with key-value format of attributes to create or update.\
+        \ For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n\
+        \    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\n\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveDeviceAttributes
+      parameters:
+      - name: deviceId
+        in: path
+        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+      requestBody:
+        description: A string value representing the json object. For example, '{"key":"value"}'. See API call description for more details.
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: Attribute from the request was created or updated. Platform creates an audit log event about device attributes updates with action type 'ATTRIBUTES_UPDATED', and also sends event
+            msg to the rule engine with msg type 'ATTRIBUTES_UPDATED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid structure of the request or invalid attributes scope provided.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to save device attributes for selected device. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about device attributes updates with action type 'ATTRIBUTES_UPDATED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      tags:
+      - telemetry-controller
+      summary: Delete Device Attributes (deleteDeviceAttributes)
+      description: 'Delete device attributes using provided Device Id, scope and a list of keys. Referencing a non-existing Device Id will cause an error
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: deleteDeviceAttributes
+      parameters:
+      - name: deviceId
+        in: path
+        description: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each
+          key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: Device attributes was removed for the selected keys in the request. Platform creates an audit log event about device attributes removal with action type 'ATTRIBUTES_DELETED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Platform returns a bad request in case if keys or scope are not specified.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to delete device attributes for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about device attributes removal with action type 'ATTRIBUTES_DELETED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/entitiesQuery/find:
+    post:
+      tags:
+      - entity-query-controller
+      summary: Find Entity Data by Query
+      description: "Allows to run complex queries over platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the paginated\
+        \ result of the query that contains requested entity fields and latest values of requested attributes and time series data.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines\
+        \ generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter results\
+        \ of the **entity filter** by complex criteria against main entity fields (name, label, type, etc), attributes and telemetry. For example, \"temperature > 20 or temperature< 10\" or \"name starts\
+        \ with 'T', and attribute 'model' is 'T1000', and time series field 'batteryLevel' > 40\".\n\nThe **entity fields** and **latest values** contains list of entity fields and latest attribute/telemetry\
+        \ fields to fetch for each entity.\n\nThe **page link** contains information about the page to fetch and the sort ordering.\n\nLet's review the example:\n\n```json\n{\n  \"entityFilter\": {\n  \
+        \  \"type\": \"entityType\",\n    \"resolveMultiple\": true,\n    \"entityType\": \"DEVICE\"\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\"\
+        : \"temperature\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"operation\": \"GREATER\",\n        \"value\": {\n          \"defaultValue\": 0,\n          \"dynamicValue\"\
+        : {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"temperatureThreshold\",\n            \"inherit\": false\n          }\n        },\n        \"type\": \"NUMERIC\"\
+        \n      }\n    }\n  ],\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"name\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"label\"\n   \
+        \ },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"additionalInfo\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"model\"\n    },\n \
+        \   {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"temperature\"\n    }\n  ],\n  \"pageLink\": {\n    \"page\": 0,\n    \"pageSize\": 10,\n    \"sortOrder\": {\n      \"key\": {\n       \
+        \ \"key\": \"name\",\n        \"type\": \"ENTITY_FIELD\"\n      },\n      \"direction\": \"ASC\"\n    }\n  }\n}\n```\n\n Example mentioned above search all devices which have attribute 'active'\
+        \ set to 'true'. Now let's review available entity filters and key filters syntax:\n\n # Entity Filters\nEntity Filter body depends on the 'type' parameter. Let's review available entity filter\
+        \ types. In fact, they do correspond to available dashboard aliases.\n\n## Single Entity\n\nAllows to filter only one entity based on the id. For example, this entity filter selects certain device:\n\
+        \n```json\n{\n  \"type\": \"singleEntity\",\n  \"singleEntity\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"DEVICE\"\n  }\n}\n```\n\n## Entity List Filter\n\n\
+        Allows to filter entities of the same type using their ids. For example, this entity filter selects two devices:\n\n```json\n{\n  \"type\": \"entityList\",\n  \"entityType\": \"DEVICE\",\n  \"entityList\"\
+        : [\n    \"e6501f30-2a7a-11ec-94eb-213c95f54092\",\n    \"e6657bf0-2a7a-11ec-94eb-213c95f54092\"\n  ]\n}\n```\n\n## Entity Name Filter\n\nAllows to filter entities of the same type using the **'starts\
+        \ with'** expression over entity name. For example, this entity filter selects all devices which name starts with 'Air Quality':\n\n```json\n{\n  \"type\": \"entityName\",\n  \"entityType\": \"\
+        DEVICE\",\n  \"entityNameFilter\": \"Air Quality\"\n}\n```\n\n## Entity Type Filter\n\nAllows to filter entities based on their type (CUSTOMER, USER, DASHBOARD, ASSET, DEVICE, etc)For example, this\
+        \ entity filter selects all tenant customers:\n\n```json\n{\n  \"type\": \"entityType\",\n  \"entityType\": \"CUSTOMER\"\n}\n```\n\n## Asset Type Filter\n\nAllows to filter assets based on their\
+        \ type and the **'starts with'** expression over their name. For example, this entity filter selects all 'charging station' assets which name starts with 'Tesla':\n\n```json\n{\n  \"type\": \"assetType\"\
+        ,\n  \"assetType\": \"charging station\",\n  \"assetNameFilter\": \"Tesla\"\n}\n```\n\n## Device Type Filter\n\nAllows to filter devices based on their type and the **'starts with'** expression\
+        \ over their name. For example, this entity filter selects all 'Temperature Sensor' devices which name starts with 'ABC':\n\n```json\n{\n  \"type\": \"deviceType\",\n  \"deviceType\": \"Temperature\
+        \ Sensor\",\n  \"deviceNameFilter\": \"ABC\"\n}\n```\n\n## Edge Type Filter\n\nAllows to filter edge instances based on their type and the **'starts with'** expression over their name. For example,\
+        \ this entity filter selects all 'Factory' edge instances which name starts with 'Nevada':\n\n```json\n{\n  \"type\": \"edgeType\",\n  \"edgeType\": \"Factory\",\n  \"edgeNameFilter\": \"Nevada\"\
+        \n}\n```\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete\
+        \ Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```\n\n## Api\
+        \ Usage Filter\n\nAllows to query for Api Usage based on optional customer id. If the customer id is not set, returns current tenant API usage.For example, this entity filter selects the 'Api Usage'\
+        \ entity for customer with id 'e6501f30-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"apiUsageState\",\n  \"customerId\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n\
+        \    \"entityType\": \"CUSTOMER\"\n  }\n}\n```\n\n## Relations Query Filter\n\nAllows to filter entities that are related to the provided root entity. Possible direction values are 'TO' and 'FROM'.\
+        \ The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or\
+        \ only entities that are on the last level of relations. The 'filter' object allows you to define the relation type and set of acceptable entity types to search for. The relation query calculates\
+        \ all related entities, even if they are filtered using different relation types, and then extracts only those who match the 'filters'.\n\nFor example, this entity filter selects all devices and\
+        \ assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"relationsQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"\
+        id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\"\
+        ,\n      \"entityTypes\": [\n        \"DEVICE\",\n        \"ASSET\"\n      ]\n    }\n  ]\n}\n```\n\n## Asset Search Query\n\nAllows to filter assets that are related to the provided root entity.\
+        \ Filters related assets based on the relation type and set of asset types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search\
+        \ 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType'\
+        \ defines the type of the relation to search for. The 'assetTypes' defines the type of the asset to search for. The relation query calculates all related entities, even if they are filtered using\
+        \ different relation types, and then extracts only assets that match 'relationType' and 'assetTypes' conditions.\n\nFor example, this entity filter selects 'charging station' assets which are related\
+        \ to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"assetSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n \
+        \   \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"assetTypes\"\
+        : [\n    \"charging station\"\n  ]\n}\n```\n\n## Device Search Query\n\nAllows to filter devices that are related to the provided root entity. Filters related devices based on the relation type\
+        \ and set of device types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the\
+        \ 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for.\
+        \ The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts\
+        \ only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Charging port' and 'Air Quality Sensor' devices which are related to the asset\
+        \ with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"\
+        e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"deviceTypes\": [\n    \"Air\
+        \ Quality Sensor\",\n    \"Charging port\"\n  ]\n}\n```\n\n## Entity View Query\n\nAllows to filter entity views that are related to the provided root entity. Filters related entity views based\
+        \ on the relation type and set of entity view types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming\
+        \ the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the\
+        \ relation to search for. The 'entityViewTypes' defines the type of the entity view to search for. The relation query calculates all related entities, even if they are filtered using different relation\
+        \ types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Concrete mixer' entity views which are related to the\
+        \ asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"entityViewSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n   \
+        \ \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"entityViewTypes\"\
+        : [\n    \"Concrete mixer\"\n  ]\n}\n```\n\n## Edge Search Query\n\nAllows to filter edge instances that are related to the provided root entity. Filters related edge instances based on the relation\
+        \ type and set of edge types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1,\
+        \ the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for.\
+        \ The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts\
+        \ only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Factory' edge instances which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092'\
+        \ using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n\
+        \  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"edgeTypes\": [\n    \"Factory\"\n  ]\n}\n```\n\n # Key Filters\nKey Filter\
+        \ allows you to define complex logical expressions over entity field, attribute or latest time series value. The filter is defined using 'key', 'valueType' and 'predicate' objects. Single Entity\
+        \ Query may have zero, one or multiple predicates. If multiple filters are defined, they are evaluated using logical 'AND'. The example below checks that temperature of the entity is above 20 degrees:\n\
+        \n```json\n{\n  \"key\": {\n    \"type\": \"TIME_SERIES\",\n    \"key\": \"temperature\"\n  },\n  \"valueType\": \"NUMERIC\",\n  \"predicate\": {\n    \"operation\": \"GREATER\",\n    \"value\"\
+        : {\n      \"defaultValue\": 20,\n      \"dynamicValue\": null\n    },\n    \"type\": \"NUMERIC\"\n  }\n}\n```\n\n Now let's review 'key', 'valueType' and 'predicate' objects in detail.\n\n## Filter\
+        \ Key\n\nFilter Key defines either entity field, attribute or telemetry. It is a JSON object that consists the key name and type. The following filter key types are supported: \n\n * 'CLIENT_ATTRIBUTE'\
+        \ - used for client attributes; \n * 'SHARED_ATTRIBUTE' - used for shared attributes; \n * 'SERVER_ATTRIBUTE' - used for server attributes; \n * 'ATTRIBUTE' - used for any of the above; \n * 'TIME_SERIES'\
+        \ - used for time series values; \n * 'ENTITY_FIELD' - used for accessing entity fields like 'name', 'label', etc. The list of available fields depends on the entity type; \n * 'ALARM_FIELD' - similar\
+        \ to entity field, but is used in alarm queries only; \n\n\n Let's review the example:\n\n```json\n{\n  \"type\": \"TIME_SERIES\",\n  \"key\": \"temperature\"\n}\n```\n\n## Value Type and Operations\n\
+        \nProvides a hint about the data type of the entity field that is defined in the filter key. The value type impacts the list of possible operations that you may use in the corresponding predicate.\
+        \ For example, you may use 'STARTS_WITH' or 'END_WITH', but you can't use 'GREATER_OR_EQUAL' for string values.The following filter value types and corresponding predicate operations are supported:\
+        \ \n\n * 'STRING' - used to filter any 'String' or 'JSON' values. Operations: EQUAL, NOT_EQUAL, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS; \n * 'NUMERIC' - used for 'Long' and 'Double' values.\
+        \ Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n * 'BOOLEAN' - used for boolean values. Operations: EQUAL, NOT_EQUAL;\n * 'DATE_TIME' - similar to numeric, transforms\
+        \ value to milliseconds since epoch. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n\n\n## Filter Predicate\n\nFilter Predicate defines the logical expression to\
+        \ evaluate. The list of available operations depends on the filter value type, see above. Platform supports 4 predicate types: 'STRING', 'NUMERIC', 'BOOLEAN' and 'COMPLEX'. The last one allows to\
+        \ combine multiple operations over one filter key.\n\nSimple predicate example to check 'value < 100': \n\n```json\n{\n  \"operation\": \"LESS\",\n  \"value\": {\n    \"defaultValue\": 100,\n  \
+        \  \"dynamicValue\": null\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nComplex predicate example, to check 'value < 10 or value > 20': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"\
+        OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n\
+        \    {\n      \"operation\": \"GREATER\",\n      \"value\": {\n        \"defaultValue\": 20,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    }\n  ]\n}\n```\n\nMore complex\
+        \ predicate example, to check 'value < 10 or (value > 50 && value < 60)': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"\
+        LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"type\": \"COMPLEX\",\n      \"operation\"\
+        : \"AND\",\n      \"predicates\": [\n        {\n          \"operation\": \"GREATER\",\n          \"value\": {\n            \"defaultValue\": 50,\n            \"dynamicValue\": null\n          },\n\
+        \          \"type\": \"NUMERIC\"\n        },\n        {\n          \"operation\": \"LESS\",\n          \"value\": {\n            \"defaultValue\": 60,\n            \"dynamicValue\": null\n     \
+        \     },\n          \"type\": \"NUMERIC\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n You may also want to replace hardcoded values (for example, temperature > 20) with the more dynamic expression\
+        \ (for example, temperature > 'value of the tenant attribute with key 'temperatureThreshold'). It is possible to use 'dynamicValue' to define attribute of the tenant, customer or user that is performing\
+        \ the API call. See example below: \n\n```json\n{\n  \"operation\": \"GREATER\",\n  \"value\": {\n    \"defaultValue\": 0,\n    \"dynamicValue\": {\n      \"sourceType\": \"CURRENT_USER\",\n   \
+        \   \"sourceAttribute\": \"temperatureThreshold\"\n    }\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\n Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'.\
+        \ The 'defaultValue' is used when the attribute with such a name is not defined for the chosen source.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: findEntityDataByQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityDataQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityData'
+  /api/entitiesQuery/find/keys:
+    post:
+      tags:
+      - entity-query-controller
+      summary: Find Available Entity Keys by Query
+      description: 'Returns unique time series and/or attribute key names from entities matching the query.
+
+
+        Executes the Entity Data Query to find up to 100 entities, then fetches and aggregates all distinct key names.
+
+
+        Primarily used for UI features like autocomplete suggestions.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: findAvailableEntityKeysByQuery
+      parameters:
+      - name: timeseries
+        in: query
+        description: 'When true, includes unique time series key names in the response.
+
+          When false, the ''timeseries'' list will be empty.'
+        required: true
+        schema:
+          type: boolean
+      - name: attributes
+        in: query
+        description: 'When true, includes unique attribute key names in the response.
+
+          When false, the ''attribute'' list will be empty. Use ''scope'' parameter to filter by attribute scope.'
+        required: true
+        schema:
+          type: boolean
+      - name: scope
+        in: query
+        description: 'Filters attribute keys by scope. Only applies when ''attributes'' is true.
+
+          If not specified, returns attribute keys from all scopes.'
+        required: false
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityDataQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableEntityKeys'
+  /api/entitiesQuery/count:
+    post:
+      tags:
+      - entity-query-controller
+      summary: Count Entities by Query
+      description: "Allows to run complex queries to search the count of platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns\
+        \ the number of entities that match the query definition.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with\
+        \ profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter results of the entity filter by complex criteria against main entity\
+        \ fields (name, label, type, etc), attributes and telemetry. For example, \"temperature > 20 or temperature< 10\" or \"name starts with 'T', and attribute 'model' is 'T1000', and time series field\
+        \ 'batteryLevel' > 40\".\n\nLet's review the example:\n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\",\n    \"entityType\": \"DEVICE\"\n  },\n  \"keyFilters\": [\n    {\n    \
+        \  \"key\": {\n        \"type\": \"ATTRIBUTE\",\n        \"key\": \"active\"\n      },\n      \"valueType\": \"BOOLEAN\",\n      \"predicate\": {\n        \"operation\": \"EQUAL\",\n        \"value\"\
+        : {\n          \"defaultValue\": true,\n          \"dynamicValue\": null\n        },\n        \"type\": \"BOOLEAN\"\n      }\n    }\n  ]\n}\n```\n\n Example mentioned above search all devices which\
+        \ have attribute 'active' set to 'true'. Now let's review available entity filters and key filters syntax:\n\n # Entity Filters\nEntity Filter body depends on the 'type' parameter. Let's review\
+        \ available entity filter types. In fact, they do correspond to available dashboard aliases.\n\n## Single Entity\n\nAllows to filter only one entity based on the id. For example, this entity filter\
+        \ selects certain device:\n\n```json\n{\n  \"type\": \"singleEntity\",\n  \"singleEntity\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"DEVICE\"\n  }\n}\n```\n\
+        \n## Entity List Filter\n\nAllows to filter entities of the same type using their ids. For example, this entity filter selects two devices:\n\n```json\n{\n  \"type\": \"entityList\",\n  \"entityType\"\
+        : \"DEVICE\",\n  \"entityList\": [\n    \"e6501f30-2a7a-11ec-94eb-213c95f54092\",\n    \"e6657bf0-2a7a-11ec-94eb-213c95f54092\"\n  ]\n}\n```\n\n## Entity Name Filter\n\nAllows to filter entities\
+        \ of the same type using the **'starts with'** expression over entity name. For example, this entity filter selects all devices which name starts with 'Air Quality':\n\n```json\n{\n  \"type\": \"\
+        entityName\",\n  \"entityType\": \"DEVICE\",\n  \"entityNameFilter\": \"Air Quality\"\n}\n```\n\n## Entity Type Filter\n\nAllows to filter entities based on their type (CUSTOMER, USER, DASHBOARD,\
+        \ ASSET, DEVICE, etc)For example, this entity filter selects all tenant customers:\n\n```json\n{\n  \"type\": \"entityType\",\n  \"entityType\": \"CUSTOMER\"\n}\n```\n\n## Asset Type Filter\n\n\
+        Allows to filter assets based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'charging station' assets which name starts with 'Tesla':\n\
+        \n```json\n{\n  \"type\": \"assetType\",\n  \"assetType\": \"charging station\",\n  \"assetNameFilter\": \"Tesla\"\n}\n```\n\n## Device Type Filter\n\nAllows to filter devices based on their type\
+        \ and the **'starts with'** expression over their name. For example, this entity filter selects all 'Temperature Sensor' devices which name starts with 'ABC':\n\n```json\n{\n  \"type\": \"deviceType\"\
+        ,\n  \"deviceType\": \"Temperature Sensor\",\n  \"deviceNameFilter\": \"ABC\"\n}\n```\n\n## Edge Type Filter\n\nAllows to filter edge instances based on their type and the **'starts with'** expression\
+        \ over their name. For example, this entity filter selects all 'Factory' edge instances which name starts with 'Nevada':\n\n```json\n{\n  \"type\": \"edgeType\",\n  \"edgeType\": \"Factory\",\n\
+        \  \"edgeNameFilter\": \"Nevada\"\n}\n```\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity\
+        \ filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\"\
+        : \"CAT\"\n}\n```\n\n## Api Usage Filter\n\nAllows to query for Api Usage based on optional customer id. If the customer id is not set, returns current tenant API usage.For example, this entity\
+        \ filter selects the 'Api Usage' entity for customer with id 'e6501f30-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"apiUsageState\",\n  \"customerId\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\"\
+        ,\n    \"entityType\": \"CUSTOMER\"\n  }\n}\n```\n\n## Relations Query Filter\n\nAllows to filter entities that are related to the provided root entity. Possible direction values are 'TO' and 'FROM'.\
+        \ The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or\
+        \ only entities that are on the last level of relations. The 'filter' object allows you to define the relation type and set of acceptable entity types to search for. The relation query calculates\
+        \ all related entities, even if they are filtered using different relation types, and then extracts only those who match the 'filters'.\n\nFor example, this entity filter selects all devices and\
+        \ assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"relationsQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"\
+        id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\"\
+        ,\n      \"entityTypes\": [\n        \"DEVICE\",\n        \"ASSET\"\n      ]\n    }\n  ]\n}\n```\n\n## Asset Search Query\n\nAllows to filter assets that are related to the provided root entity.\
+        \ Filters related assets based on the relation type and set of asset types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search\
+        \ 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType'\
+        \ defines the type of the relation to search for. The 'assetTypes' defines the type of the asset to search for. The relation query calculates all related entities, even if they are filtered using\
+        \ different relation types, and then extracts only assets that match 'relationType' and 'assetTypes' conditions.\n\nFor example, this entity filter selects 'charging station' assets which are related\
+        \ to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"assetSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n \
+        \   \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"assetTypes\"\
+        : [\n    \"charging station\"\n  ]\n}\n```\n\n## Device Search Query\n\nAllows to filter devices that are related to the provided root entity. Filters related devices based on the relation type\
+        \ and set of device types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the\
+        \ 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for.\
+        \ The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts\
+        \ only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Charging port' and 'Air Quality Sensor' devices which are related to the asset\
+        \ with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"\
+        e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"deviceTypes\": [\n    \"Air\
+        \ Quality Sensor\",\n    \"Charging port\"\n  ]\n}\n```\n\n## Entity View Query\n\nAllows to filter entity views that are related to the provided root entity. Filters related entity views based\
+        \ on the relation type and set of entity view types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming\
+        \ the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the\
+        \ relation to search for. The 'entityViewTypes' defines the type of the entity view to search for. The relation query calculates all related entities, even if they are filtered using different relation\
+        \ types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Concrete mixer' entity views which are related to the\
+        \ asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"entityViewSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n   \
+        \ \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"entityViewTypes\"\
+        : [\n    \"Concrete mixer\"\n  ]\n}\n```\n\n## Edge Search Query\n\nAllows to filter edge instances that are related to the provided root entity. Filters related edge instances based on the relation\
+        \ type and set of edge types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1,\
+        \ the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for.\
+        \ The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts\
+        \ only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Factory' edge instances which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092'\
+        \ using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n\
+        \  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"edgeTypes\": [\n    \"Factory\"\n  ]\n}\n```\n\n # Key Filters\nKey Filter\
+        \ allows you to define complex logical expressions over entity field, attribute or latest time series value. The filter is defined using 'key', 'valueType' and 'predicate' objects. Single Entity\
+        \ Query may have zero, one or multiple predicates. If multiple filters are defined, they are evaluated using logical 'AND'. The example below checks that temperature of the entity is above 20 degrees:\n\
+        \n```json\n{\n  \"key\": {\n    \"type\": \"TIME_SERIES\",\n    \"key\": \"temperature\"\n  },\n  \"valueType\": \"NUMERIC\",\n  \"predicate\": {\n    \"operation\": \"GREATER\",\n    \"value\"\
+        : {\n      \"defaultValue\": 20,\n      \"dynamicValue\": null\n    },\n    \"type\": \"NUMERIC\"\n  }\n}\n```\n\n Now let's review 'key', 'valueType' and 'predicate' objects in detail.\n\n## Filter\
+        \ Key\n\nFilter Key defines either entity field, attribute or telemetry. It is a JSON object that consists the key name and type. The following filter key types are supported: \n\n * 'CLIENT_ATTRIBUTE'\
+        \ - used for client attributes; \n * 'SHARED_ATTRIBUTE' - used for shared attributes; \n * 'SERVER_ATTRIBUTE' - used for server attributes; \n * 'ATTRIBUTE' - used for any of the above; \n * 'TIME_SERIES'\
+        \ - used for time series values; \n * 'ENTITY_FIELD' - used for accessing entity fields like 'name', 'label', etc. The list of available fields depends on the entity type; \n * 'ALARM_FIELD' - similar\
+        \ to entity field, but is used in alarm queries only; \n\n\n Let's review the example:\n\n```json\n{\n  \"type\": \"TIME_SERIES\",\n  \"key\": \"temperature\"\n}\n```\n\n## Value Type and Operations\n\
+        \nProvides a hint about the data type of the entity field that is defined in the filter key. The value type impacts the list of possible operations that you may use in the corresponding predicate.\
+        \ For example, you may use 'STARTS_WITH' or 'END_WITH', but you can't use 'GREATER_OR_EQUAL' for string values.The following filter value types and corresponding predicate operations are supported:\
+        \ \n\n * 'STRING' - used to filter any 'String' or 'JSON' values. Operations: EQUAL, NOT_EQUAL, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS; \n * 'NUMERIC' - used for 'Long' and 'Double' values.\
+        \ Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n * 'BOOLEAN' - used for boolean values. Operations: EQUAL, NOT_EQUAL;\n * 'DATE_TIME' - similar to numeric, transforms\
+        \ value to milliseconds since epoch. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n\n\n## Filter Predicate\n\nFilter Predicate defines the logical expression to\
+        \ evaluate. The list of available operations depends on the filter value type, see above. Platform supports 4 predicate types: 'STRING', 'NUMERIC', 'BOOLEAN' and 'COMPLEX'. The last one allows to\
+        \ combine multiple operations over one filter key.\n\nSimple predicate example to check 'value < 100': \n\n```json\n{\n  \"operation\": \"LESS\",\n  \"value\": {\n    \"defaultValue\": 100,\n  \
+        \  \"dynamicValue\": null\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nComplex predicate example, to check 'value < 10 or value > 20': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"\
+        OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n\
+        \    {\n      \"operation\": \"GREATER\",\n      \"value\": {\n        \"defaultValue\": 20,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    }\n  ]\n}\n```\n\nMore complex\
+        \ predicate example, to check 'value < 10 or (value > 50 && value < 60)': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"\
+        LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"type\": \"COMPLEX\",\n      \"operation\"\
+        : \"AND\",\n      \"predicates\": [\n        {\n          \"operation\": \"GREATER\",\n          \"value\": {\n            \"defaultValue\": 50,\n            \"dynamicValue\": null\n          },\n\
+        \          \"type\": \"NUMERIC\"\n        },\n        {\n          \"operation\": \"LESS\",\n          \"value\": {\n            \"defaultValue\": 60,\n            \"dynamicValue\": null\n     \
+        \     },\n          \"type\": \"NUMERIC\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n You may also want to replace hardcoded values (for example, temperature > 20) with the more dynamic expression\
+        \ (for example, temperature > 'value of the tenant attribute with key 'temperatureThreshold'). It is possible to use 'dynamicValue' to define attribute of the tenant, customer or user that is performing\
+        \ the API call. See example below: \n\n```json\n{\n  \"operation\": \"GREATER\",\n  \"value\": {\n    \"defaultValue\": 0,\n    \"dynamicValue\": {\n      \"sourceType\": \"CURRENT_USER\",\n   \
+        \   \"sourceAttribute\": \"temperatureThreshold\"\n    }\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\n Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'.\
+        \ The 'defaultValue' is used when the attribute with such a name is not defined for the chosen source.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: countEntitiesByQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityCountQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+  /api/edqs/system/request:
+    post:
+      tags:
+      - entity-query-controller
+      operationId: processSystemEdqsRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToCoreEdqsRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/calculatedField:
+    post:
+      tags:
+      - calculated-field-controller
+      summary: Create or Update Calculated Field (saveCalculatedField)
+      description: "Creates or Updates the Calculated Field. When creating calculated field, platform generates Calculated Field Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created Calculated Field Id will be present in the response. Specify existing Calculated Field Id to update the calculated field. Referencing non-existing Calculated Field Id will cause\
+        \ 'Not Found' error. Remove 'id', 'tenantId' from the request body example (below) to create new Calculated Field entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: saveCalculatedField
+      requestBody:
+        description: A JSON value representing the calculated field.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculatedField'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculatedField'
+  /api/calculatedField/testScript:
+    post:
+      tags:
+      - calculated-field-controller
+      summary: Test Script Expression
+      description: "Execute the Script expression and return the result. The format of request: \n\n```json\n{\n  \"expression\": \"var temp = 0; foreach(element: temperature.values) {temp += element.value;}\
+        \ var avgTemperature = temp / temperature.values.size(); var adjustedTemperature = avgTemperature + 0.1 * humidity.value; return {\\\"adjustedTemperature\\\": adjustedTemperature};\",\n  \"arguments\"\
+        : {\n    \"temperature\": {\n      \"type\": \"TS_ROLLING\",\n      \"timeWindow\": {\n        \"startTs\": 1739775630002,\n        \"endTs\": 65432211,\n        \"limit\": 5\n      },\n      \"\
+        values\": [\n        { \"ts\": 1739775639851, \"value\": 23 },\n        { \"ts\": 1739775664561, \"value\": 43 },\n        { \"ts\": 1739775713079, \"value\": 15 },\n        { \"ts\": 1739775999522,\
+        \ \"value\": 34 },\n        { \"ts\": 1739776228452, \"value\": 22 }\n      ]\n    },\n    \"humidity\": { \"type\": \"SINGLE_VALUE\", \"ts\": 1739776478057, \"value\": 23 }\n  }\n}\n```\n\n Expected\
+        \ result JSON contains \"output\" and \"error\".\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: testScript_1
+      requestBody:
+        description: Test calculated field TBEL expression.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonNode'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+  /api/alarmsQuery/find:
+    post:
+      tags:
+      - entity-query-controller
+      summary: Find Alarms by Query
+      description: "This method description defines how Alarm Data Query extends the Entity Data Query. See method 'Find Entity Data by Query' first to get the info about 'Entity Data Query'.\n\n The platform\
+        \ will first search the entities that match the entity and key filters. Then, the platform will use 'Alarm Page Link' to filter the alarms related to those entities. Finally, platform fetch the\
+        \ properties of alarm that are defined in the **'alarmFields'** and combine them with the other entity, attribute and latest time series fields to return the result. \n\n See example of the alarm\
+        \ query below. The query will search first 100 active alarms with type 'Temperature Alarm' or 'Fire Alarm' for any device with current temperature > 0. The query will return combination of the entity\
+        \ fields: name of the device, device model and latest temperature reading and alarms fields: createdTime, type, severity and status: \n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\"\
+        ,\n    \"resolveMultiple\": true,\n    \"entityType\": \"DEVICE\"\n  },\n  \"pageLink\": {\n    \"page\": 0,\n    \"pageSize\": 100,\n    \"textSearch\": null,\n    \"searchPropagatedAlarms\": false,\n\
+        \    \"statusList\": [\n      \"ACTIVE\"\n    ],\n    \"severityList\": [\n      \"CRITICAL\",\n      \"MAJOR\"\n    ],\n    \"typeList\": [\n      \"Temperature Alarm\",\n      \"Fire Alarm\"\n\
+        \    ],\n    \"sortOrder\": {\n      \"key\": {\n        \"key\": \"createdTime\",\n        \"type\": \"ALARM_FIELD\"\n      },\n      \"direction\": \"DESC\"\n    },\n    \"timeWindow\": 86400000\n\
+        \  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"temperature\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n \
+        \       \"operation\": \"GREATER\",\n        \"value\": {\n          \"defaultValue\": 0,\n          \"dynamicValue\": null\n        },\n        \"type\": \"NUMERIC\"\n      }\n    }\n  ],\n  \"\
+        alarmFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"createdTime\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"type\"\n    },\n    {\n      \"type\"\
+        : \"ALARM_FIELD\",\n      \"key\": \"severity\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"status\"\n    }\n  ],\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\"\
+        ,\n      \"key\": \"name\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"model\"\n    },\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"\
+        temperature\"\n    }\n  ]\n}\n```"
+      operationId: findAlarmDataByQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlarmDataQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataAlarmData'
+  /api/alarmsQuery/count:
+    post:
+      tags:
+      - entity-query-controller
+      summary: Count Alarms by Query (countAlarmsByQuery)
+      description: Returns the number of alarms that match the query definition.
+      operationId: countAlarmsByQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlarmCountQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+  /api/{entityType}/{entityId}/calculatedFields:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Fields by Entity Id (getCalculatedFieldsByEntityId)
+      description: Fetch the Calculated Fields based on the provided Entity Id.
+      operationId: getCalculatedFieldsByEntityId
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: Calculated field type. If not specified, all types will be returned.
+        required: false
+        schema:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the calculated field name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataCalculatedField'
+  /api/plugins/telemetry/{entityType}/{entityId}/values/timeseries:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Time Series Data (getTimeseries)
+      description: "Returns a range of time series values for specified entity. Returns not aggregated data by default. Use aggregation function ('agg') and aggregation interval ('interval') to enable aggregation\
+        \ of the results on the database / server side. The aggregation is generally more efficient then fetching all records. \n\n```json\n{\n  \"temperature\": [\n    {\n      \"value\": 36.7,\n     \
+        \ \"ts\": 1609459200000\n    },\n    {\n      \"value\": 36.6,\n      \"ts\": 1609459201000\n    }\n  ]\n}\n```\n\nReferencing a non-existing entity Id or invalid entity type will cause an error.\
+        \ \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getLatestTimeseries
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of telemetry keys. If keys are not selected, the result will return all latest time series. For example, 'temperature,humidity'.
+          If telemetry keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: useStrictDataTypes
+        in: query
+        description: Enables/disables conversion of telemetry values to strings. Conversion is enabled by default. Set parameter to 'true' in order to disable the conversion.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      - name: startTs
+        in: query
+        description: A long value representing the start timestamp of the time range in milliseconds, UTC.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: endTs
+        in: query
+        description: A long value representing the end timestamp of the time range in milliseconds, UTC.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: intervalType
+        in: query
+        description: A string value representing the type fo the interval.
+        required: false
+        schema:
+          type: string
+          enum:
+          - MILLISECONDS
+          - WEEK
+          - WEEK_ISO
+          - MONTH
+          - QUARTER
+      - name: interval
+        in: query
+        description: A long value representing the aggregation interval range in milliseconds.
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 0
+      - name: timeZone
+        in: query
+        description: A string value representing the timezone that will be used to calculate exact timestamps for 'WEEK', 'WEEK_ISO', 'MONTH' and 'QUARTER' interval types.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: An integer value that represents a max number of time series data points to fetch. This parameter is used only in the case if 'agg' parameter is set to 'NONE'.
+        required: false
+        schema:
+          type: string
+      - name: agg
+        in: query
+        description: A string value representing the aggregation function. If the interval is not specified, 'agg' parameter will use 'NONE' value.
+        required: false
+        schema:
+          type: string
+          enum:
+          - MIN
+          - MAX
+          - AVG
+          - SUM
+          - COUNT
+          - NONE
+      - name: orderBy
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/values/attributes:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Attributes (getAttributes)
+      description: "Returns all attributes that belong to specified entity. Use optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n[\n  {\"key\": \"stringAttributeKey\"\
+        , \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": false, \"lastUpdateTs\": 1609459200001},\n  {\"key\": \"doubleAttributeKey\", \"value\"\
+        : 42.2, \"lastUpdateTs\": 1609459200002},\n  {\"key\": \"longKeyExample\", \"value\": 73, \"lastUpdateTs\": 1609459200003},\n  {\"key\": \"jsonKeyExample\",\n    \"value\": {\n      \"someNumber\"\
+        : 42,\n      \"someArray\": [1,2,3],\n      \"someNestedObject\": {\"key\": \"value\"}\n    },\n    \"lastUpdateTs\": 1609459200004\n  }\n]\n```\n\n Referencing a non-existing entity Id or invalid\
+        \ entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributes
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each
+          key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/values/attributes/{scope}:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Attributes by Scope (getAttributesByScope)
+      description: "Returns all attributes of a specified scope that belong to specified entity. List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity\
+        \ types;\n * SHARED_SCOPE - supported for devices;\n * CLIENT_SCOPE - supported for devices. \n\nUse optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n\
+        [\n  {\"key\": \"stringAttributeKey\", \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": false, \"lastUpdateTs\": 1609459200001},\n  {\"key\"\
+        : \"doubleAttributeKey\", \"value\": 42.2, \"lastUpdateTs\": 1609459200002},\n  {\"key\": \"longKeyExample\", \"value\": 73, \"lastUpdateTs\": 1609459200003},\n  {\"key\": \"jsonKeyExample\",\n\
+        \    \"value\": {\n      \"someNumber\": 42,\n      \"someArray\": [1,2,3],\n      \"someNestedObject\": {\"key\": \"value\"}\n    },\n    \"lastUpdateTs\": 1609459200004\n  }\n]\n```\n\n Referencing\
+        \ a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributesByScope
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of attributes keys. For example, 'active,inactivityAlarmTime'. If attribute keys contain comma, duplicate 'key' parameter for each
+          key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/keys/timeseries:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get Time Series Keys (getTimeseriesKeys)
+      description: "Returns a set of unique time series key names for the selected entity. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with\
+        \ 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getTimeseriesKeys
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/keys/attributes:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get All Attribute Keys (getAttributeKeys)
+      description: "Returns a set of unique attribute key names for the selected entity. The response will include merged key names set for all attribute scopes:\n\n * SERVER_SCOPE - supported for all entity\
+        \ types;\n * CLIENT_SCOPE - supported for devices;\n * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for\
+        \ users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributeKeys
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/plugins/telemetry/{entityType}/{entityId}/keys/attributes/{scope}:
+    get:
+      tags:
+      - telemetry-controller
+      summary: Get All Attribute Keys by Scope (getAttributeKeysByScope)
+      description: "Returns a set of unique attribute key names for the selected entity and attributes scope: \n\n * SERVER_SCOPE - supported for all entity types;\n * CLIENT_SCOPE - supported for devices;\n\
+        \ * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getAttributeKeysByScope
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: A string value representing the attributes scope. For example, 'SERVER_SCOPE'.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+          - CLIENT_SCOPE
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/edqs/state:
+    get:
+      tags:
+      - entity-query-controller
+      operationId: getEdqsState
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EdqsState'
+  /api/calculatedFields:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Fields (getCalculatedFields)
+      description: Fetch tenant calculated fields based on the filter.
+      operationId: getCalculatedFields
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: types
+        in: query
+        description: Calculated field types filter.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - SIMPLE
+            - SCRIPT
+            - GEOFENCING
+            - ALARM
+            - PROPAGATION
+            - RELATED_ENTITIES_AGGREGATION
+            - ENTITY_AGGREGATION
+          uniqueItems: true
+      - name: entityType
+        in: query
+        description: Entity type filter. If not specified, calculated fields for all supported entity types will be returned.
+        required: false
+        schema:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+      - name: entities
+        in: query
+        description: Entities filter. If not specified, calculated fields for entity type filter will be returned.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+      - name: name
+        in: query
+        description: Name filter. To specify multiple names, duplicate 'name' parameter for each name, for example '?name=name1&name=name2
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the calculated field name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataCalculatedFieldInfo'
+  /api/calculatedFields/names:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Field Names (getCalculatedFieldNames)
+      description: Fetch the list of calculated field names for specified type.
+      operationId: getCalculatedFieldNames
+      parameters:
+      - name: type
+        in: query
+        description: Calculated field type filter.
+        required: true
+        schema:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the calculated field name.
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataString'
+  /api/calculatedField/{calculatedFieldId}:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Calculated Field (getCalculatedFieldById)
+      description: Fetch the Calculated Field object based on the provided Calculated Field Id.
+      operationId: getCalculatedFieldById
+      parameters:
+      - name: calculatedFieldId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculatedField'
+    delete:
+      tags:
+      - calculated-field-controller
+      summary: Delete Calculated Field (deleteCalculatedField)
+      description: 'Deletes the calculated field. Referencing non-existing Calculated Field Id will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: deleteCalculatedField
+      parameters:
+      - name: calculatedFieldId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/calculatedField/{calculatedFieldId}/debug:
+    get:
+      tags:
+      - calculated-field-controller
+      summary: Get Latest Calculated Field Debug Event (getLatestCalculatedFieldDebugEvent)
+      description: "Gets latest calculated field debug event for specified calculated field id. Referencing non-existing calculated field id will cause an error. \n\nAvailable for users with 'TENANT_ADMIN'\
+        \ authority."
+      operationId: getLatestCalculatedFieldDebugEvent
+      parameters:
+      - name: calculatedFieldId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+  /api/plugins/telemetry/{entityType}/{entityId}/timeseries/delete:
+    delete:
+      tags:
+      - telemetry-controller
+      summary: Delete Entity Time Series Data (deleteEntityTimeseries)
+      description: "Delete time series for selected entity based on entity id, entity type and keys. Use 'deleteAllDataForKeys' to delete all time series data. Use 'startTs' and 'endTs' to specify time-range\
+        \ instead.  Use 'deleteLatest' to delete latest value (stored in separate table for performance) if the value's timestamp matches the time-range.  Use 'rewriteLatestIfDeleted' to rewrite latest\
+        \ value (stored in separate table for performance) if the value's timestamp matches the time-range and 'deleteLatest' param is true. The replacement value will be fetched from the 'time series'\
+        \ table, and its timestamp will be the most recent one before the defined time-range. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: deleteEntityTimeseries
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+      - name: entityId
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: keys
+        in: query
+        description: A string value representing the comma-separated list of telemetry keys. If keys are not selected, the result will return all latest time series. For example, 'temperature,humidity'.
+          If telemetry keys contain comma, duplicate 'key' parameter for each key, for example '?key=my,key&key=my,second,key
+        required: false
+        schema:
+          type: string
+      - name: deleteAllDataForKeys
+        in: query
+        description: A boolean value to specify if should be deleted all data for selected keys or only data that are in the selected time range.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: startTs
+        in: query
+        description: A long value representing the start timestamp of removal time range in milliseconds.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTs
+        in: query
+        description: A long value representing the end timestamp of removal time range in milliseconds.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: deleteLatest
+        in: query
+        description: If the parameter is set to true, the latest telemetry can be removed, otherwise, in case that parameter is set to false the latest value will not removed.
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: rewriteLatestIfDeleted
+        in: query
+        description: If the parameter is set to true, the latest telemetry will be rewritten in case that current latest value was removed, otherwise, in case that parameter is set to false the new latest
+          value will not set.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/MultiValueMapStringString'
+      responses:
+        '200':
+          description: Time series for the selected keys in the request was removed. Platform creates an audit log event about entity time series removal with action type 'TIMESERIES_DELETED'.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Platform returns a bad request in case if keys list is empty or start and end timestamp values is empty when deleteAllDataForKeys is set to false.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: User is not authorized to delete entity time series for selected entity. Most likely, User belongs to different Customer or Tenant.
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: The exception was thrown during processing the request. Platform creates an audit log event about entity time series removal with action type 'TIMESERIES_DELETED' that includes an
+            error stacktrace.
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    AlarmAssignee:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+    AlarmCountQuery:
+      type: object
+      description: A JSON value representing the alarm count query.
+      properties:
+        startTs:
+          type: integer
+          format: int64
+        endTs:
+          type: integer
+          format: int64
+        timeWindow:
+          type: integer
+          format: int64
+        typeList:
+          type: array
+          items:
+            type: string
+        statusList:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANY
+            - ACTIVE
+            - CLEARED
+            - ACK
+            - UNACK
+        severityList:
+          type: array
+          items:
+            type: string
+            enum:
+            - CRITICAL
+            - MAJOR
+            - MINOR
+            - WARNING
+            - INDETERMINATE
+        searchPropagatedAlarms:
+          type: boolean
+        assigneeId:
+          $ref: '#/components/schemas/UserId'
+        entityFilter:
+          oneOf:
+          - $ref: '#/components/schemas/ApiUsageStateFilter'
+          - $ref: '#/components/schemas/AssetSearchQueryFilter'
+          - $ref: '#/components/schemas/AssetTypeFilter'
+          - $ref: '#/components/schemas/DeviceSearchQueryFilter'
+          - $ref: '#/components/schemas/DeviceTypeFilter'
+          - $ref: '#/components/schemas/EdgeSearchQueryFilter'
+          - $ref: '#/components/schemas/EdgeTypeFilter'
+          - $ref: '#/components/schemas/EntityListFilter'
+          - $ref: '#/components/schemas/EntityNameFilter'
+          - $ref: '#/components/schemas/EntityTypeFilter'
+          - $ref: '#/components/schemas/EntityViewSearchQueryFilter'
+          - $ref: '#/components/schemas/EntityViewTypeFilter'
+          - $ref: '#/components/schemas/RelationsQueryFilter'
+          - $ref: '#/components/schemas/SingleEntityFilter'
+        keyFilters:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyFilter'
+    AlarmData:
+      type: object
+      properties:
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        latest:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TsValue'
+        id:
+          $ref: '#/components/schemas/AlarmId'
+          description: JSON object with the alarm Id. Specify this field to update the alarm. Referencing non-existing alarm Id will cause error. Omit this field to create new alarm.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm creation, in milliseconds
+          example: 1634058704567
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id
+          readOnly: true
+        type:
+          type: string
+          description: representing type of the Alarm
+          example: High Temperature Alarm
+        originator:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with alarm originator id
+        severity:
+          type: string
+          description: Alarm severity
+          enum:
+          - CRITICAL
+          - MAJOR
+          - MINOR
+          - WARNING
+          - INDETERMINATE
+          example: CRITICAL
+        acknowledged:
+          type: boolean
+          description: Acknowledged
+          example: true
+        cleared:
+          type: boolean
+          description: Cleared
+          example: false
+        assigneeId:
+          $ref: '#/components/schemas/UserId'
+          description: Alarm assignee user id
+        startTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm start time, in milliseconds
+          example: 1634058704565
+        endTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm end time(last time update), in milliseconds
+          example: 1634111163522
+        ackTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm acknowledgement, in milliseconds
+          example: 1634115221948
+        clearTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm clearing, in milliseconds
+          example: 1634114528465
+        assignTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm assignment, in milliseconds
+          example: 1634115928465
+        propagate:
+          type: boolean
+          description: Propagation flag to specify if alarm should be propagated to parent entities of alarm originator
+          example: true
+        propagateToOwner:
+          type: boolean
+          description: Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator
+          example: true
+        propagateToTenant:
+          type: boolean
+          description: Propagation flag to specify if alarm should be propagated to the tenant entity
+          example: true
+        propagateRelationTypes:
+          type: array
+          description: JSON array of relation types that should be used for propagation. By default, 'propagateRelationTypes' array is empty which means that the alarm will be propagated based on any relation
+            type to parent entities. This parameter should be used only in case when 'propagate' parameter is set to true, otherwise, 'propagateRelationTypes' array will be ignored.
+          items:
+            type: string
+        originatorName:
+          type: string
+          description: Alarm originator name
+          example: Thermostat
+        originatorLabel:
+          type: string
+          description: Alarm originator label
+          example: Thermostat label
+        originatorDisplayName:
+          type: string
+          description: Originator display name
+          example: Thermostat
+        assignee:
+          $ref: '#/components/schemas/AlarmAssignee'
+          description: Alarm assignee
+        name:
+          type: string
+          description: representing type of the Alarm
+          example: High Temperature Alarm
+          readOnly: true
+        status:
+          type: string
+          description: status of the Alarm
+          enum:
+          - ACTIVE_UNACK
+          - ACTIVE_ACK
+          - CLEARED_UNACK
+          - CLEARED_ACK
+          example: ACTIVE_UNACK
+          readOnly: true
+        details:
+          $ref: '#/components/schemas/JsonNode'
+      required:
+      - acknowledged
+      - cleared
+      - name
+      - originator
+      - severity
+      - status
+      - type
+    AlarmDataPageLink:
+      type: object
+      properties:
+        startTs:
+          type: integer
+          format: int64
+        endTs:
+          type: integer
+          format: int64
+        timeWindow:
+          type: integer
+          format: int64
+        typeList:
+          type: array
+          items:
+            type: string
+        statusList:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANY
+            - ACTIVE
+            - CLEARED
+            - ACK
+            - UNACK
+        severityList:
+          type: array
+          items:
+            type: string
+            enum:
+            - CRITICAL
+            - MAJOR
+            - MINOR
+            - WARNING
+            - INDETERMINATE
+        searchPropagatedAlarms:
+          type: boolean
+        assigneeId:
+          $ref: '#/components/schemas/UserId'
+        pageSize:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        textSearch:
+          type: string
+        sortOrder:
+          $ref: '#/components/schemas/EntityDataSortOrder'
+        dynamic:
+          type: boolean
+    AlarmDataQuery:
+      type: object
+      description: A JSON value representing the alarm data query. See API call notes above for more details.
+      properties:
+        entityFilter:
+          oneOf:
+          - $ref: '#/components/schemas/ApiUsageStateFilter'
+          - $ref: '#/components/schemas/AssetSearchQueryFilter'
+          - $ref: '#/components/schemas/AssetTypeFilter'
+          - $ref: '#/components/schemas/DeviceSearchQueryFilter'
+          - $ref: '#/components/schemas/DeviceTypeFilter'
+          - $ref: '#/components/schemas/EdgeSearchQueryFilter'
+          - $ref: '#/components/schemas/EdgeTypeFilter'
+          - $ref: '#/components/schemas/EntityListFilter'
+          - $ref: '#/components/schemas/EntityNameFilter'
+          - $ref: '#/components/schemas/EntityTypeFilter'
+          - $ref: '#/components/schemas/EntityViewSearchQueryFilter'
+          - $ref: '#/components/schemas/EntityViewTypeFilter'
+          - $ref: '#/components/schemas/RelationsQueryFilter'
+          - $ref: '#/components/schemas/SingleEntityFilter'
+        keyFilters:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyFilter'
+        pageLink:
+          $ref: '#/components/schemas/AlarmDataPageLink'
+        entityFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityKey'
+        latestValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityKey'
+        alarmFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityKey'
+    AlarmId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ALARM
+          example: ALARM
+      required:
+      - entityType
+      - id
+    AliasEntityId:
+      type: object
+      properties:
+        aliasEntityType:
+          type: string
+          enum:
+          - CURRENT_CUSTOMER
+          - CURRENT_TENANT
+          - CURRENT_USER
+          - CURRENT_USER_OWNER
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    ApiUsageStateFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          customerId:
+            $ref: '#/components/schemas/CustomerId'
+    Argument:
+      type: object
+      properties:
+        refEntityId:
+          $ref: '#/components/schemas/EntityId'
+        refDynamicSourceConfiguration:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
+          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
+        refEntityKey:
+          $ref: '#/components/schemas/ReferencedEntityKey'
+        defaultValue:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        timeWindow:
+          type: integer
+          format: int64
+    AssetSearchQueryFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          rootEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          relationType:
+            type: string
+          direction:
+            type: string
+            enum:
+            - FROM
+            - TO
+          maxLevel:
+            type: integer
+            format: int32
+          fetchLastLevelOnly:
+            type: boolean
+          rootStateEntity:
+            type: boolean
+          defaultStateEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          assetTypes:
+            type: array
+            items:
+              type: string
+    AssetTypeFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          assetType:
+            type: string
+            deprecated: true
+            writeOnly: true
+          assetTypes:
+            type: array
+            items:
+              type: string
+          assetNameFilter:
+            type: string
+    AttributesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+      - type: object
+        properties:
+          sendAttributesUpdatedNotification:
+            type: boolean
+          updateAttributesOnlyOnValueChange:
+            type: boolean
+          saveAttribute:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    AttributesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
+    AttributesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    AttributesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+    AvailableEntityKeys:
+      type: object
+      description: Contains unique time series and attribute key names discovered from entities matching a query. Used primarily for UI hints such as autocomplete suggestions.
+      properties:
+        entityTypes:
+          type: array
+          description: Set of entity types found among the matched entities.
+          example:
+          - DEVICE
+          - ASSET
+          items:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+          uniqueItems: true
+        timeseries:
+          type: array
+          items:
+            type: string
+            example: temperature
+            uniqueItems: true
+          uniqueItems: true
+        attribute:
+          type: array
+          items:
+            type: string
+            example: serialNumber
+            uniqueItems: true
+          uniqueItems: true
+      required:
+      - attribute
+      - entityTypes
+      - timeseries
+    BooleanFilterPredicate:
+      allOf:
+      - $ref: '#/components/schemas/KeyFilterPredicate'
+      - type: object
+        properties:
+          operation:
+            type: string
+            enum:
+            - EQUAL
+            - NOT_EQUAL
+          value:
+            $ref: '#/components/schemas/FilterPredicateValueBoolean'
+    CalculatedField:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CalculatedFieldId'
+          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the calculated field creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+        name:
+          type: string
+          description: User defined name of the calculated field.
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        configurationVersion:
+          type: integer
+          format: int32
+          description: Version of calculated field configuration.
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
+        version:
+          type: integer
+          format: int64
+      required:
+      - configuration
+    CalculatedFieldId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CALCULATED_FIELD
+          example: CALCULATED_FIELD
+      required:
+      - entityType
+      - id
+    CalculatedFieldInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CalculatedFieldId'
+          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the calculated field creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+        name:
+          type: string
+          description: User defined name of the calculated field.
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        configurationVersion:
+          type: integer
+          format: int32
+          description: Version of calculated field configuration.
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
+        version:
+          type: integer
+          format: int64
+        entityName:
+          type: string
+      required:
+      - configuration
+    CfArgumentDynamicSourceConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    ComparisonTsValue:
+      type: object
+      properties:
+        current:
+          $ref: '#/components/schemas/TsValue'
+        previous:
+          $ref: '#/components/schemas/TsValue'
+    ComplexFilterPredicate:
+      allOf:
+      - $ref: '#/components/schemas/KeyFilterPredicate'
+      - type: object
+        properties:
+          operation:
+            type: string
+            enum:
+            - AND
+            - OR
+          predicates:
+            type: array
+            items: {}
+      - type: object
+        properties:
+          operation:
+            type: string
+            enum:
+            - AND
+            - OR
+          predicates:
+            type: array
+            items:
+              oneOf:
+              - $ref: '#/components/schemas/BooleanFilterPredicate'
+              - $ref: '#/components/schemas/ComplexFilterPredicate'
+              - $ref: '#/components/schemas/NumericFilterPredicate'
+              - $ref: '#/components/schemas/StringFilterPredicate'
+    CurrentOwnerDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    DebugSettings:
+      type: object
+      properties:
+        failuresEnabled:
+          type: boolean
+          description: 'Debug failures. '
+          example: false
+        allEnabled:
+          type: boolean
+          description: Debug All. Used as a trigger for updating debugAllUntil.
+          example: false
+        allEnabledUntil:
+          type: integer
+          format: int64
+          description: Timestamp of the end time for the processing debug events.
+    DeviceSearchQueryFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          rootEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          relationType:
+            type: string
+          direction:
+            type: string
+            enum:
+            - FROM
+            - TO
+          maxLevel:
+            type: integer
+            format: int32
+          fetchLastLevelOnly:
+            type: boolean
+          rootStateEntity:
+            type: boolean
+          defaultStateEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          deviceTypes:
+            type: array
+            items:
+              type: string
+    DeviceTypeFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          deviceType:
+            type: string
+            deprecated: true
+            writeOnly: true
+          deviceTypes:
+            type: array
+            items:
+              type: string
+          deviceNameFilter:
+            type: string
+    DynamicValueBoolean:
+      type: object
+      properties:
+        sourceType:
+          type: string
+          enum:
+          - CURRENT_TENANT
+          - CURRENT_CUSTOMER
+          - CURRENT_USER
+          - CURRENT_DEVICE
+        sourceAttribute:
+          type: string
+        inherit:
+          type: boolean
+        resolvedValue:
+          type: boolean
+    DynamicValueDouble:
+      type: object
+      properties:
+        sourceType:
+          type: string
+          enum:
+          - CURRENT_TENANT
+          - CURRENT_CUSTOMER
+          - CURRENT_USER
+          - CURRENT_DEVICE
+        sourceAttribute:
+          type: string
+        inherit:
+          type: boolean
+        resolvedValue:
+          type: number
+          format: double
+    DynamicValueString:
+      type: object
+      properties:
+        sourceType:
+          type: string
+          enum:
+          - CURRENT_TENANT
+          - CURRENT_CUSTOMER
+          - CURRENT_USER
+          - CURRENT_DEVICE
+        sourceAttribute:
+          type: string
+        inherit:
+          type: boolean
+        resolvedValue:
+          type: string
+    EdgeSearchQueryFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          rootEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          relationType:
+            type: string
+          direction:
+            type: string
+            enum:
+            - FROM
+            - TO
+          maxLevel:
+            type: integer
+            format: int32
+          fetchLastLevelOnly:
+            type: boolean
+          rootStateEntity:
+            type: boolean
+          defaultStateEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          edgeTypes:
+            type: array
+            items:
+              type: string
+    EdgeTypeFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          edgeType:
+            type: string
+            deprecated: true
+            writeOnly: true
+          edgeTypes:
+            type: array
+            items:
+              type: string
+          edgeNameFilter:
+            type: string
+    EdqsState:
+      type: object
+      properties:
+        edqsReady:
+          type: boolean
+        syncStatus:
+          type: string
+          enum:
+          - REQUESTED
+          - STARTED
+          - FINISHED
+          - FAILED
+        apiMode:
+          type: string
+          enum:
+          - ENABLED
+          - AUTO_ENABLED
+          - DISABLED
+          - AUTO_DISABLED
+    EdqsSyncRequest:
+      type: object
+      properties:
+        objectTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - TENANT
+            - TENANT_PROFILE
+            - CUSTOMER
+            - QUEUE
+            - RPC
+            - RULE_CHAIN
+            - OTA_PACKAGE
+            - RESOURCE
+            - EVENT
+            - RULE_NODE
+            - USER
+            - EDGE
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - DASHBOARD
+            - DEVICE_PROFILE
+            - DEVICE
+            - DEVICE_CREDENTIALS
+            - ASSET_PROFILE
+            - ASSET
+            - ENTITY_VIEW
+            - ALARM
+            - ENTITY_ALARM
+            - OAUTH2_CLIENT
+            - OAUTH2_DOMAIN
+            - OAUTH2_MOBILE
+            - USER_SETTINGS
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_RULE
+            - ALARM_COMMENT
+            - API_USAGE_STATE
+            - QUEUE_STATS
+            - AUDIT_LOG
+            - RELATION
+            - ATTRIBUTE_KV
+            - LATEST_TS_KV
+          uniqueItems: true
+    EntityCountQuery:
+      type: object
+      description: A JSON value representing the entity count query. See API call notes above for more details.
+      properties:
+        entityFilter:
+          oneOf:
+          - $ref: '#/components/schemas/ApiUsageStateFilter'
+          - $ref: '#/components/schemas/AssetSearchQueryFilter'
+          - $ref: '#/components/schemas/AssetTypeFilter'
+          - $ref: '#/components/schemas/DeviceSearchQueryFilter'
+          - $ref: '#/components/schemas/DeviceTypeFilter'
+          - $ref: '#/components/schemas/EdgeSearchQueryFilter'
+          - $ref: '#/components/schemas/EdgeTypeFilter'
+          - $ref: '#/components/schemas/EntityListFilter'
+          - $ref: '#/components/schemas/EntityNameFilter'
+          - $ref: '#/components/schemas/EntityTypeFilter'
+          - $ref: '#/components/schemas/EntityViewSearchQueryFilter'
+          - $ref: '#/components/schemas/EntityViewTypeFilter'
+          - $ref: '#/components/schemas/RelationsQueryFilter'
+          - $ref: '#/components/schemas/SingleEntityFilter'
+        keyFilters:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyFilter'
+    EntityData:
+      type: object
+      properties:
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        latest:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TsValue'
+        timeseries:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/TsValue'
+        aggLatest:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ComparisonTsValue'
+    EntityDataPageLink:
+      type: object
+      properties:
+        pageSize:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        textSearch:
+          type: string
+        sortOrder:
+          $ref: '#/components/schemas/EntityDataSortOrder'
+        dynamic:
+          type: boolean
+    EntityDataQuery:
+      type: object
+      description: Entity data query to find entities. Page size is capped at 100.
+      properties:
+        entityFilter:
+          oneOf:
+          - $ref: '#/components/schemas/ApiUsageStateFilter'
+          - $ref: '#/components/schemas/AssetSearchQueryFilter'
+          - $ref: '#/components/schemas/AssetTypeFilter'
+          - $ref: '#/components/schemas/DeviceSearchQueryFilter'
+          - $ref: '#/components/schemas/DeviceTypeFilter'
+          - $ref: '#/components/schemas/EdgeSearchQueryFilter'
+          - $ref: '#/components/schemas/EdgeTypeFilter'
+          - $ref: '#/components/schemas/EntityListFilter'
+          - $ref: '#/components/schemas/EntityNameFilter'
+          - $ref: '#/components/schemas/EntityTypeFilter'
+          - $ref: '#/components/schemas/EntityViewSearchQueryFilter'
+          - $ref: '#/components/schemas/EntityViewTypeFilter'
+          - $ref: '#/components/schemas/RelationsQueryFilter'
+          - $ref: '#/components/schemas/SingleEntityFilter'
+        keyFilters:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyFilter'
+        pageLink:
+          $ref: '#/components/schemas/EntityDataPageLink'
+        entityFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityKey'
+        latestValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityKey'
+    EntityDataSortOrder:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/EntityKey'
+        direction:
+          type: string
+          enum:
+          - ASC
+          - DESC
+    EntityFilter:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    EntityKey:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - ATTRIBUTE
+          - CLIENT_ATTRIBUTE
+          - SHARED_ATTRIBUTE
+          - SERVER_ATTRIBUTE
+          - TIME_SERIES
+          - ENTITY_FIELD
+          - ALARM_FIELD
+        key:
+          type: string
+    EntityListFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          entityType:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+          entityList:
+            type: array
+            items:
+              type: string
+    EntityNameFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          entityType:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+          entityNameFilter:
+            type: string
+    EntityTypeFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          entityType:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+    EntityViewSearchQueryFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          rootEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          relationType:
+            type: string
+          direction:
+            type: string
+            enum:
+            - FROM
+            - TO
+          maxLevel:
+            type: integer
+            format: int32
+          fetchLastLevelOnly:
+            type: boolean
+          rootStateEntity:
+            type: boolean
+          defaultStateEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          entityViewTypes:
+            type: array
+            items:
+              type: string
+    EntityViewTypeFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          entityViewType:
+            type: string
+            deprecated: true
+            writeOnly: true
+          entityViewTypes:
+            type: array
+            items:
+              type: string
+          entityViewNameFilter:
+            type: string
+    FilterPredicateValueBoolean:
+      type: object
+      properties:
+        defaultValue:
+          type: boolean
+        userValue:
+          type: boolean
+        dynamicValue:
+          $ref: '#/components/schemas/DynamicValueBoolean'
+    FilterPredicateValueDouble:
+      type: object
+      properties:
+        defaultValue:
+          type: number
+          format: double
+        userValue:
+          type: number
+          format: double
+        dynamicValue:
+          $ref: '#/components/schemas/DynamicValueDouble'
+    FilterPredicateValueString:
+      type: object
+      properties:
+        defaultValue:
+          type: string
+        userValue:
+          type: string
+        dynamicValue:
+          $ref: '#/components/schemas/DynamicValueString'
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    KeyFilter:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/EntityKey'
+        valueType:
+          type: string
+          enum:
+          - STRING
+          - NUMERIC
+          - BOOLEAN
+          - DATE_TIME
+        predicate:
+          oneOf:
+          - $ref: '#/components/schemas/BooleanFilterPredicate'
+          - $ref: '#/components/schemas/ComplexFilterPredicate'
+          - $ref: '#/components/schemas/NumericFilterPredicate'
+          - $ref: '#/components/schemas/StringFilterPredicate'
+    KeyFilterPredicate:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    MultiValueMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      properties:
+        all:
+          type: object
+          additionalProperties:
+            type: string
+          writeOnly: true
+    NumericFilterPredicate:
+      allOf:
+      - $ref: '#/components/schemas/KeyFilterPredicate'
+      - type: object
+        properties:
+          operation:
+            type: string
+            enum:
+            - EQUAL
+            - NOT_EQUAL
+            - GREATER
+            - LESS
+            - GREATER_OR_EQUAL
+            - LESS_OR_EQUAL
+          value:
+            $ref: '#/components/schemas/FilterPredicateValueDouble'
+    Output:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        name:
+          type: string
+        scope:
+          type: string
+          enum:
+          - CLIENT_SCOPE
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+        decimalsByDefault:
+          type: integer
+          format: int32
+        strategy:
+          $ref: '#/components/schemas/OutputStrategy'
+        type:
+          type: string
+      required:
+      - type
+    OutputStrategy: {}
+    PageDataAlarmData:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AlarmData'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataCalculatedField:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataCalculatedFieldInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/CalculatedFieldInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEntityData:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityData'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataString:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            type: string
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    ReferencedEntityKey:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
+          type: string
+          enum:
+          - TS_LATEST
+          - ATTRIBUTE
+          - TS_ROLLING
+        scope:
+          type: string
+          enum:
+          - CLIENT_SCOPE
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+    RelationEntityTypeFilter:
+      type: object
+      properties:
+        relationType:
+          type: string
+          description: Type of the relation between root entity and other entity (e.g. 'Contains' or 'Manages').
+          example: Contains
+        entityTypes:
+          type: array
+          description: Array of entity types to filter the related entities (e.g. 'DEVICE', 'ASSET').
+          items:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+        negate:
+          type: boolean
+          description: Negate relation type between root entity and other entity.
+    RelationPathLevel:
+      type: object
+      properties:
+        direction:
+          type: string
+          enum:
+          - FROM
+          - TO
+        relationType:
+          type: string
+          minLength: 1
+      required:
+      - direction
+      - relationType
+    RelationPathQueryDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+      - type: object
+        properties:
+          levels:
+            type: array
+            items:
+              $ref: '#/components/schemas/RelationPathLevel'
+    RelationsQueryFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          rootEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          multiRootEntitiesType:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+          multiRootEntityIds:
+            type: array
+            items:
+              type: string
+            uniqueItems: true
+          direction:
+            type: string
+            enum:
+            - FROM
+            - TO
+          filters:
+            type: array
+            items:
+              $ref: '#/components/schemas/RelationEntityTypeFilter'
+          maxLevel:
+            type: integer
+            format: int32
+          fetchLastLevelOnly:
+            type: boolean
+          negate:
+            type: boolean
+          rootStateEntity:
+            type: boolean
+          defaultStateEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+          multiRoot:
+            type: boolean
+    SimpleCalculatedFieldConfiguration:
+      type: object
+      properties:
+        arguments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Argument'
+          minProperties: 1
+        expression:
+          type: string
+        output:
+          oneOf:
+          - $ref: '#/components/schemas/AttributesOutput'
+          - $ref: '#/components/schemas/TimeSeriesOutput'
+        useLatestTs:
+          type: boolean
+      required:
+      - arguments
+      - output
+    SingleEntityFilter:
+      allOf:
+      - $ref: '#/components/schemas/EntityFilter'
+      - type: object
+        properties:
+          singleEntity:
+            $ref: '#/components/schemas/AliasEntityId'
+    StringFilterPredicate:
+      allOf:
+      - $ref: '#/components/schemas/KeyFilterPredicate'
+      - type: object
+        properties:
+          operation:
+            type: string
+            enum:
+            - EQUAL
+            - NOT_EQUAL
+            - STARTS_WITH
+            - ENDS_WITH
+            - CONTAINS
+            - NOT_CONTAINS
+            - IN
+            - NOT_IN
+          value:
+            $ref: '#/components/schemas/FilterPredicateValueString'
+          ignoreCase:
+            type: boolean
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    TimeSeriesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+      - type: object
+        properties:
+          ttl:
+            type: integer
+            format: int64
+          saveTimeSeries:
+            type: boolean
+          saveLatest:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    TimeSeriesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
+    TimeSeriesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TimeSeriesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+    ToCoreEdqsRequest:
+      type: object
+      properties:
+        syncRequest:
+          $ref: '#/components/schemas/EdqsSyncRequest'
+        apiEnabled:
+          type: boolean
+    TsValue:
+      type: object
+      properties:
+        ts:
+          type: integer
+          format: int64
+        value:
+          type: string
+        count:
+          type: integer
+          format: int64
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header

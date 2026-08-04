@@ -1,0 +1,217 @@
+{
+  "info": {
+    "_postman_id": "ec4cc033-c987-4793-a9ba-0fb11acd0f2e",
+    "name": "ThingsBoard Admin admin-controller edge-event-controller API",
+    "description": "ThingsBoard Admin API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:12:36.000Z",
+    "updatedAt": "2026-07-28T03:12:36.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ec4cc033-c987-4793-a9ba-0fb11acd0f2e"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "edge",
+          "item": [
+            {
+              "name": "{edgeId}",
+              "item": [
+                {
+                  "name": "events",
+                  "item": [
+                    {
+                      "name": "Get Edge Events (getEdgeEvents)",
+                      "id": "dcd670c8-96f5-4dca-83e9-7204281693c7",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/edge/:edgeId/events?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=type&sortOrder=DESC&startTime=<long>&endTime=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "edge",
+                            ":edgeId",
+                            "events"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Maximum amount of entities in a one page",
+                              "key": "pageSize",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "(Required) Sequence number of page starting from 0",
+                              "key": "page",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The case insensitive 'substring' filter based on the edge event type name.",
+                              "key": "textSearch",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Property of entity to sort by",
+                              "key": "sortProperty",
+                              "value": "type"
+                            },
+                            {
+                              "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                              "key": "sortOrder",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "Timestamp. Edge events with creation time before it won't be queried",
+                              "key": "startTime",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "Timestamp. Edge events with creation time after it won't be queried",
+                              "key": "endTime",
+                              "value": "<long>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "8bdaec57-5591-4b02-980a-348ab7e8c4b4",
+                              "key": "edgeId",
+                              "value": "<string>",
+                              "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                            }
+                          ]
+                        },
+                        "description": "Returns a page of edge events for the requested edge. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+                      },
+                      "response": [
+                        {
+                          "id": "984a4a87-b1ae-4888-b7a6-81bd1e2e9905",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/edge/:edgeId/events?pageSize=<integer>&page=<integer>&textSearch=<string>&sortProperty=type&sortOrder=DESC&startTime=<long>&endTime=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "edge",
+                                ":edgeId",
+                                "events"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Maximum amount of entities in a one page",
+                                  "key": "pageSize",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "(Required) Sequence number of page starting from 0",
+                                  "key": "page",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "The case insensitive 'substring' filter based on the edge event type name.",
+                                  "key": "textSearch",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Property of entity to sort by",
+                                  "key": "sortProperty",
+                                  "value": "type"
+                                },
+                                {
+                                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)",
+                                  "key": "sortOrder",
+                                  "value": "DESC"
+                                },
+                                {
+                                  "description": "Timestamp. Edge events with creation time before it won't be queried",
+                                  "key": "startTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "Timestamp. Edge events with creation time after it won't be queried",
+                                  "key": "endTime",
+                                  "value": "<long>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "edgeId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"seqId\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"edgeId\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"action\": \"ADDED\",\n      \"entityId\": \"<uuid>\",\n      \"uid\": \"<string>\",\n      \"type\": \"TENANT_PROFILE\",\n      \"body\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    },\n    {\n      \"id\": {\n        \"id\": \"<uuid>\"\n      },\n      \"createdTime\": \"<long>\",\n      \"seqId\": \"<long>\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"<uuid>\"\n      },\n      \"edgeId\": {\n        \"entityType\": \"EDGE\",\n        \"id\": \"<uuid>\"\n      },\n      \"action\": \"RELATION_ADD_OR_UPDATE\",\n      \"entityId\": \"<uuid>\",\n      \"uid\": \"<string>\",\n      \"type\": \"QUEUE\",\n      \"body\": {\n        \"description\": \"A value representing the any type (object or primitive)\",\n        \"examples\": [\n          {}\n        ]\n      }\n    }\n  ],\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"hasNext\": \"<boolean>\"\n}",
+                          "createdAt": "2026-07-28T03:12:36.000Z",
+                          "updatedAt": "2026-07-28T03:12:36.000Z",
+                          "uid": "35240-984a4a87-b1ae-4888-b7a6-81bd1e2e9905"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:12:36.000Z",
+                      "updatedAt": "2026-07-28T03:12:36.000Z",
+                      "uid": "35240-dcd670c8-96f5-4dca-83e9-7204281693c7"
+                    }
+                  ],
+                  "id": "2b063074-09e9-449b-8234-5c0bd3a83726",
+                  "createdAt": "2026-07-28T03:12:36.000Z",
+                  "updatedAt": "2026-07-28T03:12:36.000Z",
+                  "uid": "35240-2b063074-09e9-449b-8234-5c0bd3a83726"
+                }
+              ],
+              "id": "a49389e8-440b-4f1f-9e0d-da180d610dae",
+              "createdAt": "2026-07-28T03:12:36.000Z",
+              "updatedAt": "2026-07-28T03:12:36.000Z",
+              "uid": "35240-a49389e8-440b-4f1f-9e0d-da180d610dae"
+            }
+          ],
+          "id": "ed75cec6-78e8-41fa-a8b6-0fa21cc37744",
+          "createdAt": "2026-07-28T03:12:36.000Z",
+          "updatedAt": "2026-07-28T03:12:36.000Z",
+          "uid": "35240-ed75cec6-78e8-41fa-a8b6-0fa21cc37744"
+        }
+      ],
+      "id": "671d967b-9c00-4bee-afd4-6c6ba69e66c6",
+      "createdAt": "2026-07-28T03:12:36.000Z",
+      "updatedAt": "2026-07-28T03:12:36.000Z",
+      "uid": "35240-671d967b-9c00-4bee-afd4-6c6ba69e66c6"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://demo.thingsboard.io"
+    }
+  ]
+}

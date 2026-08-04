@@ -1,0 +1,3700 @@
+# ThingsBoard ThingsBoard Edge API
+# Source: https://demo.thingsboard.io/v3/api-docs (Apache 2.0)
+openapi: 3.1.0
+info:
+  title: ThingsBoard Edge API
+  description: "ThingsBoard Edge API \u2014 subset of the ThingsBoard REST API (open-source IoT platform). Covers: Edge, Edge Event, Entities Version Control."
+  version: 4.3.0.3DEMO
+  contact:
+    name: ThingsBoard team
+    url: https://thingsboard.io
+    email: info@thingsboard.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://demo.thingsboard.io
+  description: ThingsBoard Live Demo
+- url: http://localhost:8080
+  description: Local ThingsBoard server
+tags:
+- name: edge-controller
+  description: Edge
+- name: edge-event-controller
+  description: Edge Event
+- name: entities-version-control-controller
+  description: Entities Version Control
+paths:
+  /api/entities/vc/version:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: List All Versions (listVersions)
+      description: "Lists all available versions in a branch for all entity types. \nIf specified branch does not exist - empty page data will be returned. The response format is the same as for `listEntityVersions`\
+        \ API method.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: listVersions
+      parameters:
+      - name: branch
+        in: query
+        description: The name of the working branch, for example 'master'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the entity version name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - timestamp
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityVersion'
+    post:
+      tags:
+      - entities-version-control-controller
+      summary: Save Entities Version (saveEntitiesVersion)
+      description: "Creates a new version of entities (or a single entity) by request.\nSupported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\
+        \nThere are two available types of request: `SINGLE_ENTITY` and `COMPLEX`. Each of them contains version name (`versionName`) and name of a branch (`branch`) to create version (commit) in. If specified\
+        \ branch does not exists in a remote repo, then new empty branch will be created. Request of the `SINGLE_ENTITY` type has id of an entity (`entityId`) and additional configuration (`config`) which\
+        \ has following options: \n- `saveRelations` - whether to add inbound and outbound relations of type COMMON to created entity version;\n- `saveAttributes` - to save attributes of server scope (and\
+        \ also shared scope for devices);\n- `saveCredentials` - when saving a version of a device, to add its credentials to the version.\n\nAn example of a `SINGLE_ENTITY` version create request:\n```json\n\
+        {\n  \"type\": \"SINGLE_ENTITY\",\n\n  \"versionName\": \"Version 1.0\",\n  \"branch\": \"dev\",\n\n  \"entityId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"b79448e0-d4f4-11ec-847b-0f432358ab48\"\
+        \n  },\n  \"config\": {\n    \"saveRelations\": true,\n    \"saveAttributes\": true,\n    \"saveCredentials\": false\n  }\n}\n```\n\nSecond request type (`COMPLEX`), additionally to `branch` and\
+        \ `versionName`, contains following properties:\n- `entityTypes` - a structure with entity types to export and configuration for each entity type;    this configuration has all the options available\
+        \ for `SINGLE_ENTITY` and additionally has these ones: \n     - `allEntities` and `entityIds` - if you want to save the version of all entities of the entity type         then set `allEntities`\
+        \ param to true, otherwise set it to false and specify the list of specific entities (`entityIds`);\n     - `syncStrategy` - synchronization strategy to use for this entity type: when set to `OVERWRITE`\
+        \         then the list of remote entities of this type will be overwritten by newly added entities. If set to         `MERGE` - existing remote entities of this entity type will not be removed,\
+        \ new entities will just         be added on top (or existing remote entities will be updated).\n- `syncStrategy` - default synchronization strategy to use when it is not specified for an entity\
+        \ type.\n\nExample for this type of request:\n```json\n{\n  \"type\": \"COMPLEX\",\n\n  \"versionName\": \"Devices and profiles: release 2\",\n  \"branch\": \"master\",\n\n  \"syncStrategy\": \"\
+        OVERWRITE\",\n  \"entityTypes\": {\n    \"DEVICE\": {\n      \"syncStrategy\": null,\n      \"allEntities\": true,\n      \"saveRelations\": true,\n      \"saveAttributes\": true,\n      \"saveCredentials\"\
+        : true\n    },\n    \"DEVICE_PROFILE\": {\n      \"syncStrategy\": \"MERGE\",\n      \"allEntities\": false,\n      \"entityIds\": [\n        \"b79448e0-d4f4-11ec-847b-0f432358ab48\"\n      ],\n\
+        \      \"saveRelations\": true\n    }\n  }\n}\n```\n\nResponse wil contain generated request UUID, that can be then used to retrieve status of operation via `getVersionCreateRequestStatus`.\n\n\n\
+        Available for users with 'TENANT_ADMIN' authority."
+      operationId: saveEntitiesVersion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/ComplexVersionCreateRequest'
+              - $ref: '#/components/schemas/SingleEntityVersionCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+  /api/entities/vc/entity:
+    post:
+      tags:
+      - entities-version-control-controller
+      summary: Load Entities Version (loadEntitiesVersion)
+      description: "Loads specific version of remote entities (or single entity) by request. Supported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\
+        \nThere are multiple types of request. Each of them requires branch name (`branch`) and version id (`versionId`). Request of type `SINGLE_ENTITY` is needed to restore a concrete version of a specific\
+        \ entity. It contains id of a remote entity (`externalEntityId`) and additional configuration (`config`):\n- `loadRelations` - to update relations list (in case `saveRelations` option was enabled\
+        \ during version creation);\n- `loadAttributes` - to load entity attributes (if `saveAttributes` config option was enabled);\n- `loadCredentials` - to update device credentials (if `saveCredentials`\
+        \ option was enabled during version creation).\n\nAn example of such request:\n```json\n{\n  \"type\": \"SINGLE_ENTITY\",\n  \n  \"branch\": \"dev\",\n  \"versionId\": \"b3c28d722d328324c7c15b0b30047b0c40011cf7\"\
+        ,\n  \n  \"externalEntityId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"b7944123-d4f4-11ec-847b-0f432358ab48\"\n  },\n  \"config\": {\n    \"loadRelations\": false,\n    \"loadAttributes\"\
+        : true,\n    \"loadCredentials\": true\n  }\n}\n```\n\nAnother request type (`ENTITY_TYPE`) is needed to load specific version of the whole entity types. It contains a structure with entity types\
+        \ to load and configs for each entity type (`entityTypes`). For each specified entity type, the method will load all remote entities of this type that are present at the version. A config for each\
+        \ entity type contains the same options as in `SINGLE_ENTITY` request type, and additionally contains following options:\n- `removeOtherEntities` - to remove local entities that are not present\
+        \ on the remote - basically to    overwrite local entity type with the remote one;\n- `findExistingEntityByName` - when you are loading some remote entities that are not yet present at this tenant,\
+        \    try to find existing entity by name and update it rather than create new.\n\nHere is an example of the request to completely restore version of the whole device entity type:\n```json\n{\n \
+        \ \"type\": \"ENTITY_TYPE\",\n\n  \"branch\": \"dev\",\n  \"versionId\": \"b3c28d722d328324c7c15b0b30047b0c40011cf7\",\n\n  \"entityTypes\": {\n    \"DEVICE\": {\n      \"removeOtherEntities\":\
+        \ true,\n      \"findExistingEntityByName\": false,\n      \"loadRelations\": true,\n      \"loadAttributes\": true,\n      \"loadCredentials\": true\n    }\n  }\n}\n```\n\nThe response will contain\
+        \ generated request UUID that is to be used to check the status of operation via `getVersionLoadRequestStatus`.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: loadEntitiesVersion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/EntityTypeVersionLoadRequest'
+              - $ref: '#/components/schemas/SingleEntityVersionLoadRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+  /api/edges:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Edges by Ids (getEdgesByIds)
+      description: 'Requested edges must be owned by tenant or assigned to customer which user is performing the request.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getEdges
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the edge name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: edgeIds
+        in: query
+        description: A list of edges ids, separated by comma ','
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Edge'
+                - $ref: '#/components/schemas/PageDataEdge'
+    post:
+      tags:
+      - edge-controller
+      summary: Find Related Edges (findByQuery)
+      description: 'Returns all edges that are related to the specific entity. The entity id, relation type, edge types, depth of the search, and other query parameters defined using complex ''EdgeSearchQuery''
+        object. See ''Model'' tab of the Parameters for more info.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: findByQuery_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EdgeSearchQuery'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Edge'
+  /api/edge:
+    post:
+      tags:
+      - edge-controller
+      summary: Create or Update Edge (saveEdge)
+      description: "Create or update the Edge. When creating edge, platform generates Edge Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)).\
+        \ The newly created edge id will be present in the response. Specify existing Edge id to update the edge. Referencing non-existing Edge Id will cause 'Not Found' error.\n\nEdge name is unique in\
+        \ the scope of tenant. Use unique identifiers like MAC or IMEI for the edge names and non-unique 'label' field for user-friendly visualization purposes.Remove 'id', 'tenantId' and optionally 'customerId'\
+        \ from the request body example (below) to create new Edge entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: saveEdge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Edge'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edge'
+  /api/edge/{edgeId}/{ruleChainId}/root:
+    post:
+      tags:
+      - edge-controller
+      summary: Set Root Rule Chain for Provided Edge (setEdgeRootRuleChain)
+      description: "Change root rule chain of the edge to the new provided rule chain. \nThis operation will send a notification to update root rule chain on remote edge service.\n\nAvailable for users\
+        \ with 'TENANT_ADMIN' authority."
+      operationId: setEdgeRootRuleChain
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: ruleChainId
+        in: path
+        description: A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edge'
+  /api/edge/sync/{edgeId}:
+    post:
+      tags:
+      - edge-controller
+      summary: Sync Edge (syncEdge)
+      description: "Starts synchronization process between edge and cloud. \nAll entities that are assigned to particular edge are going to be send to remote edge service.\n\nAvailable for users with 'TENANT_ADMIN'\
+        \ authority."
+      operationId: syncEdge
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/edge/bulk_import:
+    post:
+      tags:
+      - edge-controller
+      summary: Import the Bulk of Edges (processEdgesBulkImport)
+      description: 'There''s an ability to import the bulk of edges using the only .csv file.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: processEdgesBulkImport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkImportRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkImportResultEdge'
+  /api/customer/{customerId}/edge/{edgeId}:
+    post:
+      tags:
+      - edge-controller
+      summary: Assign Edge to Customer (assignEdgeToCustomer)
+      description: 'Creates assignment of the edge to customer. Customer will be able to query edge afterwards.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignEdgeToCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edge'
+  /api/customer/public/edge/{edgeId}:
+    post:
+      tags:
+      - edge-controller
+      summary: Make Edge Publicly Available (assignEdgeToPublicCustomer)
+      description: 'Edge will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users that
+        are logged-in and belong to different tenant will not be able to access the edge.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: assignEdgeToPublicCustomer
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edge'
+  /api/tenant/edges:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Tenant Edge (getTenantEdge)
+      description: 'Requested edge must be owned by tenant or customer that the user belongs to. Edge name is an unique property of edge. So it can be used to identify the edge.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: getTenantEdges
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: A string value representing the edge type. For example, 'default'
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the edge name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: edgeName
+        in: query
+        description: Unique name of the edge
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Edge'
+                - $ref: '#/components/schemas/PageDataEdge'
+  /api/tenant/edgeInfos:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Tenant Edge Infos (getTenantEdgeInfos)
+      description: "Returns a page of edges info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result\
+        \ set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable for users\
+        \ with 'TENANT_ADMIN' authority."
+      operationId: getTenantEdgeInfos
+      parameters:
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: A string value representing the edge type. For example, 'default'
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the edge name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEdgeInfo'
+  /api/entities/vc/version/{requestId}/status:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: Get Version Create Request Status (getVersionCreateRequestStatus)
+      description: "Returns the status of previously made version create request. \n\nThis status contains following properties:\n- `done` - whether request processing is finished;\n- `version` - created\
+        \ version info: timestamp, version id (commit hash), commit name and commit author;\n- `added` - count of items that were created in the remote repo;\n- `modified` - modified items count;\n- `removed`\
+        \ - removed items count;\n- `error` - error message, if an error occurred while handling the request.\n\nAn example of successful status:\n```json\n{\n  \"done\": true,\n  \"added\": 10,\n  \"modified\"\
+        : 2,\n  \"removed\": 5,\n  \"version\": {\n    \"timestamp\": 1655198528000,\n    \"id\":\"8a834dd389ed80e0759ba8ee338b3f1fd160a114\",\n    \"name\": \"My devices v2.0\",\n    \"author\": \"John\
+        \ Doe\"\n  },\n  \"error\": null\n}\n```\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getVersionCreateRequestStatus
+      parameters:
+      - name: requestId
+        in: path
+        description: A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionCreationResult'
+  /api/entities/vc/version/{entityType}:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: List Entity Type Versions (listEntityTypeVersions)
+      description: "Returns list of versions of an entity type in a branch. This is a collected list of versions that were created for entities of this type in a remote branch. \nIf specified branch does\
+        \ not exist - empty page data will be returned. The response structure is the same as for `listEntityVersions` API method.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: listEntityTypeVersions
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+      - name: branch
+        in: query
+        description: The name of the working branch, for example 'master'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the entity version name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - timestamp
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityVersion'
+  /api/entities/vc/version/{entityType}/{externalEntityUuid}:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: List Entity Versions (listEntityVersions)
+      description: "Returns list of versions for a specific entity in a concrete branch. \nYou need to specify external id of an entity to list versions for. This is `externalId` property of an entity,\
+        \ or otherwise if not set - simply id of this entity. \nIf specified branch does not exist - empty page data will be returned. \n\nEach version info item has timestamp, id, name and author. Version\
+        \ id can then be used to restore the version. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination.\
+        \ See response schema for more details. \n\nResponse example: \n```json\n{\n  \"data\": [\n    {\n      \"timestamp\": 1655198593000,\n      \"id\": \"fd82625bdd7d6131cf8027b44ee967012ecaf990\"\
+        ,\n      \"name\": \"Devices and assets - v2.0\",\n      \"author\": \"John Doe <johndoe@gmail.com>\"\n    },\n    {\n      \"timestamp\": 1655198528000,\n      \"id\": \"682adcffa9c8a2f863af6f00c4850323acbd4219\"\
+        ,\n      \"name\": \"Update my device\",\n      \"author\": \"John Doe <johndoe@gmail.com>\"\n    },\n    {\n      \"timestamp\": 1655198280000,\n      \"id\": \"d2a6087c2b30e18cc55e7cdda345a8d0dfb959a4\"\
+        ,\n      \"name\": \"Devices and assets - v1.0\",\n      \"author\": \"John Doe <johndoe@gmail.com>\"\n    }\n  ],\n  \"totalPages\": 1,\n  \"totalElements\": 3,\n  \"hasNext\": false\n}\n```\n\n\
+        Available for users with 'TENANT_ADMIN' authority."
+      operationId: listEntityVersions
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+      - name: externalEntityUuid
+        in: path
+        description: A string value representing external entity id. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: branch
+        in: query
+        description: The name of the working branch, for example 'master'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the entity version name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - timestamp
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEntityVersion'
+  /api/entities/vc/info/{versionId}/{entityType}/{externalEntityUuid}:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: Get Entity Data Info (getEntityDataInfo)
+      description: "Retrieves short info about the remote entity by external id at a concrete version. \nReturned entity data info contains following properties: `hasRelations` (whether stored entity data\
+        \ contains relations), `hasAttributes` (contains attributes) and `hasCredentials` (whether stored device data has credentials).\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getEntityDataInfo
+      parameters:
+      - name: versionId
+        in: path
+        description: Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash.
+        required: true
+        schema:
+          type: string
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+      - name: externalEntityUuid
+        in: path
+        description: A string value representing external entity id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityDataInfo'
+  /api/entities/vc/entity/{versionId}:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: List All Entities at Version (listAllEntitiesAtVersion)
+      description: "Returns a list of all remote entities available in a specific version. Response type is the same as for listAllEntitiesAtVersion API method. \nReturned entities order will be the same\
+        \ as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: listAllEntitiesAtVersion
+      parameters:
+      - name: versionId
+        in: path
+        description: Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionedEntityInfo'
+  /api/entities/vc/entity/{requestId}/status:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: Get Version Load Request Status (getVersionLoadRequestStatus)
+      description: "Returns the status of previously made version load request. The structure contains following parameters:\n- `done` - if the request was successfully processed;\n- `result` - a list of\
+        \ load results for each entity type:\n     - `created` - created entities count;\n     - `updated` - updated entities count;\n     - `deleted` - removed entities count.\n- `error` - if an error\
+        \ occurred during processing, error info:\n     - `type` - error type;\n     - `source` - an external id of remote entity;\n     - `target` - if failed to find referenced entity by external id -\
+        \ this external id;\n     - `message` - error message.\n\nAn example of successfully processed request status:\n```json\n{\n  \"done\": true,\n  \"result\": [\n    {\n      \"entityType\": \"DEVICE\"\
+        ,\n      \"created\": 10,\n      \"updated\": 5,\n      \"deleted\": 5\n    },\n     {\n      \"entityType\": \"ASSET\",\n      \"created\": 4,\n      \"updated\": 0,\n      \"deleted\": 8\n   \
+        \ }\n  ]\n}\n```\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: getVersionLoadRequestStatus
+      parameters:
+      - name: requestId
+        in: path
+        description: A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionLoadResult'
+  /api/entities/vc/entity/{entityType}/{versionId}:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: List Entities at Version (listEntitiesAtVersion)
+      description: "Returns a list of remote entities of a specific entity type that are available at a concrete version. \nEach entity item in the result has `externalId` property. Entities order will\
+        \ be the same as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      operationId: listEntitiesAtVersion
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+      - name: versionId
+        in: path
+        description: Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionedEntityInfo'
+  /api/entities/vc/diff/{entityType}/{internalEntityUuid}:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: Compare Entity Data to Version (compareEntityDataToVersion)
+      description: "Returns an object with current entity data and the one at a specific version. Entity data structure is the same as stored in a repository. \n\nAvailable for users with 'TENANT_ADMIN'\
+        \ authority."
+      operationId: compareEntityDataToVersion
+      parameters:
+      - name: entityType
+        in: path
+        description: A string value representing the entity type. For example, 'DEVICE'
+        required: true
+        schema:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+      - name: internalEntityUuid
+        in: path
+        description: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: versionId
+        in: query
+        description: Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityDataDiff'
+  /api/entities/vc/branches:
+    get:
+      tags:
+      - entities-version-control-controller
+      summary: List Branches (listBranches)
+      description: "Lists branches available in the remote repository. \n\nResponse example: \n```json\n[\n  {\n    \"name\": \"master\",\n    \"default\": true\n  },\n  {\n    \"name\": \"dev\",\n    \"\
+        default\": false\n  },\n  {\n    \"name\": \"dev-2\",\n    \"default\": false\n  }\n]\n```"
+      operationId: listBranches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BranchInfo'
+  /api/edges/enabled:
+    get:
+      tags:
+      - edge-controller
+      summary: Is Edges Support Enabled (isEdgesSupportEnabled)
+      description: Returns 'true' if edges support enabled on server, 'false' - otherwise.
+      operationId: isEdgesSupportEnabled
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /api/edge/{edgeId}:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Edge (getEdgeById)
+      description: 'Get the Edge object based on the provided Edge Id. If the user has the authority of ''Tenant Administrator'', the server checks that the edge is owned by the same tenant. If the user
+        has the authority of ''Customer User'', the server checks that the edge is assigned to the same customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getEdgeById
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edge'
+    delete:
+      tags:
+      - edge-controller
+      summary: Delete Edge (deleteEdge)
+      description: 'Deletes the edge. Referencing non-existing edge Id will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: deleteEdge
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/edge/{edgeId}/upgrade/available:
+    get:
+      tags:
+      - edge-controller
+      summary: Is Edge Upgrade Enabled (isEdgeUpgradeAvailable)
+      description: Returns 'true' if upgrade available for connected edge, 'false' - otherwise.
+      operationId: isEdgeUpgradeAvailable
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /api/edge/{edgeId}/events:
+    get:
+      tags:
+      - edge-event-controller
+      summary: Get Edge Events (getEdgeEvents)
+      description: 'Returns a page of edge events for the requested edge. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result
+        set using pagination. See response schema for more details. '
+      operationId: getEdgeEvents
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the edge event type name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: startTime
+        in: query
+        description: Timestamp. Edge events with creation time before it won't be queried
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: endTime
+        in: query
+        description: Timestamp. Edge events with creation time after it won't be queried
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEdgeEvent'
+  /api/edge/types:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Edge Types (getEdgeTypes)
+      description: 'Returns a set of unique edge types based on edges that are either owned by the tenant or assigned to the customer which user is performing the request.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getEdgeTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntitySubtype'
+  /api/edge/missingToRelatedRuleChains/{edgeId}:
+    get:
+      tags:
+      - edge-controller
+      summary: Find Missing Rule Chains (findMissingToRelatedRuleChains)
+      description: 'Returns list of rule chains ids that are not assigned to particular edge, but these rule chains are present in the already assigned rule chains to edge.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: findMissingToRelatedRuleChains
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/edge/instructions/upgrade/{edgeVersion}/{method}:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Edge Upgrade Instructions (getEdgeUpgradeInstructions)
+      description: 'Get an upgrade instructions for provided edge version.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: getEdgeUpgradeInstructions
+      parameters:
+      - name: edgeVersion
+        in: path
+        description: Edge version
+        required: true
+        schema:
+          type: string
+      - name: method
+        in: path
+        description: Upgrade method ('docker', 'ubuntu' or 'centos')
+        required: true
+        schema:
+          type: string
+          enum:
+          - docker
+          - ubuntu
+          - centos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EdgeInstructions'
+  /api/edge/instructions/install/{edgeId}/{method}:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Edge Install Instructions (getEdgeInstallInstructions)
+      description: 'Get an install instructions for provided edge id.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: getEdgeInstallInstructions
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: method
+        in: path
+        description: Installation method ('docker', 'ubuntu' or 'centos')
+        required: true
+        schema:
+          type: string
+          enum:
+          - docker
+          - ubuntu
+          - centos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EdgeInstructions'
+  /api/edge/info/{edgeId}:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Edge Info (getEdgeInfoById)
+      description: 'Get the Edge Info object based on the provided Edge Id. If the user has the authority of ''Tenant Administrator'', the server checks that the edge is owned by the same tenant. If the
+        user has the authority of ''Customer User'', the server checks that the edge is assigned to the same customer.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
+      operationId: getEdgeInfoById
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EdgeInfo'
+  /api/customer/{customerId}/edges:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Customer Edges (getCustomerEdges)
+      description: "Returns a page of edges objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result\
+        \ set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getCustomerEdges
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: A string value representing the edge type. For example, 'default'
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the edge name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEdge'
+  /api/customer/{customerId}/edgeInfos:
+    get:
+      tags:
+      - edge-controller
+      summary: Get Customer Edge Infos (getCustomerEdgeInfos)
+      description: "Returns a page of edges info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over\
+        \ result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable\
+        \ for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      operationId: getCustomerEdgeInfos
+      parameters:
+      - name: customerId
+        in: path
+        description: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Maximum amount of entities in a one page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Sequence number of page starting from 0
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        description: A string value representing the edge type. For example, 'default'
+        required: false
+        schema:
+          type: string
+      - name: textSearch
+        in: query
+        description: The case insensitive 'substring' filter based on the edge name.
+        required: false
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property of entity to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - createdTime
+          - name
+          - type
+          - label
+          - customerTitle
+      - name: sortOrder
+        in: query
+        description: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataEdgeInfo'
+  /api/customer/edge/{edgeId}:
+    delete:
+      tags:
+      - edge-controller
+      summary: Unassign Edge from Customer (unassignEdgeFromCustomer)
+      description: 'Clears assignment of the edge to customer. Customer will not be able to query edge afterwards.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
+      operationId: unassignEdgeFromCustomer
+      parameters:
+      - name: edgeId
+        in: path
+        description: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edge'
+components:
+  schemas:
+    Argument:
+      type: object
+      properties:
+        refEntityId:
+          $ref: '#/components/schemas/EntityId'
+        refDynamicSourceConfiguration:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
+          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
+        refEntityKey:
+          $ref: '#/components/schemas/ReferencedEntityKey'
+        defaultValue:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        timeWindow:
+          type: integer
+          format: int64
+    AttributeExportData:
+      type: object
+      properties:
+        key:
+          type: string
+        lastUpdateTs:
+          type: integer
+          format: int64
+        booleanValue:
+          type: boolean
+        strValue:
+          type: string
+        longValue:
+          type: integer
+          format: int64
+        doubleValue:
+          type: number
+          format: double
+        jsonValue:
+          type: string
+    AttributesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+      - type: object
+        properties:
+          sendAttributesUpdatedNotification:
+            type: boolean
+          updateAttributesOnlyOnValueChange:
+            type: boolean
+          saveAttribute:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    AttributesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
+    AttributesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    AttributesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+    BranchInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        default:
+          type: boolean
+    BulkImportRequest:
+      type: object
+      properties:
+        file:
+          type: string
+        mapping:
+          $ref: '#/components/schemas/Mapping'
+    BulkImportResultEdge:
+      type: object
+      properties:
+        created:
+          type: object
+          properties:
+            opaque:
+              type: integer
+              format: int32
+            acquire:
+              type: integer
+              format: int32
+            release:
+              type: integer
+              format: int32
+              writeOnly: true
+            andIncrement:
+              type: integer
+              format: int32
+            andDecrement:
+              type: integer
+              format: int32
+            plain:
+              type: integer
+              format: int32
+        updated:
+          type: object
+          properties:
+            opaque:
+              type: integer
+              format: int32
+            acquire:
+              type: integer
+              format: int32
+            release:
+              type: integer
+              format: int32
+              writeOnly: true
+            andIncrement:
+              type: integer
+              format: int32
+            andDecrement:
+              type: integer
+              format: int32
+            plain:
+              type: integer
+              format: int32
+        errors:
+          type: object
+          properties:
+            opaque:
+              type: integer
+              format: int32
+            acquire:
+              type: integer
+              format: int32
+            release:
+              type: integer
+              format: int32
+              writeOnly: true
+            andIncrement:
+              type: integer
+              format: int32
+            andDecrement:
+              type: integer
+              format: int32
+            plain:
+              type: integer
+              format: int32
+        errorsList:
+          type: array
+          items:
+            type: string
+    CalculatedField:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CalculatedFieldId'
+          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the calculated field creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+        name:
+          type: string
+          description: User defined name of the calculated field.
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        configurationVersion:
+          type: integer
+          format: int32
+          description: Version of calculated field configuration.
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
+        version:
+          type: integer
+          format: int64
+      required:
+      - configuration
+    CalculatedFieldId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CALCULATED_FIELD
+          example: CALCULATED_FIELD
+      required:
+      - entityType
+      - id
+    CfArgumentDynamicSourceConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    CoapDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+      - type: object
+        properties:
+          powerMode:
+            type: string
+            enum:
+            - PSM
+            - DRX
+            - E_DRX
+          psmActivityTimer:
+            type: integer
+            format: int64
+          edrxCycle:
+            type: integer
+            format: int64
+          pagingTransmissionWindow:
+            type: integer
+            format: int64
+    ColumnMapping:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - NAME
+          - TYPE
+          - LABEL
+          - SHARED_ATTRIBUTE
+          - SERVER_ATTRIBUTE
+          - TIMESERIES
+          - ACCESS_TOKEN
+          - X509
+          - MQTT_CLIENT_ID
+          - MQTT_USER_NAME
+          - MQTT_PASSWORD
+          - LWM2M_CLIENT_ENDPOINT
+          - LWM2M_CLIENT_SECURITY_CONFIG_MODE
+          - LWM2M_CLIENT_IDENTITY
+          - LWM2M_CLIENT_KEY
+          - LWM2M_CLIENT_CERT
+          - LWM2M_BOOTSTRAP_SERVER_SECURITY_MODE
+          - LWM2M_BOOTSTRAP_SERVER_PUBLIC_KEY_OR_ID
+          - LWM2M_BOOTSTRAP_SERVER_SECRET_KEY
+          - LWM2M_SERVER_SECURITY_MODE
+          - LWM2M_SERVER_CLIENT_PUBLIC_KEY_OR_ID
+          - LWM2M_SERVER_CLIENT_SECRET_KEY
+          - SNMP_HOST
+          - SNMP_PORT
+          - SNMP_VERSION
+          - SNMP_COMMUNITY_STRING
+          - IS_GATEWAY
+          - DESCRIPTION
+          - ROUTING_KEY
+          - SECRET
+        key:
+          type: string
+    ComplexVersionCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/VersionCreateRequest'
+      - type: object
+        properties:
+          syncStrategy:
+            type: string
+            enum:
+            - MERGE
+            - OVERWRITE
+          entityTypes:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/EntityTypeVersionCreateConfig'
+    CurrentOwnerDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    DebugSettings:
+      type: object
+      properties:
+        failuresEnabled:
+          type: boolean
+          description: 'Debug failures. '
+          example: false
+        allEnabled:
+          type: boolean
+          description: Debug All. Used as a trigger for updating debugAllUntil.
+          example: false
+        allEnabledUntil:
+          type: integer
+          format: int64
+          description: Timestamp of the end time for the processing debug events.
+    DefaultDeviceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceConfiguration'
+    DefaultDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+    Device:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DeviceId'
+          description: JSON object with the Device Id. Specify this field to update the Device. Referencing non-existing Device Id will cause error. Omit this field to create new Device.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the device creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Use 'assignDeviceToTenant' to change the Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignDeviceToCustomer' to change the Customer Id.
+          readOnly: true
+        name:
+          type: string
+          description: Unique Device Name in scope of Tenant
+          example: A4B72CCDFF33
+        type:
+          type: string
+          description: Device Profile Name
+          example: Temperature Sensor
+        label:
+          type: string
+          description: Label that may be used in widgets
+          example: Room 234 Sensor
+        deviceProfileId:
+          $ref: '#/components/schemas/DeviceProfileId'
+          description: JSON object with Device Profile Id.
+        firmwareId:
+          $ref: '#/components/schemas/OtaPackageId'
+          description: JSON object with Ota Package Id.
+        softwareId:
+          $ref: '#/components/schemas/OtaPackageId'
+          description: JSON object with Ota Package Id.
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+        deviceData:
+          $ref: '#/components/schemas/DeviceData'
+          description: JSON object with content specific to type of transport in the device profile.
+      required:
+      - deviceProfileId
+      - name
+    DeviceConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    DeviceCredentials:
+      type: object
+      description: A JSON value representing the device credentials.
+      properties:
+        id:
+          $ref: '#/components/schemas/DeviceCredentialsId'
+          description: 'The Id is automatically generated during device creation. Use ''getDeviceCredentialsByDeviceId'' to obtain the id based on device id. Use ''updateDeviceCredentials'' to update device
+            credentials. '
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+          readOnly: true
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the device credentials creation, in milliseconds
+          example: 1609459200000
+        deviceId:
+          $ref: '#/components/schemas/DeviceId'
+          description: JSON object with the device Id.
+        credentialsType:
+          type: string
+          description: Type of the credentials
+          enum:
+          - ACCESS_TOKEN
+          - X509_CERTIFICATE
+          - MQTT_BASIC
+          - LWM2M_CREDENTIALS
+        credentialsId:
+          type: string
+          description: Unique Credentials Id per platform instance. Used to lookup credentials from the database. By default, new access token for your device. Depends on the type of the credentials.
+          example: Access token or other value that depends on the credentials type
+        credentialsValue:
+          type: string
+          description: Value of the credentials. Null in case of ACCESS_TOKEN credentials type. Base64 value in case of X509_CERTIFICATE. Complex object in case of MQTT_BASIC and LWM2M_CREDENTIALS
+          example: Null in case of ACCESS_TOKEN. See model definition.
+        version:
+          type: integer
+          format: int64
+      required:
+      - credentialsId
+      - deviceId
+      - id
+    DeviceCredentialsId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    DeviceData:
+      type: object
+      properties:
+        configuration:
+          description: Device configuration for device profile type. DEFAULT is only supported value for now
+          oneOf:
+          - $ref: '#/components/schemas/DefaultDeviceConfiguration'
+        transportConfiguration:
+          description: Device transport configuration used to connect the device
+          oneOf:
+          - $ref: '#/components/schemas/CoapDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/DefaultDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/Lwm2mDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/MqttDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/SnmpDeviceTransportConfiguration'
+    DeviceExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/Device'
+          credentials:
+            $ref: '#/components/schemas/DeviceCredentials'
+    DeviceId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DEVICE
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    DeviceProfileId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DEVICE_PROFILE
+          example: DEVICE_PROFILE
+      required:
+      - entityType
+      - id
+    DeviceTransportConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    Edge:
+      type: object
+      description: A JSON value representing the edge.
+      properties:
+        id:
+          $ref: '#/components/schemas/EdgeId'
+          description: JSON object with the Edge Id. Specify this field to update the Edge. Referencing non-existing Edge Id will cause error. Omit this field to create new Edge.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the edge creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Use 'assignDeviceToTenant' to change the Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignEdgeToCustomer' to change the Customer Id.
+          readOnly: true
+        rootRuleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with Root Rule Chain Id. Use 'setEdgeRootRuleChain' to change the Root Rule Chain Id.
+          readOnly: true
+        name:
+          type: string
+          description: Unique Edge Name in scope of Tenant
+          example: Silo_A_Edge
+        type:
+          type: string
+          description: Edge type
+          example: Silos
+        label:
+          type: string
+          description: Label that may be used in widgets
+          example: Silo Edge on far field
+        routingKey:
+          type: string
+          description: Edge routing key ('username') to authorize on cloud
+        secret:
+          type: string
+          description: Edge secret ('password') to authorize on cloud
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+      required:
+      - name
+      - routingKey
+      - secret
+      - type
+    EdgeEvent:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EdgeEventId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        seqId:
+          type: integer
+          format: int64
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        edgeId:
+          $ref: '#/components/schemas/EdgeId'
+        action:
+          type: string
+          enum:
+          - ADDED
+          - UPDATED
+          - DELETED
+          - POST_ATTRIBUTES
+          - ATTRIBUTES_UPDATED
+          - ATTRIBUTES_DELETED
+          - TIMESERIES_UPDATED
+          - CREDENTIALS_UPDATED
+          - ASSIGNED_TO_CUSTOMER
+          - UNASSIGNED_FROM_CUSTOMER
+          - RELATION_ADD_OR_UPDATE
+          - RELATION_DELETED
+          - RPC_CALL
+          - ALARM_ACK
+          - ALARM_CLEAR
+          - ALARM_DELETE
+          - ALARM_ASSIGNED
+          - ALARM_UNASSIGNED
+          - ADDED_COMMENT
+          - UPDATED_COMMENT
+          - DELETED_COMMENT
+          - ASSIGNED_TO_EDGE
+          - UNASSIGNED_FROM_EDGE
+          - CREDENTIALS_REQUEST
+          - ENTITY_MERGE_REQUEST
+        entityId:
+          type: string
+          format: uuid
+        uid:
+          type: string
+        type:
+          type: string
+          enum:
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - ENTITY_VIEW
+          - ALARM
+          - ALARM_COMMENT
+          - RULE_CHAIN
+          - RULE_CHAIN_METADATA
+          - EDGE
+          - USER
+          - CUSTOMER
+          - RELATION
+          - TENANT
+          - TENANT_PROFILE
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - ADMIN_SETTINGS
+          - OTA_PACKAGE
+          - QUEUE
+          - NOTIFICATION_RULE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - TB_RESOURCE
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - CALCULATED_FIELD
+          - AI_MODEL
+        body:
+          $ref: '#/components/schemas/JsonNode'
+    EdgeEventId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    EdgeId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - EDGE
+          example: EDGE
+      required:
+      - entityType
+      - id
+    EdgeInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EdgeId'
+          description: JSON object with the Edge Id. Specify this field to update the Edge. Referencing non-existing Edge Id will cause error. Omit this field to create new Edge.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the edge creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Use 'assignDeviceToTenant' to change the Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignEdgeToCustomer' to change the Customer Id.
+          readOnly: true
+        rootRuleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with Root Rule Chain Id. Use 'setEdgeRootRuleChain' to change the Root Rule Chain Id.
+          readOnly: true
+        name:
+          type: string
+          description: Unique Edge Name in scope of Tenant
+          example: Silo_A_Edge
+        type:
+          type: string
+          description: Edge type
+          example: Silos
+        label:
+          type: string
+          description: Label that may be used in widgets
+          example: Silo Edge on far field
+        routingKey:
+          type: string
+          description: Edge routing key ('username') to authorize on cloud
+        secret:
+          type: string
+          description: Edge secret ('password') to authorize on cloud
+        version:
+          type: integer
+          format: int64
+        customerTitle:
+          type: string
+        customerIsPublic:
+          type: boolean
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+      required:
+      - name
+      - routingKey
+      - secret
+      - type
+    EdgeInstructions:
+      type: object
+      properties:
+        instructions:
+          type: string
+          description: Markdown with install/upgrade instructions
+    EdgeSearchQuery:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RelationsSearchParameters'
+          description: Main search parameters.
+        relationType:
+          type: string
+          description: Type of the relation between root entity and edge (e.g. 'Contains' or 'Manages').
+        edgeTypes:
+          type: array
+          description: Array of edge types to filter the related entities (e.g. 'Silos', 'Stores').
+          items:
+            type: string
+    EntityDataDiff:
+      type: object
+      properties:
+        currentVersion:
+          oneOf:
+          - $ref: '#/components/schemas/EntityExportDataObject'
+          - $ref: '#/components/schemas/DeviceExportData'
+          - $ref: '#/components/schemas/OtaPackageExportData'
+          - $ref: '#/components/schemas/RuleChainExportData'
+          - $ref: '#/components/schemas/WidgetTypeExportData'
+          - $ref: '#/components/schemas/WidgetsBundleExportData'
+        otherVersion:
+          oneOf:
+          - $ref: '#/components/schemas/EntityExportDataObject'
+          - $ref: '#/components/schemas/DeviceExportData'
+          - $ref: '#/components/schemas/OtaPackageExportData'
+          - $ref: '#/components/schemas/RuleChainExportData'
+          - $ref: '#/components/schemas/WidgetTypeExportData'
+          - $ref: '#/components/schemas/WidgetsBundleExportData'
+    EntityDataInfo:
+      type: object
+      properties:
+        hasRelations:
+          type: boolean
+        hasAttributes:
+          type: boolean
+        hasCredentials:
+          type: boolean
+        hasCalculatedFields:
+          type: boolean
+    EntityExportDataObject:
+      type: object
+      discriminator:
+        propertyName: entityType
+      properties:
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        entity: {}
+        relations:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityRelation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/AttributeExportData'
+        calculatedFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    EntityLoadError:
+      type: object
+      properties:
+        type:
+          type: string
+        source:
+          $ref: '#/components/schemas/EntityId'
+        target:
+          $ref: '#/components/schemas/EntityId'
+        message:
+          type: string
+    EntityRelation:
+      type: object
+      description: A JSON value representing the relation.
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
+    EntitySubtype:
+      type: object
+      properties:
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        type:
+          type: string
+    EntityTypeLoadResult:
+      type: object
+      properties:
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        created:
+          type: integer
+          format: int32
+        updated:
+          type: integer
+          format: int32
+        deleted:
+          type: integer
+          format: int32
+    EntityTypeVersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+        syncStrategy:
+          type: string
+          enum:
+          - MERGE
+          - OVERWRITE
+        entityIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        allEntities:
+          type: boolean
+    EntityTypeVersionLoadConfig:
+      type: object
+      properties:
+        loadRelations:
+          type: boolean
+        loadAttributes:
+          type: boolean
+        loadCredentials:
+          type: boolean
+        loadCalculatedFields:
+          type: boolean
+        removeOtherEntities:
+          type: boolean
+        findExistingEntityByName:
+          type: boolean
+    EntityTypeVersionLoadRequest:
+      allOf:
+      - $ref: '#/components/schemas/VersionLoadRequest'
+      - type: object
+        properties:
+          entityTypes:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/EntityTypeVersionLoadConfig'
+          rollbackOnError:
+            type: boolean
+    EntityVersion:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        id:
+          type: string
+        name:
+          type: string
+        author:
+          type: string
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    Lwm2mDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+      - type: object
+        properties:
+          powerMode:
+            type: string
+            enum:
+            - PSM
+            - DRX
+            - E_DRX
+          psmActivityTimer:
+            type: integer
+            format: int64
+          edrxCycle:
+            type: integer
+            format: int64
+          pagingTransmissionWindow:
+            type: integer
+            format: int64
+    Mapping:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnMapping'
+        delimiter:
+          type: string
+        update:
+          type: boolean
+        header:
+          type: boolean
+    MqttDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+    NodeConnectionInfo:
+      type: object
+      properties:
+        fromIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
+        toIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'to' part of the connection.
+        type:
+          type: string
+          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
+      required:
+      - fromIndex
+      - toIndex
+      - type
+    OtaPackage:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OtaPackageId'
+          description: JSON object with the ota package Id. Specify existing ota package Id to update the ota package. Referencing non-existing ota package id will cause error. Omit this field to create
+            new ota package.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the ota package creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the ota package can't be changed.
+          readOnly: true
+        deviceProfileId:
+          $ref: '#/components/schemas/DeviceProfileId'
+          description: JSON object with Device Profile Id. Device Profile Id of the ota package can't be changed.
+          readOnly: true
+        type:
+          type: string
+          description: OTA Package type.
+          enum:
+          - FIRMWARE
+          - SOFTWARE
+          example: FIRMWARE
+          readOnly: true
+        title:
+          type: string
+          description: OTA Package title.
+          example: fw
+          readOnly: true
+        version:
+          type: string
+          description: OTA Package version.
+          example: 1.0
+          readOnly: true
+        tag:
+          type: string
+          description: OTA Package tag.
+          example: fw_1.0
+          readOnly: true
+        url:
+          type: string
+          description: OTA Package url.
+          example: http://thingsboard.org/fw/1
+          readOnly: true
+        hasData:
+          type: boolean
+          description: Indicates OTA Package 'has data'. Field is returned from DB ('true' if data exists or url is set).  If OTA Package 'has data' is 'false' we can not assign the OTA Package to the Device
+            or Device Profile.
+          example: true
+          readOnly: true
+        fileName:
+          type: string
+          description: OTA Package file name.
+          example: fw_1.0
+          readOnly: true
+        contentType:
+          type: string
+          description: OTA Package content type.
+          example: APPLICATION_OCTET_STREAM
+          readOnly: true
+        checksumAlgorithm:
+          type: string
+          description: OTA Package checksum algorithm.
+          enum:
+          - MD5
+          - SHA256
+          - SHA384
+          - SHA512
+          - CRC32
+          - MURMUR3_32
+          - MURMUR3_128
+          example: CRC32
+          readOnly: true
+        checksum:
+          type: string
+          description: OTA Package checksum.
+          example: '0xd87f7e0c'
+          readOnly: true
+        dataSize:
+          type: integer
+          format: int64
+          description: OTA Package data size.
+          example: 8
+          readOnly: true
+        data:
+          type: object
+          properties:
+            short:
+              type: integer
+              format: int32
+            char:
+              type: string
+            int:
+              type: integer
+              format: int32
+            long:
+              type: integer
+              format: int64
+            float:
+              type: number
+              format: float
+            double:
+              type: number
+              format: double
+            direct:
+              type: boolean
+            readOnly:
+              type: boolean
+        name:
+          type: string
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: OTA Package description.
+          example: Description for the OTA Package fw_1.0
+    OtaPackageExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/OtaPackage'
+    OtaPackageId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - OTA_PACKAGE
+          example: OTA_PACKAGE
+      required:
+      - entityType
+      - id
+    Output:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        name:
+          type: string
+        scope:
+          type: string
+          enum:
+          - CLIENT_SCOPE
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+        decimalsByDefault:
+          type: integer
+          format: int32
+        strategy:
+          $ref: '#/components/schemas/OutputStrategy'
+        type:
+          type: string
+      required:
+      - type
+    OutputStrategy: {}
+    PageDataEdge:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Edge'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEdgeEvent:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EdgeEvent'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEdgeInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EdgeInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    PageDataEntityVersion:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityVersion'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    ReferencedEntityKey:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
+          type: string
+          enum:
+          - TS_LATEST
+          - ATTRIBUTE
+          - TS_ROLLING
+        scope:
+          type: string
+          enum:
+          - CLIENT_SCOPE
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+    RelationPathLevel:
+      type: object
+      properties:
+        direction:
+          type: string
+          enum:
+          - FROM
+          - TO
+        relationType:
+          type: string
+          minLength: 1
+      required:
+      - direction
+      - relationType
+    RelationPathQueryDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+      - type: object
+        properties:
+          levels:
+            type: array
+            items:
+              $ref: '#/components/schemas/RelationPathLevel'
+    RelationsSearchParameters:
+      type: object
+      properties:
+        rootId:
+          type: string
+          format: uuid
+          description: Root entity id to start search from.
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        rootType:
+          type: string
+          description: Type of the root entity.
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        direction:
+          type: string
+          description: Type of the root entity.
+          enum:
+          - FROM
+          - TO
+        relationTypeGroup:
+          type: string
+          description: Type of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+        maxLevel:
+          type: integer
+          format: int32
+          description: Maximum level of the search depth.
+        fetchLastLevelOnly:
+          type: boolean
+          description: Fetch entities that match the last level of search. Useful to find Devices that are strictly 'maxLevel' relations away from the root entity.
+    ResourceExportData:
+      type: object
+      properties:
+        link:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+          - IMAGE
+          - DASHBOARD
+          - GENERAL
+        subType:
+          type: string
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+          - EXTENSION
+          - MODULE
+        resourceKey:
+          type: string
+        fileName:
+          type: string
+        publicResourceKey:
+          type: string
+        isPublic:
+          type: boolean
+          writeOnly: true
+        mediaType:
+          type: string
+        data:
+          type: string
+        public:
+          type: boolean
+    RuleChain:
+      type: object
+      description: A JSON value representing the rule chain.
+      properties:
+        id:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with the Rule Chain Id. Specify this field to update the Rule Chain. Referencing non-existing Rule Chain Id will cause error. Omit this field to create new rule chain.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the rule chain creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        name:
+          type: string
+          description: Rule Chain name
+          example: Humidity data processing
+        type:
+          type: string
+          description: Rule Chain type. 'EDGE' rule chains are processing messages on the edge devices only.
+          enum:
+          - CORE
+          - EDGE
+          example: A4B72CCDFF33
+        firstRuleNodeId:
+          $ref: '#/components/schemas/RuleNodeId'
+          description: JSON object with Rule Chain Id. Pointer to the first rule node that should receive all messages pushed to this rule chain.
+        root:
+          type: boolean
+          description: Indicates root rule chain. The root rule chain process messages from all devices and entities by default. User may configure default rule chain per device profile.
+        debugMode:
+          type: boolean
+          description: Reserved for future usage.
+        version:
+          type: integer
+          format: int64
+        configuration:
+          $ref: '#/components/schemas/JsonNode'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+      required:
+      - name
+      - tenantId
+    RuleChainConnectionInfo:
+      type: object
+      properties:
+        fromIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
+        targetRuleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with the Rule Chain Id.
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: JSON object with the additional information about the connection.
+        type:
+          type: string
+          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
+      required:
+      - additionalInfo
+      - fromIndex
+      - targetRuleChainId
+      - type
+    RuleChainExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/RuleChain'
+          metaData:
+            $ref: '#/components/schemas/RuleChainMetaData'
+    RuleChainId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - RULE_CHAIN
+          example: RULE_CHAIN
+      required:
+      - entityType
+      - id
+    RuleChainMetaData:
+      type: object
+      description: A JSON value representing the rule chain metadata.
+      properties:
+        ruleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with Rule Chain Id.
+          readOnly: true
+        version:
+          type: integer
+          format: int64
+          description: Version of the Rule Chain
+        firstNodeIndex:
+          type: integer
+          format: int32
+          description: Index of the first rule node in the 'nodes' list
+        nodes:
+          type: array
+          description: List of rule node JSON objects
+          items:
+            $ref: '#/components/schemas/RuleNode'
+        connections:
+          type: array
+          description: List of JSON objects that represent connections between rule nodes
+          items:
+            $ref: '#/components/schemas/NodeConnectionInfo'
+        ruleChainConnections:
+          type: array
+          description: List of JSON objects that represent connections between rule nodes and other rule chains.
+          items:
+            $ref: '#/components/schemas/RuleChainConnectionInfo'
+      required:
+      - connections
+      - firstNodeIndex
+      - nodes
+      - ruleChainConnections
+      - ruleChainId
+    RuleNode:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/RuleNodeId'
+          description: JSON object with the Rule Node Id. Specify this field to update the Rule Node. Referencing non-existing Rule Node Id will cause error. Omit this field to create new rule node.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the rule node creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        ruleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: 'JSON object with the Rule Chain Id. '
+          readOnly: true
+        type:
+          type: string
+          description: 'Full Java Class Name of the rule node implementation. '
+          example: com.mycompany.iot.rule.engine.ProcessingNode
+        name:
+          type: string
+          description: 'User defined name of the rule node. Used on UI and for logging. '
+          example: Process sensor reading
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        singletonMode:
+          type: boolean
+          description: 'Enable/disable singleton mode. '
+          example: false
+        queueName:
+          type: string
+          description: 'Queue name. '
+          example: Main
+        configurationVersion:
+          type: integer
+          format: int32
+          description: 'Version of rule node configuration. '
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/JsonNode'
+          description: JSON with the rule node configuration. Structure depends on the rule node implementation.
+        externalId:
+          $ref: '#/components/schemas/RuleNodeId'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the rule node. Contains 'layoutX' and 'layoutY' properties for visualization.
+    RuleNodeId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - RULE_NODE
+          example: RULE_NODE
+      required:
+      - entityType
+      - id
+    SimpleCalculatedFieldConfiguration:
+      type: object
+      properties:
+        arguments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Argument'
+          minProperties: 1
+        expression:
+          type: string
+        output:
+          oneOf:
+          - $ref: '#/components/schemas/AttributesOutput'
+          - $ref: '#/components/schemas/TimeSeriesOutput'
+        useLatestTs:
+          type: boolean
+      required:
+      - arguments
+      - output
+    SingleEntityVersionCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/VersionCreateRequest'
+      - type: object
+        properties:
+          entityId:
+            $ref: '#/components/schemas/EntityId'
+          config:
+            $ref: '#/components/schemas/VersionCreateConfig'
+    SingleEntityVersionLoadRequest:
+      allOf:
+      - $ref: '#/components/schemas/VersionLoadRequest'
+      - type: object
+        properties:
+          externalEntityId:
+            $ref: '#/components/schemas/EntityId'
+          config:
+            $ref: '#/components/schemas/VersionLoadConfig'
+    SnmpDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+      - type: object
+        properties:
+          host:
+            type: string
+          port:
+            type: integer
+            format: int32
+          protocolVersion:
+            type: string
+            enum:
+            - V1
+            - V2C
+            - V3
+          community:
+            type: string
+          username:
+            type: string
+          securityName:
+            type: string
+          contextName:
+            type: string
+          authenticationProtocol:
+            type: string
+            enum:
+            - SHA_1
+            - SHA_224
+            - SHA_256
+            - SHA_384
+            - SHA_512
+            - MD5
+          authenticationPassphrase:
+            type: string
+          privacyProtocol:
+            type: string
+            enum:
+            - DES
+            - AES_128
+            - AES_192
+            - AES_256
+          privacyPassphrase:
+            type: string
+          engineId:
+            type: string
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    TimeSeriesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+      - type: object
+        properties:
+          ttl:
+            type: integer
+            format: int64
+          saveTimeSeries:
+            type: boolean
+          saveLatest:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    TimeSeriesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
+    TimeSeriesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TimeSeriesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+    VersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+    VersionCreateRequest:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        versionName:
+          type: string
+        branch:
+          type: string
+        type:
+          type: string
+          enum:
+          - SINGLE_ENTITY
+          - COMPLEX
+    VersionCreationResult:
+      type: object
+      properties:
+        version:
+          $ref: '#/components/schemas/EntityVersion'
+        added:
+          type: integer
+          format: int32
+        modified:
+          type: integer
+          format: int32
+        removed:
+          type: integer
+          format: int32
+        error:
+          type: string
+        done:
+          type: boolean
+    VersionLoadConfig:
+      type: object
+      properties:
+        loadRelations:
+          type: boolean
+        loadAttributes:
+          type: boolean
+        loadCredentials:
+          type: boolean
+        loadCalculatedFields:
+          type: boolean
+    VersionLoadRequest:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        versionId:
+          type: string
+        type:
+          type: string
+          enum:
+          - SINGLE_ENTITY
+          - ENTITY_TYPE
+    VersionLoadResult:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityTypeLoadResult'
+        error:
+          $ref: '#/components/schemas/EntityLoadError'
+        done:
+          type: boolean
+    VersionedEntityInfo:
+      type: object
+      properties:
+        externalId:
+          $ref: '#/components/schemas/EntityId'
+    WidgetTypeDetails:
+      type: object
+      description: A JSON value representing the Widget Type Details.
+      properties:
+        fqn:
+          type: string
+          description: Unique FQN that is used in dashboards as a reference widget type
+          readOnly: true
+        name:
+          type: string
+          description: Widget name used in search and UI
+          readOnly: true
+        deprecated:
+          type: boolean
+          description: Whether widget type is deprecated.
+          example: true
+        image:
+          type: string
+          description: Relative or external image URL. Replaced with image data URL (Base64) in case of relative URL and 'inlineImages' option enabled.
+        description:
+          type: string
+          description: Description of the widget
+        descriptor:
+          $ref: '#/components/schemas/JsonNode'
+          description: Complex JSON object that describes the widget type
+          readOnly: true
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceExportData'
+        id:
+          $ref: '#/components/schemas/WidgetTypeId'
+          description: JSON object with the Widget Type Id. Specify this field to update the Widget Type. Referencing non-existing Widget Type Id will cause error. Omit this field to create new Widget Type.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Widget Type creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        scada:
+          type: boolean
+          description: Whether widget type is SCADA symbol.
+          example: true
+        version:
+          type: integer
+          format: int64
+        tags:
+          type: array
+          description: Tags of the widget type
+          items:
+            type: string
+    WidgetTypeExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/WidgetTypeDetails'
+    WidgetTypeId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - WIDGET_TYPE
+          example: WIDGET_TYPE
+      required:
+      - entityType
+      - id
+    WidgetsBundle:
+      type: object
+      description: A JSON value representing the Widget Bundle.
+      properties:
+        id:
+          $ref: '#/components/schemas/WidgetsBundleId'
+          description: JSON object with the Widget Bundle Id. Specify this field to update the Widget Bundle. Referencing non-existing Widget Bundle Id will cause error. Omit this field to create new Widget
+            Bundle.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Widget Bundle creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        alias:
+          type: string
+          description: Unique alias that is used in widget types as a reference widget bundle
+          readOnly: true
+        title:
+          type: string
+          description: Title used in search and UI
+          readOnly: true
+        image:
+          type: string
+          description: Relative or external image URL. Replaced with image data URL (Base64) in case of relative URL and 'inlineImages' option enabled.
+          readOnly: true
+        scada:
+          type: boolean
+          description: Whether widgets bundle contains SCADA symbol widget types.
+          readOnly: true
+        description:
+          type: string
+          description: Description
+          readOnly: true
+        order:
+          type: integer
+          format: int32
+          description: Order
+          readOnly: true
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Same as title of the Widget Bundle. Read-only field. Update the 'title' to change the 'name' of the Widget Bundle.
+          readOnly: true
+    WidgetsBundleExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/WidgetsBundle'
+          widgets:
+            type: array
+            items:
+              type: object
+          fqns:
+            type: array
+            items:
+              type: string
+    WidgetsBundleId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - WIDGETS_BUNDLE
+          example: WIDGETS_BUNDLE
+      required:
+      - entityType
+      - id
+  securitySchemes:
+    HTTP login form:
+      type: http
+      description: Enter Username / Password
+      scheme: loginPassword
+      bearerFormat: /api/auth/login|X-Authorization
+    API key form:
+      type: apiKey
+      description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
+
+
+        Example: **ApiKey tb_5te51SkLRYpjGrujUGwqkjFvooWBlQpVe2An2Dr3w13wjfxDW**
+
+
+        <br>**NOTE**: Use only ONE authentication method at a time. If both are authorized, JWT auth takes the priority.<br>
+
+        '
+      name: X-Authorization
+      in: header
