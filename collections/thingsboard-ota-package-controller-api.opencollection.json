@@ -1,0 +1,248 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller ota-package-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ota-package-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update OTA Package Info (saveOtaPackageInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/otaPackage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the OTA Package Info. When creating OTA Package Info, platform generates OTA Package id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created OTA Package id will be present in the response. Specify existing OTA Package id to update the OTA Package Info. Referencing non-existing OTA Package Id will cause 'Not Found' error. \n\nOTA Package combination of the title with the version is unique in the s"
+        },
+        {
+          "info": {
+            "name": "Get OTA Package (getOtaPackageById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/otaPackage/:otaPackageId",
+            "params": [
+              {
+                "name": "otaPackageId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the OTA Package object based on the provided OTA Package Id. The server checks that the OTA Package is owned by the same tenant. OTA Package is a heavyweight object that includes main information about the OTA Package and also data. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Save OTA Package Data (saveOtaPackageData)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/otaPackage/:otaPackageId",
+            "params": [
+              {
+                "name": "otaPackageId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "checksum",
+                "value": "",
+                "type": "query",
+                "description": "OTA Package checksum. For example, '0xd87f7e0c'"
+              },
+              {
+                "name": "checksumAlgorithm",
+                "value": "",
+                "type": "query",
+                "description": "OTA Package checksum algorithm."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Update the OTA Package. Adds the date to the existing OTA Package Info\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete OTA Package (deleteOtaPackage)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/otaPackage/:otaPackageId",
+            "params": [
+              {
+                "name": "otaPackageId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the OTA Package. Referencing non-existing OTA Package Id will cause an error. Can't delete the OTA Package if it is referenced by existing devices or device profile.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get OTA Package Infos (getOtaPackages)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/otaPackages",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the ota package title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get OTA Package Infos (getOtaPackages)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/otaPackages/:deviceProfileId/:type",
+            "params": [
+              {
+                "name": "deviceProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "OTA Package type."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the ota package title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Download OTA Package (downloadOtaPackage)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/otaPackage/:otaPackageId/download",
+            "params": [
+              {
+                "name": "otaPackageId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download OTA Package based on the provided OTA Package Id.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get OTA Package Info (getOtaPackageInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/otaPackage/info/:otaPackageId",
+            "params": [
+              {
+                "name": "otaPackageId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the OTA Package Info object based on the provided OTA Package Id. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

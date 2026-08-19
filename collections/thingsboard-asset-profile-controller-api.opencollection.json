@@ -1,0 +1,237 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller asset-profile-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "asset-profile-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Asset Profile (saveAssetProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/assetProfile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Asset Profile. When creating asset profile, platform generates asset profile id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created asset profile id will be present in the response. Specify existing asset profile id to update the asset profile. Referencing non-existing asset profile Id will cause 'Not Found' error. \n\nAsset profile name is unique in the scope of tenant. Only one 'default' a"
+        },
+        {
+          "info": {
+            "name": "Make Asset Profile Default (setDefaultAssetProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/assetProfile/:assetProfileId/default",
+            "params": [
+              {
+                "name": "assetProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Marks asset profile as default within a tenant scope.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Asset Profiles (getAssetProfiles)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/assetProfiles",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the asset profile name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of asset profile objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Asset Profiles by Ids (getAssetProfilesByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/assetProfileInfos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the asset profile name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "assetProfileIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of asset profile ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Requested asset profiles must be owned by tenant which is performing the request. \n\n"
+        },
+        {
+          "info": {
+            "name": "Get Asset Profile Info (getAssetProfileInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/assetProfileInfo/:assetProfileId",
+            "params": [
+              {
+                "name": "assetProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Asset Profile Info object based on the provided Asset Profile Id. Asset Profile Info is a lightweight object that includes main information about Asset Profile. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Default Asset Profile (getDefaultAssetProfileInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/assetProfileInfo/default"
+          },
+          "docs": "Fetch the Default Asset Profile Info object. Asset Profile Info is a lightweight object that includes main information about Asset Profile. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Asset Profile (getAssetProfileById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/assetProfile/:assetProfileId",
+            "params": [
+              {
+                "name": "assetProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "inlineImages",
+                "value": "",
+                "type": "query",
+                "description": "Inline images as a data URL (Base64)"
+              }
+            ]
+          },
+          "docs": "Fetch the Asset Profile object based on the provided Asset Profile Id. The server checks that the asset profile is owned by the same tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Asset Profile (deleteAssetProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/assetProfile/:assetProfileId",
+            "params": [
+              {
+                "name": "assetProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the asset profile. Referencing non-existing asset profile Id will cause an error. Can't delete the asset profile if it is referenced by existing assets.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Asset Profile Names (getAssetProfileNames)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/assetProfile/names",
+            "params": [
+              {
+                "name": "activeOnly",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to retrieve exclusively the names of asset profiles that are referenced by tenant's assets."
+              }
+            ]
+          },
+          "docs": "Returns a set of unique asset profile names owned by the tenant.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

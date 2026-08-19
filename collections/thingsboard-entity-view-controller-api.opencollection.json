@@ -1,0 +1,535 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller entity-view-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "entity-view-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Entity Views by Ids (getEntityViewsByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entityViews",
+            "params": [
+              {
+                "name": "entityViewIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of entity view ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Requested entity views must be owned by tenant or assigned to customer which user is performing the request. "
+        },
+        {
+          "info": {
+            "name": "Find Related Entity Views (findByQuery)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entityViews",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all entity views that are related to the specific entity. The entity id, relation type, entity view types, depth of the search, and other query parameters defined using complex 'EntityViewSearchQuery' object. See 'Model' tab of the Parameters for more info.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Save or Update Entity View (saveEntityView)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entityView",
+            "params": [
+              {
+                "name": "nameConflictPolicy",
+                "value": "",
+                "type": "query",
+                "description": "Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs."
+              },
+              {
+                "name": "uniquifySeparator",
+                "value": "",
+                "type": "query",
+                "description": "Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'."
+              },
+              {
+                "name": "uniquifyStrategy",
+                "value": "",
+                "type": "query",
+                "description": "Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-1."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device or Asset and assign them to different Customers. See the 'Model' tab for more details.Remove 'id', 'tenantId' and optionally 'customerId' from the request body examp"
+        },
+        {
+          "info": {
+            "name": "Assign Entity View to Edge (assignEntityViewToEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/entityView/:entityViewId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Creates assignment of an existing entity view to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote edge service will receive a copy of assignment entity view (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once entity view will be delivered to edge service, it's going to be available for usage on remote edge instance."
+        },
+        {
+          "info": {
+            "name": "Unassign Entity View from Edge (unassignEntityViewFromEdge)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/entityView/:entityViewId",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Clears assignment of the entity view to the edge. Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform. Second, remote edge service will receive an 'unassign' command to remove entity view (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once 'unassign' command will be delivered to edge service, it's going to remove entity view locally."
+        },
+        {
+          "info": {
+            "name": "Assign Entity View to Customer (assignEntityViewToCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/entityView/:entityViewId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Creates assignment of the Entity View to customer. Customer will be able to query Entity View afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Make Entity View Publicly Available (assignEntityViewToPublicCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/customer/public/entityView/:entityViewId",
+            "params": [
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Entity View will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users that are logged-in and belong to different tenant will not be able to access the entity view.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Entity View by Name (getTenantEntityView)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/entityViews",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity view name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "entityViewName",
+                "value": "",
+                "type": "query",
+                "description": "Entity View name"
+              }
+            ]
+          },
+          "docs": "Fetch the Entity View object based on the tenant id and entity view name. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Entity Views (getTenantEntityViews)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/entityViewInfos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity view name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of entity views info owned by tenant. Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device or Asset and assign them to different Customers. You can specify parameters to filter the results. The result is"
+        },
+        {
+          "info": {
+            "name": "Get Entity View (getEntityViewById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entityView/:entityViewId",
+            "params": [
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the EntityView object based on the provided entity view id. Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device or Asset and assign them to different Customers. See the 'Model' tab for more details.\n\nAvailable f"
+        },
+        {
+          "info": {
+            "name": "Delete Entity View (deleteEntityView)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/entityView/:entityViewId",
+            "params": [
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Delete the EntityView object based on the provided entity view id. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Entity View Types (getEntityViewTypes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entityView/types"
+          },
+          "docs": "Returns a set of unique entity view types based on entity views that are either owned by the tenant or assigned to the customer which user is performing the request.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Entity View Info (getEntityViewInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entityView/info/:entityViewId",
+            "params": [
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Entity View info object based on the provided Entity View Id. Entity Views Info extends the Entity View with customer title and 'is public' flag. Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device or Asset "
+        },
+        {
+          "info": {
+            "name": "getEdgeEntityViews",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edge/:edgeId/entityViews",
+            "params": [
+              {
+                "name": "edgeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Get Customer Entity Views (getCustomerEntityViews)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/entityViews",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity view name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of Entity View objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Customer Entity View Info (getCustomerEntityViewInfos)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/customer/:customerId/entityViewInfos",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity view name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of Entity View info objects assigned to customer. Entity Views limit the degree of exposure of the Device or Asset telemetry and attributes to the Customers. Every Entity View references exactly one entity (device or asset) and defines telemetry and attribute keys that will be visible to the assigned Customer. As a Tenant Administrator you are able to create multiple EVs per Device or Asset and assign them to different Customers. You can specify parameters to filter the results. T"
+        },
+        {
+          "info": {
+            "name": "Unassign Entity View from Customer (unassignEntityViewFromCustomer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/customer/entityView/:entityViewId",
+            "params": [
+              {
+                "name": "entityViewId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity view id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Clears assignment of the Entity View to customer. Customer will not be able to query Entity View afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

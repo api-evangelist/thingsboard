@@ -1,0 +1,2067 @@
+{
+  "item": [
+    {
+      "id": "4c5d693b-84f0-4ee2-a69e-63f9df87c3e7",
+      "name": "asset-controller",
+      "description": {
+        "content": "Asset",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f2675c0f-0e25-492e-990d-401c0b8074d5",
+          "name": "Assign Asset to Edge (assignAssetToEdge)",
+          "request": {
+            "name": "Assign Asset to Edge (assignAssetToEdge)",
+            "description": {
+              "content": "Creates assignment of an existing asset to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote edge service will receive a copy of assignment asset (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once asset will be delivered to edge service, it's going to be available for usage on remote edge instance.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "edge",
+                ":edgeId",
+                "asset",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "edgeId",
+                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b7566b41-7823-40e1-bcad-7d7b764d70b8",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edge",
+                    ":edgeId",
+                    "asset",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "edgeId",
+                      "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a4f6860-e5fb-463e-b568-be97756e21b3",
+          "name": "Unassign Asset from Edge (unassignAssetFromEdge)",
+          "request": {
+            "name": "Unassign Asset from Edge (unassignAssetFromEdge)",
+            "description": {
+              "content": "Clears assignment of the asset to the edge. Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform. Second, remote edge service will receive an 'unassign' command to remove asset (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once 'unassign' command will be delivered to edge service, it's going to remove asset locally.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "edge",
+                ":edgeId",
+                "asset",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "edgeId",
+                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4a7695b3-accb-4337-bf47-a54a3b42a9d8",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edge",
+                    ":edgeId",
+                    "asset",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "edgeId",
+                      "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b85de13b-fc8c-4c4d-be53-4e0e0b13a754",
+          "name": "Assign Asset to Customer (assignAssetToCustomer)",
+          "request": {
+            "name": "Assign Asset to Customer (assignAssetToCustomer)",
+            "description": {
+              "content": "Creates assignment of the asset to customer. Customer will be able to query asset afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "customer",
+                ":customerId",
+                "asset",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "84680c05-b4bc-42c3-a80c-2c9167f6569b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "customer",
+                    ":customerId",
+                    "asset",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7c897041-64d6-4c62-9189-de30f4091140",
+          "name": "Make Asset Publicly Available (assignAssetToPublicCustomer)",
+          "request": {
+            "name": "Make Asset Publicly Available (assignAssetToPublicCustomer)",
+            "description": {
+              "content": "Asset will be available for non-authorized (not logged-in) users. This is useful to create dashboards that you plan to share/embed on a publicly available website. However, users that are logged-in and belong to different tenant will not be able to access the asset.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "customer",
+                "public",
+                "asset",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1d705689-a831-45cc-80e3-a45dc9ff1e9a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "customer",
+                    "public",
+                    "asset",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96a6ff80-a068-4024-9acb-98502c80485e",
+          "name": "Get Assets by Ids (getAssetsByIds)",
+          "request": {
+            "name": "Get Assets by Ids (getAssetsByIds)",
+            "description": {
+              "content": "Requested assets must be owned by tenant or assigned to customer which user is performing the request. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "assetIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of assets ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "assetIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of assets ids, separated by comma ','"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a90db728-e819-4238-af94-484feaee474c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"Empire State Building\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Building\",\n    \"label\": \"NY Building\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"version\": 6828,\n    \"additionalInfo\": {}\n  },\n  {\n    \"name\": \"Empire State Building\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Building\",\n    \"label\": \"NY Building\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"version\": 8340,\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7adac41c-ce65-4267-b84d-72f60bbb7abb",
+          "name": "Find Related Assets (findByQuery)",
+          "request": {
+            "name": "Find Related Assets (findByQuery)",
+            "description": {
+              "content": "Returns all assets that are related to the specific entity. The entity id, relation type, asset types, depth of the search, and other query parameters defined using complex 'AssetSearchQuery' object. See 'Model' tab of the Parameters for more info.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parameters\": {\n    \"rootId\": \"<uuid>\",\n    \"rootType\": \"<string>\",\n    \"direction\": \"<string>\",\n    \"relationTypeGroup\": \"<string>\",\n    \"maxLevel\": \"<integer>\",\n    \"fetchLastLevelOnly\": \"<boolean>\"\n  },\n  \"relationType\": \"<string>\",\n  \"assetTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9ce26c4c-46e3-4bc3-a906-8205ce7715ba",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"rootId\": \"784f394c-42b6-435a-983c-b7beff2784f9\",\n    \"rootType\": \"ASSET_PROFILE\",\n    \"direction\": \"TO\",\n    \"relationTypeGroup\": \"RULE_NODE\",\n    \"maxLevel\": 882,\n    \"fetchLastLevelOnly\": false\n  },\n  \"relationType\": \"<string>\",\n  \"assetTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"Empire State Building\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Building\",\n    \"label\": \"NY Building\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"version\": 6828,\n    \"additionalInfo\": {}\n  },\n  {\n    \"name\": \"Empire State Building\",\n    \"id\": {\n      \"entityType\": \"ASSET\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Building\",\n    \"label\": \"NY Building\",\n    \"assetProfileId\": {\n      \"entityType\": \"ASSET_PROFILE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"version\": 8340,\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44c5626a-bebe-4d34-8fb0-26b1401c0ae5",
+          "name": "Create or Update Asset (saveAsset)",
+          "request": {
+            "name": "Create or Update Asset (saveAsset)",
+            "description": {
+              "content": "Creates or Updates the Asset. When creating asset, platform generates Asset Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Asset id will be present in the response. Specify existing Asset id to update the asset. Referencing non-existing Asset Id will cause 'Not Found' error. Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Asset entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "asset"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "nameConflictPolicy",
+                  "value": "FAIL",
+                  "description": "Optional value of name conflict policy. Possible values: FAIL or UNIQUIFY.  If omitted, FAIL policy is applied. FAIL policy implies exception will be thrown if an entity with the same name already exists.  UNIQUIFY policy appends a suffix to the entity name, if a name conflict occurs."
+                },
+                {
+                  "disabled": false,
+                  "key": "uniquifySeparator",
+                  "value": "_",
+                  "description": "Optional value of name suffix separator used by UNIQUIFY policy. By default, underscore separator is used. For example, strategy is UNIQUIFY, separator is '-'; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-7fsh4f'."
+                },
+                {
+                  "disabled": false,
+                  "key": "uniquifyStrategy",
+                  "value": "RANDOM",
+                  "description": "Optional value of uniquify strategy used by UNIQUIFY policy. Possible values: RANDOM or INCREMENTAL. By default, RANDOM strategy is used, which means random alphanumeric string will be added as a suffix to entity name. INCREMENTAL implies the first possible number starting from 1 will be added as a name suffix. For example, strategy is UNIQUIFY, uniquify strategy is INCREMENTAL; if a name conflict occurs for entity name 'test-name', created entity will have name like 'test-name-1."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"label\": \"<string>\",\n  \"assetProfileId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3eb32c6f-ea60-4ebe-a27e-8d7e16dfe303",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "asset"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "nameConflictPolicy",
+                      "value": "FAIL"
+                    },
+                    {
+                      "key": "uniquifySeparator",
+                      "value": "_"
+                    },
+                    {
+                      "key": "uniquifyStrategy",
+                      "value": "RANDOM"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11436b16-32fa-438d-8855-ca517f7e69bf",
+          "name": "Import the Bulk of Assets (processAssetsBulkImport)",
+          "request": {
+            "name": "Import the Bulk of Assets (processAssetsBulkImport)",
+            "description": {
+              "content": "There's an ability to import the bulk of assets using the only .csv file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "asset",
+                "bulk_import"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file\": \"<string>\",\n  \"mapping\": {\n    \"columns\": [\n      {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      }\n    ],\n    \"delimiter\": \"<string>\",\n    \"update\": \"<boolean>\",\n    \"header\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c906338e-6df1-4f08-9e35-7592e6de5ed6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "asset",
+                    "bulk_import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file\": \"<string>\",\n  \"mapping\": {\n    \"columns\": [\n      {\n        \"type\": \"MQTT_PASSWORD\",\n        \"key\": \"string\"\n      },\n      {\n        \"type\": \"IS_GATEWAY\",\n        \"key\": \"string\"\n      }\n    ],\n    \"delimiter\": \"string\",\n    \"update\": true,\n    \"header\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created\": {\n    \"opaque\": 7726,\n    \"acquire\": 1467,\n    \"andIncrement\": 9843,\n    \"andDecrement\": 1863,\n    \"plain\": 9555\n  },\n  \"updated\": {\n    \"opaque\": 6059,\n    \"acquire\": 4314,\n    \"andIncrement\": 4163,\n    \"andDecrement\": 7871,\n    \"plain\": 3629\n  },\n  \"errors\": {\n    \"opaque\": 6047,\n    \"acquire\": 26,\n    \"andIncrement\": 8158,\n    \"andDecrement\": 1324,\n    \"plain\": 4318\n  },\n  \"errorsList\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01a8d44f-dc5e-460c-82b0-ce17d50a46de",
+          "name": "Get Tenant Asset (getTenantAsset)",
+          "request": {
+            "name": "Get Tenant Asset (getTenantAsset)",
+            "description": {
+              "content": "Requested asset must be owned by tenant that the user belongs to. Asset name is an unique property of asset. So it can be used to identify the asset.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenant",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Asset type"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the asset name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                },
+                {
+                  "disabled": false,
+                  "key": "assetName",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the Asset name."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cbe92e34-627c-4dae-93c7-7acfb50b51a5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenant",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4dc797cb-1aaf-42f1-8b61-7fc89a723db8",
+          "name": "Get Tenant Asset Infos (getTenantAssetInfos)",
+          "request": {
+            "name": "Get Tenant Asset Infos (getTenantAssetInfos)",
+            "description": {
+              "content": "Returns a page of assets info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenant",
+                "assetInfos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Asset type"
+                },
+                {
+                  "disabled": false,
+                  "key": "assetProfileId",
+                  "value": "<string>",
+                  "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the asset name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3016ee79-c3f0-4624-9ac7-0f15168a9dff",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenant",
+                    "assetInfos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetProfileId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 5962,\n      \"customerTitle\": \"string\",\n      \"customerIsPublic\": true,\n      \"assetProfileName\": \"string\",\n      \"additionalInfo\": {}\n    },\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 7434,\n      \"customerTitle\": \"string\",\n      \"customerIsPublic\": false,\n      \"assetProfileName\": \"string\",\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 7109,\n  \"totalElements\": 9708,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44a13057-c6c6-4938-9ecb-86862efe3f74",
+          "name": "Get Assets Assigned to Edge (getEdgeAssets)",
+          "request": {
+            "name": "Get Assets Assigned to Edge (getEdgeAssets)",
+            "description": {
+              "content": "Returns a page of assets assigned to edge. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "edge",
+                ":edgeId",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Asset type"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the asset name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Timestamp. Assets with creation time before it won't be queried"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "Timestamp. Assets with creation time after it won't be queried"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "edgeId",
+                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d1ff2c23-7bbe-425e-aa91-a55302108318",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edge",
+                    ":edgeId",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "edgeId",
+                      "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 6270,\n      \"additionalInfo\": {}\n    },\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 8079,\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 5265,\n  \"totalElements\": 2066,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a05863b-7a59-4b63-b882-6cb5fd8df57e",
+          "name": "Get Customer Assets (getCustomerAssets)",
+          "request": {
+            "name": "Get Customer Assets (getCustomerAssets)",
+            "description": {
+              "content": "Returns a page of assets objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "customer",
+                ":customerId",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Asset type"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the asset name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0a2ecbf0-9319-4fca-91cd-59f44fff1d8a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "customer",
+                    ":customerId",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 6270,\n      \"additionalInfo\": {}\n    },\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 8079,\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 5265,\n  \"totalElements\": 2066,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "30dbdd6f-54f8-4e00-ae81-de19bcbaedf5",
+          "name": "Get Customer Asset Infos (getCustomerAssetInfos)",
+          "request": {
+            "name": "Get Customer Asset Infos (getCustomerAssetInfos)",
+            "description": {
+              "content": "Returns a page of assets info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "customer",
+                ":customerId",
+                "assetInfos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Asset type"
+                },
+                {
+                  "disabled": false,
+                  "key": "assetProfileId",
+                  "value": "<string>",
+                  "description": "A string value representing the asset profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the asset name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8665c0b8-d2a6-4ce0-8095-2f74b180a414",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "customer",
+                    ":customerId",
+                    "assetInfos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetProfileId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 5962,\n      \"customerTitle\": \"string\",\n      \"customerIsPublic\": true,\n      \"assetProfileName\": \"string\",\n      \"additionalInfo\": {}\n    },\n    {\n      \"name\": \"Empire State Building\",\n      \"id\": {\n        \"entityType\": \"ASSET\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"Building\",\n      \"label\": \"NY Building\",\n      \"assetProfileId\": {\n        \"entityType\": \"ASSET_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 7434,\n      \"customerTitle\": \"string\",\n      \"customerIsPublic\": false,\n      \"assetProfileName\": \"string\",\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 7109,\n  \"totalElements\": 9708,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4ecae7a8-73c0-45e0-9c70-66b0c1f66fed",
+          "name": "Get Asset (getAssetById)",
+          "request": {
+            "name": "Get Asset (getAssetById)",
+            "description": {
+              "content": "Fetch the Asset object based on the provided Asset Id. If the user has the authority of 'Tenant Administrator', the server checks that the asset is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "asset",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b0234c1-7939-4da9-a96c-5562ea3a475c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "asset",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db72c1dc-9586-4b1a-8951-0e42c524066a",
+          "name": "Delete Asset (deleteAsset)",
+          "request": {
+            "name": "Delete Asset (deleteAsset)",
+            "description": {
+              "content": "Deletes the asset and all the relations (from and to the asset). Referencing non-existing asset Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "asset",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ed52b2c8-5164-4e59-abb4-2cb35620159c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "asset",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e37f957c-d13b-46d7-91fb-9a5c6f335f72",
+          "name": "Get Asset Types (getAssetTypes)",
+          "request": {
+            "name": "Get Asset Types (getAssetTypes)",
+            "description": {
+              "content": "Deprecated. See 'getAssetProfileNames' API from Asset Profile Controller instead.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "asset",
+                "types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "28f1374c-a3a0-49ec-8abf-5d9114544213",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "asset",
+                    "types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"entityType\": \"JOB\",\n    \"type\": \"string\"\n  },\n  {\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"entityType\": \"RULE_CHAIN\",\n    \"type\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b08fd107-f55b-4197-ad5f-c4bfc9fdc90c",
+          "name": "Get Asset Info (getAssetInfoById)",
+          "request": {
+            "name": "Get Asset Info (getAssetInfoById)",
+            "description": {
+              "content": "Fetch the Asset Info object based on the provided Asset Id. If the user has the authority of 'Tenant Administrator', the server checks that the asset is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer. Asset Info is an extension of the default Asset object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "asset",
+                "info",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4c1d3b13-beef-4a82-ab60-4913ee8c6c41",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "asset",
+                    "info",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 7147,\n  \"customerTitle\": \"string\",\n  \"customerIsPublic\": true,\n  \"assetProfileName\": \"string\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a60d5ad6-4166-4f10-9861-7e5f3527e2e2",
+          "name": "Unassign Asset from Customer (unassignAssetFromCustomer)",
+          "request": {
+            "name": "Unassign Asset from Customer (unassignAssetFromCustomer)",
+            "description": {
+              "content": "Clears assignment of the asset to customer. Customer will not be able to query asset afterwards.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "customer",
+                "asset",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "979fc631-7301-4da9-b36b-44f4fbd50a75",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "customer",
+                    "asset",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) A string value representing the asset id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Empire State Building\",\n  \"id\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Building\",\n  \"label\": \"NY Building\",\n  \"assetProfileId\": {\n    \"entityType\": \"ASSET_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8752,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "dd2f54a9-04bc-4afa-a0c8-7596b2ed24c8",
+    "name": "ThingsBoard Admin admin-controller asset-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

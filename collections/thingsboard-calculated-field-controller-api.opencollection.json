@@ -1,0 +1,278 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller calculated-field-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "calculated-field-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Calculated Field (saveCalculatedField)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/calculatedField",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or Updates the Calculated Field. When creating calculated field, platform generates Calculated Field Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Calculated Field Id will be present in the response. Specify existing Calculated Field Id to update the calculated field. Referencing non-existing Calculated Field Id will cause 'Not Found' error. Remove 'id', 'tenantId' from the request body exampl"
+        },
+        {
+          "info": {
+            "name": "Test Script Expression",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/calculatedField/testScript",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the Script expression and return the result. The format of request: \n\n```json\n{\n  \"expression\": \"var temp = 0; foreach(element: temperature.values) {temp += element.value;} var avgTemperature = temp / temperature.values.size(); var adjustedTemperature = avgTemperature + 0.1 * humidity.value; return {\\\"adjustedTemperature\\\": adjustedTemperature};\",\n  \"arguments\": {\n    \"temperature\": {\n      \"type\": \"TS_ROLLING\",\n      \"timeWindow\": {\n        \"startTs\": 1739775630002,\n        \"endTs\": 654"
+        },
+        {
+          "info": {
+            "name": "Get Calculated Fields by Entity Id (getCalculatedFieldsByEntityId)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/:entityType/:entityId/calculatedFields",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Calculated field type. If not specified, all types will be returned."
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the calculated field name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Fetch the Calculated Fields based on the provided Entity Id."
+        },
+        {
+          "info": {
+            "name": "Get Calculated Fields (getCalculatedFields)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedFields",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "Calculated field types filter."
+              },
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "query",
+                "description": "Entity type filter. If not specified, calculated fields for all supported entity types will be returned."
+              },
+              {
+                "name": "entities",
+                "value": "",
+                "type": "query",
+                "description": "Entities filter. If not specified, calculated fields for entity type filter will be returned."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Name filter. To specify multiple names, duplicate 'name' parameter for each name, for example '?name=name1&name=name2"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the calculated field name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "params",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Fetch tenant calculated fields based on the filter."
+        },
+        {
+          "info": {
+            "name": "Get Calculated Field Names (getCalculatedFieldNames)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedFields/names",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Calculated field type filter."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the calculated field name."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Fetch the list of calculated field names for specified type."
+        },
+        {
+          "info": {
+            "name": "Get Calculated Field (getCalculatedFieldById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedField/:calculatedFieldId",
+            "params": [
+              {
+                "name": "calculatedFieldId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Fetch the Calculated Field object based on the provided Calculated Field Id."
+        },
+        {
+          "info": {
+            "name": "Delete Calculated Field (deleteCalculatedField)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/calculatedField/:calculatedFieldId",
+            "params": [
+              {
+                "name": "calculatedFieldId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the calculated field. Referencing non-existing Calculated Field Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Latest Calculated Field Debug Event (getLatestCalculatedFieldDebugEvent)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/calculatedField/:calculatedFieldId/debug",
+            "params": [
+              {
+                "name": "calculatedFieldId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Gets latest calculated field debug event for specified calculated field id. Referencing non-existing calculated field id will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,785 @@
+{
+  "item": [
+    {
+      "id": "3a3a8f9c-74f4-4eb5-a34f-309d8b26b8c7",
+      "name": "auth-controller",
+      "description": {
+        "content": "Auth",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "96a90050-0f6d-461b-9773-d01815c1158a",
+          "name": "Check Password Reset Token (checkResetToken)",
+          "request": {
+            "name": "Check Password Reset Token (checkResetToken)",
+            "description": {
+              "content": "Checks the password reset token and forwards user to 'Reset Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Reset Password' page and same 'resetToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "resetPassword"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "resetToken",
+                  "value": "<string>",
+                  "description": "(Required) The reset token string."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0e607dcf-55cb-4b35-be19-385ab4980c4d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "resetPassword"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resetToken",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11092d0a-7cfd-407f-af9c-eba389e0b8d1",
+          "name": "Reset Password (resetPassword)",
+          "request": {
+            "name": "Reset Password (resetPassword)",
+            "description": {
+              "content": "Checks the password reset token and updates the password. If token is not valid, returns '400 Bad Request'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "resetPassword"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resetToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "830bc128-62a7-472f-8b48-6bcd230e0b15",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "resetPassword"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resetToken\": \"AAB254FF67D..\",\n  \"password\": \"secret\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6e2e391a-87da-4fb7-a33e-c2725998f16c",
+          "name": "Request Reset Password Email (requestResetPasswordByEmail)",
+          "request": {
+            "name": "Request Reset Password Email (requestResetPasswordByEmail)",
+            "description": {
+              "content": "Request to send the reset password email if the user with specified email address is present in the database. Always return '200 OK' status for security purposes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "resetPasswordByEmail"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1bbd2f41-a1ff-4d23-a750-8c1f5b7d091f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "resetPasswordByEmail"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "581007c4-b9ba-493f-bd5c-7f1e733b4106",
+          "name": "Check Activate User Token (checkActivateToken)",
+          "request": {
+            "name": "Check Activate User Token (checkActivateToken)",
+            "description": {
+              "content": "Checks the activation token and forwards user to 'Create Password' page. If token is valid, returns '303 See Other' (redirect) response code with the correct address of 'Create Password' page and same 'activateToken' specified in the URL parameters. If token is not valid, returns '409 Conflict'. If token is expired, redirects to error page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "activateToken",
+                  "value": "<string>",
+                  "description": "(Required) The activate token string."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5f0d8aa3-5b67-4426-a4cb-a416c4ec3ac0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "activate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "activateToken",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b0110c29-e3db-4e57-8752-4bbdb3825531",
+          "name": "Activate User",
+          "request": {
+            "name": "Activate User",
+            "description": {
+              "content": "Checks the activation token and updates corresponding user password in the database. Now the user may start using his password to login. The response already contains the [JWT](https://jwt.io) activation and refresh tokens, to simplify the user activation flow and avoid asking user to input password again after activation. If token is valid, returns the object that contains [JWT](https://jwt.io/) access and refresh tokens. If token is not valid, returns '400 Bad Request'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sendActivationMail",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activateToken\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9cb93a4c-5959-459c-9ca4-c0f312b2626f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "activate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sendActivationMail",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"activateToken\": \"AAB254FF67D..\",\n  \"password\": \"secret\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"SYS_ADMIN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "520ab84e-d04c-4a94-a981-71de56bbce81",
+          "name": "Logout (logout)",
+          "request": {
+            "name": "Logout (logout)",
+            "description": {
+              "content": "Special API call to record the 'logout' of the user to the Audit Logs. Since platform uses [JWT](https://jwt.io/), the actual logout is the procedure of clearing the [JWT](https://jwt.io/) token on the client side. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "72ccd318-9a96-4095-bc6a-d9f55f699f03",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "logout"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f38e72d-9ed4-4181-8bca-5b7da50eaf63",
+          "name": "Change Password for Current User (changePassword)",
+          "request": {
+            "name": "Change Password for Current User (changePassword)",
+            "description": {
+              "content": "Change the password for the User which credentials are used to perform this REST API call. Be aware that previously generated [JWT](https://jwt.io/) tokens will be still valid until they expire.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "changePassword"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"<string>\",\n  \"newPassword\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7398915d-e098-4b8b-a36e-79ede4fd5ac7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "changePassword"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"OldPassword\",\n  \"newPassword\": \"NewPassword\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"AAB254FF67D..\",\n  \"refreshToken\": \"AAB254FF67D..\",\n  \"scope\": \"SYS_ADMIN\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8f1247c9-303a-4cee-9c84-3daafa65f384",
+          "name": "Get the Current User Password Policy (getUserPasswordPolicy)",
+          "request": {
+            "name": "Get the Current User Password Policy (getUserPasswordPolicy)",
+            "description": {
+              "content": "API call to get the password policy for the password validation form(s).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "noauth",
+                "userPasswordPolicy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2844539d-f910-49de-b85c-e373c05a4553",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "noauth",
+                    "userPasswordPolicy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"minimumLength\": 1729,\n  \"maximumLength\": 2257,\n  \"minimumUppercaseLetters\": 8431,\n  \"minimumLowercaseLetters\": 875,\n  \"minimumDigits\": 4734,\n  \"minimumSpecialCharacters\": 752,\n  \"allowWhitespaces\": false,\n  \"forceUserToResetPasswordIfNotValid\": false,\n  \"passwordExpirationPeriodDays\": 768,\n  \"passwordReuseFrequencyDays\": 3624\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "180ab37b-8ebc-4a45-aaf8-b57575b08495",
+          "name": "Get Current User (getUser)",
+          "request": {
+            "name": "Get Current User (getUser)",
+            "description": {
+              "content": "Get the information about the User which credentials are used to perform this REST API call.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb722f2b-4ab6-408b-8dc6-024f0b6043bf",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "auth",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"authority\": \"REFRESH_TOKEN\",\n  \"email\": \"user@example.com\",\n  \"id\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"customerId\": {\n    \"entityType\": \"CUSTOMER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"string\",\n  \"version\": 1729,\n  \"name\": \"user@example.com\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "da40f59b-ef29-433a-b3d7-c5b2b92ace26",
+    "name": "ThingsBoard Admin admin-controller auth-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

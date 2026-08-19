@@ -1,0 +1,2201 @@
+{
+  "item": [
+    {
+      "id": "8fcd1422-263f-42d2-a89d-4419a3a9b089",
+      "name": "rule-chain-controller",
+      "description": {
+        "content": "Rule Chain",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "310ba6be-1d56-4e88-8f52-6a8d0cf63d37",
+          "name": "Import Rule Chains",
+          "request": {
+            "name": "Import Rule Chains",
+            "description": {
+              "content": "Imports all tenant rule chains as one JSON.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChains",
+                "import"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "overwrite",
+                  "value": "false",
+                  "description": "Enables overwrite for existing rule chains with the same name."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4c45d5f3-4490-4808-b2da-e7bae79ddea1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChains",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "overwrite",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"ruleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"ruleChainName\": \"string\",\n    \"updated\": true,\n    \"error\": \"string\"\n  },\n  {\n    \"ruleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"ruleChainName\": \"string\",\n    \"updated\": false,\n    \"error\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5df71b7a-b38f-4cd6-b42e-1cfe1df6d72f",
+          "name": "Create or Update Rule Chain (saveRuleChain)",
+          "request": {
+            "name": "Create or Update Rule Chain (saveRuleChain)",
+            "description": {
+              "content": "Create or update the Rule Chain. When creating Rule Chain, platform generates Rule Chain Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Rule Chain Id will be present in the response. Specify existing Rule Chain id to update the rule chain. Referencing non-existing rule chain Id will cause 'Not Found' error.\n\nThe rule chain object is lightweight and contains general information about the rule chain. List of rule nodes and their connection is stored in a separate 'metadata' object.Remove 'id', 'tenantId' from the request body example (below) to create new Rule Chain entity.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"root\": \"<boolean>\",\n  \"debugMode\": \"<boolean>\",\n  \"version\": \"<long>\",\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0d956f9f-0412-4050-b56f-03a63033dc7d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Humidity data processing\",\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"<string>\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": \"<boolean>\",\n  \"debugMode\": \"<boolean>\",\n  \"version\": \"<long>\",\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "508d6e18-9b26-48b8-b0b7-93b81e76c9c4",
+          "name": "Set Root Rule Chain (setRootRuleChain)",
+          "request": {
+            "name": "Set Root Rule Chain (setRootRuleChain)",
+            "description": {
+              "content": "Makes the rule chain to be root rule chain. Updates previous root rule chain as well. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId",
+                "root"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "de9e6851-bdc6-4d73-bada-bf199a3a2d46",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId",
+                    "root"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f1b585a-46c7-4b08-95e8-0187adb1bc42",
+          "name": "Set Edge Template Root Rule Chain (setEdgeTemplateRootRuleChain)",
+          "request": {
+            "name": "Set Edge Template Root Rule Chain (setEdgeTemplateRootRuleChain)",
+            "description": {
+              "content": "Makes the rule chain to be root rule chain for any new edge that will be created. Does not update root rule chain for already created edges. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId",
+                "edgeTemplateRoot"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "36958d50-e010-4e47-97ec-656d5fd1fdab",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId",
+                    "edgeTemplateRoot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2531271b-7a0b-4aff-b8de-1bcc62e48fbc",
+          "name": "Set Auto Assign to Edge Rule Chain (setAutoAssignToEdgeRuleChain)",
+          "request": {
+            "name": "Set Auto Assign to Edge Rule Chain (setAutoAssignToEdgeRuleChain)",
+            "description": {
+              "content": "Makes the rule chain to be automatically assigned for any new edge that will be created. Does not assign this rule chain for already created edges. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId",
+                "autoAssignToEdge"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "497dc539-a2b8-4387-83ac-a395679db1ed",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId",
+                    "autoAssignToEdge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d378e42c-cd2b-4715-ac2f-2986c47dda53",
+          "name": "Unset Auto Assign to Edge Rule Chain (unsetAutoAssignToEdgeRuleChain)",
+          "request": {
+            "name": "Unset Auto Assign to Edge Rule Chain (unsetAutoAssignToEdgeRuleChain)",
+            "description": {
+              "content": "Removes the rule chain from the list of rule chains that are going to be automatically assigned for any new edge that will be created. Does not unassign this rule chain for already assigned edges. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId",
+                "autoAssignToEdge"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f58c09d7-8735-4863-8fb9-1c7d1aef6bd7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId",
+                    "autoAssignToEdge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f64225e-a200-477b-b8da-66dc17d2323b",
+          "name": "Test Script Function",
+          "request": {
+            "name": "Test Script Function",
+            "description": {
+              "content": "Execute the Script function and return the result. The format of request: \n\n```json\n{\n  \"script\": \"Your Function as String\",\n  \"scriptType\": \"One of: update, generate, filter, switch, json, string\",\n  \"argNames\": [\"msg\", \"metadata\", \"type\"],\n  \"msg\": \"{\\\"temperature\\\": 42}\", \n  \"metadata\": {\n    \"deviceName\": \"Device A\",\n    \"deviceType\": \"Thermometer\"\n  },\n  \"msgType\": \"POST_TELEMETRY_REQUEST\"\n}\n```\n\n Expected result JSON contains \"output\" and \"error\".\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                "testScript"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "scriptLang",
+                  "value": "<string>",
+                  "description": "Script language: JS or TBEL"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e7850445-8dfb-4118-8f55-ed1cfdda1d71",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    "testScript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scriptLang",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e4663089-e36c-41c0-bab7-505b96e89789",
+          "name": "Update Rule Chain Metadata",
+          "request": {
+            "name": "Update Rule Chain Metadata",
+            "description": {
+              "content": "Updates the rule chain metadata. The metadata object contains information about the rule nodes and their connections.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "updateRelated",
+                  "value": "true",
+                  "description": "Update related rule nodes."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"connections\": [\n    {\n      \"fromIndex\": \"<integer>\",\n      \"toIndex\": \"<integer>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"fromIndex\": \"<integer>\",\n      \"toIndex\": \"<integer>\",\n      \"type\": \"<string>\"\n    }\n  ],\n  \"firstNodeIndex\": \"<integer>\",\n  \"nodes\": [\n    {\n      \"id\": {\n        \"entityType\": \"<string>\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"debugMode\": \"<boolean>\",\n      \"debugSettings\": {\n        \"failuresEnabled\": \"<boolean>\",\n        \"allEnabled\": \"<boolean>\",\n        \"allEnabledUntil\": \"<long>\"\n      },\n      \"singletonMode\": \"<boolean>\",\n      \"queueName\": \"<string>\",\n      \"configurationVersion\": \"<integer>\",\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"<string>\",\n        \"id\": \"<uuid>\"\n      },\n      \"additionalInfo\": {}\n    },\n    {\n      \"id\": {\n        \"entityType\": \"<string>\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"debugMode\": \"<boolean>\",\n      \"debugSettings\": {\n        \"failuresEnabled\": \"<boolean>\",\n        \"allEnabled\": \"<boolean>\",\n        \"allEnabledUntil\": \"<long>\"\n      },\n      \"singletonMode\": \"<boolean>\",\n      \"queueName\": \"<string>\",\n      \"configurationVersion\": \"<integer>\",\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"<string>\",\n        \"id\": \"<uuid>\"\n      },\n      \"additionalInfo\": {}\n    }\n  ],\n  \"ruleChainConnections\": [\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": \"<integer>\",\n      \"targetRuleChainId\": {\n        \"entityType\": \"<string>\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\"\n    },\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": \"<integer>\",\n      \"targetRuleChainId\": {\n        \"entityType\": \"<string>\",\n        \"id\": \"<uuid>\"\n      },\n      \"type\": \"<string>\"\n    }\n  ],\n  \"version\": \"<long>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0496e687-3783-43b8-a25e-eee6ce37320d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "updateRelated",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connections\": [\n    {\n      \"fromIndex\": 1270,\n      \"toIndex\": 2931,\n      \"type\": \"string\"\n    },\n    {\n      \"fromIndex\": 547,\n      \"toIndex\": 3792,\n      \"type\": \"string\"\n    }\n  ],\n  \"firstNodeIndex\": \"<integer>\",\n  \"nodes\": [\n    {\n      \"id\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n      \"name\": \"Process sensor reading\",\n      \"debugMode\": false,\n      \"debugSettings\": {\n        \"failuresEnabled\": false,\n        \"allEnabled\": false,\n        \"allEnabledUntil\": 5611\n      },\n      \"singletonMode\": false,\n      \"queueName\": \"Main\",\n      \"configurationVersion\": 0,\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"additionalInfo\": {}\n    },\n    {\n      \"id\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n      \"name\": \"Process sensor reading\",\n      \"debugMode\": false,\n      \"debugSettings\": {\n        \"failuresEnabled\": false,\n        \"allEnabled\": false,\n        \"allEnabledUntil\": 5842\n      },\n      \"singletonMode\": false,\n      \"queueName\": \"Main\",\n      \"configurationVersion\": 0,\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"additionalInfo\": {}\n    }\n  ],\n  \"ruleChainConnections\": [\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": 7076,\n      \"targetRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"string\"\n    },\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": 54,\n      \"targetRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"string\"\n    }\n  ],\n  \"version\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"connections\": [\n    {\n      \"fromIndex\": 5284,\n      \"toIndex\": 739,\n      \"type\": \"string\"\n    },\n    {\n      \"fromIndex\": 794,\n      \"toIndex\": 6341,\n      \"type\": \"string\"\n    }\n  ],\n  \"firstNodeIndex\": 1860,\n  \"nodes\": [\n    {\n      \"id\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"ruleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n      \"name\": \"Process sensor reading\",\n      \"debugSettings\": {\n        \"failuresEnabled\": false,\n        \"allEnabled\": false,\n        \"allEnabledUntil\": 155\n      },\n      \"singletonMode\": false,\n      \"queueName\": \"Main\",\n      \"configurationVersion\": 0,\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"additionalInfo\": {}\n    },\n    {\n      \"id\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"ruleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n      \"name\": \"Process sensor reading\",\n      \"debugSettings\": {\n        \"failuresEnabled\": false,\n        \"allEnabled\": false,\n        \"allEnabledUntil\": 6640\n      },\n      \"singletonMode\": false,\n      \"queueName\": \"Main\",\n      \"configurationVersion\": 0,\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"additionalInfo\": {}\n    }\n  ],\n  \"ruleChainConnections\": [\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": 9878,\n      \"targetRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"string\"\n    },\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": 7243,\n      \"targetRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"string\"\n    }\n  ],\n  \"ruleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8180\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3f41b4af-0f7b-4ff5-a9de-1798e31986fe",
+          "name": "Create Default Rule Chain",
+          "request": {
+            "name": "Create Default Rule Chain",
+            "description": {
+              "content": "Create rule chain from template, based on the specified name in the request. Creates the rule chain based on the template that is used to create root rule chain. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                "device",
+                "default"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ad667693-1f9d-45a7-b15e-d3c932580fd1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    "device",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Root Rule Chain\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7d77e954-ba05-4501-b9b4-742a40928594",
+          "name": "Assign Rule Chain to Edge (assignRuleChainToEdge)",
+          "request": {
+            "name": "Assign Rule Chain to Edge (assignRuleChainToEdge)",
+            "description": {
+              "content": "Creates assignment of an existing rule chain to an instance of The Edge. Assignment works in async way - first, notification event pushed to edge service queue on platform. Second, remote edge service will receive a copy of assignment rule chain (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once rule chain will be delivered to edge service, it's going to start processing messages locally. \n\nOnly rule chain with type 'EDGE' can be assigned to edge.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "edge",
+                ":edgeId",
+                "ruleChain",
+                ":ruleChainId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "edgeId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3b5768b-77b4-4a9d-8c52-a631f79acf7f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edge",
+                    ":edgeId",
+                    "ruleChain",
+                    ":ruleChainId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "edgeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c30b3e6-3c49-4e78-83e3-cb9fe20d58ec",
+          "name": "Unassign Rule Chain from Edge (unassignRuleChainFromEdge)",
+          "request": {
+            "name": "Unassign Rule Chain from Edge (unassignRuleChainFromEdge)",
+            "description": {
+              "content": "Clears assignment of the rule chain to the edge. Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform. Second, remote edge service will receive an 'unassign' command to remove rule chain (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform). Third, once 'unassign' command will be delivered to edge service, it's going to remove rule chain locally.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "edge",
+                ":edgeId",
+                "ruleChain",
+                ":ruleChainId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "edgeId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1f4912a6-6c2e-475b-97f7-2666a7d5796d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edge",
+                    ":edgeId",
+                    "ruleChain",
+                    ":ruleChainId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "edgeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc2641be-fcc2-4e16-83be-6348a31090ed",
+          "name": "Get Latest Input Message (getLatestRuleNodeDebugInput)",
+          "request": {
+            "name": "Get Latest Input Message (getLatestRuleNodeDebugInput)",
+            "description": {
+              "content": "Gets the input message from the debug events for specified Rule Chain Id. Referencing non-existing rule chain Id will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleNode",
+                ":ruleNodeId",
+                "debugIn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleNodeId",
+                  "description": "(Required) A string value representing the rule node id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3d8fbce6-0cd3-44a1-a65e-44accd34cd7f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleNode",
+                    ":ruleNodeId",
+                    "debugIn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleNodeId",
+                      "description": "(Required) A string value representing the rule node id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a2e1a8be-e402-421a-a489-3bb17170810f",
+          "name": "Get Rule Chains (getRuleChains)",
+          "request": {
+            "name": "Get Rule Chains (getRuleChains)",
+            "description": {
+              "content": "Returns a page of Rule Chains owned by tenant. The rule chain object is lightweight and contains general information about the rule chain. List of rule nodes and their connection is stored in a separate 'metadata' object.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChains"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ruleChainIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of rule chain ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "ruleChainIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of rule chain ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Rule chain type (CORE or EDGE)"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the rule chain name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8c3ca3a3-2016-45ef-8d3e-0e056908e0bd",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ruleChainIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ruleChainIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"Humidity data processing\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"id\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"type\": \"CORE\",\n      \"firstRuleNodeId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"root\": true,\n      \"debugMode\": false,\n      \"version\": 2470,\n      \"configuration\": {},\n      \"additionalInfo\": {}\n    },\n    {\n      \"name\": \"Humidity data processing\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"id\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"type\": \"EDGE\",\n      \"firstRuleNodeId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"root\": true,\n      \"debugMode\": true,\n      \"version\": 1713,\n      \"configuration\": {},\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 8630,\n  \"totalElements\": 5639,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf33d2e9-e2d4-4992-b519-f1d4083ab512",
+          "name": "Export Rule Chains",
+          "request": {
+            "name": "Export Rule Chains",
+            "description": {
+              "content": "Exports all tenant rule chains as one JSON.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChains",
+                "export"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "(Required) A limit of rule chains to export."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "66580322-b84e-4bf7-ab39-d70f3cabd36c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChains",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": [\n    {\n      \"connections\": [\n        {\n          \"fromIndex\": 7958,\n          \"toIndex\": 3385,\n          \"type\": \"string\"\n        },\n        {\n          \"fromIndex\": 3901,\n          \"toIndex\": 6016,\n          \"type\": \"string\"\n        }\n      ],\n      \"firstNodeIndex\": 244,\n      \"nodes\": [\n        {\n          \"id\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1609459200000,\n          \"ruleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n          \"name\": \"Process sensor reading\",\n          \"debugSettings\": {\n            \"failuresEnabled\": false,\n            \"allEnabled\": false,\n            \"allEnabledUntil\": 1399\n          },\n          \"singletonMode\": false,\n          \"queueName\": \"Main\",\n          \"configurationVersion\": 0,\n          \"configuration\": {},\n          \"externalId\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"additionalInfo\": {}\n        },\n        {\n          \"id\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1609459200000,\n          \"ruleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n          \"name\": \"Process sensor reading\",\n          \"debugSettings\": {\n            \"failuresEnabled\": false,\n            \"allEnabled\": false,\n            \"allEnabledUntil\": 1098\n          },\n          \"singletonMode\": false,\n          \"queueName\": \"Main\",\n          \"configurationVersion\": 0,\n          \"configuration\": {},\n          \"externalId\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"additionalInfo\": {}\n        }\n      ],\n      \"ruleChainConnections\": [\n        {\n          \"additionalInfo\": {},\n          \"fromIndex\": 2367,\n          \"targetRuleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"string\"\n        },\n        {\n          \"additionalInfo\": {},\n          \"fromIndex\": 7948,\n          \"targetRuleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"string\"\n        }\n      ],\n      \"ruleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 8561\n    },\n    {\n      \"connections\": [\n        {\n          \"fromIndex\": 1317,\n          \"toIndex\": 7395,\n          \"type\": \"string\"\n        },\n        {\n          \"fromIndex\": 8951,\n          \"toIndex\": 3177,\n          \"type\": \"string\"\n        }\n      ],\n      \"firstNodeIndex\": 5624,\n      \"nodes\": [\n        {\n          \"id\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1609459200000,\n          \"ruleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n          \"name\": \"Process sensor reading\",\n          \"debugSettings\": {\n            \"failuresEnabled\": false,\n            \"allEnabled\": false,\n            \"allEnabledUntil\": 5841\n          },\n          \"singletonMode\": false,\n          \"queueName\": \"Main\",\n          \"configurationVersion\": 0,\n          \"configuration\": {},\n          \"externalId\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"additionalInfo\": {}\n        },\n        {\n          \"id\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1609459200000,\n          \"ruleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n          \"name\": \"Process sensor reading\",\n          \"debugSettings\": {\n            \"failuresEnabled\": false,\n            \"allEnabled\": false,\n            \"allEnabledUntil\": 8122\n          },\n          \"singletonMode\": false,\n          \"queueName\": \"Main\",\n          \"configurationVersion\": 0,\n          \"configuration\": {},\n          \"externalId\": {\n            \"entityType\": \"RULE_NODE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"additionalInfo\": {}\n        }\n      ],\n      \"ruleChainConnections\": [\n        {\n          \"additionalInfo\": {},\n          \"fromIndex\": 951,\n          \"targetRuleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"string\"\n        },\n        {\n          \"additionalInfo\": {},\n          \"fromIndex\": 4796,\n          \"targetRuleChainId\": {\n            \"entityType\": \"RULE_CHAIN\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"type\": \"string\"\n        }\n      ],\n      \"ruleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 1444\n    }\n  ],\n  \"ruleChains\": [\n    {\n      \"name\": \"Humidity data processing\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"id\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"type\": \"EDGE\",\n      \"firstRuleNodeId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"root\": true,\n      \"debugMode\": false,\n      \"version\": 4562,\n      \"configuration\": {},\n      \"additionalInfo\": {}\n    },\n    {\n      \"name\": \"Humidity data processing\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"id\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"type\": \"EDGE\",\n      \"firstRuleNodeId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"root\": true,\n      \"debugMode\": false,\n      \"version\": 7017,\n      \"configuration\": {},\n      \"additionalInfo\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "959c8d4b-818a-4a6d-944f-bb5cef65520b",
+          "name": "Get Rule Chain (getRuleChainById)",
+          "request": {
+            "name": "Get Rule Chain (getRuleChainById)",
+            "description": {
+              "content": "Fetch the Rule Chain object based on the provided Rule Chain Id. The rule chain object is lightweight and contains general information about the rule chain. List of rule nodes and their connection is stored in a separate 'metadata' object.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bccaba6c-8b48-43d8-9e43-328a34e2a031",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Humidity data processing\",\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"id\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"CORE\",\n  \"firstRuleNodeId\": {\n    \"entityType\": \"RULE_NODE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"root\": true,\n  \"debugMode\": false,\n  \"version\": 3029,\n  \"configuration\": {},\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a945bf95-1d02-445c-9c85-a48f7533a17e",
+          "name": "Delete Rule Chain (deleteRuleChain)",
+          "request": {
+            "name": "Delete Rule Chain (deleteRuleChain)",
+            "description": {
+              "content": "Deletes the rule chain. Referencing non-existing rule chain Id will cause an error. Referencing rule chain that is used in the device profiles will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ccaa6f8c-e469-44b3-b9b3-dc78ec102f07",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5180c409-0d20-448b-ac96-33c508618f02",
+          "name": "Get Rule Chain Output Labels (getRuleChainOutputLabels)",
+          "request": {
+            "name": "Get Rule Chain Output Labels (getRuleChainOutputLabels)",
+            "description": {
+              "content": "Fetch the unique labels for the \"output\" Rule Nodes that belong to the Rule Chain based on the provided Rule Chain Id. The rule chain object is lightweight and contains general information about the rule chain. List of rule nodes and their connection is stored in a separate 'metadata' object.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId",
+                "output",
+                "labels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3a7f07e1-4fd6-4cd9-966a-c1a7e6b4334d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId",
+                    "output",
+                    "labels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"string\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "533dcaa2-97f4-49f9-9649-8f0346fb876b",
+          "name": "Get Output Labels Usage (getRuleChainOutputLabelsUsage)",
+          "request": {
+            "name": "Get Output Labels Usage (getRuleChainOutputLabelsUsage)",
+            "description": {
+              "content": "Fetch the list of rule chains and the relation types (labels) they use to process output of the current rule chain based on the provided Rule Chain Id. The rule chain object is lightweight and contains general information about the rule chain. List of rule nodes and their connection is stored in a separate 'metadata' object.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId",
+                "output",
+                "labels",
+                "usage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b5fee4c5-64f4-48c2-bbf9-39d5ad55e71d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId",
+                    "output",
+                    "labels",
+                    "usage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"labels\": [\n      \"string\"\n    ],\n    \"ruleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"ruleChainName\": \"string\",\n    \"ruleNodeId\": {\n      \"entityType\": \"RULE_NODE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"ruleNodeName\": \"string\"\n  },\n  {\n    \"labels\": [\n      \"string\"\n    ],\n    \"ruleChainId\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"ruleChainName\": \"string\",\n    \"ruleNodeId\": {\n      \"entityType\": \"RULE_NODE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"ruleNodeName\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e2dce5f7-4ce5-435e-970b-302573b7563a",
+          "name": "Get Rule Chain (getRuleChainById)",
+          "request": {
+            "name": "Get Rule Chain (getRuleChainById)",
+            "description": {
+              "content": "Fetch the Rule Chain Metadata object based on the provided Rule Chain Id. The metadata object contains information about the rule nodes and their connections.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                ":ruleChainId",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ruleChainId",
+                  "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "110e3a58-91c5-4b1e-97bc-68d6527f1daf",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    ":ruleChainId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ruleChainId",
+                      "description": "(Required) A string value representing the rule chain id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"connections\": [\n    {\n      \"fromIndex\": 5284,\n      \"toIndex\": 739,\n      \"type\": \"string\"\n    },\n    {\n      \"fromIndex\": 794,\n      \"toIndex\": 6341,\n      \"type\": \"string\"\n    }\n  ],\n  \"firstNodeIndex\": 1860,\n  \"nodes\": [\n    {\n      \"id\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"ruleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n      \"name\": \"Process sensor reading\",\n      \"debugSettings\": {\n        \"failuresEnabled\": false,\n        \"allEnabled\": false,\n        \"allEnabledUntil\": 155\n      },\n      \"singletonMode\": false,\n      \"queueName\": \"Main\",\n      \"configurationVersion\": 0,\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"additionalInfo\": {}\n    },\n    {\n      \"id\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"ruleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"com.mycompany.iot.rule.engine.ProcessingNode\",\n      \"name\": \"Process sensor reading\",\n      \"debugSettings\": {\n        \"failuresEnabled\": false,\n        \"allEnabled\": false,\n        \"allEnabledUntil\": 6640\n      },\n      \"singletonMode\": false,\n      \"queueName\": \"Main\",\n      \"configurationVersion\": 0,\n      \"configuration\": {},\n      \"externalId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"additionalInfo\": {}\n    }\n  ],\n  \"ruleChainConnections\": [\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": 9878,\n      \"targetRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"string\"\n    },\n    {\n      \"additionalInfo\": {},\n      \"fromIndex\": 7243,\n      \"targetRuleChainId\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"string\"\n    }\n  ],\n  \"ruleChainId\": {\n    \"entityType\": \"RULE_CHAIN\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 8180\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cda54a6c-f231-463e-bf8b-96388afbbd05",
+          "name": "Is TBEL Script Executor Enabled",
+          "request": {
+            "name": "Is TBEL Script Executor Enabled",
+            "description": {
+              "content": "Returns 'True' if the TBEL script execution is enabled\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                "tbelEnabled"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "38fa3c5c-a65a-4546-b4ab-e2c0345fb6bc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    "tbelEnabled"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "true",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1871d458-a85c-4d6b-98f7-d456f56eaa13",
+          "name": "Get Auto Assign to Edge Rule Chains (getAutoAssignToEdgeRuleChains)",
+          "request": {
+            "name": "Get Auto Assign to Edge Rule Chains (getAutoAssignToEdgeRuleChains)",
+            "description": {
+              "content": "Returns a list of Rule Chains that will be assigned to a newly created edge. The rule chain object is lightweight and contains general information about the rule chain. List of rule nodes and their connection is stored in a separate 'metadata' object.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "ruleChain",
+                "autoAssignToEdgeRuleChains"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "842efb9e-eb83-4b90-b423-9ea6c157950d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "ruleChain",
+                    "autoAssignToEdgeRuleChains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"Humidity data processing\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"id\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"type\": \"CORE\",\n    \"firstRuleNodeId\": {\n      \"entityType\": \"RULE_NODE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"root\": true,\n    \"debugMode\": true,\n    \"version\": 3047,\n    \"configuration\": {},\n    \"additionalInfo\": {}\n  },\n  {\n    \"name\": \"Humidity data processing\",\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"id\": {\n      \"entityType\": \"RULE_CHAIN\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"type\": \"CORE\",\n    \"firstRuleNodeId\": {\n      \"entityType\": \"RULE_NODE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"root\": false,\n    \"debugMode\": true,\n    \"version\": 7938,\n    \"configuration\": {},\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b62df676-1e04-4b46-9054-d7d7c8333402",
+          "name": "Get Edge Rule Chains (getEdgeRuleChains)",
+          "request": {
+            "name": "Get Edge Rule Chains (getEdgeRuleChains)",
+            "description": {
+              "content": "Returns a page of Rule Chains assigned to the specified edge. The rule chain object is lightweight and contains general information about the rule chain. List of rule nodes and their connection is stored in a separate 'metadata' object.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "edge",
+                ":edgeId",
+                "ruleChains"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the rule chain name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "edgeId",
+                  "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cf1b3a22-dc74-42dd-8593-5cec624e4d55",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edge",
+                    ":edgeId",
+                    "ruleChains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "edgeId",
+                      "description": "(Required) A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"Humidity data processing\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"id\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"type\": \"CORE\",\n      \"firstRuleNodeId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"root\": true,\n      \"debugMode\": false,\n      \"version\": 2470,\n      \"configuration\": {},\n      \"additionalInfo\": {}\n    },\n    {\n      \"name\": \"Humidity data processing\",\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"id\": {\n        \"entityType\": \"RULE_CHAIN\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"type\": \"EDGE\",\n      \"firstRuleNodeId\": {\n        \"entityType\": \"RULE_NODE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"root\": true,\n      \"debugMode\": true,\n      \"version\": 1713,\n      \"configuration\": {},\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 8630,\n  \"totalElements\": 5639,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5fea203a-143c-4dd4-8153-ff4a0393eed2",
+    "name": "ThingsBoard Admin admin-controller rule-chain-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

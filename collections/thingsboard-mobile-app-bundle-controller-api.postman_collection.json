@@ -1,0 +1,556 @@
+{
+  "item": [
+    {
+      "id": "a7971092-0815-491b-8b35-244f2f865a80",
+      "name": "mobile-app-bundle-controller",
+      "description": {
+        "content": "Mobile App Bundle",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c0640a3f-aaf8-4253-8ac8-ae5569cda689",
+          "name": "Update Oauth2 Clients (updateOauth2Clients)",
+          "request": {
+            "name": "Update Oauth2 Clients (updateOauth2Clients)",
+            "description": {
+              "content": "Update oauth2 clients of the specified mobile app bundle.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mobile",
+                "bundle",
+                ":id",
+                "oauth2Clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<uuid>\",\n  \"<uuid>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f7596ebf-0c38-4e4f-a38f-2401196857d8",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mobile",
+                    "bundle",
+                    ":id",
+                    "oauth2Clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"<uuid>\",\n  \"<uuid>\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08de6ffd-3786-4f07-9cb9-a9ede61b4c8f",
+          "name": "Save or Update Mobile App Bundle (saveMobileAppBundle)",
+          "request": {
+            "name": "Save or Update Mobile App Bundle (saveMobileAppBundle)",
+            "description": {
+              "content": "Create or update the Mobile app bundle that represents tha pair of ANDROID and IOS app and mobile settings like oauth2 clients, self-registration and layout configuration.When creating mobile app bundle, platform generates Mobile App Bundle Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Mobile App Bundle Id will be present in the response. Referencing non-existing Mobile App Bundle Id will cause 'Not Found' error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mobile",
+                "bundle"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "oauth2ClientIds",
+                  "value": "<string>",
+                  "description": "A list of oauth2 client ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "oauth2ClientIds",
+                  "value": "<string>",
+                  "description": "A list of oauth2 client ids, separated by comma ','"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"description\": \"<string>\",\n  \"androidAppId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"iosAppId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"layoutConfig\": {\n    \"pages\": [\n      {\n        \"visible\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"path\": \"<string>\",\n        \"label\": \"<string>\",\n        \"icon\": \"<string>\"\n      },\n      {\n        \"visible\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"path\": \"<string>\",\n        \"label\": \"<string>\",\n        \"icon\": \"<string>\"\n      }\n    ]\n  },\n  \"oauth2Enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7fbb74fc-c70f-46ed-a6b2-e5c600626a32",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mobile",
+                    "bundle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "oauth2ClientIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "oauth2ClientIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"description\": \"<string>\",\n  \"androidAppId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"iosAppId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"layoutConfig\": {\n    \"pages\": [\n      {\n        \"visible\": true,\n        \"type\": \"CUSTOM\",\n        \"path\": \"/alarmDetails/868c7083-032d-4f52-b8b4-7859aebb6a4e\",\n        \"label\": \"Air quality\",\n        \"icon\": \"home_icon\"\n      },\n      {\n        \"visible\": true,\n        \"type\": \"CUSTOM\",\n        \"path\": \"/alarmDetails/868c7083-032d-4f52-b8b4-7859aebb6a4e\",\n        \"label\": \"Air quality\",\n        \"icon\": \"home_icon\"\n      }\n    ]\n  },\n  \"oauth2Enabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"description\": \"string\",\n  \"androidAppId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"iosAppId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"layoutConfig\": {\n    \"pages\": [\n      {\n        \"visible\": true,\n        \"type\": \"CUSTOM\",\n        \"path\": \"/alarmDetails/868c7083-032d-4f52-b8b4-7859aebb6a4e\",\n        \"label\": \"Air quality\",\n        \"icon\": \"home_icon\"\n      },\n      {\n        \"visible\": true,\n        \"type\": \"CUSTOM\",\n        \"path\": \"/alarmDetails/868c7083-032d-4f52-b8b4-7859aebb6a4e\",\n        \"label\": \"Air quality\",\n        \"icon\": \"home_icon\"\n      }\n    ]\n  },\n  \"oauth2Enabled\": false,\n  \"name\": \"My main application\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "468d4f1f-4847-4199-b8f7-12103d5647e2",
+          "name": "Get Mobile App Bundle Infos (getTenantMobileAppBundleInfos)",
+          "request": {
+            "name": "Get Mobile App Bundle Infos (getTenantMobileAppBundleInfos)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mobile",
+                "bundle",
+                "infos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "Case-insensitive 'substring' filter based on app's name"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8483519b-5fee-47cd-907b-b163b609742f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mobile",
+                    "bundle",
+                    "infos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"title\": \"string\",\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"description\": \"string\",\n      \"androidAppId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"iosAppId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"layoutConfig\": {\n        \"pages\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"oauth2Enabled\": false,\n      \"androidPkgName\": \"string\",\n      \"iosPkgName\": \"string\",\n      \"oauth2ClientInfos\": [\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"IOS\",\n            \"WEB\"\n          ],\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"ANDROID\",\n            \"IOS\"\n          ],\n          \"name\": \"string\"\n        }\n      ],\n      \"qrCodeEnabled\": true,\n      \"name\": \"My main application\"\n    },\n    {\n      \"title\": \"string\",\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"description\": \"string\",\n      \"androidAppId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"iosAppId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"layoutConfig\": {\n        \"pages\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"oauth2Enabled\": false,\n      \"androidPkgName\": \"string\",\n      \"iosPkgName\": \"string\",\n      \"oauth2ClientInfos\": [\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"WEB\",\n            \"ANDROID\"\n          ],\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"WEB\",\n            \"ANDROID\"\n          ],\n          \"name\": \"string\"\n        }\n      ],\n      \"qrCodeEnabled\": false,\n      \"name\": \"My main application\"\n    }\n  ],\n  \"totalPages\": 8255,\n  \"totalElements\": 8664,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "941cb48c-e1fc-4100-b5fa-6e8f66826295",
+          "name": "Get Mobile App Bundle Info by Id (getMobileAppBundleInfoById)",
+          "request": {
+            "name": "Get Mobile App Bundle Info by Id (getMobileAppBundleInfoById)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mobile",
+                "bundle",
+                "info",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d63bfde2-f167-436e-96e4-b6fba3e1b6cb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mobile",
+                    "bundle",
+                    "info",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"description\": \"string\",\n  \"androidAppId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"iosAppId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"layoutConfig\": {\n    \"pages\": [\n      {\n        \"visible\": true,\n        \"type\": \"WEB_VIEW\",\n        \"path\": \"/alarmDetails/868c7083-032d-4f52-b8b4-7859aebb6a4e\",\n        \"label\": \"Air quality\",\n        \"icon\": \"home_icon\"\n      },\n      {\n        \"visible\": true,\n        \"type\": \"DEFAULT\",\n        \"path\": \"/alarmDetails/868c7083-032d-4f52-b8b4-7859aebb6a4e\",\n        \"label\": \"Air quality\",\n        \"icon\": \"home_icon\"\n      }\n    ]\n  },\n  \"oauth2Enabled\": false,\n  \"androidPkgName\": \"string\",\n  \"iosPkgName\": \"string\",\n  \"oauth2ClientInfos\": [\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"title\": \"string\",\n      \"providerName\": \"string\",\n      \"platforms\": [\n        \"ANDROID\",\n        \"WEB\"\n      ],\n      \"name\": \"string\"\n    },\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"title\": \"string\",\n      \"providerName\": \"string\",\n      \"platforms\": [\n        \"WEB\",\n        \"ANDROID\"\n      ],\n      \"name\": \"string\"\n    }\n  ],\n  \"qrCodeEnabled\": true,\n  \"name\": \"My main application\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8a74494-57fa-4036-abb6-d9204a9b44e9",
+          "name": "Delete Mobile App Bundle by ID (deleteMobileAppBundle)",
+          "request": {
+            "name": "Delete Mobile App Bundle by ID (deleteMobileAppBundle)",
+            "description": {
+              "content": "Deletes Mobile App Bundle by ID. Referencing non-existing mobile app bundle Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mobile",
+                "bundle",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ad976ed2-2502-4654-90c8-fb307528fa79",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mobile",
+                    "bundle",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6bf51873-5d6c-4930-bffe-aa55babdb873",
+    "name": "ThingsBoard Admin admin-controller mobile-app-bundle-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

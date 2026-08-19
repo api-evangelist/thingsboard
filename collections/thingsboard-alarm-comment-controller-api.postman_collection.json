@@ -1,0 +1,375 @@
+{
+  "item": [
+    {
+      "id": "24d9e781-a603-4d7e-97ca-3cc677fb16d6",
+      "name": "alarm-comment-controller",
+      "description": {
+        "content": "Alarm Comment",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7a9b58a2-3a4c-4f9c-8936-f9ecc278f3bf",
+          "name": "Get Alarm Comments (getAlarmComments)",
+          "request": {
+            "name": "Get Alarm Comments (getAlarmComments)",
+            "description": {
+              "content": "Returns a page of alarm comments for specified alarm. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "alarm",
+                ":alarmId",
+                "comment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alarmId",
+                  "description": "(Required) A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7f6258e7-2095-4137-836a-fb7a9e63c95c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "alarm",
+                    ":alarmId",
+                    "comment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alarmId",
+                      "description": "(Required) A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1634058704567,\n      \"alarmId\": {\n        \"entityType\": \"ALARM\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"SYSTEM\",\n      \"comment\": {},\n      \"firstName\": \"John\",\n      \"lastName\": \"Brown\",\n      \"email\": \"johnBrown@gmail.com\",\n      \"name\": \"Please take a look\"\n    },\n    {\n      \"id\": {\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1634058704567,\n      \"alarmId\": {\n        \"entityType\": \"ALARM\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"userId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"SYSTEM\",\n      \"comment\": {},\n      \"firstName\": \"John\",\n      \"lastName\": \"Brown\",\n      \"email\": \"johnBrown@gmail.com\",\n      \"name\": \"Please take a look\"\n    }\n  ],\n  \"totalPages\": 5930,\n  \"totalElements\": 3750,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b42bf26-b990-427e-ad5e-031a9162700d",
+          "name": "Create or Update Alarm Comment",
+          "request": {
+            "name": "Create or Update Alarm Comment",
+            "description": {
+              "content": "Creates or Updates the Alarm Comment. When creating comment, platform generates Alarm Comment Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Alarm Comment id will be present in the response. Specify existing Alarm Comment id to update the alarm. Referencing non-existing Alarm Comment Id will cause 'Not Found' error. \n\n To create new Alarm comment entity it is enough to specify 'comment' json element with 'text' node, for example: {\"comment\": { \"text\": \"my comment\"}}. \n\n If comment type is not specified the default value 'OTHER' will be saved. If 'alarmId' or 'userId' specified in body it will be ignored.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "alarm",
+                ":alarmId",
+                "comment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alarmId",
+                  "description": "(Required) A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "66627aa7-bcf4-452e-b000-353321a96819",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "alarm",
+                    ":alarmId",
+                    "comment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alarmId",
+                      "description": "(Required) A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"alarmId\": {\n    \"entityType\": \"ALARM\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"userId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"SYSTEM\",\n  \"comment\": {},\n  \"id\": {\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1634058704567,\n  \"name\": \"Please take a look\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e8790310-c2d8-47c2-8cba-59b5618ee306",
+          "name": "Delete Alarm Comment (deleteAlarmComment)",
+          "request": {
+            "name": "Delete Alarm Comment (deleteAlarmComment)",
+            "description": {
+              "content": "Deletes the Alarm comment. Referencing non-existing Alarm comment Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "alarm",
+                ":alarmId",
+                "comment",
+                ":commentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alarmId",
+                  "description": "(Required) A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "commentId",
+                  "description": "(Required) A string value representing the alarm comment id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ca98ecd-f9b5-4b3a-a12f-5e047330f09f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "alarm",
+                    ":alarmId",
+                    "comment",
+                    ":commentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alarmId",
+                      "description": "(Required) A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "commentId",
+                      "description": "(Required) A string value representing the alarm comment id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7ffc4850-49aa-4818-bbf1-d5bcdde275c7",
+    "name": "ThingsBoard Admin admin-controller alarm-comment-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

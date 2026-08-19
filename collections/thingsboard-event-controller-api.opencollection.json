@@ -1,0 +1,288 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller event-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "event-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Events (Deprecated)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The value is not used in searching."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ]
+          },
+          "docs": "Returns a page of events for specified entity. Deprecated and will be removed in next minor release. The call was deprecated to improve the performance of the system. Current implementation will return 'Lifecycle' events only. Use 'Get events by type' or 'Get events by filter' instead. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+        },
+        {
+          "info": {
+            "name": "Get Events by Event Filter (getEvents)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The value is not used in searching."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a page of events for the chosen entity by specifying the event filter. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\n# Event Filter Definition\n\n6 different eventFilter objects could be set for different event types. The eventType field is required. Others are optional. If some of them are set, the filtering will be applied according to them. "
+        },
+        {
+          "info": {
+            "name": "Clear Events (clearEvents)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId/clear",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Clears events by filter for specified entity."
+        },
+        {
+          "info": {
+            "name": "Get Events by Type (getEvents)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/events/:entityType/:entityId/:eventType",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "entityId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "eventType",
+                "value": "STATS",
+                "type": "path",
+                "description": "A string value representing event type"
+              },
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The value is not used in searching."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time before it won't be queried."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp. Events with creation time after it won't be queried."
+              }
+            ]
+          },
+          "docs": "Returns a page of events for specified entity by specifying event type. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

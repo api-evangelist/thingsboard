@@ -1,0 +1,1018 @@
+{
+  "item": [
+    {
+      "id": "c8ad2f95-6d50-4421-8aa2-184a118b1d9a",
+      "name": "rpc-v-2-controller",
+      "description": {
+        "content": "Rpc V 2",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4b7179cd-0705-4401-aeec-c2dbef131e1a",
+          "name": "Send Two-way RPC Request",
+          "request": {
+            "name": "Send Two-way RPC Request",
+            "description": {
+              "content": "Sends the two-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n* **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone). Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is the response from device, or 504 Gateway Timeout if device is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "rpc",
+                "twoway",
+                ":deviceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deviceId",
+                  "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<string>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9375eee4-07f5-4f50-85a8-874fc82947a9",
+              "name": "Persistent RPC request was saved to the database or lightweight RPC response received.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "twoway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3d94b10-4b1e-4bfc-9e2c-4c4f9f779e0c",
+              "name": "Invalid structure of the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "twoway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7bfbe82-8bb3-4a31-834f-962de2c123ad",
+              "name": "User is not authorized to send the RPC request. Most likely, User belongs to different Customer or Tenant.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "twoway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9d3c5ed-6199-4819-a102-45e4ac444b0e",
+              "name": "Request payload is too large",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "twoway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b129aff-0b44-4ceb-8b36-d39e7e299968",
+              "name": "Timeout to process the RPC call. Most likely, device is offline.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "twoway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f99527ba-7902-44e3-b1b6-a7b077176b07",
+          "name": "Send One-way RPC Request",
+          "request": {
+            "name": "Send One-way RPC Request",
+            "description": {
+              "content": "Sends the one-way remote-procedure call (RPC) request to device. Sends the one-way remote-procedure call (RPC) request to device. The RPC call is A JSON that contains the method name ('method'), parameters ('params') and multiple optional fields. See example below. We will review the properties of the RPC call one-by-one below. \n\n```json\n{\n  \"method\": \"setGpio\",\n  \"params\": {\n    \"pin\": 7,\n    \"value\": 1\n  },\n  \"persistent\": false,\n  \"timeout\": 5000\n}\n```\n\n### Server-side RPC structure\n\nThe body of server-side RPC request consists of multiple fields:\n\n* **method** - mandatory, name of the method to distinct the RPC calls.\n  For example, \"getCurrentTime\" or \"getWeatherForecast\". The value of the parameter is a string.\n* **params** - mandatory, parameters used for processing of the request. The value is a JSON. Leave empty JSON \"{}\" if no parameters needed.\n* **timeout** - optional, value of the processing timeout in milliseconds. The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).\n* **expirationTime** - optional, value of the epoch time (in milliseconds, UTC timezone). Overrides **timeout** if present.\n* **persistent** - optional, indicates persistent RPC. The default value is \"false\".\n* **retries** - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.\n* **additionalInfo** - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.\n\n### RPC Result\nIn case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "rpc",
+                "oneway",
+                ":deviceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deviceId",
+                  "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<string>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "caf23017-b5ae-4ced-a7f9-25b182d6ecad",
+              "name": "Persistent RPC request was saved to the database or lightweight RPC request was sent to the device.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "oneway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0485d05-7f66-412a-b8e3-f180a65fa75e",
+              "name": "Invalid structure of the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "oneway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d96bbd4d-98af-43ef-bac3-c0f0f67294a9",
+              "name": "User is not authorized to send the RPC request. Most likely, User belongs to different Customer or Tenant.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "oneway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4075832c-5a51-4558-a842-cb665728e554",
+              "name": "Request payload is too large",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "oneway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3bfa0057-55b8-43b3-adad-546d5587243e",
+              "name": "Timeout to process the RPC call. Most likely, device is offline.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "oneway",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<string>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c94474d2-b1fa-4162-971b-ea89d98febce",
+          "name": "Get Persistent RPC Request",
+          "request": {
+            "name": "Get Persistent RPC Request",
+            "description": {
+              "content": "Get information about the status of the RPC call.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "rpc",
+                "persistent",
+                ":rpcId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "rpcId",
+                  "description": "(Required) A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "658f349d-2e72-4ca6-97ba-bdc0bca7cc24",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "persistent",
+                    ":rpcId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "rpcId",
+                      "description": "(Required) A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"RPC\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"deviceId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"expirationTime\": 608,\n  \"request\": {},\n  \"response\": {},\n  \"status\": \"EXPIRED\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2712b448-b9f6-4e74-b6d5-8aa4ef6d5961",
+          "name": "Delete Persistent RPC",
+          "request": {
+            "name": "Delete Persistent RPC",
+            "description": {
+              "content": "Deletes the persistent RPC request.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "rpc",
+                "persistent",
+                ":rpcId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "rpcId",
+                  "description": "(Required) A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50ba2bf6-4fbe-40cf-9c7f-3a60a10c40f5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "persistent",
+                    ":rpcId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "rpcId",
+                      "description": "(Required) A string value representing the rpc id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a6987b4-201a-4b23-902e-ce520703377e",
+          "name": "Get Persistent RPC Requests",
+          "request": {
+            "name": "Get Persistent RPC Requests",
+            "description": {
+              "content": "Allows to query RPC calls for specific device using pagination.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "rpc",
+                "persistent",
+                "device",
+                ":deviceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "rpcStatus",
+                  "value": "<string>",
+                  "description": "Status of the RPC"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "Not implemented. Leave empty."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deviceId",
+                  "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "817be89a-7527-4bbf-b193-7debb4af626e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "rpc",
+                    "persistent",
+                    "device",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "rpcStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e467bbb5-aabf-4101-8597-8a81db9f88a2",
+    "name": "ThingsBoard Admin admin-controller rpc-v-2-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

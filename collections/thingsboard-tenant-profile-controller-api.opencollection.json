@@ -1,0 +1,212 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller tenant-profile-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tenant-profile-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Tenant Profile (saveTenantProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/tenantProfile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Tenant Profile. When creating tenant profile, platform generates Tenant Profile Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Tenant Profile Id will be present in the response. Specify existing Tenant Profile Id id to update the Tenant Profile. Referencing non-existing Tenant Profile Id will cause 'Not Found' error. \n\nUpdate of the tenant profile configuration will cause immediate"
+        },
+        {
+          "info": {
+            "name": "Make Tenant Profile Default (setDefaultTenantProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/tenantProfile/:tenantProfileId/default",
+            "params": [
+              {
+                "name": "tenantProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Makes specified tenant profile to be default. Referencing non-existing tenant profile Id will cause an error. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Profiles (getTenantProfiles)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenantProfiles",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the tenant profile name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of tenant profile ids"
+              }
+            ]
+          },
+          "docs": "Returns a page of tenant profiles registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Profiles Info (getTenantProfileInfos)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenantProfileInfos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the tenant profile name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of tenant profile info objects registered in the platform. Tenant Profile Info is a lightweight object that contains only id and name of the profile. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Profile Info (getTenantProfileInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenantProfileInfo/:tenantProfileId",
+            "params": [
+              {
+                "name": "tenantProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Tenant Profile Info object based on the provided Tenant Profile Id. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Default Tenant Profile Info (getDefaultTenantProfileInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenantProfileInfo/default"
+          },
+          "docs": "Fetch the default Tenant Profile Info object based. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Profile (getTenantProfileById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenantProfile/:tenantProfileId",
+            "params": [
+              {
+                "name": "tenantProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Tenant Profile object based on the provided Tenant Profile Id. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Tenant Profile (deleteTenantProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/tenantProfile/:tenantProfileId",
+            "params": [
+              {
+                "name": "tenantProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the tenant profile. Referencing non-existing tenant profile Id will cause an error. Referencing profile that is used by the tenants will cause an error. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

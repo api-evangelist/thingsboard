@@ -1,0 +1,1132 @@
+{
+  "item": [
+    {
+      "id": "246da4e5-a979-4908-b4e7-3aea70b41aca",
+      "name": "entity-relation-controller",
+      "description": {
+        "content": "Entity Relation",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b1950759-48f0-48e6-8c9f-69c3ffa6fa7b",
+          "name": "Create Relation (saveRelationV2)",
+          "request": {
+            "name": "Create Relation (saveRelationV2)",
+            "description": {
+              "content": "Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "relation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"to\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"typeGroup\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d67c7423-9e18-49d5-b86f-4edc93f7e0f0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "relation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"to\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Contains\",\n  \"typeGroup\": \"COMMON\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"from\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"to\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Contains\",\n  \"typeGroup\": \"COMMON\",\n  \"version\": 6416,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "060a5105-1a02-4cc2-9be9-7879ebe8c266",
+          "name": "Delete Relation (deleteRelationV2)",
+          "request": {
+            "name": "Delete Relation (deleteRelationV2)",
+            "description": {
+              "content": "Deletes a relation between two entities in the platform. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "relation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fromId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "key": "relationType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value."
+                },
+                {
+                  "disabled": false,
+                  "key": "relationTypeGroup",
+                  "value": "<string>",
+                  "description": "A string value representing relation type group. For example, 'COMMON'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "42b54bec-0254-4539-9230-3f17d79b28f5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "relation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fromType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationTypeGroup",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"from\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"to\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Contains\",\n  \"typeGroup\": \"COMMON\",\n  \"version\": 6416,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c4e3bb5b-16f2-4923-9ff2-caea69c2e3c6",
+          "name": "Get List of Relations (findByFrom)",
+          "request": {
+            "name": "Get List of Relations (findByFrom)",
+            "description": {
+              "content": "Returns list of relation objects for the specified entity by the 'from' direction and relation type. \n\nIf the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "toId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "key": "relationTypeGroup",
+                  "value": "<string>",
+                  "description": "A string value representing relation type group. For example, 'COMMON'"
+                },
+                {
+                  "disabled": false,
+                  "key": "relationType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value."
+                },
+                {
+                  "disabled": false,
+                  "key": "fromId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "42a97769-2efa-4c86-a8fe-3a28683695af",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "toId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationTypeGroup",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fromId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fromType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 9040,\n    \"additionalInfo\": {}\n  },\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 7826,\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d0aa034-1ad2-47fb-b743-8da60bf5255e",
+          "name": "Find Related Entities (findByQuery)",
+          "request": {
+            "name": "Find Related Entities (findByQuery)",
+            "description": {
+              "content": "Returns all entities that are related to the specific entity. The entity id, relation type, entity types, depth of the search, and other query parameters defined using complex 'EntityRelationsQuery' object. See 'Model' tab of the Parameters for more info.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parameters\": {\n    \"rootId\": \"<uuid>\",\n    \"rootType\": \"<string>\",\n    \"direction\": \"<string>\",\n    \"relationTypeGroup\": \"<string>\",\n    \"maxLevel\": \"<integer>\",\n    \"fetchLastLevelOnly\": \"<boolean>\"\n  },\n  \"filters\": [\n    {\n      \"relationType\": \"<string>\",\n      \"entityTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"negate\": \"<boolean>\"\n    },\n    {\n      \"relationType\": \"<string>\",\n      \"entityTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"negate\": \"<boolean>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2eb81c35-a4c6-475e-b4ef-e4474d08ce5a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"rootId\": \"784f394c-42b6-435a-983c-b7beff2784f9\",\n    \"rootType\": \"RULE_CHAIN\",\n    \"direction\": \"FROM\",\n    \"relationTypeGroup\": \"RULE_CHAIN\",\n    \"maxLevel\": 7278,\n    \"fetchLastLevelOnly\": false\n  },\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"WIDGET_TYPE\",\n        \"DEVICE_PROFILE\"\n      ],\n      \"negate\": false\n    },\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"OTA_PACKAGE\",\n        \"TENANT\"\n      ],\n      \"negate\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 9040,\n    \"additionalInfo\": {}\n  },\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 7826,\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "41b1c6bf-b81f-4006-ad14-1687ee3249e2",
+          "name": "Delete Common Relations (deleteCommonRelations)",
+          "request": {
+            "name": "Delete Common Relations (deleteCommonRelations)",
+            "description": {
+              "content": "Deletes all the relations ('from' and 'to' direction) for the specified entity and relation type group: 'COMMON'. \n\nIf the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "entityId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "entityType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "be47fc95-fab2-4f29-a605-8e4d925b5274",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entityId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entityType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e1283d9-e60d-4e56-9eb7-bfb4af3d9ee3",
+          "name": "Get List of Relation Infos (findInfoByFrom)",
+          "request": {
+            "name": "Get List of Relation Infos (findInfoByFrom)",
+            "description": {
+              "content": "Returns list of relation info objects for the specified entity by the 'from' direction. \n\nIf the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer. Relation Info is an extension of the default Relation object that contains information about the 'from' and 'to' entity names. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relations",
+                "info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "toId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "key": "relationTypeGroup",
+                  "value": "<string>",
+                  "description": "A string value representing relation type group. For example, 'COMMON'"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "35e02ef4-932a-49d2-be25-244199432e1b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relations",
+                    "info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "toId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationTypeGroup",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fromId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fromType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 4320,\n    \"fromName\": \"A4B72CCDFF33\",\n    \"toName\": \"A4B72CCDFF35\",\n    \"additionalInfo\": {}\n  },\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 3702,\n    \"fromName\": \"A4B72CCDFF33\",\n    \"toName\": \"A4B72CCDFF35\",\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "26a627e0-b1f8-402a-a28b-7f45789ca25f",
+          "name": "Find Related Entity Infos (findInfoByQuery)",
+          "request": {
+            "name": "Find Related Entity Infos (findInfoByQuery)",
+            "description": {
+              "content": "Returns all entity infos that are related to the specific entity. The entity id, relation type, entity types, depth of the search, and other query parameters defined using complex 'EntityRelationsQuery' object. See 'Model' tab of the Parameters for more info. Relation Info is an extension of the default Relation object that contains information about the 'from' and 'to' entity names. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relations",
+                "info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parameters\": {\n    \"rootId\": \"<uuid>\",\n    \"rootType\": \"<string>\",\n    \"direction\": \"<string>\",\n    \"relationTypeGroup\": \"<string>\",\n    \"maxLevel\": \"<integer>\",\n    \"fetchLastLevelOnly\": \"<boolean>\"\n  },\n  \"filters\": [\n    {\n      \"relationType\": \"<string>\",\n      \"entityTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"negate\": \"<boolean>\"\n    },\n    {\n      \"relationType\": \"<string>\",\n      \"entityTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"negate\": \"<boolean>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "20c7acbf-4c5a-40bf-bf2c-d51d6490ff4a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relations",
+                    "info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"rootId\": \"784f394c-42b6-435a-983c-b7beff2784f9\",\n    \"rootType\": \"RULE_CHAIN\",\n    \"direction\": \"FROM\",\n    \"relationTypeGroup\": \"RULE_CHAIN\",\n    \"maxLevel\": 7278,\n    \"fetchLastLevelOnly\": false\n  },\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"WIDGET_TYPE\",\n        \"DEVICE_PROFILE\"\n      ],\n      \"negate\": false\n    },\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"OTA_PACKAGE\",\n        \"TENANT\"\n      ],\n      \"negate\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 4320,\n    \"fromName\": \"A4B72CCDFF33\",\n    \"toName\": \"A4B72CCDFF35\",\n    \"additionalInfo\": {}\n  },\n  {\n    \"from\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"to\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"type\": \"Contains\",\n    \"typeGroup\": \"COMMON\",\n    \"version\": 3702,\n    \"fromName\": \"A4B72CCDFF33\",\n    \"toName\": \"A4B72CCDFF35\",\n    \"additionalInfo\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d61aa480-8528-4220-b716-42c2cdc0fa5d",
+          "name": "Get Relation (getRelation)",
+          "request": {
+            "name": "Get Relation (getRelation)",
+            "description": {
+              "content": "Returns relation object between two specified entities if present. Otherwise throws exception. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fromId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "key": "relationType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value."
+                },
+                {
+                  "disabled": false,
+                  "key": "relationTypeGroup",
+                  "value": "<string>",
+                  "description": "A string value representing relation type group. For example, 'COMMON'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d5e410d4-e376-41be-9cdf-1195f88df3b1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fromType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationTypeGroup",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"from\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"to\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Contains\",\n  \"typeGroup\": \"COMMON\",\n  \"version\": 6416,\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e160cd3-314b-4692-8491-1183520f6676",
+          "name": "Create Relation (saveRelation)",
+          "request": {
+            "name": "Create Relation (saveRelation)",
+            "description": {
+              "content": "Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"to\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"type\": \"<string>\",\n  \"typeGroup\": \"<string>\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f74e3136-8449-4e50-920a-a45699d93480",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"to\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"Contains\",\n  \"typeGroup\": \"COMMON\",\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "775e3216-81ed-423a-b99b-ab2d64dbadbe",
+          "name": "Delete Relation (deleteRelation)",
+          "request": {
+            "name": "Delete Relation (deleteRelation)",
+            "description": {
+              "content": "Deletes a relation between two entities in the platform. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "relation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fromId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "key": "relationType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing relation type between entities. For example, 'Contains', 'Manages'. It can be any string value."
+                },
+                {
+                  "disabled": false,
+                  "key": "relationTypeGroup",
+                  "value": "<string>",
+                  "description": "A string value representing relation type group. For example, 'COMMON'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toId",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "key": "toType",
+                  "value": "<string>",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7b6e04bb-9cd1-4c4f-ba28-e581d96fa954",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "relation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fromType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relationTypeGroup",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "03f5ce7c-6853-4f27-bef7-68ed0e438e13",
+    "name": "ThingsBoard Admin admin-controller entity-relation-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

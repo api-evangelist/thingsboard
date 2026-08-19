@@ -1,0 +1,266 @@
+{
+  "item": [
+    {
+      "id": "16744be3-f18b-464a-b420-f132a6055207",
+      "name": "queue-stats-controller",
+      "description": {
+        "content": "Queue Stats",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f3cff43b-8775-4f44-b396-1a8163a4dd97",
+          "name": "Get Queue Stats Entities (getTenantQueueStats)",
+          "request": {
+            "name": "Get Queue Stats Entities (getTenantQueueStats)",
+            "description": {
+              "content": "Returns a page of queue stats objects that are designed to collect queue statistics for every service. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "queueStats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "queueStatsIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of queue stats ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "queueStatsIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of queue stats ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the queue name or service id."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ff469ac-4fd2-4bd5-a711-5186b45e7cdd",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "queueStats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "queueStatsIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "queueStatsIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"QUEUE_STATS\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"queueName\": \"string\",\n      \"serviceId\": \"string\"\n    },\n    {\n      \"id\": {\n        \"entityType\": \"QUEUE_STATS\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"queueName\": \"string\",\n      \"serviceId\": \"string\"\n    }\n  ],\n  \"totalPages\": 6474,\n  \"totalElements\": 2523,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9089d8a2-b613-4a4b-976f-3a823551926b",
+          "name": "Get Queue Stats Entity by Id (getQueueStatsById)",
+          "request": {
+            "name": "Get Queue Stats Entity by Id (getQueueStatsById)",
+            "description": {
+              "content": "Fetch the Queue stats object based on the provided Queue stats id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "queueStats",
+                ":queueStatsId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "queueStatsId",
+                  "description": "(Required) A string value representing the queue stats id. For example, '687f294c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c06b6590-105d-4376-a363-85ac5a5462f1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "queueStats",
+                    ":queueStatsId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "queueStatsId",
+                      "description": "(Required) A string value representing the queue stats id. For example, '687f294c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"QUEUE_STATS\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"queueName\": \"string\",\n  \"serviceId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ec0c9f56-4151-4dbc-8dce-ae7e19c04329",
+    "name": "ThingsBoard Admin admin-controller queue-stats-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

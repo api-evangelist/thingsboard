@@ -1,0 +1,1412 @@
+{
+  "item": [
+    {
+      "id": "f9ae35ee-f58e-4f4a-8ed4-fba41219b0b9",
+      "name": "entities-version-control-controller",
+      "description": {
+        "content": "Entities Version Control",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dc65607f-14b6-471a-b4d2-fd99d4771a1d",
+          "name": "List All Versions (listVersions)",
+          "request": {
+            "name": "List All Versions (listVersions)",
+            "description": {
+              "content": "Lists all available versions in a branch for all entity types. \nIf specified branch does not exist - empty page data will be returned. The response format is the same as for `listEntityVersions` API method.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "branch",
+                  "value": "<string>",
+                  "description": "(Required) The name of the working branch, for example 'master'"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the entity version name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1176b945-f02c-4189-991f-133adbc4641d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"timestamp\": 9188,\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"author\": \"string\"\n    },\n    {\n      \"timestamp\": 27,\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"author\": \"string\"\n    }\n  ],\n  \"totalPages\": 4576,\n  \"totalElements\": 4464,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "49890022-26c3-47e0-82cf-9cca602cebff",
+          "name": "Save Entities Version (saveEntitiesVersion)",
+          "request": {
+            "name": "Save Entities Version (saveEntitiesVersion)",
+            "description": {
+              "content": "Creates a new version of entities (or a single entity) by request.\nSupported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\nThere are two available types of request: `SINGLE_ENTITY` and `COMPLEX`. Each of them contains version name (`versionName`) and name of a branch (`branch`) to create version (commit) in. If specified branch does not exists in a remote repo, then new empty branch will be created. Request of the `SINGLE_ENTITY` type has id of an entity (`entityId`) and additional configuration (`config`) which has following options: \n- `saveRelations` - whether to add inbound and outbound relations of type COMMON to created entity version;\n- `saveAttributes` - to save attributes of server scope (and also shared scope for devices);\n- `saveCredentials` - when saving a version of a device, to add its credentials to the version.\n\nAn example of a `SINGLE_ENTITY` version create request:\n```json\n{\n  \"type\": \"SINGLE_ENTITY\",\n\n  \"versionName\": \"Version 1.0\",\n  \"branch\": \"dev\",\n\n  \"entityId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"b79448e0-d4f4-11ec-847b-0f432358ab48\"\n  },\n  \"config\": {\n    \"saveRelations\": true,\n    \"saveAttributes\": true,\n    \"saveCredentials\": false\n  }\n}\n```\n\nSecond request type (`COMPLEX`), additionally to `branch` and `versionName`, contains following properties:\n- `entityTypes` - a structure with entity types to export and configuration for each entity type;    this configuration has all the options available for `SINGLE_ENTITY` and additionally has these ones: \n     - `allEntities` and `entityIds` - if you want to save the version of all entities of the entity type         then set `allEntities` param to true, otherwise set it to false and specify the list of specific entities (`entityIds`);\n     - `syncStrategy` - synchronization strategy to use for this entity type: when set to `OVERWRITE`         then the list of remote entities of this type will be overwritten by newly added entities. If set to         `MERGE` - existing remote entities of this entity type will not be removed, new entities will just         be added on top (or existing remote entities will be updated).\n- `syncStrategy` - default synchronization strategy to use when it is not specified for an entity type.\n\nExample for this type of request:\n```json\n{\n  \"type\": \"COMPLEX\",\n\n  \"versionName\": \"Devices and profiles: release 2\",\n  \"branch\": \"master\",\n\n  \"syncStrategy\": \"OVERWRITE\",\n  \"entityTypes\": {\n    \"DEVICE\": {\n      \"syncStrategy\": null,\n      \"allEntities\": true,\n      \"saveRelations\": true,\n      \"saveAttributes\": true,\n      \"saveCredentials\": true\n    },\n    \"DEVICE_PROFILE\": {\n      \"syncStrategy\": \"MERGE\",\n      \"allEntities\": false,\n      \"entityIds\": [\n        \"b79448e0-d4f4-11ec-847b-0f432358ab48\"\n      ],\n      \"saveRelations\": true\n    }\n  }\n}\n```\n\nResponse wil contain generated request UUID, that can be then used to retrieve status of operation via `getVersionCreateRequestStatus`.\n\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"versionName\": \"<string>\",\n  \"branch\": \"<string>\",\n  \"type\": \"<string>\",\n  \"syncStrategy\": \"<string>\",\n  \"entityTypes\": {\n    \"key_0\": {\n      \"saveRelations\": \"<boolean>\",\n      \"saveAttributes\": \"<boolean>\",\n      \"saveCredentials\": \"<boolean>\",\n      \"saveCalculatedFields\": \"<boolean>\",\n      \"syncStrategy\": \"<string>\",\n      \"entityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"allEntities\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "57f00761-84bc-4e1e-977a-369d7d5c5e28",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"versionName\": \"string\",\n  \"branch\": \"string\",\n  \"type\": \"SINGLE_ENTITY\",\n  \"syncStrategy\": \"OVERWRITE\",\n  \"entityTypes\": {\n    \"key_0\": {\n      \"saveRelations\": false,\n      \"saveAttributes\": false,\n      \"saveCredentials\": false,\n      \"saveCalculatedFields\": false,\n      \"syncStrategy\": \"MERGE\",\n      \"entityIds\": [\n        \"28d8d6c0-904d-da9a-5472-03e45733433e\",\n        \"ea4a5d10-9ed8-0b79-21d9-99e4959edca4\"\n      ],\n      \"allEntities\": false\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"c3bcd36c-4bd7-8bbb-70be-d7a4caf23c3e\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "866a6f5b-f683-49a4-98e4-4545d39833cd",
+          "name": "Load Entities Version (loadEntitiesVersion)",
+          "request": {
+            "name": "Load Entities Version (loadEntitiesVersion)",
+            "description": {
+              "content": "Loads specific version of remote entities (or single entity) by request. Supported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\nThere are multiple types of request. Each of them requires branch name (`branch`) and version id (`versionId`). Request of type `SINGLE_ENTITY` is needed to restore a concrete version of a specific entity. It contains id of a remote entity (`externalEntityId`) and additional configuration (`config`):\n- `loadRelations` - to update relations list (in case `saveRelations` option was enabled during version creation);\n- `loadAttributes` - to load entity attributes (if `saveAttributes` config option was enabled);\n- `loadCredentials` - to update device credentials (if `saveCredentials` option was enabled during version creation).\n\nAn example of such request:\n```json\n{\n  \"type\": \"SINGLE_ENTITY\",\n  \n  \"branch\": \"dev\",\n  \"versionId\": \"b3c28d722d328324c7c15b0b30047b0c40011cf7\",\n  \n  \"externalEntityId\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"b7944123-d4f4-11ec-847b-0f432358ab48\"\n  },\n  \"config\": {\n    \"loadRelations\": false,\n    \"loadAttributes\": true,\n    \"loadCredentials\": true\n  }\n}\n```\n\nAnother request type (`ENTITY_TYPE`) is needed to load specific version of the whole entity types. It contains a structure with entity types to load and configs for each entity type (`entityTypes`). For each specified entity type, the method will load all remote entities of this type that are present at the version. A config for each entity type contains the same options as in `SINGLE_ENTITY` request type, and additionally contains following options:\n- `removeOtherEntities` - to remove local entities that are not present on the remote - basically to    overwrite local entity type with the remote one;\n- `findExistingEntityByName` - when you are loading some remote entities that are not yet present at this tenant,    try to find existing entity by name and update it rather than create new.\n\nHere is an example of the request to completely restore version of the whole device entity type:\n```json\n{\n  \"type\": \"ENTITY_TYPE\",\n\n  \"branch\": \"dev\",\n  \"versionId\": \"b3c28d722d328324c7c15b0b30047b0c40011cf7\",\n\n  \"entityTypes\": {\n    \"DEVICE\": {\n      \"removeOtherEntities\": true,\n      \"findExistingEntityByName\": false,\n      \"loadRelations\": true,\n      \"loadAttributes\": true,\n      \"loadCredentials\": true\n    }\n  }\n}\n```\n\nThe response will contain generated request UUID that is to be used to check the status of operation via `getVersionLoadRequestStatus`.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "entity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"versionId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"entityTypes\": {\n    \"key_0\": {\n      \"loadRelations\": \"<boolean>\",\n      \"loadAttributes\": \"<boolean>\",\n      \"loadCredentials\": \"<boolean>\",\n      \"loadCalculatedFields\": \"<boolean>\",\n      \"removeOtherEntities\": \"<boolean>\",\n      \"findExistingEntityByName\": \"<boolean>\"\n    }\n  },\n  \"rollbackOnError\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "95e710bd-b94a-45ff-8dab-cfcfa2cabdab",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"versionId\": \"string\",\n  \"type\": \"ENTITY_TYPE\",\n  \"entityTypes\": {\n    \"key_0\": {\n      \"loadRelations\": false,\n      \"loadAttributes\": true,\n      \"loadCredentials\": false,\n      \"loadCalculatedFields\": true,\n      \"removeOtherEntities\": true,\n      \"findExistingEntityByName\": false\n    }\n  },\n  \"rollbackOnError\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"c3bcd36c-4bd7-8bbb-70be-d7a4caf23c3e\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e570f0b5-656e-4717-aa4e-8bf666fa97bf",
+          "name": "Get Version Create Request Status (getVersionCreateRequestStatus)",
+          "request": {
+            "name": "Get Version Create Request Status (getVersionCreateRequestStatus)",
+            "description": {
+              "content": "Returns the status of previously made version create request. \n\nThis status contains following properties:\n- `done` - whether request processing is finished;\n- `version` - created version info: timestamp, version id (commit hash), commit name and commit author;\n- `added` - count of items that were created in the remote repo;\n- `modified` - modified items count;\n- `removed` - removed items count;\n- `error` - error message, if an error occurred while handling the request.\n\nAn example of successful status:\n```json\n{\n  \"done\": true,\n  \"added\": 10,\n  \"modified\": 2,\n  \"removed\": 5,\n  \"version\": {\n    \"timestamp\": 1655198528000,\n    \"id\":\"8a834dd389ed80e0759ba8ee338b3f1fd160a114\",\n    \"name\": \"My devices v2.0\",\n    \"author\": \"John Doe\"\n  },\n  \"error\": null\n}\n```\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "version",
+                ":requestId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "requestId",
+                  "description": "(Required) A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54b4de25-3b67-418d-a1a7-88dbfca2355f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "version",
+                    ":requestId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "requestId",
+                      "description": "(Required) A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": {\n    \"timestamp\": 287,\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"author\": \"string\"\n  },\n  \"added\": 9787,\n  \"modified\": 5027,\n  \"removed\": 8237,\n  \"error\": \"string\",\n  \"done\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cbfd97aa-b324-491a-a40c-9f71e9eb70a0",
+          "name": "List Entity Type Versions (listEntityTypeVersions)",
+          "request": {
+            "name": "List Entity Type Versions (listEntityTypeVersions)",
+            "description": {
+              "content": "Returns list of versions of an entity type in a branch. This is a collected list of versions that were created for entities of this type in a remote branch. \nIf specified branch does not exist - empty page data will be returned. The response structure is the same as for `listEntityVersions` API method.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "version",
+                ":entityType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "branch",
+                  "value": "<string>",
+                  "description": "(Required) The name of the working branch, for example 'master'"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the entity version name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entityType",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dc57867a-8de0-49da-b2b1-e4e1c1448380",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "version",
+                    ":entityType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entityType",
+                      "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"timestamp\": 9188,\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"author\": \"string\"\n    },\n    {\n      \"timestamp\": 27,\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"author\": \"string\"\n    }\n  ],\n  \"totalPages\": 4576,\n  \"totalElements\": 4464,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a154fdc8-dfad-49d9-af0a-02123664f6f8",
+          "name": "List Entity Versions (listEntityVersions)",
+          "request": {
+            "name": "List Entity Versions (listEntityVersions)",
+            "description": {
+              "content": "Returns list of versions for a specific entity in a concrete branch. \nYou need to specify external id of an entity to list versions for. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity. \nIf specified branch does not exist - empty page data will be returned. \n\nEach version info item has timestamp, id, name and author. Version id can then be used to restore the version. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nResponse example: \n```json\n{\n  \"data\": [\n    {\n      \"timestamp\": 1655198593000,\n      \"id\": \"fd82625bdd7d6131cf8027b44ee967012ecaf990\",\n      \"name\": \"Devices and assets - v2.0\",\n      \"author\": \"John Doe <johndoe@gmail.com>\"\n    },\n    {\n      \"timestamp\": 1655198528000,\n      \"id\": \"682adcffa9c8a2f863af6f00c4850323acbd4219\",\n      \"name\": \"Update my device\",\n      \"author\": \"John Doe <johndoe@gmail.com>\"\n    },\n    {\n      \"timestamp\": 1655198280000,\n      \"id\": \"d2a6087c2b30e18cc55e7cdda345a8d0dfb959a4\",\n      \"name\": \"Devices and assets - v1.0\",\n      \"author\": \"John Doe <johndoe@gmail.com>\"\n    }\n  ],\n  \"totalPages\": 1,\n  \"totalElements\": 3,\n  \"hasNext\": false\n}\n```\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "version",
+                ":entityType",
+                ":externalEntityUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "branch",
+                  "value": "<string>",
+                  "description": "(Required) The name of the working branch, for example 'master'"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the entity version name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entityType",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "externalEntityUuid",
+                  "description": "(Required) A string value representing external entity id. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffe7a235-809b-4d61-b76f-ea2c4b2f502f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "version",
+                    ":entityType",
+                    ":externalEntityUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entityType",
+                      "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "externalEntityUuid",
+                      "description": "(Required) A string value representing external entity id. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"timestamp\": 9188,\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"author\": \"string\"\n    },\n    {\n      \"timestamp\": 27,\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"author\": \"string\"\n    }\n  ],\n  \"totalPages\": 4576,\n  \"totalElements\": 4464,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f3fa799-0370-4699-b3a4-2d5b17fafda4",
+          "name": "Get Entity Data Info (getEntityDataInfo)",
+          "request": {
+            "name": "Get Entity Data Info (getEntityDataInfo)",
+            "description": {
+              "content": "Retrieves short info about the remote entity by external id at a concrete version. \nReturned entity data info contains following properties: `hasRelations` (whether stored entity data contains relations), `hasAttributes` (contains attributes) and `hasCredentials` (whether stored device data has credentials).\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "info",
+                ":versionId",
+                ":entityType",
+                ":externalEntityUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "versionId",
+                  "description": "(Required) Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entityType",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "externalEntityUuid",
+                  "description": "(Required) A string value representing external entity id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4fa56491-3b5b-4da8-928f-c1996533e11e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "info",
+                    ":versionId",
+                    ":entityType",
+                    ":externalEntityUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entityType",
+                      "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "externalEntityUuid",
+                      "description": "(Required) A string value representing external entity id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"hasRelations\": false,\n  \"hasAttributes\": false,\n  \"hasCredentials\": true,\n  \"hasCalculatedFields\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ae58689-886c-4918-b5dc-3862aa6a33ee",
+          "name": "List All Entities at Version (listAllEntitiesAtVersion)",
+          "request": {
+            "name": "List All Entities at Version (listAllEntitiesAtVersion)",
+            "description": {
+              "content": "Returns a list of all remote entities available in a specific version. Response type is the same as for listAllEntitiesAtVersion API method. \nReturned entities order will be the same as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "entity",
+                ":versionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "versionId",
+                  "description": "(Required) Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a6637045-47ec-4e19-a90f-4461e363f8ed",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "entity",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"externalId\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  {\n    \"externalId\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2f48dca7-3938-489d-8649-ddc4a3d3058e",
+          "name": "Get Version Load Request Status (getVersionLoadRequestStatus)",
+          "request": {
+            "name": "Get Version Load Request Status (getVersionLoadRequestStatus)",
+            "description": {
+              "content": "Returns the status of previously made version load request. The structure contains following parameters:\n- `done` - if the request was successfully processed;\n- `result` - a list of load results for each entity type:\n     - `created` - created entities count;\n     - `updated` - updated entities count;\n     - `deleted` - removed entities count.\n- `error` - if an error occurred during processing, error info:\n     - `type` - error type;\n     - `source` - an external id of remote entity;\n     - `target` - if failed to find referenced entity by external id - this external id;\n     - `message` - error message.\n\nAn example of successfully processed request status:\n```json\n{\n  \"done\": true,\n  \"result\": [\n    {\n      \"entityType\": \"DEVICE\",\n      \"created\": 10,\n      \"updated\": 5,\n      \"deleted\": 5\n    },\n     {\n      \"entityType\": \"ASSET\",\n      \"created\": 4,\n      \"updated\": 0,\n      \"deleted\": 8\n    }\n  ]\n}\n```\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "entity",
+                ":requestId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "requestId",
+                  "description": "(Required) A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "51a69f89-f32e-407c-8551-79f8cdd9f68c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "entity",
+                    ":requestId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "requestId",
+                      "description": "(Required) A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": [\n    {\n      \"entityType\": \"NOTIFICATION_TARGET\",\n      \"created\": 3869,\n      \"updated\": 4887,\n      \"deleted\": 246\n    },\n    {\n      \"entityType\": \"TENANT\",\n      \"created\": 9231,\n      \"updated\": 4203,\n      \"deleted\": 6851\n    }\n  ],\n  \"error\": {\n    \"type\": \"string\",\n    \"source\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"target\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"message\": \"string\"\n  },\n  \"done\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3d245077-f6c5-4dae-91b6-c7604d902a9d",
+          "name": "List Entities at Version (listEntitiesAtVersion)",
+          "request": {
+            "name": "List Entities at Version (listEntitiesAtVersion)",
+            "description": {
+              "content": "Returns a list of remote entities of a specific entity type that are available at a concrete version. \nEach entity item in the result has `externalId` property. Entities order will be the same as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "entity",
+                ":entityType",
+                ":versionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entityType",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "versionId",
+                  "description": "(Required) Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb82b7be-7082-4ab3-962f-9a4ddf3b87a7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "entity",
+                    ":entityType",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entityType",
+                      "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"externalId\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  {\n    \"externalId\": {\n      \"entityType\": \"DEVICE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "601d8669-cfeb-4ad4-befe-ff936eddbc3f",
+          "name": "Compare Entity Data to Version (compareEntityDataToVersion)",
+          "request": {
+            "name": "Compare Entity Data to Version (compareEntityDataToVersion)",
+            "description": {
+              "content": "Returns an object with current entity data and the one at a specific version. Entity data structure is the same as stored in a repository. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "diff",
+                ":entityType",
+                ":internalEntityUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "versionId",
+                  "value": "<string>",
+                  "description": "(Required) Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entityType",
+                  "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "internalEntityUuid",
+                  "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f36e4a2-2240-4698-990f-704c7f6bd78e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "diff",
+                    ":entityType",
+                    ":internalEntityUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "versionId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entityType",
+                      "description": "(Required) A string value representing the entity type. For example, 'DEVICE'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "internalEntityUuid",
+                      "description": "(Required) A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"currentVersion\": {\n    \"entityType\": \"NOTIFICATION_REQUEST\",\n    \"entity\": \"\",\n    \"relations\": [\n      {\n        \"from\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"to\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"Contains\",\n        \"typeGroup\": \"COMMON\",\n        \"version\": 7276,\n        \"additionalInfo\": {}\n      },\n      {\n        \"from\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"to\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"Contains\",\n        \"typeGroup\": \"COMMON\",\n        \"version\": 9516,\n        \"additionalInfo\": {}\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 1470,\n          \"booleanValue\": false,\n          \"strValue\": \"string\",\n          \"longValue\": 1555,\n          \"doubleValue\": 9145.551691028206,\n          \"jsonValue\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 4022,\n          \"booleanValue\": false,\n          \"strValue\": \"string\",\n          \"longValue\": 8271,\n          \"doubleValue\": 8602.940280143051,\n          \"jsonValue\": \"string\"\n        }\n      ],\n      \"key_1\": [\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 1843,\n          \"booleanValue\": false,\n          \"strValue\": \"string\",\n          \"longValue\": 2126,\n          \"doubleValue\": 4617.011138987816,\n          \"jsonValue\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 7208,\n          \"booleanValue\": false,\n          \"strValue\": \"string\",\n          \"longValue\": 7711,\n          \"doubleValue\": 6003.103682425079,\n          \"jsonValue\": \"string\"\n        }\n      ]\n    },\n    \"calculatedFields\": [\n      {\n        \"configuration\": {\n          \"arguments\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"output\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"expression\": \"string\",\n          \"useLatestTs\": true\n        },\n        \"id\": {\n          \"entityType\": \"CALCULATED_FIELD\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"createdTime\": 1609459200000,\n        \"tenantId\": {\n          \"entityType\": \"TENANT\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"entityId\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"SIMPLE\",\n        \"name\": \"string\",\n        \"debugSettings\": {\n          \"failuresEnabled\": false,\n          \"allEnabled\": false,\n          \"allEnabledUntil\": 8701\n        },\n        \"configurationVersion\": 0,\n        \"version\": 9505\n      },\n      {\n        \"configuration\": {\n          \"arguments\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"output\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"expression\": \"string\",\n          \"useLatestTs\": false\n        },\n        \"id\": {\n          \"entityType\": \"CALCULATED_FIELD\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"createdTime\": 1609459200000,\n        \"tenantId\": {\n          \"entityType\": \"TENANT\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"entityId\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"PROPAGATION\",\n        \"name\": \"string\",\n        \"debugSettings\": {\n          \"failuresEnabled\": false,\n          \"allEnabled\": false,\n          \"allEnabledUntil\": 2363\n        },\n        \"configurationVersion\": 0,\n        \"version\": 6944\n      }\n    ]\n  },\n  \"otherVersion\": {\n    \"entityType\": \"API_KEY\",\n    \"entity\": \"\",\n    \"relations\": [\n      {\n        \"from\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"to\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"Contains\",\n        \"typeGroup\": \"COMMON\",\n        \"version\": 2665,\n        \"additionalInfo\": {}\n      },\n      {\n        \"from\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"to\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"Contains\",\n        \"typeGroup\": \"COMMON\",\n        \"version\": 7016,\n        \"additionalInfo\": {}\n      }\n    ],\n    \"attributes\": {\n      \"key_0\": [\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 5067,\n          \"booleanValue\": false,\n          \"strValue\": \"string\",\n          \"longValue\": 2672,\n          \"doubleValue\": 4495.933776126407,\n          \"jsonValue\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 6681,\n          \"booleanValue\": true,\n          \"strValue\": \"string\",\n          \"longValue\": 4531,\n          \"doubleValue\": 6958.3674444988055,\n          \"jsonValue\": \"string\"\n        }\n      ],\n      \"key_1\": [\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 2898,\n          \"booleanValue\": false,\n          \"strValue\": \"string\",\n          \"longValue\": 9896,\n          \"doubleValue\": 3441.935230915808,\n          \"jsonValue\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"lastUpdateTs\": 885,\n          \"booleanValue\": true,\n          \"strValue\": \"string\",\n          \"longValue\": 8400,\n          \"doubleValue\": 2246.698365204365,\n          \"jsonValue\": \"string\"\n        }\n      ]\n    },\n    \"calculatedFields\": [\n      {\n        \"configuration\": {\n          \"arguments\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"output\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"expression\": \"string\",\n          \"useLatestTs\": true\n        },\n        \"id\": {\n          \"entityType\": \"CALCULATED_FIELD\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"createdTime\": 1609459200000,\n        \"tenantId\": {\n          \"entityType\": \"TENANT\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"entityId\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"ENTITY_AGGREGATION\",\n        \"name\": \"string\",\n        \"debugSettings\": {\n          \"failuresEnabled\": false,\n          \"allEnabled\": false,\n          \"allEnabledUntil\": 3173\n        },\n        \"configurationVersion\": 0,\n        \"version\": 5067\n      },\n      {\n        \"configuration\": {\n          \"arguments\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"output\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"expression\": \"string\",\n          \"useLatestTs\": true\n        },\n        \"id\": {\n          \"entityType\": \"CALCULATED_FIELD\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"createdTime\": 1609459200000,\n        \"tenantId\": {\n          \"entityType\": \"TENANT\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"entityId\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"type\": \"ALARM\",\n        \"name\": \"string\",\n        \"debugSettings\": {\n          \"failuresEnabled\": false,\n          \"allEnabled\": false,\n          \"allEnabledUntil\": 5069\n        },\n        \"configurationVersion\": 0,\n        \"version\": 2977\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ccd5a55-3f97-4e53-9127-08bf1c86836d",
+          "name": "List Branches (listBranches)",
+          "request": {
+            "name": "List Branches (listBranches)",
+            "description": {
+              "content": "Lists branches available in the remote repository. \n\nResponse example: \n```json\n[\n  {\n    \"name\": \"master\",\n    \"default\": true\n  },\n  {\n    \"name\": \"dev\",\n    \"default\": false\n  },\n  {\n    \"name\": \"dev-2\",\n    \"default\": false\n  }\n]\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entities",
+                "vc",
+                "branches"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b8725f20-f5e0-479b-bb0d-895cbb9c8cb4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entities",
+                    "vc",
+                    "branches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"string\",\n    \"default\": true\n  },\n  {\n    \"name\": \"string\",\n    \"default\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6750a317-d49d-4ee5-af88-ba107c8512d4",
+    "name": "ThingsBoard Admin admin-controller entities-version-control-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

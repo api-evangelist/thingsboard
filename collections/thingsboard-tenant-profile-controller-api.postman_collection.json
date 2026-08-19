@@ -1,0 +1,817 @@
+{
+  "item": [
+    {
+      "id": "417d3baf-b8f7-46b5-8148-c3083d74339d",
+      "name": "tenant-profile-controller",
+      "description": {
+        "content": "Tenant Profile",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "13cdbb67-5820-4987-9016-1eb782fae2c8",
+          "name": "Create or Update Tenant Profile (saveTenantProfile)",
+          "request": {
+            "name": "Create or Update Tenant Profile (saveTenantProfile)",
+            "description": {
+              "content": "Create or update the Tenant Profile. When creating tenant profile, platform generates Tenant Profile Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Tenant Profile Id will be present in the response. Specify existing Tenant Profile Id id to update the Tenant Profile. Referencing non-existing Tenant Profile Id will cause 'Not Found' error. \n\nUpdate of the tenant profile configuration will cause immediate recalculation of API limits for all affected Tenants. \n\nThe **'profileData'** object is the part of Tenant Profile that defines API limits and Rate limits. \n\nYou have an ability to define maximum number of devices ('maxDevice'), assets ('maxAssets') and other entities. You may also define maximum number of messages to be processed per month ('maxTransportMessages', 'maxREExecutions', etc). The '*RateLimit' defines the rate limits using simple syntax. For example, '1000:1,20000:60' means up to 1000 events per second but no more than 20000 event per minute. Let's review the example of tenant profile data below: \n\n```json\n{\n  \"name\": \"Your name\",\n  \"description\": \"Your description\",\n  \"isolatedTbRuleEngine\": false,\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"DEFAULT\",\n      \"maxDevices\": 0,\n      \"maxAssets\": 0,\n      \"maxCustomers\": 0,\n      \"maxUsers\": 0,\n      \"maxDashboards\": 0,\n      \"maxRuleChains\": 0,\n      \"maxResourcesInBytes\": 0,\n      \"maxOtaPackagesInBytes\": 0,\n      \"maxResourceSize\": 0,\n      \"transportTenantMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"1000:1,20000:60\",\n      \"transportDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"maxTransportMessages\": 10000000,\n      \"maxTransportDataPoints\": 10000000,\n      \"maxREExecutions\": 4000000,\n      \"maxJSExecutions\": 5000000,\n      \"maxDPStorageDays\": 0,\n      \"maxRuleNodeExecutionsPerMessage\": 50,\n      \"maxDebugModeDurationMinutes\": 15,\n      \"maxEmails\": 0,\n      \"maxSms\": 0,\n      \"maxCreatedAlarms\": 1000,\n      \"defaultStorageTtlDays\": 0,\n      \"alarmsTtlDays\": 0,\n      \"rpcTtlDays\": 0,\n      \"queueStatsTtlDays\": 0,\n      \"ruleEngineExceptionsTtlDays\": 0,\n      \"warnThreshold\": 0,\n      \"maxCalculatedFieldsPerEntity\": 5,\n      \"maxArgumentsPerCF\": 10,\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": 10,\n      \"maxRelationLevelPerCfArgument\": 2,\n      \"maxRelatedEntitiesToReturnPerCfArgument\": 100,\n      \"maxDataPointsPerRollingArg\": 1000,\n      \"maxStateSizeInKBytes\": 32,\n      \"maxSingleValueArgumentSizeInKBytes\": 2,      \"minAllowedDeduplicationIntervalInSecForCF\": 10,      \"minAllowedAggregationIntervalInSecForCF\": 60,      \"intermediateAggregationIntervalInSecForCF\": 300,      \"cfReevaluationCheckInterval\": 60,      \"alarmsReevaluationInterval\": 60    }\n  },\n  \"default\": false\n}\n```Remove 'id', from the request body example (below) to create new Tenant Profile entity.\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfile"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"isolatedTbRuleEngine\": \"<boolean>\",\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"<string>\",\n      \"maxDevices\": \"<long>\",\n      \"maxAssets\": \"<long>\",\n      \"maxCustomers\": \"<long>\",\n      \"maxUsers\": \"<long>\",\n      \"maxDashboards\": \"<long>\",\n      \"maxRuleChains\": \"<long>\",\n      \"maxEdges\": \"<long>\",\n      \"maxResourcesInBytes\": \"<long>\",\n      \"maxOtaPackagesInBytes\": \"<long>\",\n      \"maxResourceSize\": \"<long>\",\n      \"transportTenantMsgRateLimit\": \"<string>\",\n      \"transportTenantTelemetryMsgRateLimit\": \"<string>\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"<string>\",\n      \"transportDeviceMsgRateLimit\": \"<string>\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"<string>\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"<string>\",\n      \"transportGatewayMsgRateLimit\": \"<string>\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"<string>\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"<string>\",\n      \"transportGatewayDeviceMsgRateLimit\": \"<string>\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"<string>\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\": \"<string>\",\n      \"tenantEntityExportRateLimit\": \"<string>\",\n      \"tenantEntityImportRateLimit\": \"<string>\",\n      \"tenantNotificationRequestsRateLimit\": \"<string>\",\n      \"tenantNotificationRequestsPerRuleRateLimit\": \"<string>\",\n      \"maxTransportMessages\": \"<long>\",\n      \"maxTransportDataPoints\": \"<long>\",\n      \"maxREExecutions\": \"<long>\",\n      \"maxJSExecutions\": \"<long>\",\n      \"maxTbelExecutions\": \"<long>\",\n      \"maxDPStorageDays\": \"<long>\",\n      \"maxRuleNodeExecutionsPerMessage\": \"<integer>\",\n      \"maxDebugModeDurationMinutes\": \"<integer>\",\n      \"maxEmails\": \"<long>\",\n      \"smsEnabled\": \"<boolean>\",\n      \"maxSms\": \"<long>\",\n      \"maxCreatedAlarms\": \"<long>\",\n      \"tenantServerRestLimitsConfiguration\": \"<string>\",\n      \"customerServerRestLimitsConfiguration\": \"<string>\",\n      \"maxWsSessionsPerTenant\": \"<integer>\",\n      \"maxWsSessionsPerCustomer\": \"<integer>\",\n      \"maxWsSessionsPerRegularUser\": \"<integer>\",\n      \"maxWsSessionsPerPublicUser\": \"<integer>\",\n      \"wsMsgQueueLimitPerSession\": \"<integer>\",\n      \"maxWsSubscriptionsPerTenant\": \"<long>\",\n      \"maxWsSubscriptionsPerCustomer\": \"<long>\",\n      \"maxWsSubscriptionsPerRegularUser\": \"<long>\",\n      \"maxWsSubscriptionsPerPublicUser\": \"<long>\",\n      \"wsUpdatesPerSessionRateLimit\": \"<string>\",\n      \"cassandraReadQueryTenantCoreRateLimits\": \"<string>\",\n      \"cassandraWriteQueryTenantCoreRateLimits\": \"<string>\",\n      \"cassandraReadQueryTenantRuleEngineRateLimits\": \"<string>\",\n      \"cassandraWriteQueryTenantRuleEngineRateLimits\": \"<string>\",\n      \"edgeEventRateLimits\": \"<string>\",\n      \"edgeEventRateLimitsPerEdge\": \"<string>\",\n      \"edgeUplinkMessagesRateLimits\": \"<string>\",\n      \"edgeUplinkMessagesRateLimitsPerEdge\": \"<string>\",\n      \"defaultStorageTtlDays\": \"<integer>\",\n      \"alarmsTtlDays\": \"<integer>\",\n      \"rpcTtlDays\": \"<integer>\",\n      \"queueStatsTtlDays\": \"<integer>\",\n      \"ruleEngineExceptionsTtlDays\": \"<integer>\",\n      \"warnThreshold\": \"<double>\",\n      \"maxCalculatedFieldsPerEntity\": \"<long>\",\n      \"maxArgumentsPerCF\": \"<long>\",\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": \"<integer>\",\n      \"maxRelationLevelPerCfArgument\": \"<integer>\",\n      \"maxRelatedEntitiesToReturnPerCfArgument\": \"<integer>\",\n      \"maxDataPointsPerRollingArg\": \"<long>\",\n      \"maxStateSizeInKBytes\": \"<long>\",\n      \"maxSingleValueArgumentSizeInKBytes\": \"<long>\",\n      \"minAllowedDeduplicationIntervalInSecForCF\": \"<long>\",\n      \"minAllowedAggregationIntervalInSecForCF\": \"<long>\",\n      \"intermediateAggregationIntervalInSecForCF\": \"<long>\",\n      \"cfReevaluationCheckInterval\": \"<long>\",\n      \"alarmsReevaluationInterval\": \"<long>\"\n    },\n    \"queueConfiguration\": [\n      {\n        \"name\": \"<string>\",\n        \"topic\": \"<string>\",\n        \"pollInterval\": \"<integer>\",\n        \"partitions\": \"<integer>\",\n        \"consumerPerPartition\": \"<boolean>\",\n        \"packProcessingTimeout\": \"<long>\",\n        \"submitStrategy\": {\n          \"type\": \"<string>\",\n          \"batchSize\": \"<integer>\"\n        },\n        \"processingStrategy\": {\n          \"type\": \"<string>\",\n          \"retries\": \"<integer>\",\n          \"failurePercentage\": \"<double>\",\n          \"pauseBetweenRetries\": \"<long>\",\n          \"maxPauseBetweenRetries\": \"<long>\"\n        },\n        \"additionalInfo\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"topic\": \"<string>\",\n        \"pollInterval\": \"<integer>\",\n        \"partitions\": \"<integer>\",\n        \"consumerPerPartition\": \"<boolean>\",\n        \"packProcessingTimeout\": \"<long>\",\n        \"submitStrategy\": {\n          \"type\": \"<string>\",\n          \"batchSize\": \"<integer>\"\n        },\n        \"processingStrategy\": {\n          \"type\": \"<string>\",\n          \"retries\": \"<integer>\",\n          \"failurePercentage\": \"<double>\",\n          \"pauseBetweenRetries\": \"<long>\",\n          \"maxPauseBetweenRetries\": \"<long>\"\n        },\n        \"additionalInfo\": {}\n      }\n    ]\n  },\n  \"default\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "772ea489-ee9e-4437-b1b5-3975a982ccdd",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"name\": \"High Priority Tenants\",\n  \"description\": \"Any text\",\n  \"isolatedTbRuleEngine\": false,\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"string\",\n      \"maxDevices\": 6959,\n      \"maxAssets\": 8559,\n      \"maxCustomers\": 8341,\n      \"maxUsers\": 1527,\n      \"maxDashboards\": 149,\n      \"maxRuleChains\": 2775,\n      \"maxEdges\": 7951,\n      \"maxResourcesInBytes\": 6756,\n      \"maxOtaPackagesInBytes\": 2445,\n      \"maxResourceSize\": 5820,\n      \"transportTenantMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"1000:1,20000:60\",\n      \"transportDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"tenantEntityExportRateLimit\": \"20:1,600:60\",\n      \"tenantEntityImportRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsPerRuleRateLimit\": \"20:1,600:60\",\n      \"maxTransportMessages\": 10000000,\n      \"maxTransportDataPoints\": 10000000,\n      \"maxREExecutions\": 4000000,\n      \"maxJSExecutions\": 5000000,\n      \"maxTbelExecutions\": 5000000,\n      \"maxDPStorageDays\": 0,\n      \"maxRuleNodeExecutionsPerMessage\": 50,\n      \"maxDebugModeDurationMinutes\": 15,\n      \"maxEmails\": 0,\n      \"smsEnabled\": true,\n      \"maxSms\": 0,\n      \"maxCreatedAlarms\": 1000,\n      \"tenantServerRestLimitsConfiguration\": \"string\",\n      \"customerServerRestLimitsConfiguration\": \"string\",\n      \"maxWsSessionsPerTenant\": 2869,\n      \"maxWsSessionsPerCustomer\": 2688,\n      \"maxWsSessionsPerRegularUser\": 3447,\n      \"maxWsSessionsPerPublicUser\": 8282,\n      \"wsMsgQueueLimitPerSession\": 3931,\n      \"maxWsSubscriptionsPerTenant\": 7944,\n      \"maxWsSubscriptionsPerCustomer\": 2167,\n      \"maxWsSubscriptionsPerRegularUser\": 1536,\n      \"maxWsSubscriptionsPerPublicUser\": 3450,\n      \"wsUpdatesPerSessionRateLimit\": \"string\",\n      \"cassandraReadQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraReadQueryTenantRuleEngineRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantRuleEngineRateLimits\": \"string\",\n      \"edgeEventRateLimits\": \"string\",\n      \"edgeEventRateLimitsPerEdge\": \"string\",\n      \"edgeUplinkMessagesRateLimits\": \"string\",\n      \"edgeUplinkMessagesRateLimitsPerEdge\": \"string\",\n      \"defaultStorageTtlDays\": 4127,\n      \"alarmsTtlDays\": 9099,\n      \"rpcTtlDays\": 595,\n      \"queueStatsTtlDays\": 1193,\n      \"ruleEngineExceptionsTtlDays\": 2725,\n      \"warnThreshold\": 2827.482775082131,\n      \"maxCalculatedFieldsPerEntity\": 5,\n      \"maxArgumentsPerCF\": 10,\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": 10,\n      \"maxRelationLevelPerCfArgument\": 2,\n      \"maxRelatedEntitiesToReturnPerCfArgument\": 100,\n      \"maxDataPointsPerRollingArg\": 1000,\n      \"maxStateSizeInKBytes\": 32,\n      \"maxSingleValueArgumentSizeInKBytes\": 2,\n      \"minAllowedDeduplicationIntervalInSecForCF\": 10,\n      \"minAllowedAggregationIntervalInSecForCF\": 60,\n      \"intermediateAggregationIntervalInSecForCF\": 300,\n      \"cfReevaluationCheckInterval\": 60,\n      \"alarmsReevaluationInterval\": 60\n    },\n    \"queueConfiguration\": [\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 2095,\n        \"partitions\": 8133,\n        \"consumerPerPartition\": true,\n        \"packProcessingTimeout\": 9822,\n        \"submitStrategy\": {\n          \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n          \"batchSize\": 5752\n        },\n        \"processingStrategy\": {\n          \"type\": \"SKIP_ALL_FAILURES_AND_TIMED_OUT\",\n          \"retries\": 1192,\n          \"failurePercentage\": 107.11368409142553,\n          \"pauseBetweenRetries\": 9990,\n          \"maxPauseBetweenRetries\": 6844\n        },\n        \"additionalInfo\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 7132,\n        \"partitions\": 8320,\n        \"consumerPerPartition\": true,\n        \"packProcessingTimeout\": 6651,\n        \"submitStrategy\": {\n          \"type\": \"BURST\",\n          \"batchSize\": 1153\n        },\n        \"processingStrategy\": {\n          \"type\": \"RETRY_TIMED_OUT\",\n          \"retries\": 7794,\n          \"failurePercentage\": 2075.371981872213,\n          \"pauseBetweenRetries\": 2301,\n          \"maxPauseBetweenRetries\": 7345\n        },\n        \"additionalInfo\": {}\n      }\n    ]\n  },\n  \"default\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"name\": \"High Priority Tenants\",\n  \"description\": \"Any text\",\n  \"isolatedTbRuleEngine\": false,\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"string\",\n      \"maxDevices\": 5458,\n      \"maxAssets\": 7025,\n      \"maxCustomers\": 6384,\n      \"maxUsers\": 1707,\n      \"maxDashboards\": 6457,\n      \"maxRuleChains\": 9069,\n      \"maxEdges\": 7949,\n      \"maxResourcesInBytes\": 8421,\n      \"maxOtaPackagesInBytes\": 2379,\n      \"maxResourceSize\": 7572,\n      \"transportTenantMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"1000:1,20000:60\",\n      \"transportDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"tenantEntityExportRateLimit\": \"20:1,600:60\",\n      \"tenantEntityImportRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsPerRuleRateLimit\": \"20:1,600:60\",\n      \"maxTransportMessages\": 10000000,\n      \"maxTransportDataPoints\": 10000000,\n      \"maxREExecutions\": 4000000,\n      \"maxJSExecutions\": 5000000,\n      \"maxTbelExecutions\": 5000000,\n      \"maxDPStorageDays\": 0,\n      \"maxRuleNodeExecutionsPerMessage\": 50,\n      \"maxDebugModeDurationMinutes\": 15,\n      \"maxEmails\": 0,\n      \"smsEnabled\": true,\n      \"maxSms\": 0,\n      \"maxCreatedAlarms\": 1000,\n      \"tenantServerRestLimitsConfiguration\": \"string\",\n      \"customerServerRestLimitsConfiguration\": \"string\",\n      \"maxWsSessionsPerTenant\": 3105,\n      \"maxWsSessionsPerCustomer\": 8232,\n      \"maxWsSessionsPerRegularUser\": 1084,\n      \"maxWsSessionsPerPublicUser\": 8329,\n      \"wsMsgQueueLimitPerSession\": 896,\n      \"maxWsSubscriptionsPerTenant\": 7904,\n      \"maxWsSubscriptionsPerCustomer\": 3619,\n      \"maxWsSubscriptionsPerRegularUser\": 2659,\n      \"maxWsSubscriptionsPerPublicUser\": 4094,\n      \"wsUpdatesPerSessionRateLimit\": \"string\",\n      \"cassandraReadQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraReadQueryTenantRuleEngineRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantRuleEngineRateLimits\": \"string\",\n      \"edgeEventRateLimits\": \"string\",\n      \"edgeEventRateLimitsPerEdge\": \"string\",\n      \"edgeUplinkMessagesRateLimits\": \"string\",\n      \"edgeUplinkMessagesRateLimitsPerEdge\": \"string\",\n      \"defaultStorageTtlDays\": 6322,\n      \"alarmsTtlDays\": 5106,\n      \"rpcTtlDays\": 7169,\n      \"queueStatsTtlDays\": 1908,\n      \"ruleEngineExceptionsTtlDays\": 9531,\n      \"warnThreshold\": 1080.8268704177083,\n      \"maxCalculatedFieldsPerEntity\": 5,\n      \"maxArgumentsPerCF\": 10,\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": 10,\n      \"maxRelationLevelPerCfArgument\": 2,\n      \"maxRelatedEntitiesToReturnPerCfArgument\": 100,\n      \"maxDataPointsPerRollingArg\": 1000,\n      \"maxStateSizeInKBytes\": 32,\n      \"maxSingleValueArgumentSizeInKBytes\": 2,\n      \"minAllowedDeduplicationIntervalInSecForCF\": 10,\n      \"minAllowedAggregationIntervalInSecForCF\": 60,\n      \"intermediateAggregationIntervalInSecForCF\": 300,\n      \"cfReevaluationCheckInterval\": 60,\n      \"alarmsReevaluationInterval\": 60\n    },\n    \"queueConfiguration\": [\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 8413,\n        \"partitions\": 4775,\n        \"consumerPerPartition\": false,\n        \"packProcessingTimeout\": 4943,\n        \"submitStrategy\": {\n          \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n          \"batchSize\": 3840\n        },\n        \"processingStrategy\": {\n          \"type\": \"RETRY_ALL\",\n          \"retries\": 8705,\n          \"failurePercentage\": 8010.856531941928,\n          \"pauseBetweenRetries\": 6401,\n          \"maxPauseBetweenRetries\": 9264\n        },\n        \"additionalInfo\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 9504,\n        \"partitions\": 6233,\n        \"consumerPerPartition\": true,\n        \"packProcessingTimeout\": 62,\n        \"submitStrategy\": {\n          \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n          \"batchSize\": 6933\n        },\n        \"processingStrategy\": {\n          \"type\": \"RETRY_ALL\",\n          \"retries\": 8904,\n          \"failurePercentage\": 7701.0373178517275,\n          \"pauseBetweenRetries\": 9975,\n          \"maxPauseBetweenRetries\": 5926\n        },\n        \"additionalInfo\": {}\n      }\n    ]\n  },\n  \"default\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d5fa2d79-381d-4e07-9098-9b8145cf62db",
+          "name": "Make Tenant Profile Default (setDefaultTenantProfile)",
+          "request": {
+            "name": "Make Tenant Profile Default (setDefaultTenantProfile)",
+            "description": {
+              "content": "Makes specified tenant profile to be default. Referencing non-existing tenant profile Id will cause an error. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfile",
+                ":tenantProfileId",
+                "default"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tenantProfileId",
+                  "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c5e872e9-9867-457c-8c8d-a029311cf4c9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfile",
+                    ":tenantProfileId",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tenantProfileId",
+                      "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"name\": \"High Priority Tenants\",\n  \"description\": \"Any text\",\n  \"isolatedTbRuleEngine\": false,\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"string\",\n      \"maxDevices\": 5458,\n      \"maxAssets\": 7025,\n      \"maxCustomers\": 6384,\n      \"maxUsers\": 1707,\n      \"maxDashboards\": 6457,\n      \"maxRuleChains\": 9069,\n      \"maxEdges\": 7949,\n      \"maxResourcesInBytes\": 8421,\n      \"maxOtaPackagesInBytes\": 2379,\n      \"maxResourceSize\": 7572,\n      \"transportTenantMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"1000:1,20000:60\",\n      \"transportDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"tenantEntityExportRateLimit\": \"20:1,600:60\",\n      \"tenantEntityImportRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsPerRuleRateLimit\": \"20:1,600:60\",\n      \"maxTransportMessages\": 10000000,\n      \"maxTransportDataPoints\": 10000000,\n      \"maxREExecutions\": 4000000,\n      \"maxJSExecutions\": 5000000,\n      \"maxTbelExecutions\": 5000000,\n      \"maxDPStorageDays\": 0,\n      \"maxRuleNodeExecutionsPerMessage\": 50,\n      \"maxDebugModeDurationMinutes\": 15,\n      \"maxEmails\": 0,\n      \"smsEnabled\": true,\n      \"maxSms\": 0,\n      \"maxCreatedAlarms\": 1000,\n      \"tenantServerRestLimitsConfiguration\": \"string\",\n      \"customerServerRestLimitsConfiguration\": \"string\",\n      \"maxWsSessionsPerTenant\": 3105,\n      \"maxWsSessionsPerCustomer\": 8232,\n      \"maxWsSessionsPerRegularUser\": 1084,\n      \"maxWsSessionsPerPublicUser\": 8329,\n      \"wsMsgQueueLimitPerSession\": 896,\n      \"maxWsSubscriptionsPerTenant\": 7904,\n      \"maxWsSubscriptionsPerCustomer\": 3619,\n      \"maxWsSubscriptionsPerRegularUser\": 2659,\n      \"maxWsSubscriptionsPerPublicUser\": 4094,\n      \"wsUpdatesPerSessionRateLimit\": \"string\",\n      \"cassandraReadQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraReadQueryTenantRuleEngineRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantRuleEngineRateLimits\": \"string\",\n      \"edgeEventRateLimits\": \"string\",\n      \"edgeEventRateLimitsPerEdge\": \"string\",\n      \"edgeUplinkMessagesRateLimits\": \"string\",\n      \"edgeUplinkMessagesRateLimitsPerEdge\": \"string\",\n      \"defaultStorageTtlDays\": 6322,\n      \"alarmsTtlDays\": 5106,\n      \"rpcTtlDays\": 7169,\n      \"queueStatsTtlDays\": 1908,\n      \"ruleEngineExceptionsTtlDays\": 9531,\n      \"warnThreshold\": 1080.8268704177083,\n      \"maxCalculatedFieldsPerEntity\": 5,\n      \"maxArgumentsPerCF\": 10,\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": 10,\n      \"maxRelationLevelPerCfArgument\": 2,\n      \"maxRelatedEntitiesToReturnPerCfArgument\": 100,\n      \"maxDataPointsPerRollingArg\": 1000,\n      \"maxStateSizeInKBytes\": 32,\n      \"maxSingleValueArgumentSizeInKBytes\": 2,\n      \"minAllowedDeduplicationIntervalInSecForCF\": 10,\n      \"minAllowedAggregationIntervalInSecForCF\": 60,\n      \"intermediateAggregationIntervalInSecForCF\": 300,\n      \"cfReevaluationCheckInterval\": 60,\n      \"alarmsReevaluationInterval\": 60\n    },\n    \"queueConfiguration\": [\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 8413,\n        \"partitions\": 4775,\n        \"consumerPerPartition\": false,\n        \"packProcessingTimeout\": 4943,\n        \"submitStrategy\": {\n          \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n          \"batchSize\": 3840\n        },\n        \"processingStrategy\": {\n          \"type\": \"RETRY_ALL\",\n          \"retries\": 8705,\n          \"failurePercentage\": 8010.856531941928,\n          \"pauseBetweenRetries\": 6401,\n          \"maxPauseBetweenRetries\": 9264\n        },\n        \"additionalInfo\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 9504,\n        \"partitions\": 6233,\n        \"consumerPerPartition\": true,\n        \"packProcessingTimeout\": 62,\n        \"submitStrategy\": {\n          \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n          \"batchSize\": 6933\n        },\n        \"processingStrategy\": {\n          \"type\": \"RETRY_ALL\",\n          \"retries\": 8904,\n          \"failurePercentage\": 7701.0373178517275,\n          \"pauseBetweenRetries\": 9975,\n          \"maxPauseBetweenRetries\": 5926\n        },\n        \"additionalInfo\": {}\n      }\n    ]\n  },\n  \"default\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8dfee9ca-1271-46e4-9d9f-65f834f65b3d",
+          "name": "Get Tenant Profiles (getTenantProfiles)",
+          "request": {
+            "name": "Get Tenant Profiles (getTenantProfiles)",
+            "description": {
+              "content": "Returns a page of tenant profiles registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfiles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the tenant profile name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of tenant profile ids"
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of tenant profile ids"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "38f0a55e-d450-48a6-8feb-f57a622a581b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfiles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": {\n      \"entityType\": \"TENANT_PROFILE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"name\": \"High Priority Tenants\",\n    \"description\": \"Any text\",\n    \"isolatedTbRuleEngine\": false,\n    \"profileData\": {\n      \"configuration\": {\n        \"maxDevices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxAssets\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxCustomers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxUsers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDashboards\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRuleChains\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxEdges\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxResourcesInBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxOtaPackagesInBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxResourceSize\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportTenantMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportTenantTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportTenantTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportDeviceMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportDeviceTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportDeviceTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayDeviceMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayDeviceTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayDeviceTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantEntityExportRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantEntityImportRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantNotificationRequestsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantNotificationRequestsPerRuleRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxTransportMessages\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxTransportDataPoints\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxREExecutions\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxJSExecutions\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxTbelExecutions\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDPStorageDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRuleNodeExecutionsPerMessage\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDebugModeDurationMinutes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxEmails\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"smsEnabled\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxSms\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxCreatedAlarms\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantServerRestLimitsConfiguration\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"customerServerRestLimitsConfiguration\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerTenant\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerCustomer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerRegularUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerPublicUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"wsMsgQueueLimitPerSession\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerTenant\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerCustomer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerRegularUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerPublicUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"wsUpdatesPerSessionRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraReadQueryTenantCoreRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraWriteQueryTenantCoreRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraReadQueryTenantRuleEngineRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraWriteQueryTenantRuleEngineRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeEventRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeEventRateLimitsPerEdge\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeUplinkMessagesRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeUplinkMessagesRateLimitsPerEdge\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"defaultStorageTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"alarmsTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"rpcTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"queueStatsTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ruleEngineExceptionsTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"warnThreshold\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxCalculatedFieldsPerEntity\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxArgumentsPerCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"minAllowedScheduledUpdateIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRelationLevelPerCfArgument\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRelatedEntitiesToReturnPerCfArgument\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDataPointsPerRollingArg\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxStateSizeInKBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxSingleValueArgumentSizeInKBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"minAllowedDeduplicationIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"minAllowedAggregationIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"intermediateAggregationIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cfReevaluationCheckInterval\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"alarmsReevaluationInterval\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"queueConfiguration\": [\n        {\n          \"name\": \"string\",\n          \"topic\": \"string\",\n          \"pollInterval\": 6101,\n          \"partitions\": 915,\n          \"consumerPerPartition\": true,\n          \"packProcessingTimeout\": 1370,\n          \"submitStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"processingStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"additionalInfo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": \"string\",\n          \"topic\": \"string\",\n          \"pollInterval\": 2053,\n          \"partitions\": 4811,\n          \"consumerPerPartition\": true,\n          \"packProcessingTimeout\": 9727,\n          \"submitStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"processingStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"additionalInfo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    \"default\": false\n  },\n  {\n    \"id\": {\n      \"entityType\": \"TENANT_PROFILE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"name\": \"High Priority Tenants\",\n    \"description\": \"Any text\",\n    \"isolatedTbRuleEngine\": false,\n    \"profileData\": {\n      \"configuration\": {\n        \"maxDevices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxAssets\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxCustomers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxUsers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDashboards\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRuleChains\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxEdges\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxResourcesInBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxOtaPackagesInBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxResourceSize\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportTenantMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportTenantTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportTenantTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportDeviceMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportDeviceTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportDeviceTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayDeviceMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayDeviceTelemetryMsgRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transportGatewayDeviceTelemetryDataPointsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantEntityExportRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantEntityImportRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantNotificationRequestsRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantNotificationRequestsPerRuleRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxTransportMessages\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxTransportDataPoints\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxREExecutions\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxJSExecutions\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxTbelExecutions\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDPStorageDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRuleNodeExecutionsPerMessage\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDebugModeDurationMinutes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxEmails\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"smsEnabled\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxSms\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxCreatedAlarms\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tenantServerRestLimitsConfiguration\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"customerServerRestLimitsConfiguration\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerTenant\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerCustomer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerRegularUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSessionsPerPublicUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"wsMsgQueueLimitPerSession\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerTenant\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerCustomer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerRegularUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxWsSubscriptionsPerPublicUser\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"wsUpdatesPerSessionRateLimit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraReadQueryTenantCoreRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraWriteQueryTenantCoreRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraReadQueryTenantRuleEngineRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cassandraWriteQueryTenantRuleEngineRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeEventRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeEventRateLimitsPerEdge\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeUplinkMessagesRateLimits\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"edgeUplinkMessagesRateLimitsPerEdge\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"defaultStorageTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"alarmsTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"rpcTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"queueStatsTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ruleEngineExceptionsTtlDays\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"warnThreshold\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxCalculatedFieldsPerEntity\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxArgumentsPerCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"minAllowedScheduledUpdateIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRelationLevelPerCfArgument\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxRelatedEntitiesToReturnPerCfArgument\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxDataPointsPerRollingArg\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxStateSizeInKBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"maxSingleValueArgumentSizeInKBytes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"minAllowedDeduplicationIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"minAllowedAggregationIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"intermediateAggregationIntervalInSecForCF\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cfReevaluationCheckInterval\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"alarmsReevaluationInterval\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"queueConfiguration\": [\n        {\n          \"name\": \"string\",\n          \"topic\": \"string\",\n          \"pollInterval\": 4942,\n          \"partitions\": 8985,\n          \"consumerPerPartition\": true,\n          \"packProcessingTimeout\": 667,\n          \"submitStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"processingStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"additionalInfo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": \"string\",\n          \"topic\": \"string\",\n          \"pollInterval\": 339,\n          \"partitions\": 9883,\n          \"consumerPerPartition\": true,\n          \"packProcessingTimeout\": 8582,\n          \"submitStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"processingStrategy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"additionalInfo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    \"default\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c553c755-56ef-4128-8e35-e269f50699ed",
+          "name": "Get Tenant Profiles Info (getTenantProfileInfos)",
+          "request": {
+            "name": "Get Tenant Profiles Info (getTenantProfileInfos)",
+            "description": {
+              "content": "Returns a page of tenant profile info objects registered in the platform. Tenant Profile Info is a lightweight object that contains only id and name of the profile. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfileInfos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the tenant profile name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fbdc805c-38db-41cc-b5a8-adc5add2abc2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfileInfos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"name\": \"string\"\n    },\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"name\": \"string\"\n    }\n  ],\n  \"totalPages\": 2337,\n  \"totalElements\": 9950,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b73733d4-c324-4ad1-a7d1-7f717959ecaa",
+          "name": "Get Tenant Profile Info (getTenantProfileInfoById)",
+          "request": {
+            "name": "Get Tenant Profile Info (getTenantProfileInfoById)",
+            "description": {
+              "content": "Fetch the Tenant Profile Info object based on the provided Tenant Profile Id. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfileInfo",
+                ":tenantProfileId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tenantProfileId",
+                  "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3a7bfa7-fe0f-42a8-ac13-2e74b8f24ea3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfileInfo",
+                    ":tenantProfileId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tenantProfileId",
+                      "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e32b558e-2cd3-43ce-89fe-b7f5f766091d",
+          "name": "Get Default Tenant Profile Info (getDefaultTenantProfileInfo)",
+          "request": {
+            "name": "Get Default Tenant Profile Info (getDefaultTenantProfileInfo)",
+            "description": {
+              "content": "Fetch the default Tenant Profile Info object based. Tenant Profile Info is a lightweight object that contains only id and name of the profile. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfileInfo",
+                "default"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f17663ae-544b-430c-829e-799f16d0a273",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfileInfo",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c71d3c30-457e-4312-a7d7-7b1ca961692e",
+          "name": "Get Tenant Profile (getTenantProfileById)",
+          "request": {
+            "name": "Get Tenant Profile (getTenantProfileById)",
+            "description": {
+              "content": "Fetch the Tenant Profile object based on the provided Tenant Profile Id. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfile",
+                ":tenantProfileId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tenantProfileId",
+                  "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba467d56-77e4-4124-8885-b3dc94ad69db",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfile",
+                    ":tenantProfileId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tenantProfileId",
+                      "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"name\": \"High Priority Tenants\",\n  \"description\": \"Any text\",\n  \"isolatedTbRuleEngine\": false,\n  \"profileData\": {\n    \"configuration\": {\n      \"type\": \"string\",\n      \"maxDevices\": 5458,\n      \"maxAssets\": 7025,\n      \"maxCustomers\": 6384,\n      \"maxUsers\": 1707,\n      \"maxDashboards\": 6457,\n      \"maxRuleChains\": 9069,\n      \"maxEdges\": 7949,\n      \"maxResourcesInBytes\": 8421,\n      \"maxOtaPackagesInBytes\": 2379,\n      \"maxResourceSize\": 7572,\n      \"transportTenantMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryMsgRateLimit\": \"1000:1,20000:60\",\n      \"transportTenantTelemetryDataPointsRateLimit\": \"1000:1,20000:60\",\n      \"transportDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryMsgRateLimit\": \"20:1,600:60\",\n      \"transportGatewayDeviceTelemetryDataPointsRateLimit\": \"20:1,600:60\",\n      \"tenantEntityExportRateLimit\": \"20:1,600:60\",\n      \"tenantEntityImportRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsRateLimit\": \"20:1,600:60\",\n      \"tenantNotificationRequestsPerRuleRateLimit\": \"20:1,600:60\",\n      \"maxTransportMessages\": 10000000,\n      \"maxTransportDataPoints\": 10000000,\n      \"maxREExecutions\": 4000000,\n      \"maxJSExecutions\": 5000000,\n      \"maxTbelExecutions\": 5000000,\n      \"maxDPStorageDays\": 0,\n      \"maxRuleNodeExecutionsPerMessage\": 50,\n      \"maxDebugModeDurationMinutes\": 15,\n      \"maxEmails\": 0,\n      \"smsEnabled\": true,\n      \"maxSms\": 0,\n      \"maxCreatedAlarms\": 1000,\n      \"tenantServerRestLimitsConfiguration\": \"string\",\n      \"customerServerRestLimitsConfiguration\": \"string\",\n      \"maxWsSessionsPerTenant\": 3105,\n      \"maxWsSessionsPerCustomer\": 8232,\n      \"maxWsSessionsPerRegularUser\": 1084,\n      \"maxWsSessionsPerPublicUser\": 8329,\n      \"wsMsgQueueLimitPerSession\": 896,\n      \"maxWsSubscriptionsPerTenant\": 7904,\n      \"maxWsSubscriptionsPerCustomer\": 3619,\n      \"maxWsSubscriptionsPerRegularUser\": 2659,\n      \"maxWsSubscriptionsPerPublicUser\": 4094,\n      \"wsUpdatesPerSessionRateLimit\": \"string\",\n      \"cassandraReadQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantCoreRateLimits\": \"string\",\n      \"cassandraReadQueryTenantRuleEngineRateLimits\": \"string\",\n      \"cassandraWriteQueryTenantRuleEngineRateLimits\": \"string\",\n      \"edgeEventRateLimits\": \"string\",\n      \"edgeEventRateLimitsPerEdge\": \"string\",\n      \"edgeUplinkMessagesRateLimits\": \"string\",\n      \"edgeUplinkMessagesRateLimitsPerEdge\": \"string\",\n      \"defaultStorageTtlDays\": 6322,\n      \"alarmsTtlDays\": 5106,\n      \"rpcTtlDays\": 7169,\n      \"queueStatsTtlDays\": 1908,\n      \"ruleEngineExceptionsTtlDays\": 9531,\n      \"warnThreshold\": 1080.8268704177083,\n      \"maxCalculatedFieldsPerEntity\": 5,\n      \"maxArgumentsPerCF\": 10,\n      \"minAllowedScheduledUpdateIntervalInSecForCF\": 10,\n      \"maxRelationLevelPerCfArgument\": 2,\n      \"maxRelatedEntitiesToReturnPerCfArgument\": 100,\n      \"maxDataPointsPerRollingArg\": 1000,\n      \"maxStateSizeInKBytes\": 32,\n      \"maxSingleValueArgumentSizeInKBytes\": 2,\n      \"minAllowedDeduplicationIntervalInSecForCF\": 10,\n      \"minAllowedAggregationIntervalInSecForCF\": 60,\n      \"intermediateAggregationIntervalInSecForCF\": 300,\n      \"cfReevaluationCheckInterval\": 60,\n      \"alarmsReevaluationInterval\": 60\n    },\n    \"queueConfiguration\": [\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 8413,\n        \"partitions\": 4775,\n        \"consumerPerPartition\": false,\n        \"packProcessingTimeout\": 4943,\n        \"submitStrategy\": {\n          \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n          \"batchSize\": 3840\n        },\n        \"processingStrategy\": {\n          \"type\": \"RETRY_ALL\",\n          \"retries\": 8705,\n          \"failurePercentage\": 8010.856531941928,\n          \"pauseBetweenRetries\": 6401,\n          \"maxPauseBetweenRetries\": 9264\n        },\n        \"additionalInfo\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"topic\": \"string\",\n        \"pollInterval\": 9504,\n        \"partitions\": 6233,\n        \"consumerPerPartition\": true,\n        \"packProcessingTimeout\": 62,\n        \"submitStrategy\": {\n          \"type\": \"SEQUENTIAL_BY_ORIGINATOR\",\n          \"batchSize\": 6933\n        },\n        \"processingStrategy\": {\n          \"type\": \"RETRY_ALL\",\n          \"retries\": 8904,\n          \"failurePercentage\": 7701.0373178517275,\n          \"pauseBetweenRetries\": 9975,\n          \"maxPauseBetweenRetries\": 5926\n        },\n        \"additionalInfo\": {}\n      }\n    ]\n  },\n  \"default\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee71e2be-ba2e-47bd-8299-8910fdc80cdb",
+          "name": "Delete Tenant Profile (deleteTenantProfile)",
+          "request": {
+            "name": "Delete Tenant Profile (deleteTenantProfile)",
+            "description": {
+              "content": "Deletes the tenant profile. Referencing non-existing tenant profile Id will cause an error. Referencing profile that is used by the tenants will cause an error. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantProfile",
+                ":tenantProfileId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tenantProfileId",
+                  "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "607193f6-92af-4ee0-9e93-6caf5083f533",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantProfile",
+                    ":tenantProfileId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tenantProfileId",
+                      "description": "(Required) A string value representing the tenant profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b3fa1655-9a6d-4e01-80f7-eb0593301a25",
+    "name": "ThingsBoard Admin admin-controller tenant-profile-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller qr-code-settings-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "qr-code-settings-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Mobile Application Settings (getMobileAppSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/qr/settings"
+          },
+          "docs": "The response payload contains configuration for android/iOS applications and platform qr code widget settings.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Create or Update the Mobile Application Settings (saveMobileAppSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/mobile/qr/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The request payload contains configuration for android/iOS applications and platform qr code widget settings.\n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "getApplicationRedirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/qr",
+            "headers": [
+              {
+                "name": "User-Agent",
+                "value": ""
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Get User Token (getUserTokenByMobileSecret)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/noauth/qr/:secret",
+            "params": [
+              {
+                "name": "secret",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing short-lived secret key"
+              }
+            ]
+          },
+          "docs": "Returns the token of the User based on the provided secret key."
+        },
+        {
+          "info": {
+            "name": "Get the Deep Link to the Associated Mobile Application (getMobileAppDeepLink)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/mobile/qr/deepLink"
+          },
+          "docs": "Fetch the url that takes user to linked mobile application \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Associated Android Applications (getAssetLinks)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/.well-known/assetlinks.json"
+          },
+          "docs": "Get Associated Android Applications (getAssetLinks)"
+        },
+        {
+          "info": {
+            "name": "Get Associated Ios Applications (getAppleAppSiteAssociation)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/.well-known/apple-app-site-association"
+          },
+          "docs": "Get Associated Ios Applications (getAppleAppSiteAssociation)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

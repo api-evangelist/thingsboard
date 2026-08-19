@@ -1,0 +1,898 @@
+{
+  "item": [
+    {
+      "id": "982f862c-dcb4-4b56-bba6-7bdca04a3543",
+      "name": "ota-package-controller",
+      "description": {
+        "content": "Ota Package",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "69af77b1-2b76-4c6f-a27c-bddce9511969",
+          "name": "Create or Update OTA Package Info (saveOtaPackageInfo)",
+          "request": {
+            "name": "Create or Update OTA Package Info (saveOtaPackageInfo)",
+            "description": {
+              "content": "Create or update the OTA Package Info. When creating OTA Package Info, platform generates OTA Package id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created OTA Package id will be present in the response. Specify existing OTA Package id to update the OTA Package Info. Referencing non-existing OTA Package Id will cause 'Not Found' error. \n\nOTA Package combination of the title with the version is unique in the scope of tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"additionalInfo\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "af3c2c4c-548f-4526-993a-18312a17fcc4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"additionalInfo\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"deviceProfileId\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"FIRMWARE\",\n  \"title\": \"fw\",\n  \"version\": \"string\",\n  \"tag\": \"fw_1.0\",\n  \"url\": \"http://thingsboard.org/fw/1\",\n  \"hasData\": true,\n  \"fileName\": \"fw_1.0\",\n  \"contentType\": \"APPLICATION_OCTET_STREAM\",\n  \"checksumAlgorithm\": \"CRC32\",\n  \"checksum\": \"0xd87f7e0c\",\n  \"dataSize\": 8,\n  \"name\": \"string\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b1ea32bb-63b4-473d-bf45-d56b36bab75f",
+          "name": "Get OTA Package (getOtaPackageById)",
+          "request": {
+            "name": "Get OTA Package (getOtaPackageById)",
+            "description": {
+              "content": "Fetch the OTA Package object based on the provided OTA Package Id. The server checks that the OTA Package is owned by the same tenant. OTA Package is a heavyweight object that includes main information about the OTA Package and also data. \n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackage",
+                ":otaPackageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "otaPackageId",
+                  "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f26dc9ac-ea15-4633-886b-70d431694dc0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackage",
+                    ":otaPackageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "otaPackageId",
+                      "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"deviceProfileId\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"FIRMWARE\",\n  \"title\": \"fw\",\n  \"version\": \"string\",\n  \"tag\": \"fw_1.0\",\n  \"url\": \"http://thingsboard.org/fw/1\",\n  \"hasData\": true,\n  \"fileName\": \"fw_1.0\",\n  \"contentType\": \"APPLICATION_OCTET_STREAM\",\n  \"checksumAlgorithm\": \"CRC32\",\n  \"checksum\": \"0xd87f7e0c\",\n  \"dataSize\": 8,\n  \"data\": {\n    \"short\": 3290,\n    \"char\": \"string\",\n    \"int\": 6858,\n    \"long\": 1465,\n    \"float\": 9706.8953359997,\n    \"double\": 8245.015978773734,\n    \"direct\": true,\n    \"readOnly\": false\n  },\n  \"name\": \"string\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b2499a28-8fc2-47db-b9fc-6373a1cf9666",
+          "name": "Save OTA Package Data (saveOtaPackageData)",
+          "request": {
+            "name": "Save OTA Package Data (saveOtaPackageData)",
+            "description": {
+              "content": "Update the OTA Package. Adds the date to the existing OTA Package Info\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackage",
+                ":otaPackageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "checksum",
+                  "value": "<string>",
+                  "description": "OTA Package checksum. For example, '0xd87f7e0c'"
+                },
+                {
+                  "disabled": false,
+                  "key": "checksumAlgorithm",
+                  "value": "<string>",
+                  "description": "(Required) OTA Package checksum algorithm."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "otaPackageId",
+                  "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) OTA Package data."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "85d9dd66-4b43-4bd8-8bd5-4a568b5e82da",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackage",
+                    ":otaPackageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "checksum",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "checksumAlgorithm",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "otaPackageId",
+                      "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) OTA Package data.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"deviceProfileId\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"FIRMWARE\",\n  \"title\": \"fw\",\n  \"version\": \"string\",\n  \"tag\": \"fw_1.0\",\n  \"url\": \"http://thingsboard.org/fw/1\",\n  \"hasData\": true,\n  \"fileName\": \"fw_1.0\",\n  \"contentType\": \"APPLICATION_OCTET_STREAM\",\n  \"checksumAlgorithm\": \"CRC32\",\n  \"checksum\": \"0xd87f7e0c\",\n  \"dataSize\": 8,\n  \"name\": \"string\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5aebe580-44f7-4f84-b865-b86725a4e017",
+          "name": "Delete OTA Package (deleteOtaPackage)",
+          "request": {
+            "name": "Delete OTA Package (deleteOtaPackage)",
+            "description": {
+              "content": "Deletes the OTA Package. Referencing non-existing OTA Package Id will cause an error. Can't delete the OTA Package if it is referenced by existing devices or device profile.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackage",
+                ":otaPackageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "otaPackageId",
+                  "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8036e317-5bb9-41a6-82fa-dfa9a25d7177",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackage",
+                    ":otaPackageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "otaPackageId",
+                      "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "49b3314c-7da7-4b7b-a410-803c42d49919",
+          "name": "Get OTA Package Infos (getOtaPackages)",
+          "request": {
+            "name": "Get OTA Package Infos (getOtaPackages)",
+            "description": {
+              "content": "Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the ota package title."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d9c0d393-9237-47d0-837c-49b660d173da",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"deviceProfileId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"FIRMWARE\",\n      \"title\": \"fw\",\n      \"version\": \"string\",\n      \"tag\": \"fw_1.0\",\n      \"url\": \"http://thingsboard.org/fw/1\",\n      \"hasData\": true,\n      \"fileName\": \"fw_1.0\",\n      \"contentType\": \"APPLICATION_OCTET_STREAM\",\n      \"checksumAlgorithm\": \"CRC32\",\n      \"checksum\": \"0xd87f7e0c\",\n      \"dataSize\": 8,\n      \"name\": \"string\",\n      \"additionalInfo\": {}\n    },\n    {\n      \"id\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"deviceProfileId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"FIRMWARE\",\n      \"title\": \"fw\",\n      \"version\": \"string\",\n      \"tag\": \"fw_1.0\",\n      \"url\": \"http://thingsboard.org/fw/1\",\n      \"hasData\": true,\n      \"fileName\": \"fw_1.0\",\n      \"contentType\": \"APPLICATION_OCTET_STREAM\",\n      \"checksumAlgorithm\": \"CRC32\",\n      \"checksum\": \"0xd87f7e0c\",\n      \"dataSize\": 8,\n      \"name\": \"string\",\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 878,\n  \"totalElements\": 6024,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "633bc3fd-a462-461e-8d6c-792e8c745f8f",
+          "name": "Get OTA Package Infos (getOtaPackages)",
+          "request": {
+            "name": "Get OTA Package Infos (getOtaPackages)",
+            "description": {
+              "content": "Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackages",
+                ":deviceProfileId",
+                ":type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the ota package title."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deviceProfileId",
+                  "description": "(Required) A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) OTA Package type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6eaaa1c8-14be-4260-a46f-4ad1e5c1bc8b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackages",
+                    ":deviceProfileId",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceProfileId",
+                      "description": "(Required) A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) OTA Package type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"deviceProfileId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"FIRMWARE\",\n      \"title\": \"fw\",\n      \"version\": \"string\",\n      \"tag\": \"fw_1.0\",\n      \"url\": \"http://thingsboard.org/fw/1\",\n      \"hasData\": true,\n      \"fileName\": \"fw_1.0\",\n      \"contentType\": \"APPLICATION_OCTET_STREAM\",\n      \"checksumAlgorithm\": \"CRC32\",\n      \"checksum\": \"0xd87f7e0c\",\n      \"dataSize\": 8,\n      \"name\": \"string\",\n      \"additionalInfo\": {}\n    },\n    {\n      \"id\": {\n        \"entityType\": \"OTA_PACKAGE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"deviceProfileId\": {\n        \"entityType\": \"DEVICE_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"type\": \"FIRMWARE\",\n      \"title\": \"fw\",\n      \"version\": \"string\",\n      \"tag\": \"fw_1.0\",\n      \"url\": \"http://thingsboard.org/fw/1\",\n      \"hasData\": true,\n      \"fileName\": \"fw_1.0\",\n      \"contentType\": \"APPLICATION_OCTET_STREAM\",\n      \"checksumAlgorithm\": \"CRC32\",\n      \"checksum\": \"0xd87f7e0c\",\n      \"dataSize\": 8,\n      \"name\": \"string\",\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 878,\n  \"totalElements\": 6024,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e6a8308-792a-4a50-850f-d391f5926893",
+          "name": "Download OTA Package (downloadOtaPackage)",
+          "request": {
+            "name": "Download OTA Package (downloadOtaPackage)",
+            "description": {
+              "content": "Download OTA Package based on the provided OTA Package Id.\n\nAvailable for users with 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackage",
+                ":otaPackageId",
+                "download"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "otaPackageId",
+                  "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ff006e89-6a92-401c-bed4-8bc6b01c74aa",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackage",
+                    ":otaPackageId",
+                    "download"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "otaPackageId",
+                      "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c704cd44-0184-4740-853e-d6c243069437",
+          "name": "Get OTA Package Info (getOtaPackageInfoById)",
+          "request": {
+            "name": "Get OTA Package Info (getOtaPackageInfoById)",
+            "description": {
+              "content": "Fetch the OTA Package Info object based on the provided OTA Package Id. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "otaPackage",
+                "info",
+                ":otaPackageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "otaPackageId",
+                  "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b4856778-3271-460f-9401-88c2da177465",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "otaPackage",
+                    "info",
+                    ":otaPackageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "otaPackageId",
+                      "description": "(Required) A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"OTA_PACKAGE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"deviceProfileId\": {\n    \"entityType\": \"DEVICE_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"type\": \"FIRMWARE\",\n  \"title\": \"fw\",\n  \"version\": \"string\",\n  \"tag\": \"fw_1.0\",\n  \"url\": \"http://thingsboard.org/fw/1\",\n  \"hasData\": true,\n  \"fileName\": \"fw_1.0\",\n  \"contentType\": \"APPLICATION_OCTET_STREAM\",\n  \"checksumAlgorithm\": \"CRC32\",\n  \"checksum\": \"0xd87f7e0c\",\n  \"dataSize\": 8,\n  \"name\": \"string\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "861bce13-b188-4c7a-8383-98db1db5648f",
+    "name": "ThingsBoard Admin admin-controller ota-package-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

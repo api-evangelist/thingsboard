@@ -1,0 +1,137 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller entity-query-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "entity-query-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find Entity Data by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entitiesQuery/find",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows to run complex queries over platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the paginated result of the query that contains requested entity fields and latest values of requested attributes and time series data.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset"
+        },
+        {
+          "info": {
+            "name": "Find Available Entity Keys by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entitiesQuery/find/keys",
+            "params": [
+              {
+                "name": "timeseries",
+                "value": "",
+                "type": "query",
+                "description": "When true, includes unique time series key names in the response.\nWhen false, the 'timeseries' list will be empty."
+              },
+              {
+                "name": "attributes",
+                "value": "",
+                "type": "query",
+                "description": "When true, includes unique attribute key names in the response.\nWhen false, the 'attribute' list will be empty. Use 'scope' parameter to filter by attribute scope."
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "Filters attribute keys by scope. Only applies when 'attributes' is true.\nIf not specified, returns attribute keys from all scopes."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns unique time series and/or attribute key names from entities matching the query.\n\nExecutes the Entity Data Query to find up to 100 entities, then fetches and aggregates all distinct key names.\n\nPrimarily used for UI features like autocomplete suggestions.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Count Entities by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entitiesQuery/count",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows to run complex queries to search the count of platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the number of entities that match the query definition.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter resul"
+        },
+        {
+          "info": {
+            "name": "processSystemEdqsRequest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/edqs/system/request",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Find Alarms by Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/alarmsQuery/find",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This method description defines how Alarm Data Query extends the Entity Data Query. See method 'Find Entity Data by Query' first to get the info about 'Entity Data Query'.\n\n The platform will first search the entities that match the entity and key filters. Then, the platform will use 'Alarm Page Link' to filter the alarms related to those entities. Finally, platform fetch the properties of alarm that are defined in the **'alarmFields'** and combine them with the other entity, attribute and lates"
+        },
+        {
+          "info": {
+            "name": "Count Alarms by Query (countAlarmsByQuery)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/alarmsQuery/count",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the number of alarms that match the query definition."
+        },
+        {
+          "info": {
+            "name": "getEdqsState",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/edqs/state"
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

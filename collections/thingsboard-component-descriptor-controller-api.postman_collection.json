@@ -1,0 +1,328 @@
+{
+  "item": [
+    {
+      "id": "5bf5bd2c-f619-4be5-9287-03e562e9262e",
+      "name": "component-descriptor-controller",
+      "description": {
+        "content": "Component Descriptor",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "335b79bd-ff0c-49bf-9e28-499249801f09",
+          "name": "Get Component Descriptors (getComponentDescriptorsByTypes)",
+          "request": {
+            "name": "Get Component Descriptors (getComponentDescriptorsByTypes)",
+            "description": {
+              "content": "Gets the Component Descriptors using coma separated list of rule node types and optional rule chain type request parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors is persisted to the database.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "components"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "componentTypes",
+                  "value": "<string>",
+                  "description": "(Required) List of types of the Rule Nodes, (ENRICHMENT, FILTER, TRANSFORMATION, ACTION or EXTERNAL)"
+                },
+                {
+                  "disabled": false,
+                  "key": "componentTypes",
+                  "value": "<string>",
+                  "description": "(Required) List of types of the Rule Nodes, (ENRICHMENT, FILTER, TRANSFORMATION, ACTION or EXTERNAL)"
+                },
+                {
+                  "disabled": false,
+                  "key": "ruleChainType",
+                  "value": "<string>",
+                  "description": "Type of the Rule Chain"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b07df33-838c-44f7-8aef-8e263aa1c60b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "componentTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "componentTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ruleChainType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": {\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"type\": \"TRANSFORMATION\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"ENABLED\",\n    \"name\": \"Custom Rule Node\",\n    \"clazz\": \"com.mycompany.CustomRuleNode\",\n    \"configurationVersion\": 8443,\n    \"actions\": \"string\",\n    \"hasQueueName\": true,\n    \"configurationDescriptor\": {}\n  },\n  {\n    \"id\": {\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"type\": \"ACTION\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"ENABLED\",\n    \"name\": \"Custom Rule Node\",\n    \"clazz\": \"com.mycompany.CustomRuleNode\",\n    \"configurationVersion\": 5779,\n    \"actions\": \"string\",\n    \"hasQueueName\": true,\n    \"configurationDescriptor\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19c4953a-3160-48fc-b483-6fc3d15ef5d9",
+          "name": "Get Component Descriptors (getComponentDescriptorsByType)",
+          "request": {
+            "name": "Get Component Descriptors (getComponentDescriptorsByType)",
+            "description": {
+              "content": "Gets the Component Descriptors using rule node type and optional rule chain type request parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors is persisted to the database.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "components",
+                ":componentType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ruleChainType",
+                  "value": "<string>",
+                  "description": "Type of the Rule Chain"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "componentType",
+                  "description": "(Required) Type of the Rule Node"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f6ccf4c2-e04b-4a1b-94a2-c29be4cd4990",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "components",
+                    ":componentType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ruleChainType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "componentType",
+                      "description": "(Required) Type of the Rule Node"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": {\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"type\": \"TRANSFORMATION\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"ENABLED\",\n    \"name\": \"Custom Rule Node\",\n    \"clazz\": \"com.mycompany.CustomRuleNode\",\n    \"configurationVersion\": 8443,\n    \"actions\": \"string\",\n    \"hasQueueName\": true,\n    \"configurationDescriptor\": {}\n  },\n  {\n    \"id\": {\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"type\": \"ACTION\",\n    \"scope\": \"TENANT\",\n    \"clusteringMode\": \"ENABLED\",\n    \"name\": \"Custom Rule Node\",\n    \"clazz\": \"com.mycompany.CustomRuleNode\",\n    \"configurationVersion\": 5779,\n    \"actions\": \"string\",\n    \"hasQueueName\": true,\n    \"configurationDescriptor\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a8b5e487-aa50-4526-8ae3-5e15cc6fe500",
+          "name": "Get Component Descriptor (getComponentDescriptorByClazz)",
+          "request": {
+            "name": "Get Component Descriptor (getComponentDescriptorByClazz)",
+            "description": {
+              "content": "Gets the Component Descriptor object using class name from the path parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors is persisted to the database.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "component",
+                ":componentDescriptorClazz"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "componentDescriptorClazz",
+                  "description": "(Required) Component Descriptor class name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "108bbd9d-cee7-45a8-b524-ab88b71d6a5f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "component",
+                    ":componentDescriptorClazz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "componentDescriptorClazz",
+                      "description": "(Required) Component Descriptor class name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"type\": \"TRANSFORMATION\",\n  \"scope\": \"TENANT\",\n  \"clusteringMode\": \"ENABLED\",\n  \"name\": \"Custom Rule Node\",\n  \"clazz\": \"com.mycompany.CustomRuleNode\",\n  \"configurationVersion\": 3688,\n  \"actions\": \"string\",\n  \"hasQueueName\": true,\n  \"configurationDescriptor\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5c60eb3b-6492-4f80-84d4-4d87115bed81",
+    "name": "ThingsBoard Admin admin-controller component-descriptor-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

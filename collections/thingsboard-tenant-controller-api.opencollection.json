@@ -1,0 +1,182 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller tenant-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tenant-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Tenant (saveTenant)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/tenant",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Tenant. When creating tenant, platform generates Tenant Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). Default Rule Chain and Device profile are also generated for the new tenants automatically. The newly created Tenant Id will be present in the response. Specify existing Tenant Id id to update the Tenant. Referencing non-existing Tenant Id will cause 'Not Found' error.Remove 'id', 'tenantId' from t"
+        },
+        {
+          "info": {
+            "name": "Get Tenants (getTenants)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenants",
+            "params": [
+              {
+                "name": "tenantIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of tenant ids, separated by comma ','"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the tenant name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of tenants registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenants Info (getTenants)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenantInfos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the tenant name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of tenant info objects registered in the platform. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant (getTenantById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/:tenantId",
+            "params": [
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Tenant object based on the provided Tenant Id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Tenant (deleteTenant)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/tenant/:tenantId",
+            "params": [
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the tenant, it's customers, rule chains, devices and all other related entities. Referencing non-existing tenant Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Tenant Info (getTenantInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/tenant/info/:tenantId",
+            "params": [
+              {
+                "name": "tenantId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Tenant Info object based on the provided Tenant Id. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

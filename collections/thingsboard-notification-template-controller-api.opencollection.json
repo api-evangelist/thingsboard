@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller notification-template-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "notification-template-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Save Notification Template (saveNotificationTemplate)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/notification/template",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates notification template.\n\nHere is an example of template to send notification via Web, SMS and Slack:\n```json\n{\n  \"name\": \"Greetings\",\n  \"notificationType\": \"GENERAL\",\n  \"configuration\": {\n    \"deliveryMethodsTemplates\": {\n      \"WEB\": {\n        \"enabled\": true,\n        \"subject\": \"Greetings\",\n        \"body\": \"Hi there, ${recipientTitle}\",\n        \"additionalConfig\": {\n          \"icon\": {\n            \"enabled\": true,\n            \"icon\": \"back_hand\",\n            \"color\": \"#757575"
+        },
+        {
+          "info": {
+            "name": "Get Notification Templates (getNotificationTemplates)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/templates",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filter based on template's name and notification type"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "notificationTypes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of notification types to filter the templates"
+              }
+            ]
+          },
+          "docs": "Returns the page of notification templates owned by sysadmin or tenant.\n\nYou can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Notification Template by Id (getNotificationTemplateById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/template/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Fetches notification template by id.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Notification Template by Id (deleteNotificationTemplateById",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/notification/template/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes notification template by its id.\n\nThis template cannot be referenced by existing scheduled notification requests or any notification rules.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "List Slack Conversations (listSlackConversations)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/slack/conversations",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "Slack bot token. If absent - system Slack settings will be used"
+              }
+            ]
+          },
+          "docs": "List available Slack conversations by type.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

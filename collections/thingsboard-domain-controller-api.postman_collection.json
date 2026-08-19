@@ -1,0 +1,546 @@
+{
+  "item": [
+    {
+      "id": "842e9050-e10a-486e-a40a-c360ab7059d9",
+      "name": "domain-controller",
+      "description": {
+        "content": "Domain",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "51bf25a5-2418-47c5-a7a5-fdc82afc4f83",
+          "name": "Update Oauth2 Clients (updateOauth2Clients)",
+          "request": {
+            "name": "Update Oauth2 Clients (updateOauth2Clients)",
+            "description": {
+              "content": "Update oauth2 clients for the specified domain. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                ":id",
+                "oauth2Clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<uuid>\",\n  \"<uuid>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3ee2dae0-2153-4ffc-b7fa-9adfeca8f8b5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    ":id",
+                    "oauth2Clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"<uuid>\",\n  \"<uuid>\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "57f9c464-3db0-408e-a776-a11e4789bc73",
+          "name": "Save or Update Domain (saveDomain)",
+          "request": {
+            "name": "Save or Update Domain (saveDomain)",
+            "description": {
+              "content": "Create or update the Domain. When creating domain, platform generates Domain Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Domain Id will be present in the response. Specify existing Domain Id to update the domain. Referencing non-existing Domain Id will cause 'Not Found' error.\n\nDomain name is unique for entire platform setup.\n\n\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "oauth2ClientIds",
+                  "value": "<string>",
+                  "description": "A list of oauth2 client registration ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "oauth2ClientIds",
+                  "value": "<string>",
+                  "description": "A list of oauth2 client registration ids, separated by comma ','"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"oauth2Enabled\": \"<boolean>\",\n  \"propagateToEdge\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c2105104-b3dd-45cc-9f73-c4858cfb316b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "oauth2ClientIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "oauth2ClientIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"oauth2Enabled\": \"<boolean>\",\n  \"propagateToEdge\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"oauth2Enabled\": true,\n  \"propagateToEdge\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f24d5940-0bc3-4e04-a0dd-0072936d51f5",
+          "name": "Get Domain Infos (getTenantDomainInfos)",
+          "request": {
+            "name": "Get Domain Infos (getTenantDomainInfos)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                "infos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "Case-insensitive 'substring' filter based on domain's name"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0efffc88-b1aa-4a49-bc40-5dd27098cbde",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    "infos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"oauth2Enabled\": true,\n      \"propagateToEdge\": false,\n      \"oauth2ClientInfos\": [\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"IOS\",\n            \"IOS\"\n          ],\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"ANDROID\",\n            \"WEB\"\n          ],\n          \"name\": \"string\"\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"oauth2Enabled\": true,\n      \"propagateToEdge\": false,\n      \"oauth2ClientInfos\": [\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"WEB\",\n            \"ANDROID\"\n          ],\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"entityType\": \"DEVICE\",\n            \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n          },\n          \"createdTime\": 1746028547220,\n          \"title\": \"string\",\n          \"providerName\": \"string\",\n          \"platforms\": [\n            \"ANDROID\",\n            \"WEB\"\n          ],\n          \"name\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"totalPages\": 3688,\n  \"totalElements\": 637,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "484ea55f-b6b0-4668-97d8-98e454327276",
+          "name": "Get Domain Info by Id (getDomainInfoById)",
+          "request": {
+            "name": "Get Domain Info by Id (getDomainInfoById)",
+            "description": {
+              "content": "\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                "info",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6bde86af-7567-4eb4-b94a-3637a724509d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    "info",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"id\": {\n    \"entityType\": \"DEVICE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"oauth2Enabled\": true,\n  \"propagateToEdge\": true,\n  \"oauth2ClientInfos\": [\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"title\": \"string\",\n      \"providerName\": \"string\",\n      \"platforms\": [\n        \"IOS\",\n        \"WEB\"\n      ],\n      \"name\": \"string\"\n    },\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"title\": \"string\",\n      \"providerName\": \"string\",\n      \"platforms\": [\n        \"IOS\",\n        \"WEB\"\n      ],\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "022ef94e-67f6-4710-b70c-1b865b563c84",
+          "name": "Delete Domain by ID (deleteDomain)",
+          "request": {
+            "name": "Delete Domain by ID (deleteDomain)",
+            "description": {
+              "content": "Deletes Domain by ID. Referencing non-existing domain Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "domain",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a4fdf1cf-6243-4854-8899-6d071cac0c7e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "domain",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "54d4de1b-bfbd-47d5-9870-24c9a9c7f07a",
+    "name": "ThingsBoard Admin admin-controller domain-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

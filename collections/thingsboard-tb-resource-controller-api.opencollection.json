@@ -1,0 +1,551 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller tb-resource-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tb-resource-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "updateResourceInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/resource/:id/info",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the Resource to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "updateResourceData",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/resource/:id/data",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the Resource to update"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Get Resource Infos by Ids (getSystemOrTenantResourcesByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "resourceType",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the resource type."
+              },
+              {
+                "name": "resourceSubType",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the resource sub-type."
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the resource title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "resourceIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of resource ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Returns a page of Resource Info objects owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Create or Update Resource (saveResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/resource",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Resource. When creating the Resource, platform generates Resource id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Resource id will be present in the response. Specify existing Resource id to update the Resource. Referencing non-existing Resource Id will cause 'Not Found' error. \n\nResource combination of the title with the key is unique in the scope of tenant. Remove 'id', 'tenantId'"
+        },
+        {
+          "info": {
+            "name": "Upload Resource Via Multipart File (uploadResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/resource/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "title",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "resourceType",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "descriptor",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "resourceSubType",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create the Resource using multipart file upload. \n\nResource combination of the title with the key is unique in the scope of tenant. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download Resource (downloadResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceType/:scope/:key",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceType",
+                "value": "",
+                "type": "path",
+                "description": "Type of the resource"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "Scope of the resource"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the resource, e.g. 'extension.js'"
+              }
+            ]
+          },
+          "docs": "Download resource with a given type and key for the given scope\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Resource Info (getResourceInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceType/:scope/:key/info",
+            "params": [
+              {
+                "name": "resourceType",
+                "value": "",
+                "type": "path",
+                "description": "Type of the resource"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "Scope of the resource"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the resource, e.g. 'extension.js'"
+              }
+            ]
+          },
+          "docs": "Get info for the resource with the given type, scope and key. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Resource (getResourceById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceId",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Resource object based on the provided Resource Id. Resource is a heavyweight object that includes main information about the Resource and also data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Resource (deleteResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceId",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Deletes the Resource. Referencing non-existing Resource Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download Resource (downloadResource)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/:resourceId/download",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get All Resource Infos (getAllResources)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/tenant",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the resource title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of Resource Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download PKCS_12 Resource (downloadPkcs12ResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/pkcs12/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get LwM2M Objects (getLwm2mListObjects)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/lwm2m",
+            "params": [
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "objectIds",
+                "value": "",
+                "type": "query",
+                "description": "LwM2M Object ids."
+              }
+            ]
+          },
+          "docs": "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download LWM2M Resource (downloadLwm2mResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/lwm2m/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get LwM2M Objects (getLwm2mListObjectsPage)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/lwm2m/page",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the resource title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Download JS Resource (downloadJsResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/js/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Download JKS Resource (downloadJksResourceIfChanged)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/jks/:resourceId/download",
+            "headers": [
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Resource Info (getResourceInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/resource/info/:resourceId",
+            "params": [
+              {
+                "name": "resourceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the resource id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Resource Info object based on the provided Resource Id. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1127 @@
+{
+  "item": [
+    {
+      "id": "3de1089b-c73a-4422-a47d-6a5f0cd8ebeb",
+      "name": "widget-type-controller",
+      "description": {
+        "content": "Widget Type",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d4771319-559f-4215-90b9-ea2e2bc062bf",
+          "name": "Get Widget Type (getWidgetType)",
+          "request": {
+            "name": "Get Widget Type (getWidgetType)",
+            "description": {
+              "content": "Get the Widget Type by FQN. Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory.\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "isSystem",
+                  "value": "<boolean>",
+                  "description": "(Required) System or Tenant"
+                },
+                {
+                  "disabled": false,
+                  "key": "bundleAlias",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle alias"
+                },
+                {
+                  "disabled": false,
+                  "key": "alias",
+                  "value": "<string>",
+                  "description": "(Required) Widget Type alias"
+                },
+                {
+                  "disabled": false,
+                  "key": "fqn",
+                  "value": "<string>",
+                  "description": "(Required) Widget Type fqn"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "769b2281-a233-4d59-8f21-d12a5f7bebcb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "isSystem",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "bundleAlias",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "alias",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fqn",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"WIDGET_TYPE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"fqn\": \"string\",\n  \"name\": \"string\",\n  \"deprecated\": true,\n  \"scada\": true,\n  \"version\": 1365,\n  \"descriptor\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "643bb273-cae2-4a1c-b879-94c68492deb2",
+          "name": "Create or Update Widget Type (saveWidgetType)",
+          "request": {
+            "name": "Create or Update Widget Type (saveWidgetType)",
+            "description": {
+              "content": "Create or update the Widget Type. Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory. When creating the Widget Type, platform generates Widget Type Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Widget Type Id will be present in the response. Specify existing Widget Type id to update the Widget Type. Referencing non-existing Widget Type Id will cause 'Not Found' error.\n\nWidget Type fqn is unique in the scope of System or Tenant. Special Tenant Id '13814000-1dd2-11b2-8080-808080808080' is automatically used if the create request is sent by user with 'SYS_ADMIN' authority.Remove 'id', 'tenantId' rom the request body example (below) to create new Widget Type entity.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "updateExistingByFqn",
+                  "value": "<boolean>",
+                  "description": "Optional boolean parameter indicating whether to update existing widget type by FQN if present instead of creating new one"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deprecated\": \"<boolean>\",\n  \"image\": \"<string>\",\n  \"description\": \"<string>\",\n  \"resources\": [\n    {\n      \"link\": \"<string>\",\n      \"title\": \"<string>\",\n      \"type\": \"<string>\",\n      \"subType\": \"<string>\",\n      \"resourceKey\": \"<string>\",\n      \"fileName\": \"<string>\",\n      \"publicResourceKey\": \"<string>\",\n      \"isPublic\": \"<boolean>\",\n      \"mediaType\": \"<string>\",\n      \"data\": \"<string>\",\n      \"public\": \"<boolean>\"\n    },\n    {\n      \"link\": \"<string>\",\n      \"title\": \"<string>\",\n      \"type\": \"<string>\",\n      \"subType\": \"<string>\",\n      \"resourceKey\": \"<string>\",\n      \"fileName\": \"<string>\",\n      \"publicResourceKey\": \"<string>\",\n      \"isPublic\": \"<boolean>\",\n      \"mediaType\": \"<string>\",\n      \"data\": \"<string>\",\n      \"public\": \"<boolean>\"\n    }\n  ],\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"scada\": \"<boolean>\",\n  \"version\": \"<long>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f2f39fed-4e7f-43ae-8014-01928e708291",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "updateExistingByFqn",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deprecated\": true,\n  \"image\": \"<string>\",\n  \"description\": \"<string>\",\n  \"resources\": [\n    {\n      \"link\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"PKCS_12\",\n      \"subType\": \"MODULE\",\n      \"resourceKey\": \"string\",\n      \"fileName\": \"string\",\n      \"publicResourceKey\": \"string\",\n      \"isPublic\": true,\n      \"mediaType\": \"string\",\n      \"data\": \"string\",\n      \"public\": false\n    },\n    {\n      \"link\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"LWM2M_MODEL\",\n      \"subType\": \"EXTENSION\",\n      \"resourceKey\": \"string\",\n      \"fileName\": \"string\",\n      \"publicResourceKey\": \"string\",\n      \"isPublic\": true,\n      \"mediaType\": \"string\",\n      \"data\": \"string\",\n      \"public\": true\n    }\n  ],\n  \"id\": {\n    \"entityType\": \"WIDGET_TYPE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"scada\": true,\n  \"version\": \"<long>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fqn\": \"string\",\n  \"name\": \"string\",\n  \"deprecated\": true,\n  \"image\": \"string\",\n  \"description\": \"string\",\n  \"descriptor\": {},\n  \"resources\": [\n    {\n      \"link\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"GENERAL\",\n      \"subType\": \"IMAGE\",\n      \"resourceKey\": \"string\",\n      \"fileName\": \"string\",\n      \"publicResourceKey\": \"string\",\n      \"mediaType\": \"string\",\n      \"data\": \"string\",\n      \"public\": true\n    },\n    {\n      \"link\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"GENERAL\",\n      \"subType\": \"MODULE\",\n      \"resourceKey\": \"string\",\n      \"fileName\": \"string\",\n      \"publicResourceKey\": \"string\",\n      \"mediaType\": \"string\",\n      \"data\": \"string\",\n      \"public\": false\n    }\n  ],\n  \"id\": {\n    \"entityType\": \"WIDGET_TYPE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"scada\": true,\n  \"version\": 6096,\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "563f9ec0-6f99-4cc8-9ded-64e404b5ba6b",
+          "name": "Get All Widget Types for Specified Bundle (getBundleWidgetTypesByBundleAlias) (Deprecated)",
+          "request": {
+            "name": "Get All Widget Types for Specified Bundle (getBundleWidgetTypesByBundleAlias) (Deprecated)",
+            "description": {
+              "content": "Returns an array of Widget Type objects that belong to specified Widget Bundle.Widget Type represents the template for widget creation. Widget Type and Widget are similar to class and object in OOP theory. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetTypes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "widgetsBundleId",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle Id"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the widget type name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                },
+                {
+                  "disabled": false,
+                  "key": "tenantOnly",
+                  "value": "<boolean>",
+                  "description": "Optional boolean parameter indicating whether only tenant widget types should be returned"
+                },
+                {
+                  "disabled": false,
+                  "key": "fullSearch",
+                  "value": "<boolean>",
+                  "description": "Optional boolean parameter indicating whether search widgets by description not only by name"
+                },
+                {
+                  "disabled": false,
+                  "key": "deprecatedFilter",
+                  "value": "<string>",
+                  "description": "Optional string parameter indicating whether to include deprecated widgets"
+                },
+                {
+                  "disabled": false,
+                  "key": "widgetTypeList",
+                  "value": "<string>",
+                  "description": "A list of string values separated by comma ',' representing one of the widget type value"
+                },
+                {
+                  "disabled": false,
+                  "key": "widgetTypeList",
+                  "value": "<string>",
+                  "description": "A list of string values separated by comma ',' representing one of the widget type value"
+                },
+                {
+                  "disabled": false,
+                  "key": "scadaFirst",
+                  "value": "<boolean>",
+                  "description": "Optional boolean parameter indicating whether to fetch SCADA symbol widgets first"
+                },
+                {
+                  "disabled": false,
+                  "key": "isSystem",
+                  "value": "<boolean>",
+                  "description": "(Required) System or Tenant"
+                },
+                {
+                  "disabled": false,
+                  "key": "bundleAlias",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle alias"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "16e1afc5-8654-432e-95f4-14a0513ff7ab",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetTypes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "widgetsBundleId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tenantOnly",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "fullSearch",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "deprecatedFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "widgetTypeList",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "widgetTypeList",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scadaFirst",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "isSystem",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "bundleAlias",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": {\n        \"entityType\": \"WIDGET_TYPE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"fqn\": \"string\",\n      \"name\": \"string\",\n      \"deprecated\": true,\n      \"scada\": true,\n      \"version\": 9831,\n      \"image\": \"string\",\n      \"description\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"widgetType\": \"string\",\n      \"bundles\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": {\n        \"entityType\": \"WIDGET_TYPE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"fqn\": \"string\",\n      \"name\": \"string\",\n      \"deprecated\": true,\n      \"scada\": true,\n      \"version\": 2313,\n      \"image\": \"string\",\n      \"description\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"widgetType\": \"string\",\n      \"bundles\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\"\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"totalPages\": 8673,\n  \"totalElements\": 3306,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "03aee7c9-bd64-458b-9787-9f3e54460f6e",
+          "name": "Get Widget Type Info Objects (getBundleWidgetTypesInfosByBundleAlias) (Deprecated)",
+          "request": {
+            "name": "Get Widget Type Info Objects (getBundleWidgetTypesInfosByBundleAlias) (Deprecated)",
+            "description": {
+              "content": "Get the Widget Type Info objects based on the provided parameters. Widget Type Info is a lightweight object that represents Widget Type but does not contain the heavyweight widget descriptor JSON\n\nAvailable for any authorized user. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetTypesInfos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "widgetsBundleId",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle Id"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the widget type name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                },
+                {
+                  "disabled": false,
+                  "key": "fullSearch",
+                  "value": "<boolean>",
+                  "description": "Optional boolean parameter indicating whether search widgets by description not only by name"
+                },
+                {
+                  "disabled": false,
+                  "key": "deprecatedFilter",
+                  "value": "<string>",
+                  "description": "Optional string parameter indicating whether to include deprecated widgets"
+                },
+                {
+                  "disabled": false,
+                  "key": "widgetTypeList",
+                  "value": "<string>",
+                  "description": "A list of string values separated by comma ',' representing one of the widget type value"
+                },
+                {
+                  "disabled": false,
+                  "key": "widgetTypeList",
+                  "value": "<string>",
+                  "description": "A list of string values separated by comma ',' representing one of the widget type value"
+                },
+                {
+                  "disabled": false,
+                  "key": "isSystem",
+                  "value": "<boolean>",
+                  "description": "(Required) System or Tenant"
+                },
+                {
+                  "disabled": false,
+                  "key": "bundleAlias",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle alias"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6fff6440-4ff7-439b-8963-b0aaefcf3ccb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetTypesInfos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "widgetsBundleId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fullSearch",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "deprecatedFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "widgetTypeList",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "widgetTypeList",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "isSystem",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "bundleAlias",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": {\n      \"entityType\": \"WIDGET_TYPE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"fqn\": \"string\",\n    \"name\": \"string\",\n    \"deprecated\": true,\n    \"scada\": true,\n    \"version\": 536,\n    \"image\": \"string\",\n    \"description\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"widgetType\": \"string\",\n    \"bundles\": [\n      {\n        \"id\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"name\": \"string\"\n      },\n      {\n        \"id\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"name\": \"string\"\n      }\n    ]\n  },\n  {\n    \"id\": {\n      \"entityType\": \"WIDGET_TYPE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"fqn\": \"string\",\n    \"name\": \"string\",\n    \"deprecated\": true,\n    \"scada\": true,\n    \"version\": 4774,\n    \"image\": \"string\",\n    \"description\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"widgetType\": \"string\",\n    \"bundles\": [\n      {\n        \"id\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"name\": \"string\"\n      },\n      {\n        \"id\": {\n          \"entityType\": \"DEVICE\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"name\": \"string\"\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8746a125-3da7-4e63-ab97-5edda30a2e54",
+          "name": "Get All Widget Types Details for Specified Bundle (getBundleWidgetTypesDetailsByBundleAlias) (Deprecated)",
+          "request": {
+            "name": "Get All Widget Types Details for Specified Bundle (getBundleWidgetTypesDetailsByBundleAlias) (Deprecated)",
+            "description": {
+              "content": "Returns an array of Widget Type Details objects that belong to specified Widget Bundle.Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit the Widget Type but they are not required for Dashboard rendering.  \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetTypesDetails"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "widgetsBundleId",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle Id"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeResources",
+                  "value": "<boolean>",
+                  "description": "Export used resources and replace resource links with resource metadata"
+                },
+                {
+                  "disabled": false,
+                  "key": "isSystem",
+                  "value": "<boolean>",
+                  "description": "(Required) System or Tenant"
+                },
+                {
+                  "disabled": false,
+                  "key": "bundleAlias",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle alias"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1cbc05b8-7501-4a3a-8963-506a43a28684",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetTypesDetails"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "widgetsBundleId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeResources",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "isSystem",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "bundleAlias",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"fqn\": \"string\",\n    \"name\": \"string\",\n    \"deprecated\": true,\n    \"image\": \"string\",\n    \"description\": \"string\",\n    \"descriptor\": {},\n    \"resources\": [\n      {\n        \"link\": \"string\",\n        \"title\": \"string\",\n        \"type\": \"IMAGE\",\n        \"subType\": \"SCADA_SYMBOL\",\n        \"resourceKey\": \"string\",\n        \"fileName\": \"string\",\n        \"publicResourceKey\": \"string\",\n        \"mediaType\": \"string\",\n        \"data\": \"string\",\n        \"public\": true\n      },\n      {\n        \"link\": \"string\",\n        \"title\": \"string\",\n        \"type\": \"PKCS_12\",\n        \"subType\": \"SCADA_SYMBOL\",\n        \"resourceKey\": \"string\",\n        \"fileName\": \"string\",\n        \"publicResourceKey\": \"string\",\n        \"mediaType\": \"string\",\n        \"data\": \"string\",\n        \"public\": true\n      }\n    ],\n    \"id\": {\n      \"entityType\": \"WIDGET_TYPE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"scada\": true,\n    \"version\": 9810,\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  {\n    \"fqn\": \"string\",\n    \"name\": \"string\",\n    \"deprecated\": true,\n    \"image\": \"string\",\n    \"description\": \"string\",\n    \"descriptor\": {},\n    \"resources\": [\n      {\n        \"link\": \"string\",\n        \"title\": \"string\",\n        \"type\": \"PKCS_12\",\n        \"subType\": \"SCADA_SYMBOL\",\n        \"resourceKey\": \"string\",\n        \"fileName\": \"string\",\n        \"publicResourceKey\": \"string\",\n        \"mediaType\": \"string\",\n        \"data\": \"string\",\n        \"public\": true\n      },\n      {\n        \"link\": \"string\",\n        \"title\": \"string\",\n        \"type\": \"DASHBOARD\",\n        \"subType\": \"SCADA_SYMBOL\",\n        \"resourceKey\": \"string\",\n        \"fileName\": \"string\",\n        \"publicResourceKey\": \"string\",\n        \"mediaType\": \"string\",\n        \"data\": \"string\",\n        \"public\": true\n      }\n    ],\n    \"id\": {\n      \"entityType\": \"WIDGET_TYPE\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1609459200000,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"scada\": true,\n    \"version\": 6222,\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "718beae6-19d2-4e07-91b5-7a819e3cf390",
+          "name": "Get Widget Type Info (getWidgetTypeInfoById)",
+          "request": {
+            "name": "Get Widget Type Info (getWidgetTypeInfoById)",
+            "description": {
+              "content": "Get the Widget Type Info based on the provided Widget Type Id. Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit the Widget Type but they are not required for Dashboard rendering. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetTypeInfo",
+                ":widgetTypeId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "widgetTypeId",
+                  "description": "(Required) A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7cc84560-1ec8-4235-b93e-81de277752c9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetTypeInfo",
+                    ":widgetTypeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "widgetTypeId",
+                      "description": "(Required) A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": {\n    \"entityType\": \"WIDGET_TYPE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"fqn\": \"string\",\n  \"name\": \"string\",\n  \"deprecated\": true,\n  \"scada\": true,\n  \"version\": 9689,\n  \"image\": \"string\",\n  \"description\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"widgetType\": \"string\",\n  \"bundles\": [\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"name\": \"string\"\n    },\n    {\n      \"id\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e8b03b07-9df9-42b2-87d0-01ba765f1a49",
+          "name": "Get All Widget Type Fqns for Specified Bundle (getBundleWidgetTypeFqns)",
+          "request": {
+            "name": "Get All Widget Type Fqns for Specified Bundle (getBundleWidgetTypeFqns)",
+            "description": {
+              "content": "Returns an array of Widget Type fqns that belong to specified Widget Bundle.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetTypeFqns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "widgetsBundleId",
+                  "value": "<string>",
+                  "description": "(Required) Widget Bundle Id"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "38788761-cd2e-4504-8f39-771fb7971a7d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetTypeFqns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "widgetsBundleId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"string\",\n  \"string\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce4687dd-222b-4cee-882d-284fd7c83ce6",
+          "name": "Get Widget Type Details (getWidgetTypeById)",
+          "request": {
+            "name": "Get Widget Type Details (getWidgetTypeById)",
+            "description": {
+              "content": "Get the Widget Type Details based on the provided Widget Type Id. Widget Type Details extend Widget Type and add image and description properties. Those properties are useful to edit the Widget Type but they are not required for Dashboard rendering. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetType",
+                ":widgetTypeId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "includeResources",
+                  "value": "<boolean>",
+                  "description": "Export used resources and replace resource links with resource metadata"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "widgetTypeId",
+                  "description": "(Required) A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e5562698-ea28-4a0c-aa43-f234470cf395",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetType",
+                    ":widgetTypeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeResources",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "widgetTypeId",
+                      "description": "(Required) A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fqn\": \"string\",\n  \"name\": \"string\",\n  \"deprecated\": true,\n  \"image\": \"string\",\n  \"description\": \"string\",\n  \"descriptor\": {},\n  \"resources\": [\n    {\n      \"link\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"GENERAL\",\n      \"subType\": \"IMAGE\",\n      \"resourceKey\": \"string\",\n      \"fileName\": \"string\",\n      \"publicResourceKey\": \"string\",\n      \"mediaType\": \"string\",\n      \"data\": \"string\",\n      \"public\": true\n    },\n    {\n      \"link\": \"string\",\n      \"title\": \"string\",\n      \"type\": \"GENERAL\",\n      \"subType\": \"MODULE\",\n      \"resourceKey\": \"string\",\n      \"fileName\": \"string\",\n      \"publicResourceKey\": \"string\",\n      \"mediaType\": \"string\",\n      \"data\": \"string\",\n      \"public\": false\n    }\n  ],\n  \"id\": {\n    \"entityType\": \"WIDGET_TYPE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"scada\": true,\n  \"version\": 6096,\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aa21dbd0-7c8d-4fa3-bb6c-35c63cf024a5",
+          "name": "Delete Widget Type (deleteWidgetType)",
+          "request": {
+            "name": "Delete Widget Type (deleteWidgetType)",
+            "description": {
+              "content": "Deletes the  Widget Type. Referencing non-existing Widget Type Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "widgetType",
+                ":widgetTypeId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "widgetTypeId",
+                  "description": "(Required) A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "62215111-9064-464c-bc3e-566e4428d3bc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "widgetType",
+                    ":widgetTypeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "widgetTypeId",
+                      "description": "(Required) A string value representing the widget type id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b827891c-ef52-487a-9aa5-b3579ece44bf",
+    "name": "ThingsBoard Admin admin-controller widget-type-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

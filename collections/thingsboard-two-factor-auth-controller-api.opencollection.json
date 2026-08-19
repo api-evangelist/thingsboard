@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller two-factor-auth-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "two-factor-auth-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request 2FA Verification Code (requestTwoFaVerificationCode)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/verification/send",
+            "params": [
+              {
+                "name": "providerType",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Request 2FA verification code.\n\nTo make a request to this endpoint, you need an access token with the scope of PRE_VERIFICATION_TOKEN, which is issued on username/password auth if 2FA is enabled.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings). Will return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded."
+        },
+        {
+          "info": {
+            "name": "Check 2FA Verification Code (checkTwoFaVerificationCode)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/verification/check",
+            "params": [
+              {
+                "name": "providerType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "verificationCode",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks 2FA verification code, and if it is correct the method returns a regular access and refresh token pair.\n\nThe API method is rate limited (using rate limit config from TwoFactorAuthSettings), and also will block a user after X unsuccessful verification attempts if such behavior is configured (in TwoFactorAuthSettings).\n\nWill return a Bad Request error if provider is not configured for usage, and Too Many Requests error if rate limits are exceeded."
+        },
+        {
+          "info": {
+            "name": "Get Regular Token Pair After Successfully Configuring 2FA",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/login"
+          },
+          "docs": "Checks 2FA is configured, returning token pair on success."
+        },
+        {
+          "info": {
+            "name": "Get Available 2FA Providers (getAvailableTwoFaProviders)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/auth/2fa/providers"
+          },
+          "docs": "Get the list of 2FA provider infos available for user to use. Example:\n```\n[\n  {\n    \"type\": \"EMAIL\",\n    \"default\": true,\n    \"contact\": \"ab*****ko@gmail.com\"\n  },\n  {\n    \"type\": \"TOTP\",\n    \"default\": false,\n    \"contact\": null\n  },\n  {\n    \"type\": \"SMS\",\n    \"default\": false,\n    \"contact\": \"+38********12\"\n  }\n]\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

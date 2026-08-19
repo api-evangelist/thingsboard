@@ -1,0 +1,190 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller widgets-bundle-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "widgets-bundle-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Widget Bundle (saveWidgetsBundle)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Widget Bundle. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case.  When creating the bundle, platform generates Widget Bundle Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Widget Bundle Id will be present in the response. Specify existing Widget Bundle id to update the Widget Bundle. Referencing non-existing Widget Bundle Id w"
+        },
+        {
+          "info": {
+            "name": "Update Widgets Bundle Widgets Types List (updateWidgetsBundleWidgetTypes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId/widgetTypes",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates widgets bundle widgets list.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Update Widgets Bundle Widgets List from Widget Type FQNs List (updateWidgetsBundleWidgetFqns)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId/widgetTypeFqns",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates widgets bundle widgets list from widget type FQNs list.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Widget Bundles (getWidgetsBundles)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetsBundles",
+            "params": [
+              {
+                "name": "widgetsBundleIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of widgets bundle ids, separated by comma ','"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the widget bundle title."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "tenantOnly",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter to include only tenant-level bundles without system"
+              },
+              {
+                "name": "fullSearch",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating extended search of widget bundles by description and by name / description of related widget types"
+              },
+              {
+                "name": "scadaFirst",
+                "value": "",
+                "type": "query",
+                "description": "Optional boolean parameter indicating whether to fetch widgets bundles with SCADA symbols first. Works only when fullSearch parameter is enabled"
+              }
+            ]
+          },
+          "docs": "Returns a page of Widget Bundle objects available for current user. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case.  You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Widget Bundle (getWidgetsBundleById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "inlineImages",
+                "value": "",
+                "type": "query",
+                "description": "Inline images as a data URL (Base64)"
+              }
+            ]
+          },
+          "docs": "Get the Widget Bundle based on the provided Widget Bundle Id. Widget Bundle represents a group(bundle) of widgets. Widgets are grouped into bundle by type or use case. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Delete Widgets Bundle (deleteWidgetsBundle)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/widgetsBundle/:widgetsBundleId",
+            "params": [
+              {
+                "name": "widgetsBundleId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the widget bundle id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the widget bundle. Referencing non-existing Widget Bundle Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

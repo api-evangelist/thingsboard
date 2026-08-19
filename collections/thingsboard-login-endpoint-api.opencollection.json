@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller login-endpoint API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "login-endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login Method to Get User JWT Token Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Login method used to authenticate user and get JWT token data.\n\nValue of the response **token** field can be used as **X-Authorization** header value:\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`."
+        },
+        {
+          "info": {
+            "name": "Refresh User JWT Token Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/auth/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Method to refresh JWT token. Provide a valid refresh token to get a new JWT token.\n\nThe response contains a new token that can be used for authorization.\n\n`X-Authorization: Bearer $JWT_TOKEN_VALUE`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

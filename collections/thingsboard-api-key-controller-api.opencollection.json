@@ -1,0 +1,148 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller api-key-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "api-key-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Enable or Disable API Key (enableApiKey)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/apiKey/:id/enabled/:enabledValue",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the API key to enable/disable"
+              },
+              {
+                "name": "enabledValue",
+                "value": "",
+                "type": "path",
+                "description": "Enabled or disabled api key"
+              }
+            ]
+          },
+          "docs": "Updates api key with enabled = true/false. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Update API Key Description",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/apiKey/:id/description",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the api key id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the description of the existing API key by apiKeyId. Only the description can be updated. Referencing a non-existing ApiKey Id will cause a 'Not Found' error.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Save API Key for User (saveApiKey)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/apiKey",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an API key for the given user and returns the token ONCE as 'ApiKey <value>'.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get User Api Keys (getUserApiKeys)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/apiKeys/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the user id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the description."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of api keys owned by user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Delete API Key by ID (deleteApiKey)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/apiKey/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the API key. Referencing non-existing ApiKey Id will cause an error.\n\nAvailable for any authorized user. "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,425 @@
+{
+  "item": [
+    {
+      "id": "a6028e3d-7fd6-48a9-9054-928590f87af4",
+      "name": "notification-rule-controller",
+      "description": {
+        "content": "Notification Rule",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ee8e1f18-6cd5-4449-bfc4-512fdd5426d1",
+          "name": "Save Notification Rule (saveNotificationRule)",
+          "request": {
+            "name": "Save Notification Rule (saveNotificationRule)",
+            "description": {
+              "content": "Creates or updates notification rule. \n\nMandatory properties are `name`, `templateId` (of a template with `notificationType` matching to rule's `triggerType`), `triggerType`, `triggerConfig` and `recipientConfig`. Additionally, you may specify rule `description` inside of `additionalConfig`.\n\nTrigger type of the rule cannot be changed. Available trigger types for tenant: `ENTITY_ACTION`, `ALARM`, `ALARM_COMMENT`, `ALARM_ASSIGNMENT`, `DEVICE_ACTIVITY`, `RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT`.\nFor sysadmin, there are following trigger types available: `ENTITIES_LIMIT`, `API_USAGE_LIMIT`, `NEW_PLATFORM_VERSION`.\n\nHere is an example of notification rule to send notification when a device, asset or customer is created or deleted:\n```json\n{\n  \"name\": \"Entity action\",\n  \"templateId\": {\n    \"entityType\": \"NOTIFICATION_TEMPLATE\",\n    \"id\": \"32117320-d785-11ed-a06c-21dd57dd88ca\"\n  },\n  \"triggerType\": \"ENTITY_ACTION\",\n  \"triggerConfig\": {\n    \"entityTypes\": [\n      \"CUSTOMER\",\n      \"DEVICE\",\n      \"ASSET\"\n    ],\n    \"created\": true,\n    \"updated\": false,\n    \"deleted\": true,\n    \"triggerType\": \"ENTITY_ACTION\"\n  },\n  \"recipientsConfig\": {\n    \"targets\": [\n      \"320f2930-d785-11ed-a06c-21dd57dd88ca\"\n    ],\n    \"triggerType\": \"ENTITY_ACTION\"\n  },\n  \"additionalConfig\": {\n    \"description\": \"Send notification to tenant admins or customer users when a device, asset or customer is created\"\n  },\n  \"templateName\": \"Entity action notification\",\n  \"deliveryMethods\": [\n    \"WEB\"\n  ]\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "rule"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"recipientsConfig\": {\n    \"escalationTable\": {\n      \"key_0\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"key_1\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"key_2\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    \"triggerType\": \"<string>\"\n  },\n  \"templateId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"triggerConfig\": {\n    \"notifyOn\": [\n      \"<string>\"\n    ],\n    \"triggerType\": \"<string>\",\n    \"alarmTypes\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"alarmSeverities\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"alarmStatuses\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"triggerType\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"enabled\": \"<boolean>\",\n  \"additionalConfig\": {\n    \"description\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "48a20a5d-6559-4b15-afa2-4b2bf3f499a1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "rule"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"recipientsConfig\": {\n    \"escalationTable\": {\n      \"key_0\": [\n        \"4b3eb39c-b4ce-1e6f-4c13-da377c86ed1a\",\n        \"7ed39976-a60f-4464-0aaf-883064750e36\"\n      ],\n      \"key_1\": [\n        \"5867319d-b02b-af28-26ed-bfdd457dde7f\",\n        \"ac977742-aaa2-1ea9-4e3e-74e7ed3a0159\"\n      ],\n      \"key_2\": [\n        \"6d59d182-911b-5541-bbcb-8b91e06551a3\",\n        \"9eb17a08-dfc2-1e56-b772-3a20500c60b2\"\n      ],\n      \"key_3\": [\n        \"907e80bf-bf37-cc2e-77ef-fa88b22e9779\",\n        \"2c2fe7f9-e883-9776-ed3a-195430d928a1\"\n      ]\n    },\n    \"triggerType\": \"RESOURCES_SHORTAGE\"\n  },\n  \"templateId\": {\n    \"entityType\": \"NOTIFICATION_TEMPLATE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"triggerConfig\": {\n    \"notifyOn\": [\n      \"ASSIGNED\"\n    ],\n    \"triggerType\": \"RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT\",\n    \"alarmTypes\": [\n      \"string\"\n    ],\n    \"alarmSeverities\": [\n      \"MAJOR\",\n      \"INDETERMINATE\"\n    ],\n    \"alarmStatuses\": [\n      \"UNACK\",\n      \"ANY\"\n    ]\n  },\n  \"triggerType\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"NOTIFICATION_RULE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"enabled\": \"<boolean>\",\n  \"additionalConfig\": {\n    \"description\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"recipientsConfig\": {\n    \"escalationTable\": {\n      \"key_0\": [\n        \"1a7fc5ed-8925-d5e0-6996-1ecded550f2a\",\n        \"322619e2-2620-2ab3-87ba-2cd9e1f13f55\"\n      ]\n    },\n    \"triggerType\": \"EDGE_COMMUNICATION_FAILURE\"\n  },\n  \"templateId\": {\n    \"entityType\": \"NOTIFICATION_TEMPLATE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"triggerConfig\": {\n    \"notifyOn\": [\n      \"ASSIGNED\"\n    ],\n    \"triggerType\": \"RESOURCES_SHORTAGE\",\n    \"alarmTypes\": [\n      \"string\"\n    ],\n    \"alarmSeverities\": [\n      \"INDETERMINATE\",\n      \"WARNING\"\n    ],\n    \"alarmStatuses\": [\n      \"ACK\",\n      \"ACTIVE\"\n    ]\n  },\n  \"triggerType\": \"NEW_PLATFORM_VERSION\",\n  \"id\": {\n    \"entityType\": \"NOTIFICATION_RULE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"enabled\": true,\n  \"additionalConfig\": {\n    \"description\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2fd66a02-df37-43ec-be97-ebfd8f2c941a",
+          "name": "Get Notification Rules (getNotificationRules)",
+          "request": {
+            "name": "Get Notification Rules (getNotificationRules)",
+            "description": {
+              "content": "Returns the page of notification rules.\n\nYou can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "Case-insensitive 'substring' filter based on rule's name"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "65b99ec3-e41b-4f8c-86dd-c43340138c2a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"recipientsConfig\": {\n        \"escalationTable\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"triggerType\": \"EDGE_COMMUNICATION_FAILURE\"\n      },\n      \"templateId\": {\n        \"entityType\": \"NOTIFICATION_TEMPLATE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"triggerConfig\": {\n        \"notifyOn\": [\n          \"ASSIGNED\"\n        ],\n        \"triggerType\": \"ENTITY_ACTION\",\n        \"alarmTypes\": [\n          \"string\"\n        ],\n        \"alarmSeverities\": [\n          \"MINOR\",\n          \"CRITICAL\"\n        ],\n        \"alarmStatuses\": [\n          \"CLEARED\",\n          \"ANY\"\n        ]\n      },\n      \"triggerType\": \"RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT\",\n      \"id\": {\n        \"entityType\": \"NOTIFICATION_RULE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"enabled\": false,\n      \"additionalConfig\": {\n        \"description\": \"string\"\n      },\n      \"templateName\": \"string\",\n      \"deliveryMethods\": [\n        \"EMAIL\",\n        \"EMAIL\"\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"recipientsConfig\": {\n        \"escalationTable\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"key_1\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"triggerType\": \"ENTITY_ACTION\"\n      },\n      \"templateId\": {\n        \"entityType\": \"NOTIFICATION_TEMPLATE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"triggerConfig\": {\n        \"notifyOn\": [\n          \"UNASSIGNED\"\n        ],\n        \"triggerType\": \"RESOURCES_SHORTAGE\",\n        \"alarmTypes\": [\n          \"string\"\n        ],\n        \"alarmSeverities\": [\n          \"WARNING\",\n          \"CRITICAL\"\n        ],\n        \"alarmStatuses\": [\n          \"CLEARED\",\n          \"ACTIVE\"\n        ]\n      },\n      \"triggerType\": \"RATE_LIMITS\",\n      \"id\": {\n        \"entityType\": \"NOTIFICATION_RULE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1746028547220,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"enabled\": true,\n      \"additionalConfig\": {\n        \"description\": \"string\"\n      },\n      \"templateName\": \"string\",\n      \"deliveryMethods\": [\n        \"EMAIL\",\n        \"SMS\"\n      ]\n    }\n  ],\n  \"totalPages\": 1373,\n  \"totalElements\": 2334,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4fb5ca79-dd02-4ea0-91ac-ab5f706511a6",
+          "name": "Get Notification Rule by Id (getNotificationRuleById)",
+          "request": {
+            "name": "Get Notification Rule by Id (getNotificationRuleById)",
+            "description": {
+              "content": "Fetches notification rule info by rule's id.\nIn addition to regular notification rule fields, there are `templateName` and `deliveryMethods` in the response.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "rule",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3ba1cbcd-cf3f-478e-b597-982638556139",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "rule",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"recipientsConfig\": {\n    \"escalationTable\": {\n      \"key_0\": [\n        \"6998d927-4e6c-93ff-a47b-36b5022af7d6\",\n        \"609ec1be-1d76-c84a-75b9-fc0918233908\"\n      ],\n      \"key_1\": [\n        \"884c1742-2d72-97f1-51a2-3e7d5733bcf2\",\n        \"f6d0b561-9cde-1e38-1c7f-3f06c3d8bb96\"\n      ]\n    },\n    \"triggerType\": \"NEW_PLATFORM_VERSION\"\n  },\n  \"templateId\": {\n    \"entityType\": \"NOTIFICATION_TEMPLATE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"triggerConfig\": {\n    \"notifyOn\": [\n      \"UNASSIGNED\"\n    ],\n    \"triggerType\": \"ALARM_COMMENT\",\n    \"alarmTypes\": [\n      \"string\"\n    ],\n    \"alarmSeverities\": [\n      \"WARNING\",\n      \"MAJOR\"\n    ],\n    \"alarmStatuses\": [\n      \"CLEARED\",\n      \"UNACK\"\n    ]\n  },\n  \"triggerType\": \"API_USAGE_LIMIT\",\n  \"id\": {\n    \"entityType\": \"NOTIFICATION_RULE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"enabled\": true,\n  \"additionalConfig\": {\n    \"description\": \"string\"\n  },\n  \"templateName\": \"string\",\n  \"deliveryMethods\": [\n    \"MICROSOFT_TEAMS\",\n    \"MICROSOFT_TEAMS\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d237e3de-7b56-45d6-8acd-bf46f518af65",
+          "name": "Delete Notification Rule (deleteNotificationRule)",
+          "request": {
+            "name": "Delete Notification Rule (deleteNotificationRule)",
+            "description": {
+              "content": "Deletes notification rule by id.\nCancels all related scheduled notification requests (e.g. due to escalation table)\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "rule",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a298d559-3b59-4c49-9bc8-dfd72d878b7b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "rule",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9116639a-a81b-43d9-883a-400c719ff59e",
+    "name": "ThingsBoard Admin admin-controller notification-rule-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

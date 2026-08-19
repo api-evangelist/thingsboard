@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller device-connectivity-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "device-connectivity-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download Server Certificate Using File Path Defined in Device.connectivity Properties (downloadServerCertificate)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/device-connectivity/:protocol/certificate/download",
+            "params": [
+              {
+                "name": "protocol",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device connectivity protocol. Possible values: 'mqtt', 'mqtts', 'http', 'https', 'coap', 'coaps'"
+              }
+            ]
+          },
+          "docs": "Download server certificate."
+        },
+        {
+          "info": {
+            "name": "Get Commands to Publish Device Telemetry (getDevicePublishTelemetryCommands)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/device-connectivity/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the list of commands to publish device telemetry based on device profile If the user has the authority of 'Tenant Administrator', the server checks that the device is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the device is assigned to the same customer. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Download Generated Docker-compose.yml File for Gateway (downloadGatewayDockerCompose)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/device-connectivity/gateway-launch/:deviceId/docker-compose/download",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Download generated docker-compose.yml for gateway."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

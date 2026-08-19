@@ -1,0 +1,368 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller entities-version-control-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "entities-version-control-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Versions (listVersions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version",
+            "params": [
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "The name of the working branch, for example 'master'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity version name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Lists all available versions in a branch for all entity types. \nIf specified branch does not exist - empty page data will be returned. The response format is the same as for `listEntityVersions` API method.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Save Entities Version (saveEntitiesVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new version of entities (or a single entity) by request.\nSupported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\nThere are two available types of request: `SINGLE_ENTITY` and `COMPLEX`. Each of them contains version name (`versionName`) and name of a branch (`branch`) to create version (commit) in. If specified branch does not exists in a remote repo, then new empty branch will be created. Request of the `SINGLE_ENTITY` type"
+        },
+        {
+          "info": {
+            "name": "Load Entities Version (loadEntitiesVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Loads specific version of remote entities (or single entity) by request. Supported entity types: CUSTOMER, ASSET, RULE_CHAIN, DASHBOARD, DEVICE_PROFILE, DEVICE, ENTITY_VIEW, WIDGETS_BUNDLE.\n\nThere are multiple types of request. Each of them requires branch name (`branch`) and version id (`versionId`). Request of type `SINGLE_ENTITY` is needed to restore a concrete version of a specific entity. It contains id of a remote entity (`externalEntityId`) and additional configuration (`config`):\n- `load"
+        },
+        {
+          "info": {
+            "name": "Get Version Create Request Status (getVersionCreateRequestStatus)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version/:requestId/status",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns the status of previously made version create request. \n\nThis status contains following properties:\n- `done` - whether request processing is finished;\n- `version` - created version info: timestamp, version id (commit hash), commit name and commit author;\n- `added` - count of items that were created in the remote repo;\n- `modified` - modified items count;\n- `removed` - removed items count;\n- `error` - error message, if an error occurred while handling the request.\n\nAn example of successful"
+        },
+        {
+          "info": {
+            "name": "List Entity Type Versions (listEntityTypeVersions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version/:entityType",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "The name of the working branch, for example 'master'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity version name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns list of versions of an entity type in a branch. This is a collected list of versions that were created for entities of this type in a remote branch. \nIf specified branch does not exist - empty page data will be returned. The response structure is the same as for `listEntityVersions` API method.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "List Entity Versions (listEntityVersions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/version/:entityType/:externalEntityUuid",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "externalEntityUuid",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing external entity id. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity."
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "The name of the working branch, for example 'master'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the entity version name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns list of versions for a specific entity in a concrete branch. \nYou need to specify external id of an entity to list versions for. This is `externalId` property of an entity, or otherwise if not set - simply id of this entity. \nIf specified branch does not exist - empty page data will be returned. \n\nEach version info item has timestamp, id, name and author. Version id can then be used to restore the version. You can specify parameters to filter the results. The result is wrapped with PageD"
+        },
+        {
+          "info": {
+            "name": "Get Entity Data Info (getEntityDataInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/info/:versionId/:entityType/:externalEntityUuid",
+            "params": [
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              },
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "externalEntityUuid",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing external entity id"
+              }
+            ]
+          },
+          "docs": "Retrieves short info about the remote entity by external id at a concrete version. \nReturned entity data info contains following properties: `hasRelations` (whether stored entity data contains relations), `hasAttributes` (contains attributes) and `hasCredentials` (whether stored device data has credentials).\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "List All Entities at Version (listAllEntitiesAtVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity/:versionId",
+            "params": [
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              }
+            ]
+          },
+          "docs": "Returns a list of all remote entities available in a specific version. Response type is the same as for listAllEntitiesAtVersion API method. \nReturned entities order will be the same as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Version Load Request Status (getVersionLoadRequestStatus)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity/:requestId/status",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the version control request id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Returns the status of previously made version load request. The structure contains following parameters:\n- `done` - if the request was successfully processed;\n- `result` - a list of load results for each entity type:\n     - `created` - created entities count;\n     - `updated` - updated entities count;\n     - `deleted` - removed entities count.\n- `error` - if an error occurred during processing, error info:\n     - `type` - error type;\n     - `source` - an external id of remote entity;\n     - `tar"
+        },
+        {
+          "info": {
+            "name": "List Entities at Version (listEntitiesAtVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/entity/:entityType/:versionId",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              }
+            ]
+          },
+          "docs": "Returns a list of remote entities of a specific entity type that are available at a concrete version. \nEach entity item in the result has `externalId` property. Entities order will be the same as in the repository.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Compare Entity Data to Version (compareEntityDataToVersion)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/diff/:entityType/:internalEntityUuid",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity type. For example, 'DEVICE'"
+              },
+              {
+                "name": "internalEntityUuid",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "query",
+                "description": "Version id, for example fd82625bdd7d6131cf8027b44ee967012ecaf990. Represents commit hash."
+              }
+            ]
+          },
+          "docs": "Returns an object with current entity data and the one at a specific version. Entity data structure is the same as stored in a repository. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "List Branches (listBranches)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/entities/vc/branches"
+          },
+          "docs": "Lists branches available in the remote repository. \n\nResponse example: \n```json\n[\n  {\n    \"name\": \"master\",\n    \"default\": true\n  },\n  {\n    \"name\": \"dev\",\n    \"default\": false\n  },\n  {\n    \"name\": \"dev-2\",\n    \"default\": false\n  }\n]\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

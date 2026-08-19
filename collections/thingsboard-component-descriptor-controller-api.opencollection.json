@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller component-descriptor-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "component-descriptor-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Component Descriptors (getComponentDescriptorsByTypes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/components",
+            "params": [
+              {
+                "name": "componentTypes",
+                "value": "",
+                "type": "query",
+                "description": "List of types of the Rule Nodes, (ENRICHMENT, FILTER, TRANSFORMATION, ACTION or EXTERNAL)"
+              },
+              {
+                "name": "ruleChainType",
+                "value": "",
+                "type": "query",
+                "description": "Type of the Rule Chain"
+              }
+            ]
+          },
+          "docs": "Gets the Component Descriptors using coma separated list of rule node types and optional rule chain type request parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to "
+        },
+        {
+          "info": {
+            "name": "Get Component Descriptors (getComponentDescriptorsByType)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/components/:componentType",
+            "params": [
+              {
+                "name": "componentType",
+                "value": "",
+                "type": "path",
+                "description": "Type of the Rule Node"
+              },
+              {
+                "name": "ruleChainType",
+                "value": "",
+                "type": "query",
+                "description": "Type of the Rule Chain"
+              }
+            ]
+          },
+          "docs": "Gets the Component Descriptors using rule node type and optional rule chain type request parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors"
+        },
+        {
+          "info": {
+            "name": "Get Component Descriptor (getComponentDescriptorByClazz)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/component/:componentDescriptorClazz",
+            "params": [
+              {
+                "name": "componentDescriptorClazz",
+                "value": "",
+                "type": "path",
+                "description": "Component Descriptor class name"
+              }
+            ]
+          },
+          "docs": "Gets the Component Descriptor object using class name from the path parameters. Each Component Descriptor represents configuration of specific rule node (e.g. 'Save Timeseries' or 'Send Email'.). The Component Descriptors are used by the rule chain Web UI to build the configuration forms for the rule nodes. The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation. Once discovered, the up to date list of descriptors is persisted to the "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

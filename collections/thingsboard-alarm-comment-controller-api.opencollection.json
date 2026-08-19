@@ -1,0 +1,109 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller alarm-comment-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "alarm-comment-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Alarm Comments (getAlarmComments)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/alarm/:alarmId/comment",
+            "params": [
+              {
+                "name": "alarmId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of alarm comments for specified alarm. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Create or Update Alarm Comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/alarm/:alarmId/comment",
+            "params": [
+              {
+                "name": "alarmId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or Updates the Alarm Comment. When creating comment, platform generates Alarm Comment Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Alarm Comment id will be present in the response. Specify existing Alarm Comment id to update the alarm. Referencing non-existing Alarm Comment Id will cause 'Not Found' error. \n\n To create new Alarm comment entity it is enough to specify 'comment' json element wi"
+        },
+        {
+          "info": {
+            "name": "Delete Alarm Comment (deleteAlarmComment)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/alarm/:alarmId/comment/:commentId",
+            "params": [
+              {
+                "name": "alarmId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the alarm id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "commentId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the alarm comment id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the Alarm comment. Referencing non-existing Alarm comment Id will cause an error.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

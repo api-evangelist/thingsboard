@@ -1,0 +1,344 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller notification-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "notification-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Mark All Notifications as Read (markAllNotificationsAsRead)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/notifications/read",
+            "params": [
+              {
+                "name": "deliveryMethod",
+                "value": "",
+                "type": "query",
+                "description": "Delivery method"
+              }
+            ]
+          },
+          "docs": "Marks all unread notifications as read.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Mark Notification as Read (markNotificationAsRead)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://demo.thingsboard.io/api/notification/:id/read",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Marks notification as read by its id.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Notification Settings (getNotificationSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/settings"
+          },
+          "docs": "Retrieves notification settings for this tenant or sysadmin.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Save Notification Settings (saveNotificationSettings)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/notification/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Saves notification settings for this tenant or sysadmin.\n`deliveryMethodsConfigs` of the settings must be specified.\n\nHere is an example of the notification settings with Slack configuration:\n```json\n{\n  \"deliveryMethodsConfigs\": {\n    \"SLACK\": {\n      \"method\": \"SLACK\",\n      \"botToken\": \"xoxb-....\"\n    }\n  }\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "getUserNotificationSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/settings/user"
+          }
+        },
+        {
+          "info": {
+            "name": "saveUserNotificationSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/notification/settings/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Create Notification Request (createNotificationRequest)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/notification/request",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Processes notification request.\nMandatory request properties are `targets` (list of targets ids to send notification to), and either `templateId` (existing notification template id) or `template` (to send notification without saving the template).\nOptionally, you can set `sendingDelayInSec` inside the `additionalConfig` field to schedule the notification.\n\nFor each enabled delivery method in the notification template, there must be a target in the `targets` list that supports this delivery metho"
+        },
+        {
+          "info": {
+            "name": "Get Notification Request Preview (getNotificationRequestPreview)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/notification/request/preview",
+            "params": [
+              {
+                "name": "recipientsPreviewSize",
+                "value": "",
+                "type": "query",
+                "description": "Amount of the recipients to show in preview"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns preview for notification request.\n\n`processedTemplates` shows how the notifications for each delivery method will look like for the first recipient of the corresponding notification target.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Send Entity Limit Increase Request Notification to System Administrators (sendEntitiesLimitIncreaseRequest)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/notification/entitiesLimitIncreaseRequest/:entityType",
+            "params": [
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "path",
+                "description": "Entity type"
+              }
+            ]
+          },
+          "docs": "Send entity limit increase request notification by Tenant Administrator to System administrators.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Notifications (getNotifications)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notifications",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filter based on notification subject or text"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "unreadOnly",
+                "value": "",
+                "type": "query",
+                "description": "To search for unread notifications only"
+              },
+              {
+                "name": "deliveryMethod",
+                "value": "",
+                "type": "query",
+                "description": "Delivery method"
+              }
+            ]
+          },
+          "docs": "Returns the page of notifications for current user.\n\nYou can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. \n\n**WebSocket API**:\n\nThere are 2 types of subscriptions: one for unread notifications count, another for unread notifications themselves.\n\nThe URI for opening WS session for notifications: `/api/ws/plugins/notificatio"
+        },
+        {
+          "info": {
+            "name": "Get Unread Notifications Count (getUnreadNotificationsCount)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notifications/unread/count",
+            "params": [
+              {
+                "name": "deliveryMethod",
+                "value": "",
+                "type": "query",
+                "description": "Delivery method"
+              }
+            ]
+          },
+          "docs": "Returns unread notifications count for chosen delivery method.\n\nAvailable for any authorized user. "
+        },
+        {
+          "info": {
+            "name": "Get Notification Requests (getNotificationRequests)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/requests",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive 'substring' filed based on the used template name"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns the page of notification requests submitted by users of this tenant or sysadmins.\n\nYou can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Notification Request by Id (getNotificationRequestById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/request/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Fetches notification request info by request id.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Notification Request (deleteNotificationRequest)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/notification/request/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes notification request by its id.\n\nIf the request has status `SENT` - all sent notifications for this request will be deleted. If it is `SCHEDULED`, the request will be cancelled.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Available Delivery Methods (getAvailableDeliveryMethods)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/notification/deliveryMethods"
+          },
+          "docs": "Returns the list of delivery methods that are properly configured and are allowed to be used for sending notifications.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Notification (deleteNotification)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/notification/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes notification by its id.\n\nAvailable for any authorized user. "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

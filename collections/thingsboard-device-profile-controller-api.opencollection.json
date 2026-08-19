@@ -1,0 +1,281 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ThingsBoard Admin admin-controller device-profile-controller API",
+    "version": "4.3.0.3DEMO"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "device-profile-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or Update Device Profile (saveDeviceProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/deviceProfile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the Device Profile. When creating device profile, platform generates device profile id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created device profile id will be present in the response. Specify existing device profile id to update the device profile. Referencing non-existing device profile Id will cause 'Not Found' error. \n\nDevice profile name is unique in the scope of tenant. Only one 'de"
+        },
+        {
+          "info": {
+            "name": "Make Device Profile Default (setDefaultDeviceProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://demo.thingsboard.io/api/deviceProfile/:deviceProfileId/default",
+            "params": [
+              {
+                "name": "deviceProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Marks device profile as default within a tenant scope.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Device Profiles (getDeviceProfiles)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfiles",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the device profile name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              }
+            ]
+          },
+          "docs": "Returns a page of devices profile objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Device Profile Infos by Ids (getDeviceProfilesByIds)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfileInfos",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of entities in a one page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Sequence number of page starting from 0"
+              },
+              {
+                "name": "textSearch",
+                "value": "",
+                "type": "query",
+                "description": "The case insensitive 'substring' filter based on the device profile name."
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property of entity to sort by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+              },
+              {
+                "name": "transportType",
+                "value": "",
+                "type": "query",
+                "description": "Type of the transport"
+              },
+              {
+                "name": "deviceProfileIds",
+                "value": "",
+                "type": "query",
+                "description": "A list of device profile ids, separated by comma ','"
+              }
+            ]
+          },
+          "docs": "Requested device profiles must be owned by tenant which is performing the request. \n\n"
+        },
+        {
+          "info": {
+            "name": "Get Device Profile Info (getDeviceProfileInfoById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfileInfo/:deviceProfileId",
+            "params": [
+              {
+                "name": "deviceProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Fetch the Device Profile Info object based on the provided Device Profile Id. Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Default Device Profile (getDefaultDeviceProfileInfo)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfileInfo/default"
+          },
+          "docs": "Fetch the Default Device Profile Info object. Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Device Profile (getDeviceProfileById)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfile/:deviceProfileId",
+            "params": [
+              {
+                "name": "deviceProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              },
+              {
+                "name": "inlineImages",
+                "value": "",
+                "type": "query",
+                "description": "Inline images as a data URL (Base64)"
+              }
+            ]
+          },
+          "docs": "Fetch the Device Profile object based on the provided Device Profile Id. The server checks that the device profile is owned by the same tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Delete Device Profile (deleteDeviceProfile)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://demo.thingsboard.io/api/deviceProfile/:deviceProfileId",
+            "params": [
+              {
+                "name": "deviceProfileId",
+                "value": "",
+                "type": "path",
+                "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Deletes the device profile. Referencing non-existing device profile Id will cause an error. Can't delete the device profile if it is referenced by existing devices.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Device Profile Names (getDeviceProfileNames)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfile/names",
+            "params": [
+              {
+                "name": "activeOnly",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to retrieve exclusively the names of device profiles that are referenced by tenant's devices."
+              }
+            ]
+          },
+          "docs": "Returns a set of unique device profile names owned by the tenant.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+        },
+        {
+          "info": {
+            "name": "Get Time Series Keys (getTimeseriesKeys)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfile/devices/keys/timeseries",
+            "params": [
+              {
+                "name": "deviceProfileId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Get a set of unique time series keys used by devices that belong to specified profile. If profile is not set returns a list of unique keys among all profiles. The call is used for auto-complete in the UI forms. The implementation limits the number of devices that participate in search to 100 as a trade of between accurate results and time-consuming queries. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        },
+        {
+          "info": {
+            "name": "Get Attribute Keys (getAttributesKeys)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://demo.thingsboard.io/api/deviceProfile/devices/keys/attributes",
+            "params": [
+              {
+                "name": "deviceProfileId",
+                "value": "",
+                "type": "query",
+                "description": "A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+              }
+            ]
+          },
+          "docs": "Get a set of unique attribute keys used by devices that belong to specified profile. If profile is not set returns a list of unique keys among all profiles. The call is used for auto-complete in the UI forms. The implementation limits the number of devices that participate in search to 100 as a trade of between accurate results and time-consuming queries. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

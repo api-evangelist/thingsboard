@@ -1,0 +1,696 @@
+{
+  "item": [
+    {
+      "id": "fca6442d-a3c8-4e2e-aebc-e1eb4027d9d7",
+      "name": "entity-query-controller",
+      "description": {
+        "content": "Entity Query",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9138810a-436e-4c18-bdf9-5a9e94332369",
+          "name": "Find Entity Data by Query",
+          "request": {
+            "name": "Find Entity Data by Query",
+            "description": {
+              "content": "Allows to run complex queries over platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the paginated result of the query that contains requested entity fields and latest values of requested attributes and time series data.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter results of the **entity filter** by complex criteria against main entity fields (name, label, type, etc), attributes and telemetry. For example, \"temperature > 20 or temperature< 10\" or \"name starts with 'T', and attribute 'model' is 'T1000', and time series field 'batteryLevel' > 40\".\n\nThe **entity fields** and **latest values** contains list of entity fields and latest attribute/telemetry fields to fetch for each entity.\n\nThe **page link** contains information about the page to fetch and the sort ordering.\n\nLet's review the example:\n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\",\n    \"resolveMultiple\": true,\n    \"entityType\": \"DEVICE\"\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"temperature\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"operation\": \"GREATER\",\n        \"value\": {\n          \"defaultValue\": 0,\n          \"dynamicValue\": {\n            \"sourceType\": \"CURRENT_USER\",\n            \"sourceAttribute\": \"temperatureThreshold\",\n            \"inherit\": false\n          }\n        },\n        \"type\": \"NUMERIC\"\n      }\n    }\n  ],\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"name\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"label\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"additionalInfo\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"model\"\n    },\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"temperature\"\n    }\n  ],\n  \"pageLink\": {\n    \"page\": 0,\n    \"pageSize\": 10,\n    \"sortOrder\": {\n      \"key\": {\n        \"key\": \"name\",\n        \"type\": \"ENTITY_FIELD\"\n      },\n      \"direction\": \"ASC\"\n    }\n  }\n}\n```\n\n Example mentioned above search all devices which have attribute 'active' set to 'true'. Now let's review available entity filters and key filters syntax:\n\n # Entity Filters\nEntity Filter body depends on the 'type' parameter. Let's review available entity filter types. In fact, they do correspond to available dashboard aliases.\n\n## Single Entity\n\nAllows to filter only one entity based on the id. For example, this entity filter selects certain device:\n\n```json\n{\n  \"type\": \"singleEntity\",\n  \"singleEntity\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"DEVICE\"\n  }\n}\n```\n\n## Entity List Filter\n\nAllows to filter entities of the same type using their ids. For example, this entity filter selects two devices:\n\n```json\n{\n  \"type\": \"entityList\",\n  \"entityType\": \"DEVICE\",\n  \"entityList\": [\n    \"e6501f30-2a7a-11ec-94eb-213c95f54092\",\n    \"e6657bf0-2a7a-11ec-94eb-213c95f54092\"\n  ]\n}\n```\n\n## Entity Name Filter\n\nAllows to filter entities of the same type using the **'starts with'** expression over entity name. For example, this entity filter selects all devices which name starts with 'Air Quality':\n\n```json\n{\n  \"type\": \"entityName\",\n  \"entityType\": \"DEVICE\",\n  \"entityNameFilter\": \"Air Quality\"\n}\n```\n\n## Entity Type Filter\n\nAllows to filter entities based on their type (CUSTOMER, USER, DASHBOARD, ASSET, DEVICE, etc)For example, this entity filter selects all tenant customers:\n\n```json\n{\n  \"type\": \"entityType\",\n  \"entityType\": \"CUSTOMER\"\n}\n```\n\n## Asset Type Filter\n\nAllows to filter assets based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'charging station' assets which name starts with 'Tesla':\n\n```json\n{\n  \"type\": \"assetType\",\n  \"assetType\": \"charging station\",\n  \"assetNameFilter\": \"Tesla\"\n}\n```\n\n## Device Type Filter\n\nAllows to filter devices based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Temperature Sensor' devices which name starts with 'ABC':\n\n```json\n{\n  \"type\": \"deviceType\",\n  \"deviceType\": \"Temperature Sensor\",\n  \"deviceNameFilter\": \"ABC\"\n}\n```\n\n## Edge Type Filter\n\nAllows to filter edge instances based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Factory' edge instances which name starts with 'Nevada':\n\n```json\n{\n  \"type\": \"edgeType\",\n  \"edgeType\": \"Factory\",\n  \"edgeNameFilter\": \"Nevada\"\n}\n```\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```\n\n## Api Usage Filter\n\nAllows to query for Api Usage based on optional customer id. If the customer id is not set, returns current tenant API usage.For example, this entity filter selects the 'Api Usage' entity for customer with id 'e6501f30-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"apiUsageState\",\n  \"customerId\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"CUSTOMER\"\n  }\n}\n```\n\n## Relations Query Filter\n\nAllows to filter entities that are related to the provided root entity. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'filter' object allows you to define the relation type and set of acceptable entity types to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only those who match the 'filters'.\n\nFor example, this entity filter selects all devices and assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"relationsQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"DEVICE\",\n        \"ASSET\"\n      ]\n    }\n  ]\n}\n```\n\n## Asset Search Query\n\nAllows to filter assets that are related to the provided root entity. Filters related assets based on the relation type and set of asset types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'assetTypes' defines the type of the asset to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only assets that match 'relationType' and 'assetTypes' conditions.\n\nFor example, this entity filter selects 'charging station' assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"assetSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"assetTypes\": [\n    \"charging station\"\n  ]\n}\n```\n\n## Device Search Query\n\nAllows to filter devices that are related to the provided root entity. Filters related devices based on the relation type and set of device types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Charging port' and 'Air Quality Sensor' devices which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"deviceTypes\": [\n    \"Air Quality Sensor\",\n    \"Charging port\"\n  ]\n}\n```\n\n## Entity View Query\n\nAllows to filter entity views that are related to the provided root entity. Filters related entity views based on the relation type and set of entity view types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'entityViewTypes' defines the type of the entity view to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Concrete mixer' entity views which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"entityViewSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"entityViewTypes\": [\n    \"Concrete mixer\"\n  ]\n}\n```\n\n## Edge Search Query\n\nAllows to filter edge instances that are related to the provided root entity. Filters related edge instances based on the relation type and set of edge types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Factory' edge instances which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"edgeTypes\": [\n    \"Factory\"\n  ]\n}\n```\n\n # Key Filters\nKey Filter allows you to define complex logical expressions over entity field, attribute or latest time series value. The filter is defined using 'key', 'valueType' and 'predicate' objects. Single Entity Query may have zero, one or multiple predicates. If multiple filters are defined, they are evaluated using logical 'AND'. The example below checks that temperature of the entity is above 20 degrees:\n\n```json\n{\n  \"key\": {\n    \"type\": \"TIME_SERIES\",\n    \"key\": \"temperature\"\n  },\n  \"valueType\": \"NUMERIC\",\n  \"predicate\": {\n    \"operation\": \"GREATER\",\n    \"value\": {\n      \"defaultValue\": 20,\n      \"dynamicValue\": null\n    },\n    \"type\": \"NUMERIC\"\n  }\n}\n```\n\n Now let's review 'key', 'valueType' and 'predicate' objects in detail.\n\n## Filter Key\n\nFilter Key defines either entity field, attribute or telemetry. It is a JSON object that consists the key name and type. The following filter key types are supported: \n\n * 'CLIENT_ATTRIBUTE' - used for client attributes; \n * 'SHARED_ATTRIBUTE' - used for shared attributes; \n * 'SERVER_ATTRIBUTE' - used for server attributes; \n * 'ATTRIBUTE' - used for any of the above; \n * 'TIME_SERIES' - used for time series values; \n * 'ENTITY_FIELD' - used for accessing entity fields like 'name', 'label', etc. The list of available fields depends on the entity type; \n * 'ALARM_FIELD' - similar to entity field, but is used in alarm queries only; \n\n\n Let's review the example:\n\n```json\n{\n  \"type\": \"TIME_SERIES\",\n  \"key\": \"temperature\"\n}\n```\n\n## Value Type and Operations\n\nProvides a hint about the data type of the entity field that is defined in the filter key. The value type impacts the list of possible operations that you may use in the corresponding predicate. For example, you may use 'STARTS_WITH' or 'END_WITH', but you can't use 'GREATER_OR_EQUAL' for string values.The following filter value types and corresponding predicate operations are supported: \n\n * 'STRING' - used to filter any 'String' or 'JSON' values. Operations: EQUAL, NOT_EQUAL, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS; \n * 'NUMERIC' - used for 'Long' and 'Double' values. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n * 'BOOLEAN' - used for boolean values. Operations: EQUAL, NOT_EQUAL;\n * 'DATE_TIME' - similar to numeric, transforms value to milliseconds since epoch. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n\n\n## Filter Predicate\n\nFilter Predicate defines the logical expression to evaluate. The list of available operations depends on the filter value type, see above. Platform supports 4 predicate types: 'STRING', 'NUMERIC', 'BOOLEAN' and 'COMPLEX'. The last one allows to combine multiple operations over one filter key.\n\nSimple predicate example to check 'value < 100': \n\n```json\n{\n  \"operation\": \"LESS\",\n  \"value\": {\n    \"defaultValue\": 100,\n    \"dynamicValue\": null\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nComplex predicate example, to check 'value < 10 or value > 20': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"operation\": \"GREATER\",\n      \"value\": {\n        \"defaultValue\": 20,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    }\n  ]\n}\n```\n\nMore complex predicate example, to check 'value < 10 or (value > 50 && value < 60)': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"type\": \"COMPLEX\",\n      \"operation\": \"AND\",\n      \"predicates\": [\n        {\n          \"operation\": \"GREATER\",\n          \"value\": {\n            \"defaultValue\": 50,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        },\n        {\n          \"operation\": \"LESS\",\n          \"value\": {\n            \"defaultValue\": 60,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n You may also want to replace hardcoded values (for example, temperature > 20) with the more dynamic expression (for example, temperature > 'value of the tenant attribute with key 'temperatureThreshold'). It is possible to use 'dynamicValue' to define attribute of the tenant, customer or user that is performing the API call. See example below: \n\n```json\n{\n  \"operation\": \"GREATER\",\n  \"value\": {\n    \"defaultValue\": 0,\n    \"dynamicValue\": {\n      \"sourceType\": \"CURRENT_USER\",\n      \"sourceAttribute\": \"temperatureThreshold\"\n    }\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\n Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'. The 'defaultValue' is used when the attribute with such a name is not defined for the chosen source.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entitiesQuery",
+                "find"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"<string>\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9cb96ff5-3beb-4292-9fc9-08d267cccef1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entitiesQuery",
+                    "find"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityFilter\": {\n    \"type\": \"string\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"ATTRIBUTE\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"BOOLEAN\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": 8117,\n    \"page\": 213,\n    \"textSearch\": \"string\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"ENTITY_FIELD\",\n        \"key\": \"string\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": true\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"string\"\n    },\n    {\n      \"type\": \"SHARED_ATTRIBUTE\",\n      \"key\": \"string\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"string\"\n    },\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"entityId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"latest\": {\n        \"key_0\": {\n          \"key_0\": {\n            \"ts\": 174,\n            \"value\": \"string\",\n            \"count\": 9942\n          }\n        },\n        \"key_1\": {\n          \"key_0\": {\n            \"ts\": 13,\n            \"value\": \"string\",\n            \"count\": 8913\n          }\n        }\n      },\n      \"timeseries\": {\n        \"key_0\": [\n          {\n            \"ts\": 8966,\n            \"value\": \"string\",\n            \"count\": 5192\n          },\n          {\n            \"ts\": 6234,\n            \"value\": \"string\",\n            \"count\": 5438\n          }\n        ],\n        \"key_1\": [\n          {\n            \"ts\": 8773,\n            \"value\": \"string\",\n            \"count\": 9573\n          },\n          {\n            \"ts\": 3964,\n            \"value\": \"string\",\n            \"count\": 9857\n          }\n        ],\n        \"key_2\": [\n          {\n            \"ts\": 3335,\n            \"value\": \"string\",\n            \"count\": 8857\n          },\n          {\n            \"ts\": 7258,\n            \"value\": \"string\",\n            \"count\": 1692\n          }\n        ]\n      },\n      \"aggLatest\": {\n        \"key_0\": {\n          \"current\": {\n            \"ts\": 8376,\n            \"value\": \"string\",\n            \"count\": 7563\n          },\n          \"previous\": {\n            \"ts\": 1174,\n            \"value\": \"string\",\n            \"count\": 3413\n          }\n        },\n        \"key_1\": {\n          \"current\": {\n            \"ts\": 3388,\n            \"value\": \"string\",\n            \"count\": 2680\n          },\n          \"previous\": {\n            \"ts\": 2894,\n            \"value\": \"string\",\n            \"count\": 3814\n          }\n        }\n      }\n    },\n    {\n      \"entityId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"latest\": {\n        \"key_0\": {\n          \"key_0\": {\n            \"ts\": 8184,\n            \"value\": \"string\",\n            \"count\": 2091\n          }\n        },\n        \"key_1\": {\n          \"key_0\": {\n            \"ts\": 8197,\n            \"value\": \"string\",\n            \"count\": 3699\n          },\n          \"key_1\": {\n            \"ts\": 1311,\n            \"value\": \"string\",\n            \"count\": 7162\n          },\n          \"key_2\": {\n            \"ts\": 5454,\n            \"value\": \"string\",\n            \"count\": 3353\n          },\n          \"key_3\": {\n            \"ts\": 3344,\n            \"value\": \"string\",\n            \"count\": 3642\n          }\n        }\n      },\n      \"timeseries\": {\n        \"key_0\": [\n          {\n            \"ts\": 856,\n            \"value\": \"string\",\n            \"count\": 6602\n          },\n          {\n            \"ts\": 2927,\n            \"value\": \"string\",\n            \"count\": 7244\n          }\n        ]\n      },\n      \"aggLatest\": {\n        \"key_0\": {\n          \"current\": {\n            \"ts\": 9374,\n            \"value\": \"string\",\n            \"count\": 1067\n          },\n          \"previous\": {\n            \"ts\": 4677,\n            \"value\": \"string\",\n            \"count\": 5712\n          }\n        }\n      }\n    }\n  ],\n  \"totalPages\": 7988,\n  \"totalElements\": 6142,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "123d046b-92a7-49ea-b983-384a05b7e73d",
+          "name": "Find Available Entity Keys by Query",
+          "request": {
+            "name": "Find Available Entity Keys by Query",
+            "description": {
+              "content": "Returns unique time series and/or attribute key names from entities matching the query.\n\nExecutes the Entity Data Query to find up to 100 entities, then fetches and aggregates all distinct key names.\n\nPrimarily used for UI features like autocomplete suggestions.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entitiesQuery",
+                "find",
+                "keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "timeseries",
+                  "value": "<boolean>",
+                  "description": "(Required) When true, includes unique time series key names in the response.\nWhen false, the 'timeseries' list will be empty."
+                },
+                {
+                  "disabled": false,
+                  "key": "attributes",
+                  "value": "<boolean>",
+                  "description": "(Required) When true, includes unique attribute key names in the response.\nWhen false, the 'attribute' list will be empty. Use 'scope' parameter to filter by attribute scope."
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "<string>",
+                  "description": "Filters attribute keys by scope. Only applies when 'attributes' is true.\nIf not specified, returns attribute keys from all scopes."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"<string>\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4c872ea2-4c52-482b-9379-94a896290120",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entitiesQuery",
+                    "find",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeseries",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "attributes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "scope",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityFilter\": {\n    \"type\": \"string\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"ATTRIBUTE\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"BOOLEAN\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"pageSize\": 8117,\n    \"page\": 213,\n    \"textSearch\": \"string\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"ENTITY_FIELD\",\n        \"key\": \"string\"\n      },\n      \"direction\": \"ASC\"\n    },\n    \"dynamic\": true\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"string\"\n    },\n    {\n      \"type\": \"SHARED_ATTRIBUTE\",\n      \"key\": \"string\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"string\"\n    },\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"attribute\": [\n    \"serialNumber\"\n  ],\n  \"entityTypes\": [\n    \"DEVICE\",\n    \"ASSET\"\n  ],\n  \"timeseries\": [\n    \"temperature\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "435b1483-51b7-4fea-afc8-96cfb95a5e67",
+          "name": "Count Entities by Query",
+          "request": {
+            "name": "Count Entities by Query",
+            "description": {
+              "content": "Allows to run complex queries to search the count of platform entities (devices, assets, customers, etc) based on the combination of main entity filter and multiple key filters. Returns the number of entities that match the query definition.\n\n# Query Definition\n\n\n\nMain **entity filter** is mandatory and defines generic search criteria. For example, \"find all devices with profile 'Moisture Sensor'\" or \"Find all devices related to asset 'Building A'\"\n\nOptional **key filters** allow to filter results of the entity filter by complex criteria against main entity fields (name, label, type, etc), attributes and telemetry. For example, \"temperature > 20 or temperature< 10\" or \"name starts with 'T', and attribute 'model' is 'T1000', and time series field 'batteryLevel' > 40\".\n\nLet's review the example:\n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\",\n    \"entityType\": \"DEVICE\"\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"ATTRIBUTE\",\n        \"key\": \"active\"\n      },\n      \"valueType\": \"BOOLEAN\",\n      \"predicate\": {\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": true,\n          \"dynamicValue\": null\n        },\n        \"type\": \"BOOLEAN\"\n      }\n    }\n  ]\n}\n```\n\n Example mentioned above search all devices which have attribute 'active' set to 'true'. Now let's review available entity filters and key filters syntax:\n\n # Entity Filters\nEntity Filter body depends on the 'type' parameter. Let's review available entity filter types. In fact, they do correspond to available dashboard aliases.\n\n## Single Entity\n\nAllows to filter only one entity based on the id. For example, this entity filter selects certain device:\n\n```json\n{\n  \"type\": \"singleEntity\",\n  \"singleEntity\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"DEVICE\"\n  }\n}\n```\n\n## Entity List Filter\n\nAllows to filter entities of the same type using their ids. For example, this entity filter selects two devices:\n\n```json\n{\n  \"type\": \"entityList\",\n  \"entityType\": \"DEVICE\",\n  \"entityList\": [\n    \"e6501f30-2a7a-11ec-94eb-213c95f54092\",\n    \"e6657bf0-2a7a-11ec-94eb-213c95f54092\"\n  ]\n}\n```\n\n## Entity Name Filter\n\nAllows to filter entities of the same type using the **'starts with'** expression over entity name. For example, this entity filter selects all devices which name starts with 'Air Quality':\n\n```json\n{\n  \"type\": \"entityName\",\n  \"entityType\": \"DEVICE\",\n  \"entityNameFilter\": \"Air Quality\"\n}\n```\n\n## Entity Type Filter\n\nAllows to filter entities based on their type (CUSTOMER, USER, DASHBOARD, ASSET, DEVICE, etc)For example, this entity filter selects all tenant customers:\n\n```json\n{\n  \"type\": \"entityType\",\n  \"entityType\": \"CUSTOMER\"\n}\n```\n\n## Asset Type Filter\n\nAllows to filter assets based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'charging station' assets which name starts with 'Tesla':\n\n```json\n{\n  \"type\": \"assetType\",\n  \"assetType\": \"charging station\",\n  \"assetNameFilter\": \"Tesla\"\n}\n```\n\n## Device Type Filter\n\nAllows to filter devices based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Temperature Sensor' devices which name starts with 'ABC':\n\n```json\n{\n  \"type\": \"deviceType\",\n  \"deviceType\": \"Temperature Sensor\",\n  \"deviceNameFilter\": \"ABC\"\n}\n```\n\n## Edge Type Filter\n\nAllows to filter edge instances based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Factory' edge instances which name starts with 'Nevada':\n\n```json\n{\n  \"type\": \"edgeType\",\n  \"edgeType\": \"Factory\",\n  \"edgeNameFilter\": \"Nevada\"\n}\n```\n\n## Entity View Filter\n\nAllows to filter entity views based on their type and the **'starts with'** expression over their name. For example, this entity filter selects all 'Concrete Mixer' entity views which name starts with 'CAT':\n\n```json\n{\n  \"type\": \"entityViewType\",\n  \"entityViewType\": \"Concrete Mixer\",\n  \"entityViewNameFilter\": \"CAT\"\n}\n```\n\n## Api Usage Filter\n\nAllows to query for Api Usage based on optional customer id. If the customer id is not set, returns current tenant API usage.For example, this entity filter selects the 'Api Usage' entity for customer with id 'e6501f30-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"apiUsageState\",\n  \"customerId\": {\n    \"id\": \"d521edb0-2a7a-11ec-94eb-213c95f54092\",\n    \"entityType\": \"CUSTOMER\"\n  }\n}\n```\n\n## Relations Query Filter\n\nAllows to filter entities that are related to the provided root entity. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'filter' object allows you to define the relation type and set of acceptable entity types to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only those who match the 'filters'.\n\nFor example, this entity filter selects all devices and assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092':\n\n```json\n{\n  \"type\": \"relationsQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"filters\": [\n    {\n      \"relationType\": \"Contains\",\n      \"entityTypes\": [\n        \"DEVICE\",\n        \"ASSET\"\n      ]\n    }\n  ]\n}\n```\n\n## Asset Search Query\n\nAllows to filter assets that are related to the provided root entity. Filters related assets based on the relation type and set of asset types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'assetTypes' defines the type of the asset to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only assets that match 'relationType' and 'assetTypes' conditions.\n\nFor example, this entity filter selects 'charging station' assets which are related to the asset with id 'e51de0c0-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"assetSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e51de0c0-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"assetTypes\": [\n    \"charging station\"\n  ]\n}\n```\n\n## Device Search Query\n\nAllows to filter devices that are related to the provided root entity. Filters related devices based on the relation type and set of device types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Charging port' and 'Air Quality Sensor' devices which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"deviceTypes\": [\n    \"Air Quality Sensor\",\n    \"Charging port\"\n  ]\n}\n```\n\n## Entity View Query\n\nAllows to filter entity views that are related to the provided root entity. Filters related entity views based on the relation type and set of entity view types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'entityViewTypes' defines the type of the entity view to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Concrete mixer' entity views which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"entityViewSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 1,\n  \"fetchLastLevelOnly\": false,\n  \"relationType\": \"Contains\",\n  \"entityViewTypes\": [\n    \"Concrete mixer\"\n  ]\n}\n```\n\n## Edge Search Query\n\nAllows to filter edge instances that are related to the provided root entity. Filters related edge instances based on the relation type and set of edge types. Possible direction values are 'TO' and 'FROM'. The 'maxLevel' defines how many relation levels should the query search 'recursively'. Assuming the 'maxLevel' is > 1, the 'fetchLastLevelOnly' defines either to return all related entities or only entities that are on the last level of relations. The 'relationType' defines the type of the relation to search for. The 'deviceTypes' defines the type of the device to search for. The relation query calculates all related entities, even if they are filtered using different relation types, and then extracts only devices that match 'relationType' and 'deviceTypes' conditions.\n\nFor example, this entity filter selects 'Factory' edge instances which are related to the asset with id 'e52b0020-2a7a-11ec-94eb-213c95f54092' using 'Contains' relation:\n\n```json\n{\n  \"type\": \"deviceSearchQuery\",\n  \"rootEntity\": {\n    \"entityType\": \"ASSET\",\n    \"id\": \"e52b0020-2a7a-11ec-94eb-213c95f54092\"\n  },\n  \"direction\": \"FROM\",\n  \"maxLevel\": 2,\n  \"fetchLastLevelOnly\": true,\n  \"relationType\": \"Contains\",\n  \"edgeTypes\": [\n    \"Factory\"\n  ]\n}\n```\n\n # Key Filters\nKey Filter allows you to define complex logical expressions over entity field, attribute or latest time series value. The filter is defined using 'key', 'valueType' and 'predicate' objects. Single Entity Query may have zero, one or multiple predicates. If multiple filters are defined, they are evaluated using logical 'AND'. The example below checks that temperature of the entity is above 20 degrees:\n\n```json\n{\n  \"key\": {\n    \"type\": \"TIME_SERIES\",\n    \"key\": \"temperature\"\n  },\n  \"valueType\": \"NUMERIC\",\n  \"predicate\": {\n    \"operation\": \"GREATER\",\n    \"value\": {\n      \"defaultValue\": 20,\n      \"dynamicValue\": null\n    },\n    \"type\": \"NUMERIC\"\n  }\n}\n```\n\n Now let's review 'key', 'valueType' and 'predicate' objects in detail.\n\n## Filter Key\n\nFilter Key defines either entity field, attribute or telemetry. It is a JSON object that consists the key name and type. The following filter key types are supported: \n\n * 'CLIENT_ATTRIBUTE' - used for client attributes; \n * 'SHARED_ATTRIBUTE' - used for shared attributes; \n * 'SERVER_ATTRIBUTE' - used for server attributes; \n * 'ATTRIBUTE' - used for any of the above; \n * 'TIME_SERIES' - used for time series values; \n * 'ENTITY_FIELD' - used for accessing entity fields like 'name', 'label', etc. The list of available fields depends on the entity type; \n * 'ALARM_FIELD' - similar to entity field, but is used in alarm queries only; \n\n\n Let's review the example:\n\n```json\n{\n  \"type\": \"TIME_SERIES\",\n  \"key\": \"temperature\"\n}\n```\n\n## Value Type and Operations\n\nProvides a hint about the data type of the entity field that is defined in the filter key. The value type impacts the list of possible operations that you may use in the corresponding predicate. For example, you may use 'STARTS_WITH' or 'END_WITH', but you can't use 'GREATER_OR_EQUAL' for string values.The following filter value types and corresponding predicate operations are supported: \n\n * 'STRING' - used to filter any 'String' or 'JSON' values. Operations: EQUAL, NOT_EQUAL, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS; \n * 'NUMERIC' - used for 'Long' and 'Double' values. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n * 'BOOLEAN' - used for boolean values. Operations: EQUAL, NOT_EQUAL;\n * 'DATE_TIME' - similar to numeric, transforms value to milliseconds since epoch. Operations: EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL; \n\n\n## Filter Predicate\n\nFilter Predicate defines the logical expression to evaluate. The list of available operations depends on the filter value type, see above. Platform supports 4 predicate types: 'STRING', 'NUMERIC', 'BOOLEAN' and 'COMPLEX'. The last one allows to combine multiple operations over one filter key.\n\nSimple predicate example to check 'value < 100': \n\n```json\n{\n  \"operation\": \"LESS\",\n  \"value\": {\n    \"defaultValue\": 100,\n    \"dynamicValue\": null\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\nComplex predicate example, to check 'value < 10 or value > 20': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"operation\": \"GREATER\",\n      \"value\": {\n        \"defaultValue\": 20,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    }\n  ]\n}\n```\n\nMore complex predicate example, to check 'value < 10 or (value > 50 && value < 60)': \n\n```json\n{\n  \"type\": \"COMPLEX\",\n  \"operation\": \"OR\",\n  \"predicates\": [\n    {\n      \"operation\": \"LESS\",\n      \"value\": {\n        \"defaultValue\": 10,\n        \"dynamicValue\": null\n      },\n      \"type\": \"NUMERIC\"\n    },\n    {\n      \"type\": \"COMPLEX\",\n      \"operation\": \"AND\",\n      \"predicates\": [\n        {\n          \"operation\": \"GREATER\",\n          \"value\": {\n            \"defaultValue\": 50,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        },\n        {\n          \"operation\": \"LESS\",\n          \"value\": {\n            \"defaultValue\": 60,\n            \"dynamicValue\": null\n          },\n          \"type\": \"NUMERIC\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n You may also want to replace hardcoded values (for example, temperature > 20) with the more dynamic expression (for example, temperature > 'value of the tenant attribute with key 'temperatureThreshold'). It is possible to use 'dynamicValue' to define attribute of the tenant, customer or user that is performing the API call. See example below: \n\n```json\n{\n  \"operation\": \"GREATER\",\n  \"value\": {\n    \"defaultValue\": 0,\n    \"dynamicValue\": {\n      \"sourceType\": \"CURRENT_USER\",\n      \"sourceAttribute\": \"temperatureThreshold\"\n    }\n  },\n  \"type\": \"NUMERIC\"\n}\n```\n\n Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'. The 'defaultValue' is used when the attribute with such a name is not defined for the chosen source.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "entitiesQuery",
+                "count"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "87415535-682b-462c-ba2b-4aae44b12b97",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "entitiesQuery",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityFilter\": {\n    \"type\": \"string\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"ALARM_FIELD\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"BOOLEAN\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"BOOLEAN\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "7035",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19ee2039-48f7-4ee6-9fa1-e3fc7f2cb999",
+          "name": "process System Edqs Request",
+          "request": {
+            "name": "process System Edqs Request",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "edqs",
+                "system",
+                "request"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"syncRequest\": {\n    \"objectTypes\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"apiEnabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0986127f-7c58-44cb-82e0-aafea4ba28b0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edqs",
+                    "system",
+                    "request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"syncRequest\": {\n    \"objectTypes\": [\n      \"WIDGET_TYPE\",\n      \"DEVICE\"\n    ]\n  },\n  \"apiEnabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed489366-b903-4083-8087-64e2d5f643ee",
+          "name": "Find Alarms by Query",
+          "request": {
+            "name": "Find Alarms by Query",
+            "description": {
+              "content": "This method description defines how Alarm Data Query extends the Entity Data Query. See method 'Find Entity Data by Query' first to get the info about 'Entity Data Query'.\n\n The platform will first search the entities that match the entity and key filters. Then, the platform will use 'Alarm Page Link' to filter the alarms related to those entities. Finally, platform fetch the properties of alarm that are defined in the **'alarmFields'** and combine them with the other entity, attribute and latest time series fields to return the result. \n\n See example of the alarm query below. The query will search first 100 active alarms with type 'Temperature Alarm' or 'Fire Alarm' for any device with current temperature > 0. The query will return combination of the entity fields: name of the device, device model and latest temperature reading and alarms fields: createdTime, type, severity and status: \n\n```json\n{\n  \"entityFilter\": {\n    \"type\": \"entityType\",\n    \"resolveMultiple\": true,\n    \"entityType\": \"DEVICE\"\n  },\n  \"pageLink\": {\n    \"page\": 0,\n    \"pageSize\": 100,\n    \"textSearch\": null,\n    \"searchPropagatedAlarms\": false,\n    \"statusList\": [\n      \"ACTIVE\"\n    ],\n    \"severityList\": [\n      \"CRITICAL\",\n      \"MAJOR\"\n    ],\n    \"typeList\": [\n      \"Temperature Alarm\",\n      \"Fire Alarm\"\n    ],\n    \"sortOrder\": {\n      \"key\": {\n        \"key\": \"createdTime\",\n        \"type\": \"ALARM_FIELD\"\n      },\n      \"direction\": \"DESC\"\n    },\n    \"timeWindow\": 86400000\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"TIME_SERIES\",\n        \"key\": \"temperature\"\n      },\n      \"valueType\": \"NUMERIC\",\n      \"predicate\": {\n        \"operation\": \"GREATER\",\n        \"value\": {\n          \"defaultValue\": 0,\n          \"dynamicValue\": null\n        },\n        \"type\": \"NUMERIC\"\n      }\n    }\n  ],\n  \"alarmFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"createdTime\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"type\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"severity\"\n    },\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"status\"\n    }\n  ],\n  \"entityFields\": [\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"name\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"model\"\n    },\n    {\n      \"type\": \"TIME_SERIES\",\n      \"key\": \"temperature\"\n    }\n  ]\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "alarmsQuery",
+                "find"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"startTs\": \"<long>\",\n    \"endTs\": \"<long>\",\n    \"timeWindow\": \"<long>\",\n    \"typeList\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"statusList\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"severityList\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"searchPropagatedAlarms\": \"<boolean>\",\n    \"assigneeId\": {\n      \"entityType\": \"<string>\",\n      \"id\": \"<uuid>\"\n    },\n    \"pageSize\": \"<integer>\",\n    \"page\": \"<integer>\",\n    \"textSearch\": \"<string>\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"direction\": \"<string>\"\n    },\n    \"dynamic\": \"<boolean>\"\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    }\n  ],\n  \"alarmFields\": [\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"key\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e57297ff-5b93-4a0c-bb8d-36728d8037c5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "alarmsQuery",
+                    "find"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityFilter\": {\n    \"type\": \"string\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"CLIENT_ATTRIBUTE\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"DATE_TIME\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"SHARED_ATTRIBUTE\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"DATE_TIME\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ],\n  \"pageLink\": {\n    \"startTs\": 7459,\n    \"endTs\": 1962,\n    \"timeWindow\": 7281,\n    \"typeList\": [\n      \"string\",\n      \"string\"\n    ],\n    \"statusList\": [\n      \"UNACK\",\n      \"UNACK\"\n    ],\n    \"severityList\": [\n      \"WARNING\",\n      \"INDETERMINATE\"\n    ],\n    \"searchPropagatedAlarms\": false,\n    \"assigneeId\": {\n      \"entityType\": \"USER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"pageSize\": 9374,\n    \"page\": 9112,\n    \"textSearch\": \"string\",\n    \"sortOrder\": {\n      \"key\": {\n        \"type\": \"ENTITY_FIELD\",\n        \"key\": \"string\"\n      },\n      \"direction\": \"DESC\"\n    },\n    \"dynamic\": false\n  },\n  \"entityFields\": [\n    {\n      \"type\": \"ALARM_FIELD\",\n      \"key\": \"string\"\n    },\n    {\n      \"type\": \"ATTRIBUTE\",\n      \"key\": \"string\"\n    }\n  ],\n  \"latestValues\": [\n    {\n      \"type\": \"SERVER_ATTRIBUTE\",\n      \"key\": \"string\"\n    },\n    {\n      \"type\": \"SERVER_ATTRIBUTE\",\n      \"key\": \"string\"\n    }\n  ],\n  \"alarmFields\": [\n    {\n      \"type\": \"CLIENT_ATTRIBUTE\",\n      \"key\": \"string\"\n    },\n    {\n      \"type\": \"ENTITY_FIELD\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"acknowledged\": true,\n      \"cleared\": false,\n      \"name\": \"High Temperature Alarm\",\n      \"originator\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"severity\": \"CRITICAL\",\n      \"status\": \"ACTIVE_UNACK\",\n      \"type\": \"High Temperature Alarm\",\n      \"entityId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"latest\": {\n        \"key_0\": {\n          \"key_0\": {\n            \"ts\": 1515,\n            \"value\": \"string\",\n            \"count\": 6689\n          }\n        }\n      },\n      \"id\": {\n        \"entityType\": \"ALARM\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1634058704567,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"assigneeId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"startTs\": 1634058704565,\n      \"endTs\": 1634111163522,\n      \"ackTs\": 1634115221948,\n      \"clearTs\": 1634114528465,\n      \"assignTs\": 1634115928465,\n      \"propagate\": true,\n      \"propagateToOwner\": true,\n      \"propagateToTenant\": true,\n      \"propagateRelationTypes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"originatorName\": \"Thermostat\",\n      \"originatorLabel\": \"Thermostat label\",\n      \"originatorDisplayName\": \"Thermostat\",\n      \"assignee\": {\n        \"id\": {\n          \"entityType\": \"USER\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"email\": \"string\"\n      },\n      \"details\": {}\n    },\n    {\n      \"acknowledged\": true,\n      \"cleared\": false,\n      \"name\": \"High Temperature Alarm\",\n      \"originator\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"severity\": \"CRITICAL\",\n      \"status\": \"ACTIVE_UNACK\",\n      \"type\": \"High Temperature Alarm\",\n      \"entityId\": {\n        \"entityType\": \"DEVICE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"latest\": {\n        \"key_0\": {\n          \"key_0\": {\n            \"ts\": 2719,\n            \"value\": \"string\",\n            \"count\": 914\n          },\n          \"key_1\": {\n            \"ts\": 9495,\n            \"value\": \"string\",\n            \"count\": 2514\n          },\n          \"key_2\": {\n            \"ts\": 5939,\n            \"value\": \"string\",\n            \"count\": 3878\n          }\n        },\n        \"key_1\": {\n          \"key_0\": {\n            \"ts\": 3141,\n            \"value\": \"string\",\n            \"count\": 7789\n          },\n          \"key_1\": {\n            \"ts\": 4775,\n            \"value\": \"string\",\n            \"count\": 6921\n          },\n          \"key_2\": {\n            \"ts\": 7746,\n            \"value\": \"string\",\n            \"count\": 97\n          }\n        }\n      },\n      \"id\": {\n        \"entityType\": \"ALARM\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1634058704567,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"assigneeId\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"startTs\": 1634058704565,\n      \"endTs\": 1634111163522,\n      \"ackTs\": 1634115221948,\n      \"clearTs\": 1634114528465,\n      \"assignTs\": 1634115928465,\n      \"propagate\": true,\n      \"propagateToOwner\": true,\n      \"propagateToTenant\": true,\n      \"propagateRelationTypes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"originatorName\": \"Thermostat\",\n      \"originatorLabel\": \"Thermostat label\",\n      \"originatorDisplayName\": \"Thermostat\",\n      \"assignee\": {\n        \"id\": {\n          \"entityType\": \"USER\",\n          \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n        },\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"email\": \"string\"\n      },\n      \"details\": {}\n    }\n  ],\n  \"totalPages\": 8498,\n  \"totalElements\": 491,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5d01cda5-6aef-4be5-9ab4-0c470044e156",
+          "name": "Count Alarms by Query (countAlarmsByQuery)",
+          "request": {
+            "name": "Count Alarms by Query (countAlarmsByQuery)",
+            "description": {
+              "content": "Returns the number of alarms that match the query definition.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "alarmsQuery",
+                "count"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startTs\": \"<long>\",\n  \"endTs\": \"<long>\",\n  \"timeWindow\": \"<long>\",\n  \"typeList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"statusList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"severityList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"searchPropagatedAlarms\": \"<boolean>\",\n  \"assigneeId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"entityFilter\": {\n    \"type\": \"<string>\",\n    \"customerId\": {\n      \"entityType\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      \"valueType\": \"<string>\",\n      \"predicate\": {\n        \"type\": \"<string>\",\n        \"operation\": \"<string>\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2096f7a1-8209-4b27-9a0e-94822220b609",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "alarmsQuery",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"startTs\": \"<long>\",\n  \"endTs\": \"<long>\",\n  \"timeWindow\": \"<long>\",\n  \"typeList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"statusList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"severityList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"searchPropagatedAlarms\": \"<boolean>\",\n  \"assigneeId\": {\n    \"entityType\": \"USER\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"entityFilter\": {\n    \"type\": \"string\",\n    \"customerId\": {\n      \"entityType\": \"CUSTOMER\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  \"keyFilters\": [\n    {\n      \"key\": {\n        \"type\": \"ALARM_FIELD\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    },\n    {\n      \"key\": {\n        \"type\": \"ALARM_FIELD\",\n        \"key\": \"string\"\n      },\n      \"valueType\": \"STRING\",\n      \"predicate\": {\n        \"type\": \"string\",\n        \"operation\": \"NOT_EQUAL\",\n        \"value\": {\n          \"defaultValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"dynamicValue\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "7035",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f7d275fc-0059-4eb5-be04-4170a3cac033",
+          "name": "get Edqs State",
+          "request": {
+            "name": "get Edqs State",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "edqs",
+                "state"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e6c69e2d-a336-4f21-b460-0c00e658c40a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "edqs",
+                    "state"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"edqsReady\": false,\n  \"syncStatus\": \"STARTED\",\n  \"apiMode\": \"AUTO_DISABLED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0023fa33-79c8-4b33-9608-9c4d09bd8b1c",
+    "name": "ThingsBoard Admin admin-controller entity-query-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

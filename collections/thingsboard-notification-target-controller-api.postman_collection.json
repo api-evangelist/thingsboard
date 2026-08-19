@@ -1,0 +1,573 @@
+{
+  "item": [
+    {
+      "id": "aa596f59-2556-41b9-8449-5d09721e4101",
+      "name": "notification-target-controller",
+      "description": {
+        "content": "Notification Target",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "92bb01cd-eb87-46ab-b2a8-8c91c72a7bc4",
+          "name": "Save Notification Target (saveNotificationTarget)",
+          "request": {
+            "name": "Save Notification Target (saveNotificationTarget)",
+            "description": {
+              "content": "Creates or updates notification target.\n\nAvailable `configuration` types are `PLATFORM_USERS` and `SLACK`.\nFor `PLATFORM_USERS` the `usersFilter` must be specified. For tenant, there are following users filter types available: `USER_LIST`, `CUSTOMER_USERS`, `TENANT_ADMINISTRATORS`, `ALL_USERS`, `ORIGINATOR_ENTITY_OWNER_USERS`, `AFFECTED_USER`.\nFor sysadmin: `TENANT_ADMINISTRATORS`, `AFFECTED_TENANT_ADMINISTRATORS`, `SYSTEM_ADMINISTRATORS`, `ALL_USERS`.\n\nHere is an example of tenant-level notification target to send notification to customer's users:\n```json\n{\n  \"name\": \"Users of Customer A\",\n  \"configuration\": {\n    \"type\": \"PLATFORM_USERS\",\n    \"usersFilter\": {\n      \"type\": \"CUSTOMER_USERS\",\n      \"customerId\": \"32499a20-d785-11ed-a06c-21dd57dd88ca\"\n    },\n    \"description\": \"Users of Customer A\"\n  }\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "target"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"configuration\": {\n    \"channelName\": \"<string>\",\n    \"type\": \"<string>\",\n    \"webhookUrl\": \"<string>\",\n    \"description\": \"<string>\",\n    \"useOldApi\": \"<boolean>\",\n    \"id\": \"\",\n    \"title\": \"<string>\",\n    \"email\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ac050a94-e564-4852-a708-e8db68890d5a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "target"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configuration\": {\n    \"channelName\": \"string\",\n    \"type\": \"string\",\n    \"webhookUrl\": \"string\",\n    \"description\": \"string\",\n    \"useOldApi\": false,\n    \"id\": \"\",\n    \"title\": \"string\",\n    \"email\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  },\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"NOTIFICATION_TARGET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"configuration\": {\n    \"channelName\": \"string\",\n    \"type\": \"string\",\n    \"webhookUrl\": \"string\",\n    \"description\": \"string\",\n    \"useOldApi\": true,\n    \"id\": \"\",\n    \"title\": \"string\",\n    \"email\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  },\n  \"name\": \"string\",\n  \"id\": {\n    \"entityType\": \"NOTIFICATION_TARGET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86ba5e62-c1c7-4b87-9a0b-30be55b87b64",
+          "name": "Get Recipients for Notification Target Config (getRecipientsForNotificationTargetConfig)",
+          "request": {
+            "name": "Get Recipients for Notification Target Config (getRecipientsForNotificationTargetConfig)",
+            "description": {
+              "content": "Returns the page of recipients for such notification target configuration.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "target",
+                "recipients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"configuration\": {\n    \"channelName\": \"<string>\",\n    \"type\": \"<string>\",\n    \"webhookUrl\": \"<string>\",\n    \"description\": \"<string>\",\n    \"useOldApi\": \"<boolean>\",\n    \"id\": \"\",\n    \"title\": \"<string>\",\n    \"email\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7f84d4e8-60ca-4a51-a0f8-b1a9dfb41c27",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "target",
+                    "recipients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configuration\": {\n    \"channelName\": \"string\",\n    \"type\": \"string\",\n    \"webhookUrl\": \"string\",\n    \"description\": \"string\",\n    \"useOldApi\": false,\n    \"id\": \"\",\n    \"title\": \"string\",\n    \"email\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  },\n  \"name\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"NOTIFICATION_TARGET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"authority\": \"CUSTOMER_USER\",\n      \"email\": \"user@example.com\",\n      \"id\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"phone\": \"string\",\n      \"version\": 5630,\n      \"name\": \"user@example.com\",\n      \"additionalInfo\": {}\n    },\n    {\n      \"authority\": \"SYS_ADMIN\",\n      \"email\": \"user@example.com\",\n      \"id\": {\n        \"entityType\": \"USER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"tenantId\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"customerId\": {\n        \"entityType\": \"CUSTOMER\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"phone\": \"string\",\n      \"version\": 549,\n      \"name\": \"user@example.com\",\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 4360,\n  \"totalElements\": 7883,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3aac0b97-a479-4b8b-8897-fb1de823b976",
+          "name": "Get Notification Targets by Ids (getNotificationTargetsByIds)",
+          "request": {
+            "name": "Get Notification Targets by Ids (getNotificationTargetsByIds)",
+            "description": {
+              "content": "Returns the list of notification targets found by provided ids.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "targets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "Case-insensitive 'substring' filed based on the target's name"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                },
+                {
+                  "disabled": false,
+                  "key": "notificationType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of uuids representing targets ids"
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of uuids representing targets ids"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "462a592f-52f5-4624-a18f-04455b09bdd6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "targets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "notificationType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"configuration\": {\n      \"channelName\": \"string\",\n      \"type\": \"string\",\n      \"webhookUrl\": \"string\",\n      \"description\": \"string\",\n      \"useOldApi\": true,\n      \"id\": \"\",\n      \"title\": \"string\",\n      \"email\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\"\n    },\n    \"name\": \"string\",\n    \"id\": {\n      \"entityType\": \"NOTIFICATION_TARGET\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1746028547220,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  },\n  {\n    \"configuration\": {\n      \"channelName\": \"string\",\n      \"type\": \"string\",\n      \"webhookUrl\": \"string\",\n      \"description\": \"string\",\n      \"useOldApi\": false,\n      \"id\": \"\",\n      \"title\": \"string\",\n      \"email\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\"\n    },\n    \"name\": \"string\",\n    \"id\": {\n      \"entityType\": \"NOTIFICATION_TARGET\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    },\n    \"createdTime\": 1746028547220,\n    \"tenantId\": {\n      \"entityType\": \"TENANT\",\n      \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "081b7ee7-d6ba-4d04-a914-99b5409d51ea",
+          "name": "Get Notification Target by Id (getNotificationTargetById)",
+          "request": {
+            "name": "Get Notification Target by Id (getNotificationTargetById)",
+            "description": {
+              "content": "Fetches notification target by id.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "target",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "55fc4d33-2777-4e09-bcc8-374a551efc7e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "target",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"configuration\": {\n    \"channelName\": \"string\",\n    \"type\": \"string\",\n    \"webhookUrl\": \"string\",\n    \"description\": \"string\",\n    \"useOldApi\": true,\n    \"id\": \"\",\n    \"title\": \"string\",\n    \"email\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  },\n  \"name\": \"string\",\n  \"id\": {\n    \"entityType\": \"NOTIFICATION_TARGET\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1746028547220,\n  \"tenantId\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43e4755e-c32c-455e-95c1-6607aff709aa",
+          "name": "Delete Notification Target by Id (deleteNotificationTargetById)",
+          "request": {
+            "name": "Delete Notification Target by Id (deleteNotificationTargetById)",
+            "description": {
+              "content": "Deletes notification target by its id.\n\nThis target cannot be referenced by existing scheduled notification requests or any notification rules.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "notification",
+                "target",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b3fddb3-871b-4873-9c7b-d0b5bdcfa563",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "notification",
+                    "target",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "623a0205-2dc6-4485-9d5b-2e773b68cf85",
+    "name": "ThingsBoard Admin admin-controller notification-target-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}

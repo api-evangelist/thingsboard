@@ -1,0 +1,653 @@
+{
+  "item": [
+    {
+      "id": "a0eb73bd-1c87-41c9-9ef3-d38a583a531c",
+      "name": "tenant-controller",
+      "description": {
+        "content": "Tenant",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b09cb504-8000-46a5-ba5f-e68ad832489f",
+          "name": "Create or Update Tenant (saveTenant)",
+          "request": {
+            "name": "Create or Update Tenant (saveTenant)",
+            "description": {
+              "content": "Create or update the Tenant. When creating tenant, platform generates Tenant Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). Default Rule Chain and Device profile are also generated for the new tenants automatically. The newly created Tenant Id will be present in the response. Specify existing Tenant Id id to update the Tenant. Referencing non-existing Tenant Id will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Tenant entity.\n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenant"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"id\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"country\": \"<string>\",\n  \"state\": \"<string>\",\n  \"city\": \"<string>\",\n  \"address\": \"<string>\",\n  \"address2\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"email\": \"<string>\",\n  \"region\": \"<string>\",\n  \"tenantProfileId\": {\n    \"entityType\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cb83ea81-f698-42bd-be0a-4dee1003818b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Company A\",\n  \"id\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"country\": \"US\",\n  \"state\": \"NY\",\n  \"city\": \"New York\",\n  \"address\": \"<string>\",\n  \"address2\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"phone\": \"+1(415)777-7777\",\n  \"email\": \"example@company.com\",\n  \"region\": \"North America\",\n  \"tenantProfileId\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": \"<long>\",\n  \"additionalInfo\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Company A\",\n  \"id\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"country\": \"US\",\n  \"state\": \"NY\",\n  \"city\": \"New York\",\n  \"address\": \"string\",\n  \"address2\": \"string\",\n  \"zip\": \"string\",\n  \"phone\": \"+1(415)777-7777\",\n  \"email\": \"example@company.com\",\n  \"region\": \"North America\",\n  \"tenantProfileId\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 2319,\n  \"name\": \"Company A\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "85c3aa68-9b9f-498f-814d-d65cd1c9b7b1",
+          "name": "Get Tenants (getTenants)",
+          "request": {
+            "name": "Get Tenants (getTenants)",
+            "description": {
+              "content": "Returns a page of tenants registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tenantIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of tenant ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "tenantIds",
+                  "value": "<string>",
+                  "description": "(Required) A list of tenant ids, separated by comma ','"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the tenant name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "69fcdd11-5cf7-44be-ae56-47d9b4061aa6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tenantIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tenantIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"title\": \"Company A\",\n      \"id\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"country\": \"US\",\n      \"state\": \"NY\",\n      \"city\": \"New York\",\n      \"address\": \"string\",\n      \"address2\": \"string\",\n      \"zip\": \"string\",\n      \"phone\": \"+1(415)777-7777\",\n      \"email\": \"example@company.com\",\n      \"region\": \"North America\",\n      \"tenantProfileId\": {\n        \"entityType\": \"TENANT_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 5836,\n      \"name\": \"Company A\",\n      \"additionalInfo\": {}\n    },\n    {\n      \"title\": \"Company A\",\n      \"id\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"country\": \"US\",\n      \"state\": \"NY\",\n      \"city\": \"New York\",\n      \"address\": \"string\",\n      \"address2\": \"string\",\n      \"zip\": \"string\",\n      \"phone\": \"+1(415)777-7777\",\n      \"email\": \"example@company.com\",\n      \"region\": \"North America\",\n      \"tenantProfileId\": {\n        \"entityType\": \"TENANT_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 8242,\n      \"name\": \"Company A\",\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 4059,\n  \"totalElements\": 1529,\n  \"hasNext\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45de4cc1-ffb8-4704-a6a9-bc0980dac69c",
+          "name": "Get Tenants Info (getTenants)",
+          "request": {
+            "name": "Get Tenants Info (getTenants)",
+            "description": {
+              "content": "Returns a page of tenant info objects registered in the platform. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenantInfos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "(Required) Maximum amount of entities in a one page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "(Required) Sequence number of page starting from 0"
+                },
+                {
+                  "disabled": false,
+                  "key": "textSearch",
+                  "value": "<string>",
+                  "description": "The case insensitive 'substring' filter based on the tenant name."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property of entity to sort by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "Sort order. ASC (ASCENDING) or DESC (DESCENDING)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "868a0f19-afee-4a70-ad10-0a34087d8943",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenantInfos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "textSearch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"title\": \"Company A\",\n      \"id\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"country\": \"US\",\n      \"state\": \"NY\",\n      \"city\": \"New York\",\n      \"address\": \"string\",\n      \"address2\": \"string\",\n      \"zip\": \"string\",\n      \"phone\": \"+1(415)777-7777\",\n      \"email\": \"example@company.com\",\n      \"region\": \"North America\",\n      \"tenantProfileId\": {\n        \"entityType\": \"TENANT_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 8125,\n      \"tenantProfileName\": \"Default\",\n      \"name\": \"Company A\",\n      \"additionalInfo\": {}\n    },\n    {\n      \"title\": \"Company A\",\n      \"id\": {\n        \"entityType\": \"TENANT\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"createdTime\": 1609459200000,\n      \"country\": \"US\",\n      \"state\": \"NY\",\n      \"city\": \"New York\",\n      \"address\": \"string\",\n      \"address2\": \"string\",\n      \"zip\": \"string\",\n      \"phone\": \"+1(415)777-7777\",\n      \"email\": \"example@company.com\",\n      \"region\": \"North America\",\n      \"tenantProfileId\": {\n        \"entityType\": \"TENANT_PROFILE\",\n        \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n      },\n      \"version\": 7514,\n      \"tenantProfileName\": \"Default\",\n      \"name\": \"Company A\",\n      \"additionalInfo\": {}\n    }\n  ],\n  \"totalPages\": 3116,\n  \"totalElements\": 8866,\n  \"hasNext\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "358b6ab1-c945-4663-9fbd-acd9bac3a6b3",
+          "name": "Get Tenant (getTenantById)",
+          "request": {
+            "name": "Get Tenant (getTenantById)",
+            "description": {
+              "content": "Fetch the Tenant object based on the provided Tenant Id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenant",
+                ":tenantId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tenantId",
+                  "description": "(Required) A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2b6a6fa7-e84d-4a80-bf62-13c4da95db70",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenant",
+                    ":tenantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tenantId",
+                      "description": "(Required) A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Company A\",\n  \"id\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"country\": \"US\",\n  \"state\": \"NY\",\n  \"city\": \"New York\",\n  \"address\": \"string\",\n  \"address2\": \"string\",\n  \"zip\": \"string\",\n  \"phone\": \"+1(415)777-7777\",\n  \"email\": \"example@company.com\",\n  \"region\": \"North America\",\n  \"tenantProfileId\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 2319,\n  \"name\": \"Company A\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e9117aac-f46b-4675-a02e-1a1a4dae4e04",
+          "name": "Delete Tenant (deleteTenant)",
+          "request": {
+            "name": "Delete Tenant (deleteTenant)",
+            "description": {
+              "content": "Deletes the tenant, it's customers, rule chains, devices and all other related entities. Referencing non-existing tenant Id will cause an error.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenant",
+                ":tenantId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tenantId",
+                  "description": "(Required) A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9523760-45a0-4f94-8925-35a3a643d671",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenant",
+                    ":tenantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tenantId",
+                      "description": "(Required) A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c8b4592f-34ec-4b16-9bdc-711da1a57fb8",
+          "name": "Get Tenant Info (getTenantInfoById)",
+          "request": {
+            "name": "Get Tenant Info (getTenantInfoById)",
+            "description": {
+              "content": "Fetch the Tenant Info object based on the provided Tenant Id. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenant",
+                "info",
+                ":tenantId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tenantId",
+                  "description": "(Required) A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8fa68456-0cc9-48d2-84e6-e22085a66f05",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenant",
+                    "info",
+                    ":tenantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tenantId",
+                      "description": "(Required) A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Company A\",\n  \"id\": {\n    \"entityType\": \"TENANT\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"createdTime\": 1609459200000,\n  \"country\": \"US\",\n  \"state\": \"NY\",\n  \"city\": \"New York\",\n  \"address\": \"string\",\n  \"address2\": \"string\",\n  \"zip\": \"string\",\n  \"phone\": \"+1(415)777-7777\",\n  \"email\": \"example@company.com\",\n  \"region\": \"North America\",\n  \"tenantProfileId\": {\n    \"entityType\": \"TENANT_PROFILE\",\n    \"id\": \"784f394c-42b6-435a-983c-b7beff2784f9\"\n  },\n  \"version\": 5952,\n  \"tenantProfileName\": \"Default\",\n  \"name\": \"Company A\",\n  \"additionalInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://demo.thingsboard.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3f872cb6-b182-44cf-873a-942be9900a7f",
+    "name": "ThingsBoard Admin admin-controller tenant-controller API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.\n\nContact Support:\n Name: ThingsBoard team\n Email: info@thingsboard.io",
+      "type": "text/plain"
+    }
+  }
+}
