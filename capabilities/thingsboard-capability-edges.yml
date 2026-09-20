@@ -1,0 +1,77 @@
+slug: thingsboard
+provider: ThingsBoard
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: tenant-controller
+  spec_file: thingsboard-tenant-controller-api-openapi.yml
+  capability_id: BC-4230.10
+  capability_id_l1: BC-4230
+  capability_name: Tenant Provisioning & Lifecycle
+  confidence: 0.85
+  evidence: POST /api/tenant saveTenant "Create or Update Tenant"; DELETE /api/tenant/{tenantId} "Delete
+    Tenant"; schemas TenantId, TenantInfo
+  reason: CRUD lifecycle over tenants of a multi-tenant IoT platform — creation, retrieval and deletion
+    of tenants — matches Tenant Provisioning & Lifecycle rather than any customer-master capability.
+- tag: two-factor-auth-config-controller
+  spec_file: thingsboard-two-factor-auth-config-controller-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /api/2fa/settings savePlatformTwoFaSettings "Save Platform 2FA Settings"; schemas TotpTwoFaAccountConfig,
+    BackupCodeTwoFaProviderConfig
+  reason: Configuration of multi-factor authentication providers and per-account 2FA settings is authentication
+    strengthening within Identity & Access Management.
+- tag: two-factor-auth-controller
+  spec_file: thingsboard-two-factor-auth-controller-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /api/auth/2fa/verification/check checkTwoFaVerificationCode; POST /api/auth/2fa/login
+    "Get Regular Token Pair After Successfully Configuring 2FA"
+  reason: Runtime two-factor verification and token issuance during login is authentication, squarely
+    Identity & Access Management.
+- tag: ai-model-controller
+  spec_file: thingsboard-ai-model-controller-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.75
+  evidence: POST /api/ai/model saveAiModel 'Create or Update AI Model'; POST /api/ai/model/chat 'Send
+    Request to AI Chat Model'; schemas AnthropicChatModelConfig, AzureOpenAiChatModelConfig, AiModelId
+  reason: Operations register, configure, invoke and delete AI chat models from multiple providers — lifecycle
+    management of AI models, which is the substance of Artificial Intelligence Management. Some ambiguity
+    because it is model-provider configuration rather than full MLOps.
+- tag: user-controller
+  spec_file: thingsboard-user-controller-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /api/user saveUser "Save or Update User"; POST /api/user/{userId}/userCredentialsEnabled
+    "Enable/Disable User Credentials"; POST /api/user/sendActivationMail
+  reason: Platform user account provisioning, credential enablement and activation flows are joiners-movers-leavers
+    style identity administration, not HR employee records.
+- tag: tenant-profile-controller
+  spec_file: thingsboard-tenant-profile-controller-api-openapi.yml
+  capability_id: BC-4230.20
+  capability_id_l1: BC-4230
+  capability_name: Tenant Configuration Management
+  confidence: 0.72
+  evidence: POST /api/tenantProfile "Create or Update Tenant Profile"; schemas TenantProfileConfiguration,
+    TenantProfileQueueConfiguration, DefaultTenantProfileConfiguration
+  reason: Tenant profiles define per-tenant configuration, limits and queue settings applied above the
+    shared platform baseline — Tenant Configuration Management. Slight ambiguity with tenant lifecycle,
+    hence moderate confidence.
