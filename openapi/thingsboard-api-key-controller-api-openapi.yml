@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller api-key-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Authentication API Key Controller API
+  description: 'ThingsBoard Authentication API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth 2, O Auth 2 Config Template, Domain.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,10 @@ paths:
       tags:
       - api-key-controller
       summary: Enable or Disable API Key (enableApiKey)
-      description: "Updates api key with enabled = true/false. \n\nAvailable for any authorized user. "
+      description: 'Updates api key with enabled = true/false.
+
+
+        Available for any authorized user.'
       operationId: enableApiKey
       parameters:
       - name: id
@@ -55,7 +58,7 @@ paths:
       description: 'Updates the description of the existing API key by apiKeyId. Only the description can be updated. Referencing a non-existing ApiKey Id will cause a ''Not Found'' error.
 
 
-        Available for any authorized user. '
+        Available for any authorized user.'
       operationId: updateApiKeyDescription
       parameters:
       - name: id
@@ -83,10 +86,10 @@ paths:
       tags:
       - api-key-controller
       summary: Save API Key for User (saveApiKey)
-      description: 'Creates an API key for the given user and returns the token ONCE as ''ApiKey <value>''.
+      description: 'Creates an API key for the given user and returns the token ONCE as ''ApiKey ''.
 
 
-        Available for any authorized user. '
+        Available for any authorized user.'
       operationId: saveApiKey
       requestBody:
         content:
@@ -106,7 +109,10 @@ paths:
       tags:
       - api-key-controller
       summary: Get User Api Keys (getUserApiKeys)
-      description: "Returns a page of api keys owned by user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for any authorized user. "
+      description: 'Returns a page of api keys owned by user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for any authorized user.'
       operationId: getUserApiKeys
       parameters:
       - name: userId
@@ -170,7 +176,7 @@ paths:
       description: 'Deletes the API key. Referencing non-existing ApiKey Id will cause an error.
 
 
-        Available for any authorized user. '
+        Available for any authorized user.'
       operationId: deleteApiKey
       parameters:
       - name: id
@@ -184,46 +190,6 @@ paths:
           description: OK
 components:
   schemas:
-    ApiKeyInfo:
-      type: object
-      description: A JSON value representing the Api Key token.
-      properties:
-        id:
-          $ref: '#/components/schemas/ApiKeyId'
-          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
-          readOnly: true
-        userId:
-          $ref: '#/components/schemas/UserId'
-          description: JSON object with User Id. User Id of the API key cannot be changed.
-        expirationTime:
-          type: integer
-          format: int64
-          description: Expiration time of the API key.
-        description:
-          type: string
-          description: API Key description.
-          example: API Key description
-          minLength: 1
-        enabled:
-          type: boolean
-          description: Enabled/disabled API key.
-          example: true
-        expired:
-          type: boolean
-          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
-          example: false
-          readOnly: true
-      required:
-      - description
     PageDataApiKeyInfo:
       type: object
       properties:
@@ -247,57 +213,6 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    ApiKeyId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - API_KEY
-          example: API_KEY
-      required:
-      - entityType
-      - id
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
     ApiKey:
       type: object
       properties:
@@ -341,13 +256,104 @@ components:
       required:
       - description
       - value
+    ApiKeyId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - API_KEY
+          example: API_KEY
+      required:
+      - entityType
+      - id
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    ApiKeyInfo:
+      type: object
+      description: A JSON value representing the Api Key token.
+      properties:
+        id:
+          $ref: '#/components/schemas/ApiKeyId'
+          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
+          readOnly: true
+        userId:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with User Id. User Id of the API key cannot be changed.
+        expirationTime:
+          type: integer
+          format: int64
+          description: Expiration time of the API key.
+        description:
+          type: string
+          description: API Key description.
+          example: API Key description
+          minLength: 1
+        enabled:
+          type: boolean
+          description: Enabled/disabled API key.
+          example: true
+        expired:
+          type: boolean
+          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
+          example: false
+          readOnly: true
+      required:
+      - description
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

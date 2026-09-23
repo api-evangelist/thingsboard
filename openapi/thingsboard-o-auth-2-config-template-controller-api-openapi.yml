@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller o-auth-2-config-template-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Authentication O Auth 2 Config Template…
+  description: 'ThingsBoard Authentication API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth 2, O Auth 2 Config Template, Domain.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -23,7 +23,7 @@ paths:
     get:
       tags:
       - o-auth-2-config-template-controller
-      summary: Get the List of All OAuth2 Client Registration Templates (getClientRegistrationTemplates) Available for Users with 'SYS_ADMIN' or 'TENANT_ADMIN' Authority.
+      summary: Get the List of All OAuth2 Client Registration Templates…
       description: Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients
       operationId: getClientRegistrationTemplates
       responses:
@@ -38,7 +38,7 @@ paths:
     post:
       tags:
       - o-auth-2-config-template-controller
-      summary: Create or Update OAuth2 Client Registration Template (saveClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.
+      summary: Create or Update OAuth2 Client Registration Template…
       description: Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients
       operationId: saveClientRegistrationTemplate
       requestBody:
@@ -58,7 +58,7 @@ paths:
     delete:
       tags:
       - o-auth-2-config-template-controller
-      summary: Delete OAuth2 Client Registration Template by Id (deleteClientRegistrationTemplate) Available for Users with 'SYS_ADMIN' Authority.
+      summary: Delete OAuth2 Client Registration Template by Id…
       description: Client registration template is OAuth2 provider configuration template with default settings for registering new OAuth2 clients
       operationId: deleteClientRegistrationTemplate
       parameters:
@@ -74,6 +74,65 @@ paths:
           description: OK
 components:
   schemas:
+    OAuth2MapperConfig:
+      type: object
+      properties:
+        allowUserCreation:
+          type: boolean
+          description: Whether user should be created if not yet present on the platform after successful authentication
+        activateUser:
+          type: boolean
+          description: Whether user credentials should be activated when user is created after successful authentication
+        type:
+          type: string
+          description: Type of OAuth2 mapper. Depending on this param, different mapper config fields must be specified
+          enum:
+          - BASIC
+          - CUSTOM
+          - GITHUB
+          - APPLE
+        basic:
+          $ref: '#/components/schemas/OAuth2BasicMapperConfig'
+          description: Mapper config for BASIC and GITHUB mapper types
+        custom:
+          $ref: '#/components/schemas/OAuth2CustomMapperConfig'
+          description: Mapper config for CUSTOM mapper type
+      required:
+      - type
+    OAuth2BasicMapperConfig:
+      type: object
+      properties:
+        emailAttributeKey:
+          type: string
+          description: Email attribute key of OAuth2 principal attributes. Must be specified for BASIC mapper type and cannot be specified for GITHUB type
+        firstNameAttributeKey:
+          type: string
+          description: First name attribute key
+        lastNameAttributeKey:
+          type: string
+          description: Last name attribute key
+        tenantNameStrategy:
+          type: string
+          description: Tenant naming strategy. For DOMAIN type, domain for tenant name will be taken from the email (substring before '@')
+          enum:
+          - DOMAIN
+          - EMAIL
+          - CUSTOM
+        tenantNamePattern:
+          type: string
+          description: Tenant name pattern for CUSTOM naming strategy. OAuth2 attributes in the pattern can be used by enclosing attribute key in '%{' and '}'
+          example: '%{email}'
+        customerNamePattern:
+          type: string
+          description: Customer name pattern. When creating a user on the first OAuth2 log in, if specified, customer name will be used to create or find existing customer in the platform and assign customerId to the user
+        defaultDashboardName:
+          type: string
+          description: Name of the tenant's dashboard to set as default dashboard for newly created user
+        alwaysFullScreen:
+          type: boolean
+          description: Whether default dashboard should be open in full screen
+      required:
+      - tenantNameStrategy
     OAuth2CustomMapperConfig:
       type: object
       properties:
@@ -157,72 +216,13 @@ components:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
-    OAuth2BasicMapperConfig:
-      type: object
-      properties:
-        emailAttributeKey:
-          type: string
-          description: Email attribute key of OAuth2 principal attributes. Must be specified for BASIC mapper type and cannot be specified for GITHUB type
-        firstNameAttributeKey:
-          type: string
-          description: First name attribute key
-        lastNameAttributeKey:
-          type: string
-          description: Last name attribute key
-        tenantNameStrategy:
-          type: string
-          description: Tenant naming strategy. For DOMAIN type, domain for tenant name will be taken from the email (substring before '@')
-          enum:
-          - DOMAIN
-          - EMAIL
-          - CUSTOM
-        tenantNamePattern:
-          type: string
-          description: Tenant name pattern for CUSTOM naming strategy. OAuth2 attributes in the pattern can be used by enclosing attribute key in '%{' and '}'
-          example: '%{email}'
-        customerNamePattern:
-          type: string
-          description: Customer name pattern. When creating a user on the first OAuth2 log in, if specified, customer name will be used to create or find existing customer in the platform and assign customerId to the user
-        defaultDashboardName:
-          type: string
-          description: Name of the tenant's dashboard to set as default dashboard for newly created user
-        alwaysFullScreen:
-          type: boolean
-          description: Whether default dashboard should be open in full screen
-      required:
-      - tenantNameStrategy
-    OAuth2MapperConfig:
-      type: object
-      properties:
-        allowUserCreation:
-          type: boolean
-          description: Whether user should be created if not yet present on the platform after successful authentication
-        activateUser:
-          type: boolean
-          description: Whether user credentials should be activated when user is created after successful authentication
-        type:
-          type: string
-          description: Type of OAuth2 mapper. Depending on this param, different mapper config fields must be specified
-          enum:
-          - BASIC
-          - CUSTOM
-          - GITHUB
-          - APPLE
-        basic:
-          $ref: '#/components/schemas/OAuth2BasicMapperConfig'
-          description: Mapper config for BASIC and GITHUB mapper types
-        custom:
-          $ref: '#/components/schemas/OAuth2CustomMapperConfig'
-          description: Mapper config for CUSTOM mapper type
-      required:
-      - type
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

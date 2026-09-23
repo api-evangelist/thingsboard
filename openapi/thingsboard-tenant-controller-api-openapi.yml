@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller tenant-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Tenants and Customers Tenant Controller API
+  description: 'ThingsBoard Tenants and Customers API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Tenant, Tenant Profile, Customer, User.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,7 @@ paths:
       tags:
       - tenant-controller
       summary: Create or Update Tenant (saveTenant)
-      description: 'Create or update the Tenant. When creating tenant, platform generates Tenant Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). Default Rule Chain and Device profile are also generated for the new tenants automatically. The newly created Tenant Id will be present in the response. Specify existing Tenant Id id to update the Tenant. Referencing non-existing Tenant Id will cause ''Not Found'' error.Remove ''id'', ''tenantId'' from the request body example (below) to create new Tenant entity.
+      description: 'Create or update the Tenant. When creating tenant, platform generates Tenant Id as time-based UUID). Default Rule Chain and Device profile are also generated for the new tenants automatically. The newly created Tenant Id will be present in the response. Specify existing Tenant Id id to update the Tenant. Referencing non-existing Tenant Id will cause ''Not Found'' error.Remove ''id'', ''tenantId'' from the request body example (below) to create new Tenant entity.
 
 
         Available for users with ''SYS_ADMIN'' authority.'
@@ -47,7 +47,10 @@ paths:
       tags:
       - tenant-controller
       summary: Get Tenants (getTenants)
-      description: "Returns a page of tenants registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Returns a page of tenants registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: getTenantsByIds
       parameters:
       - name: tenantIds
@@ -121,7 +124,10 @@ paths:
       tags:
       - tenant-controller
       summary: Get Tenants Info (getTenants)
-      description: "Returns a page of tenant info objects registered in the platform. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Returns a page of tenant info objects registered in the platform. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: getTenantInfos
       parameters:
       - name: pageSize
@@ -184,7 +190,10 @@ paths:
       tags:
       - tenant-controller
       summary: Get Tenant (getTenantById)
-      description: "Fetch the Tenant object based on the provided Tenant Id. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Fetch the Tenant object based on the provided Tenant Id.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getTenantById
       parameters:
       - name: tenantId
@@ -224,7 +233,10 @@ paths:
       tags:
       - tenant-controller
       summary: Get Tenant Info (getTenantInfoById)
-      description: "Fetch the Tenant Info object based on the provided Tenant Id. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Fetch the Tenant Info object based on the provided Tenant Id. The Tenant Info object extends regular Tenant object and includes Tenant Profile name.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getTenantInfoById
       parameters:
       - name: tenantId
@@ -242,27 +254,6 @@ paths:
                 $ref: '#/components/schemas/TenantInfo'
 components:
   schemas:
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    TenantProfileId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT_PROFILE
-          example: TENANT_PROFILE
-      required:
-      - entityType
-      - id
     Tenant:
       type: object
       description: A JSON value representing the tenant.
@@ -331,6 +322,73 @@ components:
           description: Additional parameters of the device
       required:
       - title
+    PageDataTenant:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Tenant'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    TenantProfileId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT_PROFILE
+          example: TENANT_PROFILE
+      required:
+      - entityType
+      - id
+    PageDataTenantInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TenantInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     TenantInfo:
       type: object
       properties:
@@ -419,59 +477,13 @@ components:
       required:
       - entityType
       - id
-    PageDataTenant:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/Tenant'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    PageDataTenantInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/TenantInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

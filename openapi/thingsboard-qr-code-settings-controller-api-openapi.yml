@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller qr-code-settings-controller API
+  title: ThingsBoard Admin Qr Code Settings Controller API
   description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
   version: 4.3.0.3DEMO
   contact:
@@ -27,7 +27,7 @@ paths:
       description: 'The response payload contains configuration for android/iOS applications and platform qr code widget settings.
 
 
-        Available for any authorized user. '
+        Available for any authorized user.'
       operationId: getQrCodeSettings
       responses:
         '200':
@@ -76,6 +76,8 @@ paths:
             application/json:
               schema:
                 type: object
+      summary: Get application redirect
+      x-summary-source: derived
   /api/noauth/qr/{secret}:
     get:
       tags:
@@ -102,7 +104,10 @@ paths:
       tags:
       - qr-code-settings-controller
       summary: Get the Deep Link to the Associated Mobile Application (getMobileAppDeepLink)
-      description: "Fetch the url that takes user to linked mobile application \n\nAvailable for any authorized user. "
+      description: 'Fetch the url that takes user to linked mobile application
+
+
+        Available for any authorized user.'
       operationId: getMobileAppDeepLink
       responses:
         '200':
@@ -139,6 +144,68 @@ paths:
                 $ref: '#/components/schemas/JsonNode'
 components:
   schemas:
+    QrCodeSettings:
+      type: object
+      description: A JSON value representing the mobile apps configuration
+      properties:
+        id:
+          $ref: '#/components/schemas/QrCodeSettingsId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        useSystemSettings:
+          type: boolean
+          description: Use settings from system level
+          example: true
+        useDefaultApp:
+          type: boolean
+          description: 'Type of application: true means use default Thingsboard app'
+          example: true
+        mobileAppBundleId:
+          $ref: '#/components/schemas/MobileAppBundleId'
+          description: Mobile app bundle.
+        qrCodeConfig:
+          $ref: '#/components/schemas/QRCodeConfig'
+          description: QR code config configuration.
+        androidEnabled:
+          type: boolean
+          description: Indicates if google play link is available
+          example: true
+        iosEnabled:
+          type: boolean
+          description: Indicates if apple store link is available
+          example: true
+        googlePlayLink:
+          type: string
+          readOnly: true
+        appStoreLink:
+          type: string
+          readOnly: true
+      required:
+      - qrCodeConfig
+    QRCodeConfig:
+      type: object
+      properties:
+        showOnHomePage:
+          type: boolean
+        badgeEnabled:
+          type: boolean
+        qrCodeLabelEnabled:
+          type: boolean
+        badgePosition:
+          type: string
+          enum:
+          - RIGHT
+          - LEFT
+        qrCodeLabel:
+          type: string
     MobileAppBundleId:
       type: object
       properties:
@@ -190,88 +257,19 @@ components:
       required:
       - entityType
       - id
-    QRCodeConfig:
-      type: object
-      properties:
-        showOnHomePage:
-          type: boolean
-        badgeEnabled:
-          type: boolean
-        qrCodeLabelEnabled:
-          type: boolean
-        badgePosition:
-          type: string
-          enum:
-          - RIGHT
-          - LEFT
-        qrCodeLabel:
-          type: string
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
-    QrCodeSettings:
-      type: object
-      description: A JSON value representing the mobile apps configuration
-      properties:
-        id:
-          $ref: '#/components/schemas/QrCodeSettingsId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id.
-          readOnly: true
-        useSystemSettings:
-          type: boolean
-          description: Use settings from system level
-          example: true
-        useDefaultApp:
-          type: boolean
-          description: 'Type of application: true means use default Thingsboard app'
-          example: true
-        mobileAppBundleId:
-          $ref: '#/components/schemas/MobileAppBundleId'
-          description: Mobile app bundle.
-        qrCodeConfig:
-          $ref: '#/components/schemas/QRCodeConfig'
-          description: QR code config configuration.
-        androidEnabled:
-          type: boolean
-          description: Indicates if google play link is available
-          example: true
-        iosEnabled:
-          type: boolean
-          description: Indicates if apple store link is available
-          example: true
-        googlePlayLink:
-          type: string
-          readOnly: true
-        appStoreLink:
-          type: string
-          readOnly: true
-      required:
-      - qrCodeConfig
-    TenantId:
+    QrCodeSettingsId:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
           description: string
-          enum:
-          - TENANT
-          example: TENANT
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
       required:
-      - entityType
       - id
     JwtPair:
       type: object
@@ -294,23 +292,30 @@ components:
           - REFRESH_TOKEN
           - PRE_VERIFICATION_TOKEN
           - MFA_CONFIGURATION_TOKEN
-    QrCodeSettingsId:
+    TenantId:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          description: string
+          description: ID of the entity, time-based UUID v1
           example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
       required:
+      - entityType
       - id
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

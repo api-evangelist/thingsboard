@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller ai-model-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard AI AI Model Controller API
+  description: 'ThingsBoard AI API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Ai Model, Trendz.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,10 @@ paths:
       tags:
       - ai-model-controller
       summary: Get AI Models (getAiModels)
-      description: "Returns a page of AI models. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of AI models. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getAiModels
       parameters:
       - name: pageSize
@@ -183,275 +186,6 @@ paths:
                 type: boolean
 components:
   schemas:
-    OllamaProviderConfig:
-      type: object
-      properties:
-        baseUrl:
-          type: string
-        auth:
-          oneOf:
-          - $ref: '#/components/schemas/Basic'
-          - $ref: '#/components/schemas/None'
-          - $ref: '#/components/schemas/Token'
-      required:
-      - auth
-      - baseUrl
-    AnthropicProviderConfig:
-      type: object
-      properties:
-        apiKey:
-          type: string
-      required:
-      - apiKey
-    Basic:
-      allOf:
-      - $ref: '#/components/schemas/OllamaAuth'
-      - type: object
-        properties:
-          username:
-            type: string
-          password:
-            type: string
-      required:
-      - password
-      - username
-    AiModelId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: Entity type of the AI model
-          enum:
-          - AI_MODEL
-          example: AI_MODEL
-      required:
-      - entityType
-      - id
-    TbContent:
-      discriminator:
-        propertyName: contentType
-      properties:
-        contentType:
-          type: string
-      required:
-      - contentType
-    OllamaAuth:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    Token:
-      allOf:
-      - $ref: '#/components/schemas/OllamaAuth'
-      - type: object
-        properties:
-          token:
-            type: string
-      required:
-      - token
-    GoogleVertexAiGeminiChatModelConfig:
-      allOf:
-      - $ref: '#/components/schemas/AiModelConfig'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          topK:
-            type: integer
-            format: int32
-          frequencyPenalty:
-            type: number
-            format: double
-          presencePenalty:
-            type: number
-            format: double
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-          modelType:
-            type: string
-            enum:
-            - CHAT
-            readOnly: true
-      - $ref: '#/components/schemas/AiChatModelConfigObject'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          topK:
-            type: integer
-            format: int32
-          frequencyPenalty:
-            type: number
-            format: double
-          presencePenalty:
-            type: number
-            format: double
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-      required:
-      - modelId
-      - providerConfig
-    AzureOpenAiProviderConfig:
-      type: object
-      properties:
-        endpoint:
-          type: string
-        serviceVersion:
-          type: string
-        apiKey:
-          type: string
-      required:
-      - apiKey
-      - endpoint
-    GitHubModelsProviderConfig:
-      type: object
-      properties:
-        personalAccessToken:
-          type: string
-      required:
-      - personalAccessToken
-    AmazonBedrockProviderConfig:
-      type: object
-      properties:
-        region:
-          type: string
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-      required:
-      - accessKeyId
-      - region
-      - secretAccessKey
-    OpenAiChatModelConfig:
-      allOf:
-      - $ref: '#/components/schemas/AiModelConfig'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/OpenAiProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          frequencyPenalty:
-            type: number
-            format: double
-          presencePenalty:
-            type: number
-            format: double
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-          modelType:
-            type: string
-            enum:
-            - CHAT
-            readOnly: true
-      - $ref: '#/components/schemas/AiChatModelConfigObject'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/OpenAiProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          frequencyPenalty:
-            type: number
-            format: double
-          presencePenalty:
-            type: number
-            format: double
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-      required:
-      - modelId
-      - providerConfig
-    GoogleVertexAiGeminiProviderConfig:
-      type: object
-      properties:
-        fileName:
-          type: string
-          minLength: 1
-        projectId:
-          type: string
-        location:
-          type: string
-        serviceAccountKey:
-          type: string
-      required:
-      - fileName
-      - location
-      - projectId
-      - serviceAccountKey
     GoogleAiGeminiChatModelConfig:
       allOf:
       - $ref: '#/components/schemas/AiModelConfig'
@@ -510,218 +244,6 @@ components:
           topK:
             type: integer
             format: int32
-          frequencyPenalty:
-            type: number
-            format: double
-          presencePenalty:
-            type: number
-            format: double
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-      required:
-      - modelId
-      - providerConfig
-    TbTextContent:
-      allOf:
-      - $ref: '#/components/schemas/TbContent'
-      - type: object
-        properties:
-          text:
-            type: string
-            description: The text content
-            example: What is the weather like in Kyiv today?
-            minLength: 1
-      description: Text-based content part of a user's prompt
-      required:
-      - text
-    OllamaChatModelConfig:
-      allOf:
-      - $ref: '#/components/schemas/AiModelConfig'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/OllamaProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          topK:
-            type: integer
-            format: int32
-          contextLength:
-            type: integer
-            format: int32
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-          modelType:
-            type: string
-            enum:
-            - CHAT
-            readOnly: true
-      - $ref: '#/components/schemas/AiChatModelConfigObject'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/OllamaProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          topK:
-            type: integer
-            format: int32
-          contextLength:
-            type: integer
-            format: int32
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-      required:
-      - modelId
-      - providerConfig
-    PageDataAiModel:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/AiModel'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    MistralAiProviderConfig:
-      type: object
-      properties:
-        apiKey:
-          type: string
-      required:
-      - apiKey
-    TbChatResponse:
-      type: object
-      discriminator:
-        propertyName: status
-      properties:
-        status:
-          type: string
-          description: Indicates whether the request was successful or not
-          example: SUCCESS
-    AiModelConfig:
-      type: object
-      discriminator:
-        propertyName: provider
-      properties:
-        providerConfig:
-          oneOf:
-          - $ref: '#/components/schemas/AmazonBedrockProviderConfig'
-          - $ref: '#/components/schemas/AnthropicProviderConfig'
-          - $ref: '#/components/schemas/AzureOpenAiProviderConfig'
-          - $ref: '#/components/schemas/GitHubModelsProviderConfig'
-          - $ref: '#/components/schemas/GoogleAiGeminiProviderConfig'
-          - $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
-          - $ref: '#/components/schemas/MistralAiProviderConfig'
-          - $ref: '#/components/schemas/OllamaProviderConfig'
-          - $ref: '#/components/schemas/OpenAiProviderConfig'
-        provider:
-          type: string
-      required:
-      - provider
-    MistralAiChatModelConfig:
-      allOf:
-      - $ref: '#/components/schemas/AiModelConfig'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/MistralAiProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          frequencyPenalty:
-            type: number
-            format: double
-          presencePenalty:
-            type: number
-            format: double
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-          modelType:
-            type: string
-            enum:
-            - CHAT
-            readOnly: true
-      - $ref: '#/components/schemas/AiChatModelConfigObject'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/MistralAiProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
           frequencyPenalty:
             type: number
             format: double
@@ -810,6 +332,428 @@ components:
       required:
       - modelId
       - providerConfig
+    GoogleVertexAiGeminiChatModelConfig:
+      allOf:
+      - $ref: '#/components/schemas/AiModelConfig'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          topK:
+            type: integer
+            format: int32
+          frequencyPenalty:
+            type: number
+            format: double
+          presencePenalty:
+            type: number
+            format: double
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+          modelType:
+            type: string
+            enum:
+            - CHAT
+            readOnly: true
+      - $ref: '#/components/schemas/AiChatModelConfigObject'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          topK:
+            type: integer
+            format: int32
+          frequencyPenalty:
+            type: number
+            format: double
+          presencePenalty:
+            type: number
+            format: double
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+      required:
+      - modelId
+      - providerConfig
+    AiModelConfig:
+      type: object
+      discriminator:
+        propertyName: provider
+      properties:
+        providerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/AmazonBedrockProviderConfig'
+          - $ref: '#/components/schemas/AnthropicProviderConfig'
+          - $ref: '#/components/schemas/AzureOpenAiProviderConfig'
+          - $ref: '#/components/schemas/GitHubModelsProviderConfig'
+          - $ref: '#/components/schemas/GoogleAiGeminiProviderConfig'
+          - $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
+          - $ref: '#/components/schemas/MistralAiProviderConfig'
+          - $ref: '#/components/schemas/OllamaProviderConfig'
+          - $ref: '#/components/schemas/OpenAiProviderConfig'
+        provider:
+          type: string
+      required:
+      - provider
+    AiModelId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: Entity type of the AI model
+          enum:
+          - AI_MODEL
+          example: AI_MODEL
+      required:
+      - entityType
+      - id
+    GoogleVertexAiGeminiProviderConfig:
+      type: object
+      properties:
+        fileName:
+          type: string
+          minLength: 1
+        projectId:
+          type: string
+        location:
+          type: string
+        serviceAccountKey:
+          type: string
+      required:
+      - fileName
+      - location
+      - projectId
+      - serviceAccountKey
+    OllamaChatModelConfig:
+      allOf:
+      - $ref: '#/components/schemas/AiModelConfig'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/OllamaProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          topK:
+            type: integer
+            format: int32
+          contextLength:
+            type: integer
+            format: int32
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+          modelType:
+            type: string
+            enum:
+            - CHAT
+            readOnly: true
+      - $ref: '#/components/schemas/AiChatModelConfigObject'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/OllamaProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          topK:
+            type: integer
+            format: int32
+          contextLength:
+            type: integer
+            format: int32
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+      required:
+      - modelId
+      - providerConfig
+    AnthropicProviderConfig:
+      type: object
+      properties:
+        apiKey:
+          type: string
+      required:
+      - apiKey
+    OllamaProviderConfig:
+      type: object
+      properties:
+        baseUrl:
+          type: string
+        auth:
+          oneOf:
+          - $ref: '#/components/schemas/Basic'
+          - $ref: '#/components/schemas/None'
+          - $ref: '#/components/schemas/Token'
+      required:
+      - auth
+      - baseUrl
+    TbUserMessage:
+      type: object
+      properties:
+        contents:
+          type: array
+          description: A list of content parts that make up the complete user prompt
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/TbTextContent'
+          minItems: 1
+      required:
+      - contents
+    TbContent:
+      discriminator:
+        propertyName: contentType
+      properties:
+        contentType:
+          type: string
+      required:
+      - contentType
+    MistralAiChatModelConfig:
+      allOf:
+      - $ref: '#/components/schemas/AiModelConfig'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/MistralAiProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          frequencyPenalty:
+            type: number
+            format: double
+          presencePenalty:
+            type: number
+            format: double
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+          modelType:
+            type: string
+            enum:
+            - CHAT
+            readOnly: true
+      - $ref: '#/components/schemas/AiChatModelConfigObject'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/MistralAiProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          frequencyPenalty:
+            type: number
+            format: double
+          presencePenalty:
+            type: number
+            format: double
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+      required:
+      - modelId
+      - providerConfig
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    AmazonBedrockProviderConfig:
+      type: object
+      properties:
+        region:
+          type: string
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+      required:
+      - accessKeyId
+      - region
+      - secretAccessKey
+    AzureOpenAiProviderConfig:
+      type: object
+      properties:
+        endpoint:
+          type: string
+        serviceVersion:
+          type: string
+        apiKey:
+          type: string
+      required:
+      - apiKey
+      - endpoint
+    OpenAiChatModelConfig:
+      allOf:
+      - $ref: '#/components/schemas/AiModelConfig'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/OpenAiProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          frequencyPenalty:
+            type: number
+            format: double
+          presencePenalty:
+            type: number
+            format: double
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+          modelType:
+            type: string
+            enum:
+            - CHAT
+            readOnly: true
+      - $ref: '#/components/schemas/AiChatModelConfigObject'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/OpenAiProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          frequencyPenalty:
+            type: number
+            format: double
+          presencePenalty:
+            type: number
+            format: double
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+      required:
+      - modelId
+      - providerConfig
     AiModel:
       type: object
       properties:
@@ -854,23 +798,6 @@ components:
       - name
       - tenantId
       - version
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
     Success:
       allOf:
       - $ref: '#/components/schemas/TbChatResponse'
@@ -882,6 +809,29 @@ components:
           status:
             type: string
             example: SUCCESS
+    Basic:
+      allOf:
+      - $ref: '#/components/schemas/OllamaAuth'
+      - type: object
+        properties:
+          username:
+            type: string
+          password:
+            type: string
+      required:
+      - password
+      - username
+    Failure:
+      allOf:
+      - $ref: '#/components/schemas/TbChatResponse'
+      - type: object
+        properties:
+          errorDetails:
+            type: string
+            description: A string containing details about the failure
+          status:
+            type: string
+            example: FAILURE
     TbChatRequest:
       type: object
       properties:
@@ -907,35 +857,6 @@ components:
       required:
       - chatModelConfig
       - userMessage
-    None:
-      allOf:
-      - $ref: '#/components/schemas/OllamaAuth'
-    GoogleAiGeminiProviderConfig:
-      type: object
-      properties:
-        apiKey:
-          type: string
-      required:
-      - apiKey
-    AiChatModelConfigObject:
-      type: object
-      properties:
-        providerConfig:
-          oneOf:
-          - $ref: '#/components/schemas/AmazonBedrockProviderConfig'
-          - $ref: '#/components/schemas/AnthropicProviderConfig'
-          - $ref: '#/components/schemas/AzureOpenAiProviderConfig'
-          - $ref: '#/components/schemas/GitHubModelsProviderConfig'
-          - $ref: '#/components/schemas/GoogleAiGeminiProviderConfig'
-          - $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
-          - $ref: '#/components/schemas/MistralAiProviderConfig'
-          - $ref: '#/components/schemas/OllamaProviderConfig'
-          - $ref: '#/components/schemas/OpenAiProviderConfig'
-        modelType:
-          type: string
-          enum:
-          - CHAT
-          readOnly: true
     AnthropicChatModelConfig:
       allOf:
       - $ref: '#/components/schemas/AiModelConfig'
@@ -1000,94 +921,6 @@ components:
       required:
       - modelId
       - providerConfig
-    OpenAiProviderConfig:
-      type: object
-      properties:
-        baseUrl:
-          type: string
-        apiKey:
-          type: string
-    AmazonBedrockChatModelConfig:
-      allOf:
-      - $ref: '#/components/schemas/AiModelConfig'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/AmazonBedrockProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-          modelType:
-            type: string
-            enum:
-            - CHAT
-            readOnly: true
-      - $ref: '#/components/schemas/AiChatModelConfigObject'
-      - type: object
-        properties:
-          providerConfig:
-            $ref: '#/components/schemas/AmazonBedrockProviderConfig'
-          modelId:
-            type: string
-            minLength: 1
-          temperature:
-            type: number
-            format: double
-          topP:
-            type: number
-            format: double
-            maximum: 1
-          maxOutputTokens:
-            type: integer
-            format: int32
-          timeoutSeconds:
-            type: integer
-            format: int32
-          maxRetries:
-            type: integer
-            format: int32
-      required:
-      - modelId
-      - providerConfig
-    TbUserMessage:
-      type: object
-      properties:
-        contents:
-          type: array
-          description: A list of content parts that make up the complete user prompt
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/TbTextContent'
-          minItems: 1
-      required:
-      - contents
-    Failure:
-      allOf:
-      - $ref: '#/components/schemas/TbChatResponse'
-      - type: object
-        properties:
-          errorDetails:
-            type: string
-            description: A string containing details about the failure
-          status:
-            type: string
-            example: FAILURE
     GitHubModelsChatModelConfig:
       allOf:
       - $ref: '#/components/schemas/AiModelConfig'
@@ -1158,13 +991,183 @@ components:
       required:
       - modelId
       - providerConfig
+    OllamaAuth:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    None:
+      allOf:
+      - $ref: '#/components/schemas/OllamaAuth'
+    TbTextContent:
+      allOf:
+      - $ref: '#/components/schemas/TbContent'
+      - type: object
+        properties:
+          text:
+            type: string
+            description: The text content
+            example: What is the weather like in Kyiv today?
+            minLength: 1
+      description: Text-based content part of a user's prompt
+      required:
+      - text
+    TbChatResponse:
+      type: object
+      discriminator:
+        propertyName: status
+      properties:
+        status:
+          type: string
+          description: Indicates whether the request was successful or not
+          example: SUCCESS
+    OpenAiProviderConfig:
+      type: object
+      properties:
+        baseUrl:
+          type: string
+        apiKey:
+          type: string
+    MistralAiProviderConfig:
+      type: object
+      properties:
+        apiKey:
+          type: string
+      required:
+      - apiKey
+    GoogleAiGeminiProviderConfig:
+      type: object
+      properties:
+        apiKey:
+          type: string
+      required:
+      - apiKey
+    AiChatModelConfigObject:
+      type: object
+      properties:
+        providerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/AmazonBedrockProviderConfig'
+          - $ref: '#/components/schemas/AnthropicProviderConfig'
+          - $ref: '#/components/schemas/AzureOpenAiProviderConfig'
+          - $ref: '#/components/schemas/GitHubModelsProviderConfig'
+          - $ref: '#/components/schemas/GoogleAiGeminiProviderConfig'
+          - $ref: '#/components/schemas/GoogleVertexAiGeminiProviderConfig'
+          - $ref: '#/components/schemas/MistralAiProviderConfig'
+          - $ref: '#/components/schemas/OllamaProviderConfig'
+          - $ref: '#/components/schemas/OpenAiProviderConfig'
+        modelType:
+          type: string
+          enum:
+          - CHAT
+          readOnly: true
+    AmazonBedrockChatModelConfig:
+      allOf:
+      - $ref: '#/components/schemas/AiModelConfig'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/AmazonBedrockProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+          modelType:
+            type: string
+            enum:
+            - CHAT
+            readOnly: true
+      - $ref: '#/components/schemas/AiChatModelConfigObject'
+      - type: object
+        properties:
+          providerConfig:
+            $ref: '#/components/schemas/AmazonBedrockProviderConfig'
+          modelId:
+            type: string
+            minLength: 1
+          temperature:
+            type: number
+            format: double
+          topP:
+            type: number
+            format: double
+            maximum: 1
+          maxOutputTokens:
+            type: integer
+            format: int32
+          timeoutSeconds:
+            type: integer
+            format: int32
+          maxRetries:
+            type: integer
+            format: int32
+      required:
+      - modelId
+      - providerConfig
+    PageDataAiModel:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AiModel'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    GitHubModelsProviderConfig:
+      type: object
+      properties:
+        personalAccessToken:
+          type: string
+      required:
+      - personalAccessToken
+    Token:
+      allOf:
+      - $ref: '#/components/schemas/OllamaAuth'
+      - type: object
+        properties:
+          token:
+            type: string
+      required:
+      - token
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

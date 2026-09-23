@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller calculated-field-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Telemetry Calculated Field Controller API
+  description: 'ThingsBoard Telemetry API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Telemetry, Entity Query, Calculated Field.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,10 @@ paths:
       tags:
       - calculated-field-controller
       summary: Create or Update Calculated Field (saveCalculatedField)
-      description: "Creates or Updates the Calculated Field. When creating calculated field, platform generates Calculated Field Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Calculated Field Id will be present in the response. Specify existing Calculated Field Id to update the calculated field. Referencing non-existing Calculated Field Id will cause 'Not Found' error. Remove 'id', 'tenantId' from the request body example (below) to create new Calculated Field entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or Updates the Calculated Field. When creating calculated field, platform generates Calculated Field Id as time-based UUID). The newly created Calculated Field Id will be present in the response. Specify existing Calculated Field Id to update the calculated field. Referencing non-existing Calculated Field Id will cause ''Not Found'' error. Remove ''id'', ''tenantId'' from the request body example (below) to create new Calculated Field entity.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveCalculatedField
       requestBody:
         description: A JSON value representing the calculated field.
@@ -45,7 +48,60 @@ paths:
       tags:
       - calculated-field-controller
       summary: Test Script Expression
-      description: "Execute the Script expression and return the result. The format of request: \n\n```json\n{\n  \"expression\": \"var temp = 0; foreach(element: temperature.values) {temp += element.value;} var avgTemperature = temp / temperature.values.size(); var adjustedTemperature = avgTemperature + 0.1 * humidity.value; return {\\\"adjustedTemperature\\\": adjustedTemperature};\",\n  \"arguments\": {\n    \"temperature\": {\n      \"type\": \"TS_ROLLING\",\n      \"timeWindow\": {\n        \"startTs\": 1739775630002,\n        \"endTs\": 65432211,\n        \"limit\": 5\n      },\n      \"values\": [\n        { \"ts\": 1739775639851, \"value\": 23 },\n        { \"ts\": 1739775664561, \"value\": 43 },\n        { \"ts\": 1739775713079, \"value\": 15 },\n        { \"ts\": 1739775999522, \"value\": 34 },\n        { \"ts\": 1739776228452, \"value\": 22 }\n      ]\n    },\n    \"humidity\": { \"type\": \"SINGLE_VALUE\", \"ts\": 1739776478057, \"value\": 23 }\n  }\n}\n```\n\n Expected result JSON contains \"output\" and \"error\".\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Execute the Script expression and return the result. The format of request:
+
+
+        ```json
+
+        {
+
+        "expression": "var temp = 0; foreach(element: temperature.values) {temp += element.value;} var avgTemperature = temp / temperature.values.size(); var adjustedTemperature = avgTemperature + 0.1 * humidity.value; return {\"adjustedTemperature\": adjustedTemperature};",
+
+        "arguments": {
+
+        "temperature": {
+
+        "type": "TS_ROLLING",
+
+        "timeWindow": {
+
+        "startTs": 1739775630002,
+
+        "endTs": 65432211,
+
+        "limit": 5
+
+        },
+
+        "values": [
+
+        { "ts": 1739775639851, "value": 23 },
+
+        { "ts": 1739775664561, "value": 43 },
+
+        { "ts": 1739775713079, "value": 15 },
+
+        { "ts": 1739775999522, "value": 34 },
+
+        { "ts": 1739776228452, "value": 22 }
+
+        ]
+
+        },
+
+        "humidity": { "type": "SINGLE_VALUE", "ts": 1739776478057, "value": 23 }
+
+        }
+
+        }
+
+        ```
+
+
+        Expected result JSON contains "output" and "error".
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: testScript_1
       requestBody:
         description: Test calculated field TBEL expression.
@@ -375,7 +431,10 @@ paths:
       tags:
       - calculated-field-controller
       summary: Get Latest Calculated Field Debug Event (getLatestCalculatedFieldDebugEvent)
-      description: "Gets latest calculated field debug event for specified calculated field id. Referencing non-existing calculated field id will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Gets latest calculated field debug event for specified calculated field id. Referencing non-existing calculated field id will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getLatestCalculatedFieldDebugEvent
       parameters:
       - name: calculatedFieldId
@@ -392,19 +451,6 @@ paths:
                 $ref: '#/components/schemas/JsonNode'
 components:
   schemas:
-    TimeSeriesOutput:
-      allOf:
-      - $ref: '#/components/schemas/Output'
-      - type: object
-        properties:
-          strategy:
-            oneOf:
-            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
-            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
-    OutputStrategy: {}
-    AttributesRuleChainOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/AttributesOutputStrategy'
     TimeSeriesOutputStrategy:
       discriminator:
         propertyName: type
@@ -413,44 +459,145 @@ components:
           type: string
       required:
       - type
-    SimpleCalculatedFieldConfiguration:
+    RelationPathLevel:
       type: object
       properties:
-        arguments:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Argument'
-          minProperties: 1
-        expression:
+        direction:
           type: string
-        output:
-          oneOf:
-          - $ref: '#/components/schemas/AttributesOutput'
-          - $ref: '#/components/schemas/TimeSeriesOutput'
-        useLatestTs:
-          type: boolean
+          enum:
+          - FROM
+          - TO
+        relationType:
+          type: string
+          minLength: 1
       required:
-      - arguments
-      - output
-    Argument:
+      - direction
+      - relationType
+    TimeSeriesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+      - type: object
+        properties:
+          ttl:
+            type: integer
+            format: int64
+          saveTimeSeries:
+            type: boolean
+          saveLatest:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    CalculatedField:
       type: object
       properties:
-        refEntityId:
-          $ref: '#/components/schemas/EntityId'
-        refDynamicSourceConfiguration:
-          oneOf:
-          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
-          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
-        refEntityKey:
-          $ref: '#/components/schemas/ReferencedEntityKey'
-        defaultValue:
-          type: string
-        limit:
-          type: integer
-          format: int32
-        timeWindow:
+        id:
+          $ref: '#/components/schemas/CalculatedFieldId'
+          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
+        createdTime:
           type: integer
           format: int64
+          description: Timestamp of the calculated field creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+        name:
+          type: string
+          description: User defined name of the calculated field.
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        configurationVersion:
+          type: integer
+          format: int32
+          description: Version of calculated field configuration.
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
+        version:
+          type: integer
+          format: int64
+      required:
+      - configuration
+    PageDataCalculatedField:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/CalculatedField'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    AttributesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+      - type: object
+        properties:
+          sendAttributesUpdatedNotification:
+            type: boolean
+          updateAttributesOnlyOnValueChange:
+            type: boolean
+          saveAttribute:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    PageDataCalculatedFieldInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/CalculatedFieldInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     EntityId:
       type: object
       properties:
@@ -502,63 +649,6 @@ components:
       required:
       - entityType
       - id
-    CalculatedField:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/CalculatedFieldId'
-          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the calculated field creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        entityId:
-          $ref: '#/components/schemas/EntityId'
-        type:
-          type: string
-          enum:
-          - SIMPLE
-          - SCRIPT
-          - GEOFENCING
-          - ALARM
-          - PROPAGATION
-          - RELATED_ENTITIES_AGGREGATION
-          - ENTITY_AGGREGATION
-        name:
-          type: string
-          description: User defined name of the calculated field.
-        debugMode:
-          type: boolean
-          deprecated: true
-          writeOnly: true
-        debugSettings:
-          $ref: '#/components/schemas/DebugSettings'
-          description: Debug settings object.
-        configurationVersion:
-          type: integer
-          format: int32
-          description: Version of calculated field configuration.
-          example: 0
-        configuration:
-          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
-        version:
-          type: integer
-          format: int64
-      required:
-      - configuration
-    AttributesOutput:
-      allOf:
-      - $ref: '#/components/schemas/Output'
-      - type: object
-        properties:
-          strategy:
-            oneOf:
-            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
-            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
     CalculatedFieldInfo:
       type: object
       properties:
@@ -609,15 +699,117 @@ components:
           type: string
       required:
       - configuration
-    RelationPathQueryDynamicSourceConfiguration:
+    Argument:
+      type: object
+      properties:
+        refEntityId:
+          $ref: '#/components/schemas/EntityId'
+        refDynamicSourceConfiguration:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
+          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
+        refEntityKey:
+          $ref: '#/components/schemas/ReferencedEntityKey'
+        defaultValue:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        timeWindow:
+          type: integer
+          format: int64
+    CalculatedFieldId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CALCULATED_FIELD
+          example: CALCULATED_FIELD
+      required:
+      - entityType
+      - id
+    OutputStrategy: {}
+    AttributesRuleChainOutputStrategy:
       allOf:
-      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+    Output:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        name:
+          type: string
+        scope:
+          type: string
+          enum:
+          - CLIENT_SCOPE
+          - SERVER_SCOPE
+          - SHARED_SCOPE
+        decimalsByDefault:
+          type: integer
+          format: int32
+        strategy:
+          $ref: '#/components/schemas/OutputStrategy'
+        type:
+          type: string
+      required:
+      - type
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    AttributesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
       - type: object
         properties:
-          levels:
-            type: array
-            items:
-              $ref: '#/components/schemas/RelationPathLevel'
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
+    AttributesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    DebugSettings:
+      type: object
+      properties:
+        failuresEnabled:
+          type: boolean
+          description: 'Debug failures. '
+          example: false
+        allEnabled:
+          type: boolean
+          description: Debug All. Used as a trigger for updating debugAllUntil.
+          example: false
+        allEnabledUntil:
+          type: integer
+          format: int64
+          description: Timestamp of the end time for the processing debug events.
     PageDataString:
       type: object
       properties:
@@ -641,143 +833,15 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    CurrentOwnerDynamicSourceConfiguration:
+    TimeSeriesOutput:
       allOf:
-      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
-    DebugSettings:
-      type: object
-      properties:
-        failuresEnabled:
-          type: boolean
-          description: 'Debug failures. '
-          example: false
-        allEnabled:
-          type: boolean
-          description: Debug All. Used as a trigger for updating debugAllUntil.
-          example: false
-        allEnabledUntil:
-          type: integer
-          format: int64
-          description: Timestamp of the end time for the processing debug events.
-    PageDataCalculatedField:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/CalculatedField'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    PageDataCalculatedFieldInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/CalculatedFieldInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    Output:
-      type: object
-      discriminator:
-        propertyName: type
-      properties:
-        name:
-          type: string
-        scope:
-          type: string
-          enum:
-          - CLIENT_SCOPE
-          - SERVER_SCOPE
-          - SHARED_SCOPE
-        decimalsByDefault:
-          type: integer
-          format: int32
-        strategy:
-          $ref: '#/components/schemas/OutputStrategy'
-        type:
-          type: string
-      required:
-      - type
-    MultiValueMapStringString:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-      properties:
-        all:
-          type: object
-          additionalProperties:
-            type: string
-          writeOnly: true
-    AttributesImmediateOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/AttributesOutputStrategy'
+      - $ref: '#/components/schemas/Output'
       - type: object
         properties:
-          sendAttributesUpdatedNotification:
-            type: boolean
-          updateAttributesOnlyOnValueChange:
-            type: boolean
-          saveAttribute:
-            type: boolean
-          sendWsUpdate:
-            type: boolean
-          processCfs:
-            type: boolean
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    TimeSeriesRuleChainOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
     ReferencedEntityKey:
       type: object
       properties:
@@ -803,68 +867,63 @@ components:
           type: string
       required:
       - type
-    CalculatedFieldId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CALCULATED_FIELD
-          example: CALCULATED_FIELD
-      required:
-      - entityType
-      - id
-    AttributesOutputStrategy:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    RelationPathLevel:
-      type: object
-      properties:
-        direction:
-          type: string
-          enum:
-          - FROM
-          - TO
-        relationType:
-          type: string
-          minLength: 1
-      required:
-      - direction
-      - relationType
-    TimeSeriesImmediateOutputStrategy:
+    RelationPathQueryDynamicSourceConfiguration:
       allOf:
-      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
       - type: object
         properties:
-          ttl:
-            type: integer
-            format: int64
-          saveTimeSeries:
-            type: boolean
-          saveLatest:
-            type: boolean
-          sendWsUpdate:
-            type: boolean
-          processCfs:
-            type: boolean
+          levels:
+            type: array
+            items:
+              $ref: '#/components/schemas/RelationPathLevel'
+    MultiValueMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      properties:
+        all:
+          type: object
+          additionalProperties:
+            type: string
+          writeOnly: true
+    CurrentOwnerDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+    TimeSeriesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    SimpleCalculatedFieldConfiguration:
+      type: object
+      properties:
+        arguments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Argument'
+          minProperties: 1
+        expression:
+          type: string
+        output:
+          oneOf:
+          - $ref: '#/components/schemas/AttributesOutput'
+          - $ref: '#/components/schemas/TimeSeriesOutput'
+        useLatestTs:
+          type: boolean
+      required:
+      - arguments
+      - output
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

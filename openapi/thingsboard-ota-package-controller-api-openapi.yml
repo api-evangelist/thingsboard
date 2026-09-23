@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller ota-package-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Devices Ota Package Controller API
+  description: 'ThingsBoard Devices API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Device, Device Profile, Device Connectivity, Ota Package.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,13 @@ paths:
       tags:
       - ota-package-controller
       summary: Create or Update OTA Package Info (saveOtaPackageInfo)
-      description: "Create or update the OTA Package Info. When creating OTA Package Info, platform generates OTA Package id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created OTA Package id will be present in the response. Specify existing OTA Package id to update the OTA Package Info. Referencing non-existing OTA Package Id will cause 'Not Found' error. \n\nOTA Package combination of the title with the version is unique in the scope of tenant. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Create or update the OTA Package Info. When creating OTA Package Info, platform generates OTA Package id as time-based UUID). The newly created OTA Package id will be present in the response. Specify existing OTA Package id to update the OTA Package Info. Referencing non-existing OTA Package Id will cause ''Not Found'' error.
+
+
+        OTA Package combination of the title with the version is unique in the scope of tenant.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: saveOtaPackageInfo
       requestBody:
         content:
@@ -44,7 +50,10 @@ paths:
       tags:
       - ota-package-controller
       summary: Get OTA Package (getOtaPackageById)
-      description: "Fetch the OTA Package object based on the provided OTA Package Id. The server checks that the OTA Package is owned by the same tenant. OTA Package is a heavyweight object that includes main information about the OTA Package and also data. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Fetch the OTA Package object based on the provided OTA Package Id. The server checks that the OTA Package is owned by the same tenant. OTA Package is a heavyweight object that includes main information about the OTA Package and also data.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getOtaPackageById
       parameters:
       - name: otaPackageId
@@ -139,7 +148,10 @@ paths:
       tags:
       - ota-package-controller
       summary: Get OTA Package Infos (getOtaPackages)
-      description: "Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getOtaPackages
       parameters:
       - name: pageSize
@@ -199,7 +211,10 @@ paths:
       tags:
       - ota-package-controller
       summary: Get OTA Package Infos (getOtaPackages)
-      description: "Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of OTA Package Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getOtaPackages_1
       parameters:
       - name: deviceProfileId
@@ -299,7 +314,10 @@ paths:
       tags:
       - ota-package-controller
       summary: Get OTA Package Info (getOtaPackageInfoById)
-      description: "Fetch the OTA Package Info object based on the provided OTA Package Id. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Fetch the OTA Package Info object based on the provided OTA Package Id. OTA Package Info is a lightweight object that includes main information about the OTA Package excluding the heavyweight data.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getOtaPackageInfoById
       parameters:
       - name: otaPackageId
@@ -317,121 +335,6 @@ paths:
                 $ref: '#/components/schemas/OtaPackageInfo'
 components:
   schemas:
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    DeviceProfileId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - DEVICE_PROFILE
-          example: DEVICE_PROFILE
-      required:
-      - entityType
-      - id
-    OtaPackageInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/OtaPackageId'
-          description: JSON object with the ota package Id. Specify existing ota package Id to update the ota package. Referencing non-existing ota package id will cause error. Omit this field to create new ota package.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the ota package creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id. Tenant Id of the ota package can't be changed.
-          readOnly: true
-        deviceProfileId:
-          $ref: '#/components/schemas/DeviceProfileId'
-          description: JSON object with Device Profile Id. Device Profile Id of the ota package can't be changed.
-          readOnly: true
-        type:
-          type: string
-          description: OTA Package type.
-          enum:
-          - FIRMWARE
-          - SOFTWARE
-          example: FIRMWARE
-          readOnly: true
-        title:
-          type: string
-          description: OTA Package title.
-          example: fw
-          readOnly: true
-        version:
-          type: string
-          description: OTA Package version.
-          example: 1.0
-          readOnly: true
-        tag:
-          type: string
-          description: OTA Package tag.
-          example: fw_1.0
-          readOnly: true
-        url:
-          type: string
-          description: OTA Package url.
-          example: http://thingsboard.org/fw/1
-          readOnly: true
-        hasData:
-          type: boolean
-          description: Indicates OTA Package 'has data'. Field is returned from DB ('true' if data exists or url is set).  If OTA Package 'has data' is 'false' we can not assign the OTA Package to the Device or Device Profile.
-          example: true
-          readOnly: true
-        fileName:
-          type: string
-          description: OTA Package file name.
-          example: fw_1.0
-          readOnly: true
-        contentType:
-          type: string
-          description: OTA Package content type.
-          example: APPLICATION_OCTET_STREAM
-          readOnly: true
-        checksumAlgorithm:
-          type: string
-          description: OTA Package checksum algorithm.
-          enum:
-          - MD5
-          - SHA256
-          - SHA384
-          - SHA512
-          - CRC32
-          - MURMUR3_32
-          - MURMUR3_128
-          example: CRC32
-          readOnly: true
-        checksum:
-          type: string
-          description: OTA Package checksum.
-          example: '0xd87f7e0c'
-          readOnly: true
-        dataSize:
-          type: integer
-          format: int64
-          description: OTA Package data size.
-          example: 8
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: OTA Package description.
-          example: Description for the OTA Package fw_1.0
     OtaPackage:
       type: object
       properties:
@@ -550,6 +453,67 @@ components:
           $ref: '#/components/schemas/JsonNode'
           description: OTA Package description.
           example: Description for the OTA Package fw_1.0
+    DeviceProfileId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DEVICE_PROFILE
+          example: DEVICE_PROFILE
+      required:
+      - entityType
+      - id
+    PageDataOtaPackageInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/OtaPackageInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    OtaPackageId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - OTA_PACKAGE
+          example: OTA_PACKAGE
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     SaveOtaPackageInfoRequest:
       type: object
       description: A JSON value representing the OTA Package.
@@ -650,23 +614,100 @@ components:
           $ref: '#/components/schemas/JsonNode'
           description: OTA Package description.
           example: Description for the OTA Package fw_1.0
-    OtaPackageId:
+    OtaPackageInfo:
       type: object
       properties:
         id:
+          $ref: '#/components/schemas/OtaPackageId'
+          description: JSON object with the ota package Id. Specify existing ota package Id to update the ota package. Referencing non-existing ota package id will cause error. Omit this field to create new ota package.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the ota package creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the ota package can't be changed.
+          readOnly: true
+        deviceProfileId:
+          $ref: '#/components/schemas/DeviceProfileId'
+          description: JSON object with Device Profile Id. Device Profile Id of the ota package can't be changed.
+          readOnly: true
+        type:
           type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
+          description: OTA Package type.
           enum:
-          - OTA_PACKAGE
-          example: OTA_PACKAGE
-      required:
-      - entityType
-      - id
+          - FIRMWARE
+          - SOFTWARE
+          example: FIRMWARE
+          readOnly: true
+        title:
+          type: string
+          description: OTA Package title.
+          example: fw
+          readOnly: true
+        version:
+          type: string
+          description: OTA Package version.
+          example: 1.0
+          readOnly: true
+        tag:
+          type: string
+          description: OTA Package tag.
+          example: fw_1.0
+          readOnly: true
+        url:
+          type: string
+          description: OTA Package url.
+          example: http://thingsboard.org/fw/1
+          readOnly: true
+        hasData:
+          type: boolean
+          description: Indicates OTA Package 'has data'. Field is returned from DB ('true' if data exists or url is set).  If OTA Package 'has data' is 'false' we can not assign the OTA Package to the Device or Device Profile.
+          example: true
+          readOnly: true
+        fileName:
+          type: string
+          description: OTA Package file name.
+          example: fw_1.0
+          readOnly: true
+        contentType:
+          type: string
+          description: OTA Package content type.
+          example: APPLICATION_OCTET_STREAM
+          readOnly: true
+        checksumAlgorithm:
+          type: string
+          description: OTA Package checksum algorithm.
+          enum:
+          - MD5
+          - SHA256
+          - SHA384
+          - SHA512
+          - CRC32
+          - MURMUR3_32
+          - MURMUR3_128
+          example: CRC32
+          readOnly: true
+        checksum:
+          type: string
+          description: OTA Package checksum.
+          example: '0xd87f7e0c'
+          readOnly: true
+        dataSize:
+          type: integer
+          format: int64
+          description: OTA Package data size.
+          example: 8
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: OTA Package description.
+          example: Description for the OTA Package fw_1.0
     TenantId:
       type: object
       properties:
@@ -684,36 +725,13 @@ components:
       required:
       - entityType
       - id
-    PageDataOtaPackageInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/OtaPackageInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

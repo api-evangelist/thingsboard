@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller entity-relation-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Assets Entity Relation Controller API
+  description: 'ThingsBoard Assets API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Asset, Asset Profile, Entity View, Entity Relation.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Create Relation (saveRelationV2)
-      description: "Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      description: 'Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that ''from'' and ''to'' entities are owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that ''from'' and ''to'' entities are owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the ''from'' and ''to'' entities are assigned to the same customer.'
       operationId: saveRelationV2
       requestBody:
         content:
@@ -43,7 +46,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Delete Relation (deleteRelationV2)
-      description: "Deletes a relation between two entities in the platform. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      description: 'Deletes a relation between two entities in the platform.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that ''from'' and ''to'' entities are owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that ''from'' and ''to'' entities are owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the ''from'' and ''to'' entities are assigned to the same customer.'
       operationId: deleteRelationV2
       parameters:
       - name: fromId
@@ -94,7 +100,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Get List of Relations (findByFrom)
-      description: "Returns list of relation objects for the specified entity by the 'from' direction and relation type. \n\nIf the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer."
+      description: 'Returns list of relation objects for the specified entity by the ''from'' direction and relation type.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that the entity is owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that the entity is owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the entity is assigned to the same customer.'
       operationId: findByTo
       parameters:
       - name: toId
@@ -167,7 +176,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Delete Common Relations (deleteCommonRelations)
-      description: "Deletes all the relations ('from' and 'to' direction) for the specified entity and relation type group: 'COMMON'. \n\nIf the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer."
+      description: 'Deletes all the relations (''from'' and ''to'' direction) for the specified entity and relation type group: ''COMMON''.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that the entity is owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that the entity is owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the entity is assigned to the same customer.'
       operationId: deleteRelations
       parameters:
       - name: entityId
@@ -190,7 +202,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Get List of Relation Infos (findInfoByFrom)
-      description: "Returns list of relation info objects for the specified entity by the 'from' direction. \n\nIf the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer. Relation Info is an extension of the default Relation object that contains information about the 'from' and 'to' entity names. "
+      description: 'Returns list of relation info objects for the specified entity by the ''from'' direction.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that the entity is owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that the entity is owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the entity is assigned to the same customer. Relation Info is an extension of the default Relation object that contains information about the ''from'' and ''to'' entity names.'
       operationId: findInfoByTo
       parameters:
       - name: toId
@@ -236,7 +251,7 @@ paths:
       tags:
       - entity-relation-controller
       summary: Find Related Entity Infos (findInfoByQuery)
-      description: 'Returns all entity infos that are related to the specific entity. The entity id, relation type, entity types, depth of the search, and other query parameters defined using complex ''EntityRelationsQuery'' object. See ''Model'' tab of the Parameters for more info. Relation Info is an extension of the default Relation object that contains information about the ''from'' and ''to'' entity names. '
+      description: Returns all entity infos that are related to the specific entity. The entity id, relation type, entity types, depth of the search, and other query parameters defined using complex 'EntityRelationsQuery' object. See 'Model' tab of the Parameters for more info. Relation Info is an extension of the default Relation object that contains information about the 'from' and 'to' entity names.
       operationId: findInfoByQuery
       requestBody:
         content:
@@ -258,7 +273,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Get Relation (getRelation)
-      description: "Returns relation object between two specified entities if present. Otherwise throws exception. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      description: 'Returns relation object between two specified entities if present. Otherwise throws exception.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that ''from'' and ''to'' entities are owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that ''from'' and ''to'' entities are owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the ''from'' and ''to'' entities are assigned to the same customer.'
       operationId: getRelation
       parameters:
       - name: fromId
@@ -308,7 +326,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Create Relation (saveRelation)
-      description: "Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      description: 'Creates or updates a relation between two entities in the platform. Relations unique key is a combination of from/to entity id and relation type group and relation type.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that ''from'' and ''to'' entities are owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that ''from'' and ''to'' entities are owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the ''from'' and ''to'' entities are assigned to the same customer.'
       operationId: saveRelation
       requestBody:
         content:
@@ -323,7 +344,10 @@ paths:
       tags:
       - entity-relation-controller
       summary: Delete Relation (deleteRelation)
-      description: "Deletes a relation between two entities in the platform. \n\nIf the user has the authority of 'System Administrator', the server checks that 'from' and 'to' entities are owned by the sysadmin. If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer."
+      description: 'Deletes a relation between two entities in the platform.
+
+
+        If the user has the authority of ''System Administrator'', the server checks that ''from'' and ''to'' entities are owned by the sysadmin. If the user has the authority of ''Tenant Administrator'', the server checks that ''from'' and ''to'' entities are owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the ''from'' and ''to'' entities are assigned to the same customer.'
       operationId: deleteRelation
       parameters:
       - name: fromId
@@ -367,105 +391,6 @@ paths:
           description: OK
 components:
   schemas:
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    EntityRelationInfo:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [from] Entity Id.
-        to:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [to] Entity Id.
-        type:
-          type: string
-          description: String value of relation type.
-          example: Contains
-          minLength: 1
-        typeGroup:
-          type: string
-          description: Represents the type group of the relation.
-          enum:
-          - COMMON
-          - DASHBOARD
-          - RULE_CHAIN
-          - RULE_NODE
-          - EDGE
-          - EDGE_AUTO_ASSIGN_RULE_CHAIN
-          example: COMMON
-        version:
-          type: integer
-          format: int64
-        fromName:
-          type: string
-          description: Name of the entity for [from] direction.
-          example: A4B72CCDFF33
-          readOnly: true
-        toName:
-          type: string
-          description: Name of the entity for [to] direction.
-          example: A4B72CCDFF35
-          readOnly: true
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: Additional parameters of the relation
-      required:
-      - from
-      - to
-      - type
-      - typeGroup
-    EntityRelationsQuery:
-      type: object
-      description: A JSON value representing the entity relations query object.
-      properties:
-        parameters:
-          $ref: '#/components/schemas/RelationsSearchParameters'
-          description: Main search parameters.
-        filters:
-          type: array
-          description: Main filters.
-          items:
-            $ref: '#/components/schemas/RelationEntityTypeFilter'
-    EntityRelation:
-      type: object
-      description: A JSON value representing the relation.
-      properties:
-        from:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [from] Entity Id.
-        to:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [to] Entity Id.
-        type:
-          type: string
-          description: String value of relation type.
-          example: Contains
-          minLength: 1
-        typeGroup:
-          type: string
-          description: Represents the type group of the relation.
-          enum:
-          - COMMON
-          - DASHBOARD
-          - RULE_CHAIN
-          - RULE_NODE
-          - EDGE
-          - EDGE_AUTO_ASSIGN_RULE_CHAIN
-          example: COMMON
-        version:
-          type: integer
-          format: int64
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: Additional parameters of the relation
-      required:
-      - from
-      - to
-      - type
-      - typeGroup
     RelationsSearchParameters:
       type: object
       properties:
@@ -640,13 +565,112 @@ components:
         negate:
           type: boolean
           description: Negate relation type between root entity and other entity.
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    EntityRelationsQuery:
+      type: object
+      description: A JSON value representing the entity relations query object.
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RelationsSearchParameters'
+          description: Main search parameters.
+        filters:
+          type: array
+          description: Main filters.
+          items:
+            $ref: '#/components/schemas/RelationEntityTypeFilter'
+    EntityRelation:
+      type: object
+      description: A JSON value representing the relation.
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
+    EntityRelationInfo:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        fromName:
+          type: string
+          description: Name of the entity for [from] direction.
+          example: A4B72CCDFF33
+          readOnly: true
+        toName:
+          type: string
+          description: Name of the entity for [to] direction.
+          example: A4B72CCDFF35
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

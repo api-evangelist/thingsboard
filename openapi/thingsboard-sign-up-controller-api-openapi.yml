@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller sign-up-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Authentication Sign Up Controller API
+  description: 'ThingsBoard Authentication API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth 2, O Auth 2 Config Template, Domain.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -31,6 +31,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JwtPair'
+      summary: Accept privacy policy
+      x-summary-source: derived
   /api/noauth/signup:
     post:
       tags:
@@ -52,6 +54,8 @@ paths:
                 enum:
                 - SUCCESS
                 - INACTIVE_USER_EXISTS
+      summary: Sign up
+      x-summary-source: derived
   /api/noauth/resendEmailActivation:
     post:
       tags:
@@ -71,6 +75,8 @@ paths:
       responses:
         '200':
           description: OK
+      summary: Resend email activation
+      x-summary-source: derived
   /api/noauth/activateByEmailCode:
     post:
       tags:
@@ -94,6 +100,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JwtPair'
+      summary: Activate user by email code
+      x-summary-source: derived
   /api/signup/privacyPolicyAccepted:
     get:
       tags:
@@ -106,6 +114,8 @@ paths:
             application/json:
               schema:
                 type: boolean
+      summary: Privacy policy accepted
+      x-summary-source: derived
   /api/noauth/signup/recaptchaPublicKey:
     get:
       tags:
@@ -118,6 +128,8 @@ paths:
             application/json:
               schema:
                 type: string
+      summary: Get recaptcha public key
+      x-summary-source: derived
   /api/noauth/signup/recaptchaParams:
     get:
       tags:
@@ -130,6 +142,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CaptchaClientParams'
+      summary: Get recaptcha params
+      x-summary-source: derived
   /api/noauth/login:
     get:
       tags:
@@ -148,6 +162,8 @@ paths:
             application/json:
               schema:
                 type: string
+      summary: Mobile login
+      x-summary-source: derived
   /api/noauth/activateEmail:
     get:
       tags:
@@ -171,6 +187,8 @@ paths:
             application/json:
               schema:
                 type: string
+      summary: Activate email
+      x-summary-source: derived
   /api/signup/tenantAccount:
     delete:
       tags:
@@ -179,8 +197,38 @@ paths:
       responses:
         '200':
           description: OK
+      summary: Delete tenant account
+      x-summary-source: derived
 components:
   schemas:
+    SignUpRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First Name
+          example: John
+        lastName:
+          type: string
+          description: Last Name
+          example: Doe
+        email:
+          type: string
+          description: Email will be used for new user to login
+          example: john.doe@company.com
+        password:
+          type: string
+          description: New User Password
+          example: secret
+        recaptchaResponse:
+          type: string
+          description: Response from reCAPTCHA validation
+        pkgName:
+          type: string
+          description: For mobile apps only. Mobile app package name
+        appSecret:
+          type: string
+          description: For mobile apps only. Mobile app secret
     CaptchaClientParams:
       type: object
       properties:
@@ -211,41 +259,13 @@ components:
           - REFRESH_TOKEN
           - PRE_VERIFICATION_TOKEN
           - MFA_CONFIGURATION_TOKEN
-    SignUpRequest:
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: First Name
-          example: John
-        lastName:
-          type: string
-          description: Last Name
-          example: Doe
-        email:
-          type: string
-          description: Email will be used for new user to login
-          example: john.doe@company.com
-        password:
-          type: string
-          description: New User Password
-          example: secret
-        recaptchaResponse:
-          type: string
-          description: Response from reCAPTCHA validation
-        pkgName:
-          type: string
-          description: For mobile apps only. Mobile app package name
-        appSecret:
-          type: string
-          description: For mobile apps only. Mobile app secret
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

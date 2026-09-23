@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller telemetry-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Telemetry Telemetry Controller API
+  description: 'ThingsBoard Telemetry API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Telemetry, Entity Query, Calculated Field.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,47 @@ paths:
       tags:
       - telemetry-controller
       summary: Save Entity Attributes (saveEntityAttributesV1)
-      description: "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or updates the entity attributes based on Entity Id and the specified attribute scope. List of possible attribute scopes depends on the entity type:
+
+
+        * SERVER_SCOPE - supported for all entity types;
+
+        * SHARED_SCOPE - supported for devices.
+
+
+        The request payload is a JSON object with key-value format of attributes to create or update. For example:
+
+
+        ```json
+
+        {
+
+        "stringKey":"value1",
+
+        "booleanKey":true,
+
+        "doubleKey":42.0,
+
+        "longKey":73,
+
+        "jsonKey": {
+
+        "someNumber": 42,
+
+        "someArray": [1,2,3],
+
+        "someNestedObject": {"key": "value"}
+
+        }
+
+        }
+
+        ```
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveEntityAttributesV1
       parameters:
       - name: entityType
@@ -84,7 +124,10 @@ paths:
       tags:
       - telemetry-controller
       summary: Delete Entity Attributes (deleteEntityAttributes)
-      description: "Delete entity attributes using provided Entity Id, scope and a list of keys. Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Delete entity attributes using provided Entity Id, scope and a list of keys. Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: deleteEntityAttributes
       parameters:
       - name: entityType
@@ -150,7 +193,43 @@ paths:
       tags:
       - telemetry-controller
       summary: Save or Update Time Series Data (saveEntityTelemetry)
-      description: "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"ts\":1634712588000,\"values\":{\"temperature\":25, \"humidity\":88}}]\n```\n\n The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable. Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:
+
+
+        Simple format without timestamp. In such a case, current server time will be used:
+
+
+        ```json
+
+        {"temperature": 26}
+
+        ```
+
+
+        Single JSON object with timestamp:
+
+
+        ```json
+
+        {"ts":1634712287000,"values":{"temperature":26, "humidity":87}}
+
+        ```
+
+
+        JSON array with timestamps:
+
+
+        ```json
+
+        [{"ts":1634712287000,"values":{"temperature":26, "humidity":87}}, {"ts":1634712588000,"values":{"temperature":25, "humidity":88}}]
+
+        ```
+
+
+        The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable. Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveEntityTelemetry
       parameters:
       - name: entityType
@@ -210,7 +289,46 @@ paths:
       tags:
       - telemetry-controller
       summary: Save or Update Time Series Data with TTL (saveEntityTelemetryWithTTL)
-      description: "Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:\n\nSimple format without timestamp. In such a case, current server time will be used: \n\n```json\n{\"temperature\": 26}\n```\n\n Single JSON object with timestamp: \n\n```json\n{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}\n```\n\n JSON array with timestamps: \n\n```json\n[{\"ts\":1634712287000,\"values\":{\"temperature\":26, \"humidity\":87}}, {\"ts\":1634712588000,\"values\":{\"temperature\":25, \"humidity\":88}}]\n```\n\n The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable. \n\nThe ttl parameter takes affect only in case of Cassandra DB.Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or updates the entity time series data based on the Entity Id and request payload.The request payload is a JSON document with three possible formats:
+
+
+        Simple format without timestamp. In such a case, current server time will be used:
+
+
+        ```json
+
+        {"temperature": 26}
+
+        ```
+
+
+        Single JSON object with timestamp:
+
+
+        ```json
+
+        {"ts":1634712287000,"values":{"temperature":26, "humidity":87}}
+
+        ```
+
+
+        JSON array with timestamps:
+
+
+        ```json
+
+        [{"ts":1634712287000,"values":{"temperature":26, "humidity":87}}, {"ts":1634712588000,"values":{"temperature":25, "humidity":88}}]
+
+        ```
+
+
+        The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
+
+
+        The ttl parameter takes affect only in case of Cassandra DB.Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveEntityTelemetryWithTTL
       parameters:
       - name: entityType
@@ -277,7 +395,47 @@ paths:
       tags:
       - telemetry-controller
       summary: Save Entity Attributes (saveEntityAttributesV2)
-      description: "Creates or updates the entity attributes based on Entity Id and the specified attribute scope.  List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices.\n\nThe request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or updates the entity attributes based on Entity Id and the specified attribute scope. List of possible attribute scopes depends on the entity type:
+
+
+        * SERVER_SCOPE - supported for all entity types;
+
+        * SHARED_SCOPE - supported for devices.
+
+
+        The request payload is a JSON object with key-value format of attributes to create or update. For example:
+
+
+        ```json
+
+        {
+
+        "stringKey":"value1",
+
+        "booleanKey":true,
+
+        "doubleKey":42.0,
+
+        "longKey":73,
+
+        "jsonKey": {
+
+        "someNumber": 42,
+
+        "someArray": [1,2,3],
+
+        "someNestedObject": {"key": "value"}
+
+        }
+
+        }
+
+        ```
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveEntityAttributesV2
       parameters:
       - name: entityType
@@ -338,7 +496,37 @@ paths:
       tags:
       - telemetry-controller
       summary: Save Device Attributes (saveDeviceAttributes)
-      description: "Creates or updates the device attributes based on device id and specified attribute scope. The request payload is a JSON object with key-value format of attributes to create or update. For example:\n\n```json\n{\n \"stringKey\":\"value1\", \n \"booleanKey\":true, \n \"doubleKey\":42.0, \n \"longKey\":73, \n \"jsonKey\": {\n    \"someNumber\": 42,\n    \"someArray\": [1,2,3],\n    \"someNestedObject\": {\"key\": \"value\"}\n }\n}\n```\n\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or updates the device attributes based on device id and specified attribute scope. The request payload is a JSON object with key-value format of attributes to create or update. For example:
+
+
+        ```json
+
+        {
+
+        "stringKey":"value1",
+
+        "booleanKey":true,
+
+        "doubleKey":42.0,
+
+        "longKey":73,
+
+        "jsonKey": {
+
+        "someNumber": 42,
+
+        "someArray": [1,2,3],
+
+        "someNestedObject": {"key": "value"}
+
+        }
+
+        }
+
+        ```
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveDeviceAttributes
       parameters:
       - name: deviceId
@@ -455,7 +643,42 @@ paths:
       tags:
       - telemetry-controller
       summary: Get Time Series Data (getTimeseries)
-      description: "Returns a range of time series values for specified entity. Returns not aggregated data by default. Use aggregation function ('agg') and aggregation interval ('interval') to enable aggregation of the results on the database / server side. The aggregation is generally more efficient then fetching all records. \n\n```json\n{\n  \"temperature\": [\n    {\n      \"value\": 36.7,\n      \"ts\": 1609459200000\n    },\n    {\n      \"value\": 36.6,\n      \"ts\": 1609459201000\n    }\n  ]\n}\n```\n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a range of time series values for specified entity. Returns not aggregated data by default. Use aggregation function (''agg'') and aggregation interval (''interval'') to enable aggregation of the results on the database / server side. The aggregation is generally more efficient then fetching all records.
+
+
+        ```json
+
+        {
+
+        "temperature": [
+
+        {
+
+        "value": 36.7,
+
+        "ts": 1609459200000
+
+        },
+
+        {
+
+        "value": 36.6,
+
+        "ts": 1609459201000
+
+        }
+
+        ]
+
+        }
+
+        ```
+
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getLatestTimeseries
       parameters:
       - name: entityType
@@ -568,7 +791,48 @@ paths:
       tags:
       - telemetry-controller
       summary: Get Attributes (getAttributes)
-      description: "Returns all attributes that belong to specified entity. Use optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n[\n  {\"key\": \"stringAttributeKey\", \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": false, \"lastUpdateTs\": 1609459200001},\n  {\"key\": \"doubleAttributeKey\", \"value\": 42.2, \"lastUpdateTs\": 1609459200002},\n  {\"key\": \"longKeyExample\", \"value\": 73, \"lastUpdateTs\": 1609459200003},\n  {\"key\": \"jsonKeyExample\",\n    \"value\": {\n      \"someNumber\": 42,\n      \"someArray\": [1,2,3],\n      \"someNestedObject\": {\"key\": \"value\"}\n    },\n    \"lastUpdateTs\": 1609459200004\n  }\n]\n```\n\n Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns all attributes that belong to specified entity. Use optional ''keys'' parameter to return specific attributes.
+
+        Example of the result:
+
+
+        ```json
+
+        [
+
+        {"key": "stringAttributeKey", "value": "value", "lastUpdateTs": 1609459200000},
+
+        {"key": "booleanAttributeKey", "value": false, "lastUpdateTs": 1609459200001},
+
+        {"key": "doubleAttributeKey", "value": 42.2, "lastUpdateTs": 1609459200002},
+
+        {"key": "longKeyExample", "value": 73, "lastUpdateTs": 1609459200003},
+
+        {"key": "jsonKeyExample",
+
+        "value": {
+
+        "someNumber": 42,
+
+        "someArray": [1,2,3],
+
+        "someNestedObject": {"key": "value"}
+
+        },
+
+        "lastUpdateTs": 1609459200004
+
+        }
+
+        ]
+
+        ```
+
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAttributes
       parameters:
       - name: entityType
@@ -606,7 +870,58 @@ paths:
       tags:
       - telemetry-controller
       summary: Get Attributes by Scope (getAttributesByScope)
-      description: "Returns all attributes of a specified scope that belong to specified entity. List of possible attribute scopes depends on the entity type: \n\n * SERVER_SCOPE - supported for all entity types;\n * SHARED_SCOPE - supported for devices;\n * CLIENT_SCOPE - supported for devices. \n\nUse optional 'keys' parameter to return specific attributes.\n Example of the result: \n\n```json\n[\n  {\"key\": \"stringAttributeKey\", \"value\": \"value\", \"lastUpdateTs\": 1609459200000},\n  {\"key\": \"booleanAttributeKey\", \"value\": false, \"lastUpdateTs\": 1609459200001},\n  {\"key\": \"doubleAttributeKey\", \"value\": 42.2, \"lastUpdateTs\": 1609459200002},\n  {\"key\": \"longKeyExample\", \"value\": 73, \"lastUpdateTs\": 1609459200003},\n  {\"key\": \"jsonKeyExample\",\n    \"value\": {\n      \"someNumber\": 42,\n      \"someArray\": [1,2,3],\n      \"someNestedObject\": {\"key\": \"value\"}\n    },\n    \"lastUpdateTs\": 1609459200004\n  }\n]\n```\n\n Referencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns all attributes of a specified scope that belong to specified entity. List of possible attribute scopes depends on the entity type:
+
+
+        * SERVER_SCOPE - supported for all entity types;
+
+        * SHARED_SCOPE - supported for devices;
+
+        * CLIENT_SCOPE - supported for devices.
+
+
+        Use optional ''keys'' parameter to return specific attributes.
+
+        Example of the result:
+
+
+        ```json
+
+        [
+
+        {"key": "stringAttributeKey", "value": "value", "lastUpdateTs": 1609459200000},
+
+        {"key": "booleanAttributeKey", "value": false, "lastUpdateTs": 1609459200001},
+
+        {"key": "doubleAttributeKey", "value": 42.2, "lastUpdateTs": 1609459200002},
+
+        {"key": "longKeyExample", "value": 73, "lastUpdateTs": 1609459200003},
+
+        {"key": "jsonKeyExample",
+
+        "value": {
+
+        "someNumber": 42,
+
+        "someArray": [1,2,3],
+
+        "someNestedObject": {"key": "value"}
+
+        },
+
+        "lastUpdateTs": 1609459200004
+
+        }
+
+        ]
+
+        ```
+
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAttributesByScope
       parameters:
       - name: entityType
@@ -654,7 +969,13 @@ paths:
       tags:
       - telemetry-controller
       summary: Get Time Series Keys (getTimeseriesKeys)
-      description: "Returns a set of unique time series key names for the selected entity. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a set of unique time series key names for the selected entity.
+
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getTimeseriesKeys
       parameters:
       - name: entityType
@@ -681,7 +1002,20 @@ paths:
       tags:
       - telemetry-controller
       summary: Get All Attribute Keys (getAttributeKeys)
-      description: "Returns a set of unique attribute key names for the selected entity. The response will include merged key names set for all attribute scopes:\n\n * SERVER_SCOPE - supported for all entity types;\n * CLIENT_SCOPE - supported for devices;\n * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a set of unique attribute key names for the selected entity. The response will include merged key names set for all attribute scopes:
+
+
+        * SERVER_SCOPE - supported for all entity types;
+
+        * CLIENT_SCOPE - supported for devices;
+
+        * SHARED_SCOPE - supported for devices.
+
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAttributeKeys
       parameters:
       - name: entityType
@@ -708,7 +1042,20 @@ paths:
       tags:
       - telemetry-controller
       summary: Get All Attribute Keys by Scope (getAttributeKeysByScope)
-      description: "Returns a set of unique attribute key names for the selected entity and attributes scope: \n\n * SERVER_SCOPE - supported for all entity types;\n * CLIENT_SCOPE - supported for devices;\n * SHARED_SCOPE - supported for devices. \n\nReferencing a non-existing entity Id or invalid entity type will cause an error. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a set of unique attribute key names for the selected entity and attributes scope:
+
+
+        * SERVER_SCOPE - supported for all entity types;
+
+        * CLIENT_SCOPE - supported for devices;
+
+        * SHARED_SCOPE - supported for devices.
+
+
+        Referencing a non-existing entity Id or invalid entity type will cause an error.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAttributeKeysByScope
       parameters:
       - name: entityType
@@ -745,7 +1092,10 @@ paths:
       tags:
       - telemetry-controller
       summary: Delete Entity Time Series Data (deleteEntityTimeseries)
-      description: "Delete time series for selected entity based on entity id, entity type and keys. Use 'deleteAllDataForKeys' to delete all time series data. Use 'startTs' and 'endTs' to specify time-range instead.  Use 'deleteLatest' to delete latest value (stored in separate table for performance) if the value's timestamp matches the time-range.  Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) if the value's timestamp matches the time-range and 'deleteLatest' param is true. The replacement value will be fetched from the 'time series' table, and its timestamp will be the most recent one before the defined time-range. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Delete time series for selected entity based on entity id, entity type and keys. Use ''deleteAllDataForKeys'' to delete all time series data. Use ''startTs'' and ''endTs'' to specify time-range instead. Use ''deleteLatest'' to delete latest value (stored in separate table for performance) if the value''s timestamp matches the time-range. Use ''rewriteLatestIfDeleted'' to rewrite latest value (stored in separate table for performance) if the value''s timestamp matches the time-range and ''deleteLatest'' param is true. The replacement value will be fetched from the ''time series'' table, and its timestamp will be the most recent one before the defined time-range.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: deleteEntityTimeseries
       parameters:
       - name: entityType
@@ -846,12 +1196,12 @@ components:
             type: string
           writeOnly: true
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

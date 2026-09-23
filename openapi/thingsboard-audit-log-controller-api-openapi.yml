@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller audit-log-controller API
+  title: ThingsBoard Admin Audit Log Controller API
   description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
   version: 4.3.0.3DEMO
   contact:
@@ -24,7 +24,10 @@ paths:
       tags:
       - audit-log-controller
       summary: Get All Audit Logs (getAuditLogs)
-      description: "Returns a page of audit logs related to all entities in the scope of the current user's Tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of audit logs related to all entities in the scope of the current user''s Tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getAuditLogs
       parameters:
       - name: pageSize
@@ -101,7 +104,10 @@ paths:
       tags:
       - audit-log-controller
       summary: Get Audit Logs by User Id (getAuditLogsByUserId)
-      description: "Returns a page of audit logs related to the actions of targeted user. For example, RPC call to a particular device, or alarm acknowledgment for a specific device, etc. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of audit logs related to the actions of targeted user. For example, RPC call to a particular device, or alarm acknowledgment for a specific device, etc. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getAuditLogsByUserId
       parameters:
       - name: userId
@@ -184,7 +190,10 @@ paths:
       tags:
       - audit-log-controller
       summary: Get Audit Logs by Entity Id (getAuditLogsByEntityId)
-      description: "Returns a page of audit logs related to the actions on the targeted entity. Basically, this API call is used to get the full lifecycle of some specific entity. For example to see when a device was created, updated, assigned to some customer, or even deleted from the system. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of audit logs related to the actions on the targeted entity. Basically, this API call is used to get the full lifecycle of some specific entity. For example to see when a device was created, updated, assigned to some customer, or even deleted from the system. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getAuditLogsByEntityId
       parameters:
       - name: entityType
@@ -273,7 +282,10 @@ paths:
       tags:
       - audit-log-controller
       summary: Get Audit Logs by Customer Id (getAuditLogsByCustomerId)
-      description: "Returns a page of audit logs related to the targeted customer entities (devices, assets, etc.), and users actions (login, logout, etc.) that belong to this customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of audit logs related to the targeted customer entities (devices, assets, etc.), and users actions (login, logout, etc.) that belong to this customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getAuditLogsByCustomerId
       parameters:
       - name: customerId
@@ -353,29 +365,33 @@ paths:
                 $ref: '#/components/schemas/PageDataAuditLog'
 components:
   schemas:
-    PageDataAuditLog:
+    AuditLogId:
       type: object
       properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/AuditLog'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
     AuditLog:
       type: object
       properties:
@@ -473,71 +489,6 @@ components:
           type: string
           description: Failure action details info. An empty string in case of action status type 'SUCCESS', otherwise includes stack trace of the caused exception.
           readOnly: true
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
-    AuditLogId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: string
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-      required:
-      - id
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    CustomerId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
     EntityId:
       type: object
       properties:
@@ -589,13 +540,74 @@ components:
       required:
       - entityType
       - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    PageDataAuditLog:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AuditLog'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

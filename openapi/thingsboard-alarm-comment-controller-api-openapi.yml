@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller alarm-comment-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Alarms Alarm Comment Controller API
+  description: 'ThingsBoard Alarms API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Alarm, Alarm Comment.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,10 @@ paths:
       tags:
       - alarm-comment-controller
       summary: Get Alarm Comments (getAlarmComments)
-      description: "Returns a page of alarm comments for specified alarm. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of alarm comments for specified alarm. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAlarmComments
       parameters:
       - name: alarmId
@@ -76,7 +79,16 @@ paths:
       tags:
       - alarm-comment-controller
       summary: Create or Update Alarm Comment
-      description: "Creates or Updates the Alarm Comment. When creating comment, platform generates Alarm Comment Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Alarm Comment id will be present in the response. Specify existing Alarm Comment id to update the alarm. Referencing non-existing Alarm Comment Id will cause 'Not Found' error. \n\n To create new Alarm comment entity it is enough to specify 'comment' json element with 'text' node, for example: {\"comment\": { \"text\": \"my comment\"}}. \n\n If comment type is not specified the default value 'OTHER' will be saved. If 'alarmId' or 'userId' specified in body it will be ignored.\n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or Updates the Alarm Comment. When creating comment, platform generates Alarm Comment Id as time-based UUID). The newly created Alarm Comment id will be present in the response. Specify existing Alarm Comment id to update the alarm. Referencing non-existing Alarm Comment Id will cause ''Not Found'' error.
+
+
+        To create new Alarm comment entity it is enough to specify ''comment'' json element with ''text'' node, for example: {"comment": { "text": "my comment"}}.
+
+
+        If comment type is not specified the default value ''OTHER'' will be saved. If ''alarmId'' or ''userId'' specified in body it will be ignored.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveAlarmComment
       parameters:
       - name: alarmId
@@ -127,27 +139,6 @@ paths:
           description: OK
 components:
   schemas:
-    AlarmId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - ALARM
-          example: ALARM
-      required:
-      - entityType
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     AlarmComment:
       type: object
       properties:
@@ -185,6 +176,44 @@ components:
           description: representing comment text
           example: Please take a look
           readOnly: true
+    AlarmId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ALARM
+          example: ALARM
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
     AlarmCommentInfo:
       type: object
       properties:
@@ -234,33 +263,6 @@ components:
           description: representing comment text
           example: Please take a look
           readOnly: true
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
-    AlarmCommentId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: string
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-      required:
-      - id
     PageDataAlarmCommentInfo:
       type: object
       properties:
@@ -284,13 +286,23 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
+    AlarmCommentId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

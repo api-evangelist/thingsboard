@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller tb-resource-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Dashboards Tb Resource Controller API
+  description: 'ThingsBoard Dashboards API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Dashboard, Widget Type, Widgets Bundle, Image, Tb Resource, Ui Settings.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -45,6 +45,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TbResourceInfo'
+      summary: Update resource info
+      x-summary-source: derived
   /api/resource/{id}/data:
     put:
       tags:
@@ -77,12 +79,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TbResourceInfo'
+      summary: Update resource data
+      x-summary-source: derived
   /api/resource:
     get:
       tags:
       - tb-resource-controller
       summary: Get Resource Infos by Ids (getSystemOrTenantResourcesByIds)
-      description: "Returns a page of Resource Info objects owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Returns a page of Resource Info objects owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getResources
       parameters:
       - name: pageSize
@@ -168,7 +175,13 @@ paths:
       tags:
       - tb-resource-controller
       summary: Create or Update Resource (saveResource)
-      description: "Create or update the Resource. When creating the Resource, platform generates Resource id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Resource id will be present in the response. Specify existing Resource id to update the Resource. Referencing non-existing Resource Id will cause 'Not Found' error. \n\nResource combination of the title with the key is unique in the scope of tenant. Remove 'id', 'tenantId' from the request body example (below) to create new Resource entity.\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Create or update the Resource. When creating the Resource, platform generates Resource id as time-based UUID). The newly created Resource id will be present in the response. Specify existing Resource id to update the Resource. Referencing non-existing Resource Id will cause ''Not Found'' error.
+
+
+        Resource combination of the title with the key is unique in the scope of tenant. Remove ''id'', ''tenantId'' from the request body example (below) to create new Resource entity.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: saveResource
       requestBody:
         content:
@@ -189,7 +202,13 @@ paths:
       tags:
       - tb-resource-controller
       summary: Upload Resource Via Multipart File (uploadResource)
-      description: "Create the Resource using multipart file upload. \n\nResource combination of the title with the key is unique in the scope of tenant. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Create the Resource using multipart file upload.
+
+
+        Resource combination of the title with the key is unique in the scope of tenant.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: uploadResource
       requestBody:
         content:
@@ -231,7 +250,7 @@ paths:
       description: 'Download resource with a given type and key for the given scope
 
 
-        Available for any authorized user. '
+        Available for any authorized user.'
       operationId: downloadResourceIfChanged
       parameters:
       - name: resourceType
@@ -279,7 +298,10 @@ paths:
       tags:
       - tb-resource-controller
       summary: Get Resource Info (getResourceInfo)
-      description: "Get info for the resource with the given type, scope and key. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Get info for the resource with the given type, scope and key. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getResourceInfo
       parameters:
       - name: resourceType
@@ -321,7 +343,10 @@ paths:
       tags:
       - tb-resource-controller
       summary: Get Resource (getResourceById)
-      description: "Fetch the Resource object based on the provided Resource Id. Resource is a heavyweight object that includes main information about the Resource and also data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Fetch the Resource object based on the provided Resource Id. Resource is a heavyweight object that includes main information about the Resource and also data.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getResourceById
       parameters:
       - name: resourceId
@@ -396,7 +421,10 @@ paths:
       tags:
       - tb-resource-controller
       summary: Get All Resource Infos (getAllResources)
-      description: "Returns a page of Resource Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of Resource Info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getTenantResources
       parameters:
       - name: pageSize
@@ -481,7 +509,10 @@ paths:
       tags:
       - tb-resource-controller
       summary: Get LwM2M Objects (getLwm2mListObjects)
-      description: "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of LwM2M objects parsed from Resources with type ''LWM2M_MODEL'' owned by tenant or sysadmin. You can specify parameters to filter the results. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getLwm2mListObjects
       parameters:
       - name: sortOrder
@@ -554,7 +585,10 @@ paths:
       tags:
       - tb-resource-controller
       summary: Get LwM2M Objects (getLwm2mListObjectsPage)
-      description: "Returns a page of LwM2M objects parsed from Resources with type 'LWM2M_MODEL' owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of LwM2M objects parsed from Resources with type ''LWM2M_MODEL'' owned by tenant or sysadmin. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. LwM2M Object is a object that includes information about the LwM2M model which can be used in transport configuration for the LwM2M device profile.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getLwm2mListObjectsPage
       parameters:
       - name: pageSize
@@ -612,7 +646,7 @@ paths:
       description: 'Download Resource based on the provided Resource Id or return 304 status code if resource was not changed.
 
 
-        Available for any authorized user. '
+        Available for any authorized user.'
       operationId: downloadJsResourceIfChanged
       parameters:
       - name: resourceId
@@ -669,7 +703,10 @@ paths:
       tags:
       - tb-resource-controller
       summary: Get Resource Info (getResourceInfoById)
-      description: "Fetch the Resource Info object based on the provided Resource Id. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Fetch the Resource Info object based on the provided Resource Id. Resource Info is a lightweight object that includes main information about the Resource excluding the heavyweight data.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getResourceInfoById
       parameters:
       - name: resourceId
@@ -761,104 +798,19 @@ components:
         publicLink:
           type: string
           readOnly: true
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    TbResourceId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TB_RESOURCE
-          example: TB_RESOURCE
-      required:
-      - entityType
-      - id
-    EntityInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/EntityId'
-          description: 'JSON object with the entity Id. '
-        name:
-          type: string
-          description: Entity Name
-    PageDataTbResourceInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/TbResourceInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    LwM2mResourceObserve:
+    LwM2mInstance:
       type: object
       properties:
         id:
           type: integer
           format: int32
-          description: LwM2M Resource Observe id.
+          description: LwM2M Instance id.
           example: 0
-        name:
-          type: string
-          description: LwM2M Resource Observe name.
-          example: Data
-        observe:
-          type: boolean
-          description: LwM2M Resource Observe observe.
-          example: false
-        attribute:
-          type: boolean
-          description: LwM2M Resource Observe attribute.
-          example: false
-        telemetry:
-          type: boolean
-          description: LwM2M Resource Observe telemetry.
-          example: false
-        keyName:
-          type: string
-          description: LwM2M Resource Observe key name.
-          example: data
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
+        resources:
+          type: array
+          description: LwM2M Resource observe.
+          items:
+            $ref: '#/components/schemas/LwM2mResourceObserve'
     LwM2mObject:
       type: object
       properties:
@@ -888,30 +840,83 @@ components:
           description: LwM2M Object instances.
           items:
             $ref: '#/components/schemas/LwM2mInstance'
-    LwM2mInstance:
+    TbResourceId:
       type: object
       properties:
         id:
-          type: integer
-          format: int32
-          description: LwM2M Instance id.
-          example: 0
-        resources:
-          type: array
-          description: LwM2M Resource observe.
-          items:
-            $ref: '#/components/schemas/LwM2mResourceObserve'
-    TbResourceDeleteResult:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TB_RESOURCE
+          example: TB_RESOURCE
+      required:
+      - entityType
+      - id
+    EntityId:
       type: object
       properties:
-        success:
-          type: boolean
-        references:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/EntityInfo'
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    EntityInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
+          type: string
+          description: Entity Name
     TbResource:
       type: object
       description: A JSON value representing the Resource.
@@ -992,7 +997,62 @@ components:
         publicLink:
           type: string
           readOnly: true
-    EntityId:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    LwM2mResourceObserve:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: LwM2M Resource Observe id.
+          example: 0
+        name:
+          type: string
+          description: LwM2M Resource Observe name.
+          example: Data
+        observe:
+          type: boolean
+          description: LwM2M Resource Observe observe.
+          example: false
+        attribute:
+          type: boolean
+          description: LwM2M Resource Observe attribute.
+          example: false
+        telemetry:
+          type: boolean
+          description: LwM2M Resource Observe telemetry.
+          example: false
+        keyName:
+          type: string
+          description: LwM2M Resource Observe key name.
+          example: data
+    PageDataTbResourceInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TbResourceInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    TenantId:
       type: object
       properties:
         id:
@@ -1002,54 +1062,31 @@ components:
           example: 784f394c-42b6-435a-983c-b7beff2784f9
         entityType:
           type: string
+          description: string
           enum:
           - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-          example: DEVICE
+          example: TENANT
       required:
       - entityType
       - id
+    TbResourceDeleteResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        references:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/EntityInfo'
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

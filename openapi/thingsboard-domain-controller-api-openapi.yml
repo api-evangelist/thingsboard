@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller domain-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Authentication Domain Controller API
+  description: 'ThingsBoard Authentication API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth 2, O Auth 2 Config Template, Domain.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,7 @@ paths:
       tags:
       - domain-controller
       summary: Update Oauth2 Clients (updateOauth2Clients)
-      description: 'Update oauth2 clients for the specified domain. '
+      description: Update oauth2 clients for the specified domain.
       operationId: updateOauth2Clients_1
       parameters:
       - name: id
@@ -50,12 +50,10 @@ paths:
       tags:
       - domain-controller
       summary: Save or Update Domain (saveDomain)
-      description: 'Create or update the Domain. When creating domain, platform generates Domain Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Domain Id will be present in the response. Specify existing Domain Id to update the domain. Referencing non-existing Domain Id will cause ''Not Found'' error.
+      description: 'Create or update the Domain. When creating domain, platform generates Domain Id as time-based UUID). The newly created Domain Id will be present in the response. Specify existing Domain Id to update the domain. Referencing non-existing Domain Id will cause ''Not Found'' error.
 
 
         Domain name is unique for entire platform setup.
-
-
 
 
         Available for users with ''SYS_ADMIN'' authority.'
@@ -87,10 +85,7 @@ paths:
       tags:
       - domain-controller
       summary: Get Domain Infos (getTenantDomainInfos)
-      description: '
-
-
-        Available for users with ''SYS_ADMIN'' authority.'
+      description: Available for users with 'SYS_ADMIN' authority.
       operationId: getTenantDomainInfos
       parameters:
       - name: pageSize
@@ -137,10 +132,7 @@ paths:
       tags:
       - domain-controller
       summary: Get Domain Info by Id (getDomainInfoById)
-      description: '
-
-
-        Available for users with ''SYS_ADMIN'' authority.'
+      description: Available for users with 'SYS_ADMIN' authority.
       operationId: getDomainInfoById
       parameters:
       - name: id
@@ -178,57 +170,6 @@ paths:
           description: OK
 components:
   schemas:
-    DomainId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-          example: DEVICE
-      required:
-      - entityType
-      - id
     Domain:
       type: object
       description: A JSON value representing the Domain.
@@ -330,7 +271,7 @@ components:
       required:
       - entityType
       - id
-    TenantId:
+    DomainId:
       type: object
       properties:
         id:
@@ -340,10 +281,44 @@ components:
           example: 784f394c-42b6-435a-983c-b7beff2784f9
         entityType:
           type: string
-          description: string
           enum:
           - TENANT
-          example: TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
       required:
       - entityType
       - id
@@ -407,13 +382,30 @@ components:
             $ref: '#/components/schemas/OAuth2ClientInfo'
       required:
       - name
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

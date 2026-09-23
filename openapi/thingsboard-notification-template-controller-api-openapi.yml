@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller notification-template-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Notifications Notification Template Controller…
+  description: 'ThingsBoard Notifications API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Notification, Notification Rule, Notification Target, Notification Template.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,85 @@ paths:
       tags:
       - notification-template-controller
       summary: Save Notification Template (saveNotificationTemplate)
-      description: "Creates or updates notification template.\n\nHere is an example of template to send notification via Web, SMS and Slack:\n```json\n{\n  \"name\": \"Greetings\",\n  \"notificationType\": \"GENERAL\",\n  \"configuration\": {\n    \"deliveryMethodsTemplates\": {\n      \"WEB\": {\n        \"enabled\": true,\n        \"subject\": \"Greetings\",\n        \"body\": \"Hi there, ${recipientTitle}\",\n        \"additionalConfig\": {\n          \"icon\": {\n            \"enabled\": true,\n            \"icon\": \"back_hand\",\n            \"color\": \"#757575\"\n          },\n          \"actionButtonConfig\": {\n            \"enabled\": false\n          }\n        },\n        \"method\": \"WEB\"\n      },\n      \"SMS\": {\n        \"enabled\": true,\n        \"body\": \"Hi there, ${recipientTitle}\",\n        \"method\": \"SMS\"\n      },\n      \"SLACK\": {\n        \"enabled\": true,\n        \"body\": \"Hi there, @${recipientTitle}\",\n        \"method\": \"SLACK\"\n      }\n    }\n  }\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Creates or updates notification template.
+
+
+        Here is an example of template to send notification via Web, SMS and Slack:
+
+        ```json
+
+        {
+
+        "name": "Greetings",
+
+        "notificationType": "GENERAL",
+
+        "configuration": {
+
+        "deliveryMethodsTemplates": {
+
+        "WEB": {
+
+        "enabled": true,
+
+        "subject": "Greetings",
+
+        "body": "Hi there, ${recipientTitle}",
+
+        "additionalConfig": {
+
+        "icon": {
+
+        "enabled": true,
+
+        "icon": "back_hand",
+
+        "color": "#757575"
+
+        },
+
+        "actionButtonConfig": {
+
+        "enabled": false
+
+        }
+
+        },
+
+        "method": "WEB"
+
+        },
+
+        "SMS": {
+
+        "enabled": true,
+
+        "body": "Hi there, ${recipientTitle}",
+
+        "method": "SMS"
+
+        },
+
+        "SLACK": {
+
+        "enabled": true,
+
+        "body": "Hi there, @${recipientTitle}",
+
+        "method": "SLACK"
+
+        }
+
+        }
+
+        }
+
+        }
+
+        ```
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: saveNotificationTemplate
       requestBody:
         content:
@@ -44,7 +122,13 @@ paths:
       tags:
       - notification-template-controller
       summary: Get Notification Templates (getNotificationTemplates)
-      description: "Returns the page of notification templates owned by sysadmin or tenant.\n\nYou can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Returns the page of notification templates owned by sysadmin or tenant.
+
+
+        You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getNotificationTemplates
       parameters:
       - name: pageSize
@@ -177,6 +261,133 @@ paths:
                   $ref: '#/components/schemas/SlackConversation'
 components:
   schemas:
+    DeliveryMethodNotificationTemplate:
+      type: object
+      discriminator:
+        propertyName: method
+      properties:
+        enabled:
+          type: boolean
+        body:
+          type: string
+          minLength: 1
+        method:
+          type: string
+      required:
+      - body
+      - method
+    PageDataNotificationTemplate:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/NotificationTemplate'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    NotificationTemplateId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - NOTIFICATION_TEMPLATE
+          example: NOTIFICATION_TEMPLATE
+      required:
+      - entityType
+      - id
+    MicrosoftTeamsDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+          themeColor:
+            type: string
+          button:
+            $ref: '#/components/schemas/Button'
+      required:
+      - body
+    MobileAppDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+          additionalConfig:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - body
+      - subject
+    NotificationTemplateConfig:
+      type: object
+      properties:
+        deliveryMethodsTemplates:
+          type: object
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
+          minProperties: 1
+      required:
+      - deliveryMethodsTemplates
+    SlackDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      required:
+      - body
+    Button:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        text:
+          type: string
+        linkType:
+          type: string
+          enum:
+          - LINK
+          - DASHBOARD
+        link:
+          type: string
+        dashboardId:
+          type: string
+          format: uuid
+        dashboardState:
+          type: string
+        setEntityIdInState:
+          type: boolean
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     NotificationTemplate:
       type: object
       properties:
@@ -244,111 +455,6 @@ components:
       - id
       - name
       - type
-    NotificationTemplateConfig:
-      type: object
-      properties:
-        deliveryMethodsTemplates:
-          type: object
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
-          minProperties: 1
-      required:
-      - deliveryMethodsTemplates
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    MicrosoftTeamsDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-          themeColor:
-            type: string
-          button:
-            $ref: '#/components/schemas/Button'
-      required:
-      - body
-    Button:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        text:
-          type: string
-        linkType:
-          type: string
-          enum:
-          - LINK
-          - DASHBOARD
-        link:
-          type: string
-        dashboardId:
-          type: string
-          format: uuid
-        dashboardState:
-          type: string
-        setEntityIdInState:
-          type: boolean
-    WebDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-            minLength: 1
-          additionalConfig:
-            $ref: '#/components/schemas/JsonNode'
-      required:
-      - body
-      - subject
-    PageDataNotificationTemplate:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/NotificationTemplate'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    DeliveryMethodNotificationTemplate:
-      type: object
-      discriminator:
-        propertyName: method
-      properties:
-        enabled:
-          type: boolean
-        body:
-          type: string
-          minLength: 1
-        method:
-          type: string
-      required:
-      - body
-      - method
     SmsDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
@@ -365,23 +471,6 @@ components:
       required:
       - body
       - subject
-    NotificationTemplateId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - NOTIFICATION_TEMPLATE
-          example: NOTIFICATION_TEMPLATE
-      required:
-      - entityType
-      - id
     TenantId:
       type: object
       properties:
@@ -399,7 +488,7 @@ components:
       required:
       - entityType
       - id
-    MobileAppDeliveryMethodNotificationTemplate:
+    WebDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
       - type: object
@@ -412,18 +501,13 @@ components:
       required:
       - body
       - subject
-    SlackDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      required:
-      - body
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

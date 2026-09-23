@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller API
+  title: ThingsBoard Admin Admin Controller API
   description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
   version: 4.3.0.3DEMO
   contact:
@@ -47,7 +47,10 @@ paths:
       tags:
       - admin-controller
       summary: Send Test Sms (sendTestSms)
-      description: "Attempts to send test sms to the System Administrator User using SMS Settings and phone number provided as a parameters of the request. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Attempts to send test sms to the System Administrator User using SMS Settings and phone number provided as a parameters of the request.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: sendTestSms
       requestBody:
         content:
@@ -63,7 +66,10 @@ paths:
       tags:
       - admin-controller
       summary: Send Test Email (sendTestMail)
-      description: "Attempts to send test email to the System Administrator User using Mail Settings provided as a parameter. You may change the 'To' email in the user profile of the System Administrator. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Attempts to send test email to the System Administrator User using Mail Settings provided as a parameter. You may change the ''To'' email in the user profile of the System Administrator.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: sendTestMail
       requestBody:
         content:
@@ -118,7 +124,10 @@ paths:
       tags:
       - admin-controller
       summary: Get Repository Settings (getRepositorySettings)
-      description: "Get the repository settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Get the repository settings object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getRepositorySettings
       responses:
         '200':
@@ -131,7 +140,10 @@ paths:
       tags:
       - admin-controller
       summary: Creates or Updates the Repository Settings (saveRepositorySettings)
-      description: "Creates or Updates the repository settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Creates or Updates the repository settings object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: saveRepositorySettings
       requestBody:
         content:
@@ -163,7 +175,10 @@ paths:
       tags:
       - admin-controller
       summary: Check Repository Access (checkRepositoryAccess)
-      description: "Attempts to check repository access. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Attempts to check repository access.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: checkRepositoryAccess
       requestBody:
         content:
@@ -179,7 +194,10 @@ paths:
       tags:
       - admin-controller
       summary: Get the JWT Settings Object (getJwtSettings)
-      description: "Get the JWT Settings object that contains JWT token policy, etc. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Get the JWT Settings object that contains JWT token policy, etc.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: getJwtSettings
       responses:
         '200':
@@ -215,7 +233,10 @@ paths:
       tags:
       - admin-controller
       summary: Get Auto Commit Settings (getAutoCommitSettings)
-      description: "Get the auto commit settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Get the auto commit settings object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getAutoCommitSettings
       responses:
         '200':
@@ -228,7 +249,10 @@ paths:
       tags:
       - admin-controller
       summary: Creates or Updates the Auto Commit Settings (saveAutoCommitSettings)
-      description: "Creates or Updates the auto commit settings object. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Creates or Updates the auto commit settings object.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: saveAutoCommitSettings
       requestBody:
         content:
@@ -260,7 +284,10 @@ paths:
       tags:
       - admin-controller
       summary: Check for New Platform Releases (checkUpdates)
-      description: "Check notifications about new platform releases. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Check notifications about new platform releases.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: checkUpdates
       responses:
         '200':
@@ -274,7 +301,10 @@ paths:
       tags:
       - admin-controller
       summary: Get System Info (getSystemInfo)
-      description: "Get main information about system. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Get main information about system.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: getSystemInfo
       responses:
         '200':
@@ -319,12 +349,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RepositorySettingsInfo'
+      summary: Get repository settings info
+      x-summary-source: derived
   /api/admin/repositorySettings/exists:
     get:
       tags:
       - admin-controller
       summary: Check Repository Settings Exists (repositorySettingsExists)
-      description: "Check whether the repository settings exists. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Check whether the repository settings exists.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: repositorySettingsExists
       responses:
         '200':
@@ -338,7 +373,10 @@ paths:
       tags:
       - admin-controller
       summary: Get OAuth2 Log in Processing URL (getMailProcessingUrl)
-      description: "Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider and user consent for requested scope, it makes a redirect to this path so that the platform can do further log in processing and generating access tokens. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Returns the URL enclosed in double quotes. After successful authentication with OAuth2 provider and user consent for requested scope, it makes a redirect to this path so that the platform can do further log in processing and generating access tokens.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: getMailProcessingUrl
       responses:
         '200':
@@ -366,11 +404,13 @@ paths:
       responses:
         '200':
           description: OK
+      summary: Code processing url
+      x-summary-source: derived
   /api/admin/mail/oauth2/authorize:
     get:
       tags:
       - admin-controller
-      summary: Redirect User to Mail Provider Login Page.
+      summary: Redirect User to Mail Provider Login Page
       description: After user logged in and provided accessprovider sends authorization code to specified redirect uri.)
       operationId: getAuthorizationUrl
       responses:
@@ -385,7 +425,10 @@ paths:
       tags:
       - admin-controller
       summary: Get Features Info (getFeaturesInfo)
-      description: "Get information about enabled/disabled features. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Get information about enabled/disabled features.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: getFeaturesInfo
       responses:
         '200':
@@ -399,7 +442,10 @@ paths:
       tags:
       - admin-controller
       summary: Check Auto Commit Settings Exists (autoCommitSettingsExists)
-      description: "Check whether the auto commit settings exists. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Check whether the auto commit settings exists.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: autoCommitSettingsExists
       responses:
         '200':
@@ -410,20 +456,274 @@ paths:
                 type: boolean
 components:
   schemas:
-    TwilioSmsProviderConfiguration:
+    AdminSettings:
+      type: object
+      description: A JSON value representing the Mail Settings.
+      properties:
+        id:
+          $ref: '#/components/schemas/AdminSettingsId'
+          description: The Id of the Administration Settings, auto-generated, UUID
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the settings creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        key:
+          type: string
+          description: The Administration Settings key, (e.g. 'general' or 'mail')
+          example: mail
+        jsonValue:
+          $ref: '#/components/schemas/JsonNode'
+          description: JSON representation of the Administration Settings value
+    AwsSnsSmsProviderConfiguration:
       allOf:
       - $ref: '#/components/schemas/SmsProviderConfiguration'
       - type: object
         properties:
-          accountSid:
+          accessKeyId:
             type: string
-            description: Twilio account Sid.
-          accountToken:
+            description: The AWS SNS Access Key ID.
+          secretAccessKey:
             type: string
-            description: Twilio account Token.
-          numberFrom:
+            description: The AWS SNS Access Key.
+          region:
             type: string
-            description: The number/id of a sender.
+            description: The AWS region.
+    SmsProviderConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    UpdateMessage:
+      type: object
+      properties:
+        updateAvailable:
+          type: boolean
+          description: '''True'' if new platform update is available.'
+        currentVersion:
+          type: string
+          description: Current ThingsBoard version.
+        latestVersion:
+          type: string
+          description: Latest ThingsBoard version.
+        upgradeInstructionsUrl:
+          type: string
+          description: Upgrade instructions URL.
+        currentVersionReleaseNotesUrl:
+          type: string
+          description: Current ThingsBoard version release notes URL.
+        latestVersionReleaseNotesUrl:
+          type: string
+          description: Latest ThingsBoard version release notes URL.
+    SecuritySettings:
+      type: object
+      description: A JSON value representing the Security Settings.
+      properties:
+        passwordPolicy:
+          $ref: '#/components/schemas/UserPasswordPolicy'
+          description: The user password policy object.
+        maxFailedLoginAttempts:
+          type: integer
+          format: int32
+          description: Maximum number of failed login attempts allowed before user account is locked.
+        userLockoutNotificationEmail:
+          type: string
+          description: Email to use for notifications about locked users.
+        mobileSecretKeyLength:
+          type: integer
+          format: int32
+          description: Mobile secret key length
+        userActivationTokenTtl:
+          type: integer
+          format: int32
+          description: TTL in hours for user activation link
+          maximum: 24
+          minimum: 1
+        passwordResetTokenTtl:
+          type: integer
+          format: int32
+          description: TTL in hours for password reset link
+          maximum: 24
+          minimum: 1
+      required:
+      - passwordResetTokenTtl
+      - userActivationTokenTtl
+    RepositorySettings:
+      type: object
+      description: A JSON value representing the Repository Settings.
+      properties:
+        repositoryUri:
+          type: string
+        authMethod:
+          type: string
+          enum:
+          - USERNAME_PASSWORD
+          - PRIVATE_KEY
+        username:
+          type: string
+        password:
+          type: string
+        privateKeyFileName:
+          type: string
+        privateKey:
+          type: string
+        privateKeyPassword:
+          type: string
+        defaultBranch:
+          type: string
+        readOnly:
+          type: boolean
+        showMergeCommits:
+          type: boolean
+        localOnly:
+          type: boolean
+    SystemInfo:
+      type: object
+      properties:
+        systemData:
+          type: array
+          description: System data.
+          items:
+            $ref: '#/components/schemas/SystemInfoData'
+        monolith:
+          type: boolean
+    RepositorySettingsInfo:
+      type: object
+      properties:
+        configured:
+          type: boolean
+        readOnly:
+          type: boolean
+    SystemInfoData:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: Service Id.
+        serviceType:
+          type: string
+          description: Service type.
+        cpuUsage:
+          type: integer
+          format: int64
+          description: CPU usage, in percent.
+        cpuCount:
+          type: integer
+          format: int64
+          description: Total CPU usage.
+        memoryUsage:
+          type: integer
+          format: int64
+          description: Memory usage, in percent.
+        totalMemory:
+          type: integer
+          format: int64
+          description: Total memory in bytes.
+        discUsage:
+          type: integer
+          format: int64
+          description: Disk usage, in percent.
+        totalDiscSpace:
+          type: integer
+          format: int64
+          description: Total disc space in bytes.
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    AutoCommitSettings:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AutoVersionCreateConfig'
+    TestSmsRequest:
+      type: object
+      description: A JSON value representing the Test SMS request.
+      properties:
+        providerConfiguration:
+          description: The SMS provider configuration
+          oneOf:
+          - $ref: '#/components/schemas/AwsSnsSmsProviderConfiguration'
+          - $ref: '#/components/schemas/SmppSmsProviderConfiguration'
+          - $ref: '#/components/schemas/TwilioSmsProviderConfiguration'
+        numberTo:
+          type: string
+          description: The phone number or other identifier to specify as a recipient of the SMS.
+        message:
+          type: string
+          description: The test message
+    AutoVersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+        branch:
+          type: string
+    AdminSettingsId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ADMIN_SETTINGS
+          example: ADMIN_SETTINGS
+      required:
+      - entityType
+      - id
+    JwtSettings:
+      type: object
+      description: A JSON value representing the JWT Settings.
+      properties:
+        tokenExpirationTime:
+          type: integer
+          format: int32
+          description: The JWT will expire after seconds.
+          example: 9000
+        refreshTokenExpTime:
+          type: integer
+          format: int32
+          description: The JWT can be refreshed during seconds.
+          example: 604800
+        tokenIssuer:
+          type: string
+          description: The JWT issuer.
+          example: thingsboard.io
+        tokenSigningKey:
+          type: string
+          description: The JWT key is used to sing token. Base64 encoded.
+          example: dkVTUzU2M2VMWUNwVVltTUhQU2o5SUM0Tkc3M0k2Ykdwcm85QTl6R0RaQ252OFlmVDk2OEptZXBNcndGeExFZg==
     SmppSmsProviderConfiguration:
       allOf:
       - $ref: '#/components/schemas/SmsProviderConfiguration'
@@ -587,13 +887,6 @@ components:
       - port
       - protocolVersion
       - systemId
-    RepositorySettingsInfo:
-      type: object
-      properties:
-        configured:
-          type: boolean
-        readOnly:
-          type: boolean
     FeaturesInfo:
       type: object
       properties:
@@ -606,71 +899,6 @@ components:
         emailEnabled:
           type: boolean
         notificationEnabled:
-          type: boolean
-    JwtSettings:
-      type: object
-      description: A JSON value representing the JWT Settings.
-      properties:
-        tokenExpirationTime:
-          type: integer
-          format: int32
-          description: The JWT will expire after seconds.
-          example: 9000
-        refreshTokenExpTime:
-          type: integer
-          format: int32
-          description: The JWT can be refreshed during seconds.
-          example: 604800
-        tokenIssuer:
-          type: string
-          description: The JWT issuer.
-          example: thingsboard.io
-        tokenSigningKey:
-          type: string
-          description: The JWT key is used to sing token. Base64 encoded.
-          example: dkVTUzU2M2VMWUNwVVltTUhQU2o5SUM0Tkc3M0k2Ykdwcm85QTl6R0RaQ252OFlmVDk2OEptZXBNcndGeExFZg==
-    AwsSnsSmsProviderConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/SmsProviderConfiguration'
-      - type: object
-        properties:
-          accessKeyId:
-            type: string
-            description: The AWS SNS Access Key ID.
-          secretAccessKey:
-            type: string
-            description: The AWS SNS Access Key.
-          region:
-            type: string
-            description: The AWS region.
-    RepositorySettings:
-      type: object
-      description: A JSON value representing the Repository Settings.
-      properties:
-        repositoryUri:
-          type: string
-        authMethod:
-          type: string
-          enum:
-          - USERNAME_PASSWORD
-          - PRIVATE_KEY
-        username:
-          type: string
-        password:
-          type: string
-        privateKeyFileName:
-          type: string
-        privateKey:
-          type: string
-        privateKeyPassword:
-          type: string
-        defaultBranch:
-          type: string
-        readOnly:
-          type: boolean
-        showMergeCommits:
-          type: boolean
-        localOnly:
           type: boolean
     UserPasswordPolicy:
       type: object
@@ -713,173 +941,24 @@ components:
           type: integer
           format: int32
           description: Password reuse frequency (days). Disallow to use the same password for the defined number of days
-    AutoVersionCreateConfig:
-      type: object
-      properties:
-        saveRelations:
-          type: boolean
-        saveAttributes:
-          type: boolean
-        saveCredentials:
-          type: boolean
-        saveCalculatedFields:
-          type: boolean
-        branch:
-          type: string
-    SmsProviderConfiguration:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    SystemInfoData:
-      type: object
-      properties:
-        serviceId:
-          type: string
-          description: Service Id.
-        serviceType:
-          type: string
-          description: Service type.
-        cpuUsage:
-          type: integer
-          format: int64
-          description: CPU usage, in percent.
-        cpuCount:
-          type: integer
-          format: int64
-          description: Total CPU usage.
-        memoryUsage:
-          type: integer
-          format: int64
-          description: Memory usage, in percent.
-        totalMemory:
-          type: integer
-          format: int64
-          description: Total memory in bytes.
-        discUsage:
-          type: integer
-          format: int64
-          description: Disk usage, in percent.
-        totalDiscSpace:
-          type: integer
-          format: int64
-          description: Total disc space in bytes.
-    AdminSettingsId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - ADMIN_SETTINGS
-          example: ADMIN_SETTINGS
-      required:
-      - entityType
-      - id
-    SystemInfo:
-      type: object
-      properties:
-        systemData:
-          type: array
-          description: System data.
-          items:
-            $ref: '#/components/schemas/SystemInfoData'
-        monolith:
-          type: boolean
-    AdminSettings:
-      type: object
-      description: A JSON value representing the Mail Settings.
-      properties:
-        id:
-          $ref: '#/components/schemas/AdminSettingsId'
-          description: The Id of the Administration Settings, auto-generated, UUID
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the settings creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id.
-          readOnly: true
-        key:
-          type: string
-          description: The Administration Settings key, (e.g. 'general' or 'mail')
-          example: mail
-        jsonValue:
-          $ref: '#/components/schemas/JsonNode'
-          description: JSON representation of the Administration Settings value
-    AutoCommitSettings:
-      type: object
-      additionalProperties:
-        $ref: '#/components/schemas/AutoVersionCreateConfig'
-    UpdateMessage:
-      type: object
-      properties:
-        updateAvailable:
-          type: boolean
-          description: '''True'' if new platform update is available.'
-        currentVersion:
-          type: string
-          description: Current ThingsBoard version.
-        latestVersion:
-          type: string
-          description: Latest ThingsBoard version.
-        upgradeInstructionsUrl:
-          type: string
-          description: Upgrade instructions URL.
-        currentVersionReleaseNotesUrl:
-          type: string
-          description: Current ThingsBoard version release notes URL.
-        latestVersionReleaseNotesUrl:
-          type: string
-          description: Latest ThingsBoard version release notes URL.
-    TestSmsRequest:
-      type: object
-      description: A JSON value representing the Test SMS request.
-      properties:
-        providerConfiguration:
-          description: The SMS provider configuration
-          oneOf:
-          - $ref: '#/components/schemas/AwsSnsSmsProviderConfiguration'
-          - $ref: '#/components/schemas/SmppSmsProviderConfiguration'
-          - $ref: '#/components/schemas/TwilioSmsProviderConfiguration'
-        numberTo:
-          type: string
-          description: The phone number or other identifier to specify as a recipient of the SMS.
-        message:
-          type: string
-          description: The test message
+    TwilioSmsProviderConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/SmsProviderConfiguration'
+      - type: object
+        properties:
+          accountSid:
+            type: string
+            description: Twilio account Sid.
+          accountToken:
+            type: string
+            description: Twilio account Token.
+          numberFrom:
+            type: string
+            description: The number/id of a sender.
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
     JwtPair:
       type: object
       description: JWT Pair
@@ -901,46 +980,13 @@ components:
           - REFRESH_TOKEN
           - PRE_VERIFICATION_TOKEN
           - MFA_CONFIGURATION_TOKEN
-    SecuritySettings:
-      type: object
-      description: A JSON value representing the Security Settings.
-      properties:
-        passwordPolicy:
-          $ref: '#/components/schemas/UserPasswordPolicy'
-          description: The user password policy object.
-        maxFailedLoginAttempts:
-          type: integer
-          format: int32
-          description: Maximum number of failed login attempts allowed before user account is locked.
-        userLockoutNotificationEmail:
-          type: string
-          description: Email to use for notifications about locked users.
-        mobileSecretKeyLength:
-          type: integer
-          format: int32
-          description: Mobile secret key length
-        userActivationTokenTtl:
-          type: integer
-          format: int32
-          description: TTL in hours for user activation link
-          maximum: 24
-          minimum: 1
-        passwordResetTokenTtl:
-          type: integer
-          format: int32
-          description: TTL in hours for password reset link
-          maximum: 24
-          minimum: 1
-      required:
-      - passwordResetTokenTtl
-      - userActivationTokenTtl
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

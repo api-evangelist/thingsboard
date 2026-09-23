@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller login-endpoint API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Authentication Login Endpoint API
+  description: 'ThingsBoard Authentication API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth 2, O Auth 2 Config Template, Domain.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -101,6 +101,8 @@ paths:
                     errorCode: 15
                     timestamp: 1770209248182
                     resetToken: 59B5IkNuDrCyn98QB8LJ1sWFzwA03A
+      operationId: postApiAuthLogin
+      x-operation-id-source: derived
   /api/auth/token:
     post:
       tags:
@@ -184,8 +186,23 @@ paths:
                     errorCode: 15
                     timestamp: 1770209248182
                     resetToken: 59B5IkNuDrCyn98QB8LJ1sWFzwA03A
+      operationId: postApiAuthToken
+      x-operation-id-source: derived
 components:
   schemas:
+    LoginResponse:
+      properties:
+        token:
+          type: string
+          description: JWT token
+          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
+        refreshToken:
+          type: string
+          description: Refresh token
+          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
+      required:
+      - refreshToken
+      - token
     ThingsboardCredentialsExpiredResponse:
       properties:
         status:
@@ -249,32 +266,6 @@ components:
           type: string
           description: Password reset token
           readOnly: true
-    LoginRequest:
-      properties:
-        username:
-          type: string
-          description: User email
-          example: tenant@thingsboard.org
-        password:
-          type: string
-          description: User password
-          example: tenant
-      required:
-      - password
-      - username
-    LoginResponse:
-      properties:
-        token:
-          type: string
-          description: JWT token
-          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
-        refreshToken:
-          type: string
-          description: Refresh token
-          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIi...
-      required:
-      - refreshToken
-      - token
     ThingsboardErrorResponse:
       properties:
         status:
@@ -334,13 +325,26 @@ components:
           format: int64
           description: Timestamp
           readOnly: true
+    LoginRequest:
+      properties:
+        username:
+          type: string
+          description: User email
+          example: tenant@thingsboard.org
+        password:
+          type: string
+          description: User password
+          example: tenant
+      required:
+      - password
+      - username
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

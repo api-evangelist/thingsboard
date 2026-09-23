@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller two-factor-auth-config-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Authentication Two Factor Auth Config…
+  description: 'ThingsBoard Authentication API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Login, Auth, Sign Up, Api Key, Two Factor Auth, Two Factor Auth Config, O Auth 2, O Auth 2 Config Template, Domain.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,24 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Update 2FA Account Config (updateTwoFaAccountConfig)
-      description: "Update config for a given provider type. \nUpdate request example:\n```\n{\n  \"useByDefault\": true\n}\n```\nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. "
+      description: 'Update config for a given provider type.
+
+        Update request example:
+
+        ```
+
+        {
+
+        "useByDefault": true
+
+        }
+
+        ```
+
+        Returns whole account''s 2FA settings object.
+
+
+        Available for any authorized user.'
       operationId: updateTwoFaAccountConfig
       parameters:
       - name: providerType
@@ -54,7 +71,15 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Verify and Save 2FA Account Config (verifyAndSaveTwoFaAccountConfig)
-      description: "Checks the verification code for submitted config, and if it is correct, saves the provided account config. \n\nReturns whole account's 2FA settings object.\nWill throw an error (Bad Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+      description: 'Checks the verification code for submitted config, and if it is correct, saves the provided account config.
+
+
+        Returns whole account''s 2FA settings object.
+
+        Will throw an error (Bad Request) if the provider is not configured for usage.
+
+
+        Available for any authorized user.'
       operationId: verifyAndSaveTwoFaAccountConfig
       parameters:
       - name: verificationCode
@@ -83,7 +108,12 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Delete 2FA Account Config (deleteTwoFaAccountConfig)
-      description: "Delete 2FA config for a given 2FA provider type. \nReturns whole account's 2FA settings object.\n\n\nAvailable for any authorized user. "
+      description: 'Delete 2FA config for a given 2FA provider type.
+
+        Returns whole account''s 2FA settings object.
+
+
+        Available for any authorized user.'
       operationId: deleteTwoFaAccountConfig
       parameters:
       - name: providerType
@@ -124,7 +154,89 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Save Platform 2FA Settings (savePlatformTwoFaSettings)
-      description: "Save 2FA settings for platform. The settings have following properties:\n- `providers` - the list of 2FA providers' configs. Users will only be allowed to use 2FA providers from this list. \n\n- `minVerificationCodeSendPeriod` - minimal period in seconds to wait after verification code send request to send next request. \n- `verificationCodeCheckRateLimit` - rate limit configuration for verification code checking.\nThe format is standard: 'amountOfRequests:periodInSeconds'. The value of '1:60' would limit verification code checking requests to one per minute.\n- `maxVerificationFailuresBeforeUserLockout` - maximum number of verification failures before a user gets disabled.\n- `totalAllowedTimeForVerification` - total amount of time in seconds allotted for verification. Basically, this property sets a lifetime for pre-verification token. If not set, default value of 30 minutes is used.\n\n\nTOTP 2FA provider config has following settings:\n- `issuerName` - issuer name that will be displayed in an authenticator app near a username. Must not be blank.\n\nFor SMS 2FA provider:\n- `smsVerificationMessageTemplate` - verification message template.  Available template variables are ${code} and ${userEmail}. It must not be blank and must contain verification code variable.\n- `verificationCodeLifetime` - verification code lifetime in seconds. Required to be positive.\n\nFor EMAIL provider type:\n- `verificationCodeLifetime` - the same as for SMS.\n\nExample of the settings:\n```\n{\n  \"providers\": [\n    {\n      \"providerType\": \"TOTP\",\n      \"issuerName\": \"TB\"\n    },\n    {\n      \"providerType\": \"EMAIL\",\n      \"verificationCodeLifetime\": 60\n    },\n    {\n      \"providerType\": \"SMS\",\n      \"verificationCodeLifetime\": 60,\n      \"smsVerificationMessageTemplate\": \"Here is your verification code: ${code}\"\n    }\n  ],\n  \"minVerificationCodeSendPeriod\": 60,\n  \"verificationCodeCheckRateLimit\": \"3:900\",\n  \"maxVerificationFailuresBeforeUserLockout\": 10,\n  \"totalAllowedTimeForVerification\": 600\n}\n```\n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Save 2FA settings for platform. The settings have following properties:
+
+        - `providers` - the list of 2FA providers'' configs. Users will only be allowed to use 2FA providers from this list.
+
+
+        - `minVerificationCodeSendPeriod` - minimal period in seconds to wait after verification code send request to send next request.
+
+        - `verificationCodeCheckRateLimit` - rate limit configuration for verification code checking.
+
+        The format is standard: ''amountOfRequests:periodInSeconds''. The value of ''1:60'' would limit verification code checking requests to one per minute.
+
+        - `maxVerificationFailuresBeforeUserLockout` - maximum number of verification failures before a user gets disabled.
+
+        - `totalAllowedTimeForVerification` - total amount of time in seconds allotted for verification. Basically, this property sets a lifetime for pre-verification token. If not set, default value of 30 minutes is used.
+
+
+        TOTP 2FA provider config has following settings:
+
+        - `issuerName` - issuer name that will be displayed in an authenticator app near a username. Must not be blank.
+
+
+        For SMS 2FA provider:
+
+        - `smsVerificationMessageTemplate` - verification message template. Available template variables are ${code} and ${userEmail}. It must not be blank and must contain verification code variable.
+
+        - `verificationCodeLifetime` - verification code lifetime in seconds. Required to be positive.
+
+
+        For EMAIL provider type:
+
+        - `verificationCodeLifetime` - the same as for SMS.
+
+
+        Example of the settings:
+
+        ```
+
+        {
+
+        "providers": [
+
+        {
+
+        "providerType": "TOTP",
+
+        "issuerName": "TB"
+
+        },
+
+        {
+
+        "providerType": "EMAIL",
+
+        "verificationCodeLifetime": 60
+
+        },
+
+        {
+
+        "providerType": "SMS",
+
+        "verificationCodeLifetime": 60,
+
+        "smsVerificationMessageTemplate": "Here is your verification code: ${code}"
+
+        }
+
+        ],
+
+        "minVerificationCodeSendPeriod": 60,
+
+        "verificationCodeCheckRateLimit": "3:900",
+
+        "maxVerificationFailuresBeforeUserLockout": 10,
+
+        "totalAllowedTimeForVerification": 600
+
+        }
+
+        ```
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: savePlatformTwoFaSettings
       requestBody:
         content:
@@ -144,7 +256,50 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Submit 2FA Account Config (submitTwoFaAccountConfig)
-      description: "Submit 2FA account config to prepare for a future verification. Basically, this method will send a verification code for a given account config, if this has sense for a chosen 2FA provider. This code is needed to then verify and save the account config.\n\nExample of EMAIL 2FA account config:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": true,\n  \"email\": \"separate-email-for-2fa@thingsboard.org\"\n}\n```\n\nExample of SMS 2FA account config:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": \"+38012312321\"\n}\n```\n\nFor TOTP this method does nothing.\n\nWill throw an error (Bad Request) if submitted account config is not valid, or if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+      description: 'Submit 2FA account config to prepare for a future verification. Basically, this method will send a verification code for a given account config, if this has sense for a chosen 2FA provider. This code is needed to then verify and save the account config.
+
+
+        Example of EMAIL 2FA account config:
+
+        ```
+
+        {
+
+        "providerType": "EMAIL",
+
+        "useByDefault": true,
+
+        "email": "separate-email-for-2fa@thingsboard.org"
+
+        }
+
+        ```
+
+
+        Example of SMS 2FA account config:
+
+        ```
+
+        {
+
+        "providerType": "SMS",
+
+        "useByDefault": false,
+
+        "phoneNumber": "+38012312321"
+
+        }
+
+        ```
+
+
+        For TOTP this method does nothing.
+
+
+        Will throw an error (Bad Request) if submitted account config is not valid, or if the provider is not configured for usage.
+
+
+        Available for any authorized user.'
       operationId: submitTwoFaAccountConfig
       requestBody:
         content:
@@ -164,7 +319,64 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Generate 2FA Account Config (generateTwoFaAccountConfig)
-      description: "Generate new 2FA account config template for specified provider type. \n\nFor TOTP, this will return a corresponding account config template with a generated OTP auth URL (with new random secret key for each API call) that can be then converted to a QR code to scan with an authenticator app. Example:\n```\n{\n  \"providerType\": \"TOTP\",\n  \"useByDefault\": false,\n  \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=PNJDNWJVAK4ZTUYT7RFGPQLXA7XGU7PX\"\n}\n```\n\nFor EMAIL, the generated config will contain email from user's account:\n```\n{\n  \"providerType\": \"EMAIL\",\n  \"useByDefault\": false,\n  \"email\": \"tenant@thingsboard.org\"\n}\n```\n\nFor SMS 2FA this method will just return a config with empty/default values as there is nothing to generate/preset:\n```\n{\n  \"providerType\": \"SMS\",\n  \"useByDefault\": false,\n  \"phoneNumber\": null\n}\n```\n\nWill throw an error (Bad Request) if the provider is not configured for usage. \n\nAvailable for any authorized user. "
+      description: 'Generate new 2FA account config template for specified provider type.
+
+
+        For TOTP, this will return a corresponding account config template with a generated OTP auth URL (with new random secret key for each API call) that can be then converted to a QR code to scan with an authenticator app. Example:
+
+        ```
+
+        {
+
+        "providerType": "TOTP",
+
+        "useByDefault": false,
+
+        "authUrl": "otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=PNJDNWJVAK4ZTUYT7RFGPQLXA7XGU7PX"
+
+        }
+
+        ```
+
+
+        For EMAIL, the generated config will contain email from user''s account:
+
+        ```
+
+        {
+
+        "providerType": "EMAIL",
+
+        "useByDefault": false,
+
+        "email": "tenant@thingsboard.org"
+
+        }
+
+        ```
+
+
+        For SMS 2FA this method will just return a config with empty/default values as there is nothing to generate/preset:
+
+        ```
+
+        {
+
+        "providerType": "SMS",
+
+        "useByDefault": false,
+
+        "phoneNumber": null
+
+        }
+
+        ```
+
+
+        Will throw an error (Bad Request) if the provider is not configured for usage.
+
+
+        Available for any authorized user.'
       operationId: generateTwoFaAccountConfig
       parameters:
       - name: providerType
@@ -189,7 +401,26 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Get Available 2FA Providers (getAvailableTwoFaProviders)
-      description: "Get the list of provider types available for user to use (the ones configured by tenant or sysadmin).\nExample of response:\n```\n[\n  \"TOTP\",\n  \"EMAIL\",\n  \"SMS\"\n]\n```\n\nAvailable for any authorized user. "
+      description: 'Get the list of provider types available for user to use (the ones configured by tenant or sysadmin).
+
+        Example of response:
+
+        ```
+
+        [
+
+        "TOTP",
+
+        "EMAIL",
+
+        "SMS"
+
+        ]
+
+        ```
+
+
+        Available for any authorized user.'
       operationId: getAvailableTwoFaProviders_1
       responses:
         '200':
@@ -210,7 +441,55 @@ paths:
       tags:
       - two-factor-auth-config-controller
       summary: Get Account 2FA Settings (getAccountTwoFaSettings)
-      description: "Get user's account 2FA configuration. Configuration contains configs for different 2FA providers.\n\nExample:\n```\n{\n  \"configs\": {\n    \"EMAIL\": {\n      \"providerType\": \"EMAIL\",\n      \"useByDefault\": true,\n      \"email\": \"tenant@thingsboard.org\"\n    },\n    \"TOTP\": {\n      \"providerType\": \"TOTP\",\n      \"useByDefault\": false,\n      \"authUrl\": \"otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=P6Z2TLYTASOGP6LCJZAD24ETT5DACNNX\"\n    },\n    \"SMS\": {\n      \"providerType\": \"SMS\",\n      \"useByDefault\": false,\n      \"phoneNumber\": \"+380501253652\"\n    }\n  }\n}\n```\n\nAvailable for any authorized user. "
+      description: 'Get user''s account 2FA configuration. Configuration contains configs for different 2FA providers.
+
+
+        Example:
+
+        ```
+
+        {
+
+        "configs": {
+
+        "EMAIL": {
+
+        "providerType": "EMAIL",
+
+        "useByDefault": true,
+
+        "email": "tenant@thingsboard.org"
+
+        },
+
+        "TOTP": {
+
+        "providerType": "TOTP",
+
+        "useByDefault": false,
+
+        "authUrl": "otpauth://totp/TB%202FA:tenant@thingsboard.org?issuer=TB+2FA&secret=P6Z2TLYTASOGP6LCJZAD24ETT5DACNNX"
+
+        },
+
+        "SMS": {
+
+        "providerType": "SMS",
+
+        "useByDefault": false,
+
+        "phoneNumber": "+380501253652"
+
+        }
+
+        }
+
+        }
+
+        ```
+
+
+        Available for any authorized user.'
       operationId: getAccountTwoFaSettings
       responses:
         '200':
@@ -221,14 +500,46 @@ paths:
                 $ref: '#/components/schemas/AccountTwoFaSettings'
 components:
   schemas:
-    TwoFaProviderConfig:
-      discriminator:
-        propertyName: providerType
+    TwoFaAccountConfigUpdateRequest:
+      type: object
       properties:
-        providerType:
-          type: string
+        useByDefault:
+          type: boolean
+    EmailTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          verificationCodeLifetime:
+            type: integer
+            format: int32
+            minimum: 1
+    SmsTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          verificationCodeLifetime:
+            type: integer
+            format: int32
+            minimum: 1
+          smsVerificationMessageTemplate:
+            type: string
+            minLength: 1
+            pattern: .*\$\{code}.*
       required:
-      - providerType
+      - smsVerificationMessageTemplate
+    SystemLevelUsersFilter: {}
+    TotpTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          issuerName:
+            type: string
+            minLength: 1
+      required:
+      - issuerName
     AccountTwoFaSettings:
       type: object
       properties:
@@ -240,6 +551,38 @@ components:
             - $ref: '#/components/schemas/EmailTwoFaAccountConfig'
             - $ref: '#/components/schemas/SmsTwoFaAccountConfig'
             - $ref: '#/components/schemas/TotpTwoFaAccountConfig'
+    TwoFaAccountConfig:
+      type: object
+      discriminator:
+        propertyName: providerType
+      properties:
+        useByDefault:
+          type: boolean
+        providerType:
+          type: string
+      required:
+      - providerType
+    EmailTwoFaAccountConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaAccountConfig'
+      - type: object
+        properties:
+          email:
+            type: string
+            minLength: 1
+      required:
+      - email
+    TotpTwoFaAccountConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaAccountConfig'
+      - type: object
+        properties:
+          authUrl:
+            type: string
+            minLength: 1
+            pattern: otpauth://totp/(\S+?):(\S+?)\?issuer=(\S+?)&secret=(\w+?)
+      required:
+      - authUrl
     PlatformTwoFaSettings:
       type: object
       description: Settings value
@@ -275,51 +618,14 @@ components:
       - minVerificationCodeSendPeriod
       - providers
       - totalAllowedTimeForVerification
-    TotpTwoFaAccountConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaAccountConfig'
-      - type: object
-        properties:
-          authUrl:
-            type: string
-            minLength: 1
-            pattern: otpauth://totp/(\S+?):(\S+?)\?issuer=(\S+?)&secret=(\w+?)
-      required:
-      - authUrl
-    TwoFaAccountConfig:
-      type: object
+    TwoFaProviderConfig:
       discriminator:
         propertyName: providerType
       properties:
-        useByDefault:
-          type: boolean
         providerType:
           type: string
       required:
       - providerType
-    BackupCodeTwoFaProviderConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaProviderConfig'
-      - type: object
-        properties:
-          codesQuantity:
-            type: integer
-            format: int32
-            minimum: 1
-    TwoFaAccountConfigUpdateRequest:
-      type: object
-      properties:
-        useByDefault:
-          type: boolean
-    EmailTwoFaProviderConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaProviderConfig'
-      - type: object
-        properties:
-          verificationCodeLifetime:
-            type: integer
-            format: int32
-            minimum: 1
     SmsTwoFaAccountConfig:
       allOf:
       - $ref: '#/components/schemas/TwoFaAccountConfig'
@@ -331,42 +637,15 @@ components:
             pattern: ^\+[1-9]\d{1,14}$
       required:
       - phoneNumber
-    SmsTwoFaProviderConfig:
+    BackupCodeTwoFaProviderConfig:
       allOf:
       - $ref: '#/components/schemas/TwoFaProviderConfig'
       - type: object
         properties:
-          verificationCodeLifetime:
+          codesQuantity:
             type: integer
             format: int32
             minimum: 1
-          smsVerificationMessageTemplate:
-            type: string
-            minLength: 1
-            pattern: .*\$\{code}.*
-      required:
-      - smsVerificationMessageTemplate
-    TotpTwoFaProviderConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaProviderConfig'
-      - type: object
-        properties:
-          issuerName:
-            type: string
-            minLength: 1
-      required:
-      - issuerName
-    SystemLevelUsersFilter: {}
-    EmailTwoFaAccountConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaAccountConfig'
-      - type: object
-        properties:
-          email:
-            type: string
-            minLength: 1
-      required:
-      - email
     BackupCodeTwoFaAccountConfig:
       allOf:
       - $ref: '#/components/schemas/TwoFaAccountConfig'
@@ -384,12 +663,12 @@ components:
       required:
       - codes
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

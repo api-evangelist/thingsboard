@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller user-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Tenants and Customers User Controller API
+  description: 'ThingsBoard Tenants and Customers API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Tenant, Tenant Profile, Customer, User.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,7 @@ paths:
       tags:
       - user-controller
       summary: Get User Settings (getUserSettings)
-      description: 'Fetch the User settings based on authorized user. '
+      description: Fetch the User settings based on authorized user.
       operationId: getUserSettings
       responses:
         '200':
@@ -52,7 +52,7 @@ paths:
       tags:
       - user-controller
       summary: Save User Settings (saveUserSettings)
-      description: 'Save user settings represented in json format for authorized user. '
+      description: Save user settings represented in json format for authorized user.
       operationId: saveUserSettings
       requestBody:
         content:
@@ -72,7 +72,7 @@ paths:
       tags:
       - user-controller
       summary: Get User Settings (getUserSettings)
-      description: 'Fetch the User settings based on authorized user. '
+      description: Fetch the User settings based on authorized user.
       operationId: getUserSettings_1
       parameters:
       - name: type
@@ -115,7 +115,7 @@ paths:
       tags:
       - user-controller
       summary: Save or Update User (saveUser)
-      description: 'Create or update the User. When creating user, platform generates User Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created User Id will be present in the response. Specify existing User Id to update the device. Referencing non-existing User Id will cause ''Not Found'' error.
+      description: 'Create or update the User. When creating user, platform generates User Id as time-based UUID). The newly created User Id will be present in the response. Specify existing User Id to update the device. Referencing non-existing User Id will cause ''Not Found'' error.
 
 
         Device email is unique for entire platform setup.Remove ''id'', ''tenantId'' and optionally ''customerId'' from the request body example (below) to create new User entity.
@@ -148,7 +148,10 @@ paths:
       tags:
       - user-controller
       summary: Enable/Disable User Credentials (setUserCredentialsEnabled)
-      description: "Enables or Disables user credentials. Useful when you would like to block user account without deleting it. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Enables or Disables user credentials. Useful when you would like to block user account without deleting it. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: setUserCredentialsEnabled
       parameters:
       - name: userId
@@ -171,7 +174,10 @@ paths:
       tags:
       - user-controller
       summary: Send or Re-send the Activation Email
-      description: "Force send the activation email to the user. Useful to resend the email if user has accidentally deleted it. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Force send the activation email to the user. Useful to resend the email if user has accidentally deleted it.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: sendActivationEmail
       parameters:
       - name: email
@@ -201,6 +207,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MobileSessionInfo'
+      summary: Get mobile session
+      x-summary-source: derived
     post:
       tags:
       - user-controller
@@ -220,6 +228,8 @@ paths:
       responses:
         '200':
           description: OK
+      summary: Save mobile session
+      x-summary-source: derived
     delete:
       tags:
       - user-controller
@@ -233,12 +243,17 @@ paths:
       responses:
         '200':
           description: OK
+      summary: Remove mobile session
+      x-summary-source: derived
   /api/users:
     get:
       tags:
       - user-controller
       summary: Get Users (getUsers)
-      description: "Returns a page of users owned by tenant or customer. The scope depends on authority of the user that performs the request.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of users owned by tenant or customer. The scope depends on authority of the user that performs the request.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getUsersByIds
       parameters:
       - name: userIds
@@ -305,7 +320,10 @@ paths:
       tags:
       - user-controller
       summary: Find Users by Query (findUsersByQuery)
-      description: "Returns page of user data objects. Search is been executed by email, firstName and lastName fields. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns page of user data objects. Search is been executed by email, firstName and lastName fields. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: findUsersByQuery
       parameters:
       - name: pageSize
@@ -360,7 +378,10 @@ paths:
       tags:
       - user-controller
       summary: Get UsersForAssign (getUsersForAssign)
-      description: "Returns page of user data objects that can be assigned to provided alarmId. Search is been executed by email, firstName and lastName fields. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns page of user data objects that can be assigned to provided alarmId. Search is been executed by email, firstName and lastName fields. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getUsersForAssign
       parameters:
       - name: alarmId
@@ -441,7 +462,10 @@ paths:
       tags:
       - user-controller
       summary: Delete User (deleteUser)
-      description: "Deletes the User, it's credentials and all the relations (from and to the User). Referencing non-existing User Id will cause an error. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Deletes the User, it''s credentials and all the relations (from and to the User). Referencing non-existing User Id will cause an error.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: deleteUser
       parameters:
       - name: userId
@@ -458,7 +482,7 @@ paths:
       tags:
       - user-controller
       summary: Get User Token (getUserToken)
-      description: 'Returns the token of the User based on the provided User Id. If the user who performs the request has the authority of ''SYS_ADMIN'', it is possible to get the token of any tenant administrator. If the user who performs the request has the authority of ''TENANT_ADMIN'', it is possible to get the token of any customer user that belongs to the same tenant. '
+      description: Returns the token of the User based on the provided User Id. If the user who performs the request has the authority of 'SYS_ADMIN', it is possible to get the token of any tenant administrator. If the user who performs the request has the authority of 'TENANT_ADMIN', it is possible to get the token of any customer user that belongs to the same tenant.
       operationId: getUserToken
       parameters:
       - name: userId
@@ -479,7 +503,10 @@ paths:
       tags:
       - user-controller
       summary: Get Activation Link (getActivationLink)
-      description: "Get the activation link for the user. The base url for activation link is configurable in the general settings of system administrator. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Get the activation link for the user. The base url for activation link is configurable in the general settings of system administrator.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getActivationLink
       parameters:
       - name: userId
@@ -500,7 +527,10 @@ paths:
       tags:
       - user-controller
       summary: Get Activation Link Info (getActivationLinkInfo)
-      description: "Get the activation link info for the user. The base url for activation link is configurable in the general settings of system administrator. \n\nAvailable for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority."
+      description: 'Get the activation link info for the user. The base url for activation link is configurable in the general settings of system administrator.
+
+
+        Available for users with ''SYS_ADMIN'' or ''TENANT_ADMIN'' authority.'
       operationId: getActivationLinkInfo
       parameters:
       - name: userId
@@ -521,7 +551,7 @@ paths:
       tags:
       - user-controller
       summary: Check Token Access Enabled (isUserTokenAccessEnabled)
-      description: 'Checks that the system is configured to allow administrators to impersonate themself as other users. If the user who performs the request has the authority of ''SYS_ADMIN'', it is possible to login as any tenant administrator. If the user who performs the request has the authority of ''TENANT_ADMIN'', it is possible to login as any customer user. '
+      description: Checks that the system is configured to allow administrators to impersonate themself as other users. If the user who performs the request has the authority of 'SYS_ADMIN', it is possible to login as any tenant administrator. If the user who performs the request has the authority of 'TENANT_ADMIN', it is possible to login as any customer user.
       operationId: isUserTokenAccessEnabled
       responses:
         '200':
@@ -534,7 +564,7 @@ paths:
     get:
       tags:
       - user-controller
-      summary: Get Information About Last Visited and Starred Dashboards (getLastVisitedDashboards)
+      summary: Get Information About Last Visited and Starred Dashboards…
       description: 'Fetch the list of last visited and starred dashboards. Both lists are limited to 10 items.
 
 
@@ -552,7 +582,10 @@ paths:
       tags:
       - user-controller
       summary: Report Action of User Over the Dashboard (reportUserDashboardAction)
-      description: "Report action of User over the dashboard. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Report action of User over the dashboard.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: reportUserDashboardAction
       parameters:
       - name: dashboardId
@@ -579,7 +612,10 @@ paths:
       tags:
       - user-controller
       summary: Get Tenant Users (getTenantAdmins)
-      description: "Returns a page of users owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'SYS_ADMIN' authority."
+      description: 'Returns a page of users owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''SYS_ADMIN'' authority.'
       operationId: getTenantAdmins
       parameters:
       - name: tenantId
@@ -640,7 +676,10 @@ paths:
       tags:
       - user-controller
       summary: Get Customer Users (getCustomerUsers)
-      description: "Returns a page of users owned by customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of users owned by customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getCustomerUsers
       parameters:
       - name: customerId
@@ -701,7 +740,9 @@ paths:
       tags:
       - user-controller
       summary: Delete User Settings (deleteUserSettings)
-      description: "Delete user settings by specifying list of json element xpaths. \n Example: to delete B and C element in { \"A\": {\"B\": 5}, \"C\": 15} send A.B,C in jsonPaths request parameter"
+      description: 'Delete user settings by specifying list of json element xpaths.
+
+        Example: to delete B and C element in { "A": {"B": 5}, "C": 15} send A.B,C in jsonPaths request parameter'
       operationId: deleteUserSettings
       parameters:
       - name: paths
@@ -724,7 +765,9 @@ paths:
       tags:
       - user-controller
       summary: Delete User Settings (deleteUserSettings)
-      description: "Delete user settings by specifying list of json element xpaths. \n Example: to delete B and C element in { \"A\": {\"B\": 5}, \"C\": 15} send A.B,C in jsonPaths request parameter"
+      description: 'Delete user settings by specifying list of json element xpaths.
+
+        Example: to delete B and C element in { "A": {"B": 5}, "C": 15} send A.B,C in jsonPaths request parameter'
       operationId: deleteUserSettings_1
       parameters:
       - name: paths
@@ -738,112 +781,6 @@ paths:
           description: OK
 components:
   schemas:
-    UserDashboardsInfo:
-      type: object
-      properties:
-        last:
-          type: array
-          description: List of last visited dashboards.
-          items:
-            $ref: '#/components/schemas/LastVisitedDashboardInfo'
-          readOnly: true
-        starred:
-          type: array
-          description: List of starred dashboards.
-          items:
-            $ref: '#/components/schemas/StarredDashboardInfo'
-          readOnly: true
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    MobileSessionInfo:
-      type: object
-      properties:
-        fcmTokenTimestamp:
-          type: integer
-          format: int64
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
-    UserActivationLink:
-      type: object
-      properties:
-        value:
-          type: string
-        ttlMs:
-          type: integer
-          format: int64
-    PageDataUserEmailInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/UserEmailInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    LastVisitedDashboardInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: JSON object with Dashboard id.
-          readOnly: true
-        title:
-          type: string
-          description: Title of the dashboard.
-        starred:
-          type: boolean
-          description: Starred flag
-        lastVisited:
-          type: integer
-          format: int64
-          description: Last visit timestamp
-    StarredDashboardInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: JSON object with Dashboard id.
-          readOnly: true
-        title:
-          type: string
-          description: Title of the dashboard.
-        starredAt:
-          type: integer
-          format: int64
-          description: Starred timestamp
     User:
       type: object
       description: A JSON value representing the User.
@@ -906,23 +843,39 @@ components:
       required:
       - authority
       - email
-    TenantId:
+    StarredDashboardInfo:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
+          description: JSON object with Dashboard id.
+          readOnly: true
+        title:
           type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
+          description: Title of the dashboard.
+        starredAt:
+          type: integer
+          format: int64
+          description: Starred timestamp
+    LastVisitedDashboardInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: JSON object with Dashboard id.
+          readOnly: true
+        title:
+          type: string
+          description: Title of the dashboard.
+        starred:
+          type: boolean
+          description: Starred flag
+        lastVisited:
+          type: integer
+          format: int64
+          description: Last visit timestamp
     CustomerId:
       type: object
       properties:
@@ -940,6 +893,29 @@ components:
       required:
       - entityType
       - id
+    PageDataUserEmailInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/UserEmailInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     UserEmailInfo:
       type: object
       properties:
@@ -958,6 +934,56 @@ components:
           type: string
           description: User last name
           example: Brown
+    UserDashboardsInfo:
+      type: object
+      properties:
+        last:
+          type: array
+          description: List of last visited dashboards.
+          items:
+            $ref: '#/components/schemas/LastVisitedDashboardInfo'
+          readOnly: true
+        starred:
+          type: array
+          description: List of starred dashboards.
+          items:
+            $ref: '#/components/schemas/StarredDashboardInfo'
+          readOnly: true
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    UserActivationLink:
+      type: object
+      properties:
+        value:
+          type: string
+        ttlMs:
+          type: integer
+          format: int64
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    MobileSessionInfo:
+      type: object
+      properties:
+        fcmTokenTimestamp:
+          type: integer
+          format: int64
     JwtPair:
       type: object
       description: JWT Pair
@@ -979,6 +1005,23 @@ components:
           - REFRESH_TOKEN
           - PRE_VERIFICATION_TOKEN
           - MFA_CONFIGURATION_TOKEN
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
     PageDataUser:
       type: object
       properties:
@@ -1003,12 +1046,12 @@ components:
           description: '''false'' value indicates the end of the result set'
           readOnly: true
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller alarm-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Alarms Alarm Controller API
+  description: 'ThingsBoard Alarms API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Alarm, Alarm Comment.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -24,7 +24,13 @@ paths:
       tags:
       - alarm-controller
       summary: Create or Update Alarm (saveAlarm)
-      description: "Creates or Updates the Alarm. When creating alarm, platform generates Alarm Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Alarm id will be present in the response. Specify existing Alarm id to update the alarm. Referencing non-existing Alarm Id will cause 'Not Found' error. \n\nPlatform also deduplicate the alarms based on the entity id of originator and alarm 'type'. For example, if the user or system component create the alarm with the type 'HighTemperature' for device 'Device A' the new active alarm is created. If the user tries to create 'HighTemperature' alarm for the same device again, the previous alarm will be updated (the 'end_ts' will be set to current timestamp). If the user clears the alarm (see 'Clear Alarm(clearAlarm)'), than new alarm with the same type and same device may be created. Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Alarm entity. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Creates or Updates the Alarm. When creating alarm, platform generates Alarm Id as time-based UUID). The newly created Alarm id will be present in the response. Specify existing Alarm id to update the alarm. Referencing non-existing Alarm Id will cause ''Not Found'' error.
+
+
+        Platform also deduplicate the alarms based on the entity id of originator and alarm ''type''. For example, if the user or system component create the alarm with the type ''HighTemperature'' for device ''Device A'' the new active alarm is created. If the user tries to create ''HighTemperature'' alarm for the same device again, the previous alarm will be updated (the ''end_ts'' will be set to current timestamp). If the user clears the alarm (see ''Clear Alarm(clearAlarm)''), than new alarm with the same type and same device may be created. Remove ''id'', ''tenantId'' and optionally ''customerId'' from the request body example (below) to create new Alarm entity.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: saveAlarm
       requestBody:
         description: A JSON value representing the alarm.
@@ -123,7 +129,10 @@ paths:
       tags:
       - alarm-controller
       summary: Get All Alarms (getAllAlarmsV2)
-      description: "Returns a page of alarms that belongs to the current user owner. If the user has the authority of 'Tenant Administrator', the server returns alarms that belongs to the tenant of current user. If the user has the authority of 'Customer User', the server returns alarms that belongs to the customer of current user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of alarms that belongs to the current user owner. If the user has the authority of ''Tenant Administrator'', the server returns alarms that belongs to the tenant of current user. If the user has the authority of ''Customer User'', the server returns alarms that belongs to the customer of current user. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAllAlarmsV2
       parameters:
       - name: statusList
@@ -238,7 +247,10 @@ paths:
       tags:
       - alarm-controller
       summary: Get Alarms (getAlarmsV2)
-      description: "Returns a page of alarms for the selected entity. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of alarms for the selected entity. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAlarmsV2
       parameters:
       - name: entityType
@@ -365,7 +377,10 @@ paths:
       tags:
       - alarm-controller
       summary: Get All Alarms (getAllAlarms)
-      description: "Returns a page of alarms that belongs to the current user owner. If the user has the authority of 'Tenant Administrator', the server returns alarms that belongs to the tenant of current user. If the user has the authority of 'Customer User', the server returns alarms that belongs to the customer of current user. Specifying both parameters 'searchStatus' and 'status' at the same time will cause an error. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of alarms that belongs to the current user owner. If the user has the authority of ''Tenant Administrator'', the server returns alarms that belongs to the tenant of current user. If the user has the authority of ''Customer User'', the server returns alarms that belongs to the customer of current user. Specifying both parameters ''searchStatus'' and ''status'' at the same time will cause an error. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAllAlarms
       parameters:
       - name: searchStatus
@@ -473,7 +488,10 @@ paths:
       tags:
       - alarm-controller
       summary: Get Alarms (getAlarms)
-      description: "Returns a page of alarms for the selected entity. Specifying both parameters 'searchStatus' and 'status' at the same time will cause an error. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of alarms for the selected entity. Specifying both parameters ''searchStatus'' and ''status'' at the same time will cause an error. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getAlarms
       parameters:
       - name: entityType
@@ -593,7 +611,7 @@ paths:
       tags:
       - alarm-controller
       summary: Get Alarm (getAlarmById)
-      description: 'Fetch the Alarm object based on the provided Alarm Id. If the user has the authority of ''Tenant Administrator'', the server checks that the originator of alarm is owned by the same tenant. If the user has the authority of ''Customer User'', the server checks that the originator of alarm belongs to the customer. '
+      description: Fetch the Alarm object based on the provided Alarm Id. If the user has the authority of 'Tenant Administrator', the server checks that the originator of alarm is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the originator of alarm belongs to the customer.
       operationId: getAlarmById
       parameters:
       - name: alarmId
@@ -791,6 +809,269 @@ paths:
                 $ref: '#/components/schemas/Alarm'
 components:
   schemas:
+    Alarm:
+      type: object
+      properties:
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id
+          readOnly: true
+        type:
+          type: string
+          description: representing type of the Alarm
+          example: High Temperature Alarm
+        originator:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with alarm originator id
+        severity:
+          type: string
+          description: Alarm severity
+          enum:
+          - CRITICAL
+          - MAJOR
+          - MINOR
+          - WARNING
+          - INDETERMINATE
+          example: CRITICAL
+        acknowledged:
+          type: boolean
+          description: Acknowledged
+          example: true
+        cleared:
+          type: boolean
+          description: Cleared
+          example: false
+        assigneeId:
+          $ref: '#/components/schemas/UserId'
+          description: Alarm assignee user id
+        startTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm start time, in milliseconds
+          example: 1634058704565
+        endTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm end time(last time update), in milliseconds
+          example: 1634111163522
+        ackTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm acknowledgement, in milliseconds
+          example: 1634115221948
+        clearTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm clearing, in milliseconds
+          example: 1634114528465
+        assignTs:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm assignment, in milliseconds
+          example: 1634115928465
+        details:
+          $ref: '#/components/schemas/JsonNode'
+        propagate:
+          type: boolean
+          description: Propagation flag to specify if alarm should be propagated to parent entities of alarm originator
+          example: true
+        propagateToOwner:
+          type: boolean
+          description: Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator
+          example: true
+        propagateToTenant:
+          type: boolean
+          description: Propagation flag to specify if alarm should be propagated to the tenant entity
+          example: true
+        propagateRelationTypes:
+          type: array
+          description: JSON array of relation types that should be used for propagation. By default, 'propagateRelationTypes' array is empty which means that the alarm will be propagated based on any relation type to parent entities. This parameter should be used only in case when 'propagate' parameter is set to true, otherwise, 'propagateRelationTypes' array will be ignored.
+          items:
+            type: string
+        id:
+          $ref: '#/components/schemas/AlarmId'
+          description: JSON object with the alarm Id. Specify this field to update the alarm. Referencing non-existing alarm Id will cause error. Omit this field to create new alarm.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the alarm creation, in milliseconds
+          example: 1634058704567
+          readOnly: true
+        name:
+          type: string
+          description: representing type of the Alarm
+          example: High Temperature Alarm
+          readOnly: true
+        status:
+          type: string
+          description: status of the Alarm
+          enum:
+          - ACTIVE_UNACK
+          - ACTIVE_ACK
+          - CLEARED_UNACK
+          - CLEARED_ACK
+          example: ACTIVE_UNACK
+          readOnly: true
+      required:
+      - acknowledged
+      - cleared
+      - name
+      - originator
+      - severity
+      - status
+      - type
+    PageDataEntitySubtype:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntitySubtype'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    EntitySubtype:
+      type: object
+      properties:
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        type:
+          type: string
+    AlarmAssignee:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
     AlarmId:
       type: object
       properties:
@@ -812,6 +1093,63 @@ components:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    PageDataAlarmInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AlarmInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
     AlarmInfo:
       type: object
       properties:
@@ -942,333 +1280,13 @@ components:
       - severity
       - status
       - type
-    PageDataEntitySubtype:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/EntitySubtype'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
-    Alarm:
-      type: object
-      properties:
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id
-          readOnly: true
-        customerId:
-          $ref: '#/components/schemas/CustomerId'
-          description: JSON object with Customer Id
-          readOnly: true
-        type:
-          type: string
-          description: representing type of the Alarm
-          example: High Temperature Alarm
-        originator:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with alarm originator id
-        severity:
-          type: string
-          description: Alarm severity
-          enum:
-          - CRITICAL
-          - MAJOR
-          - MINOR
-          - WARNING
-          - INDETERMINATE
-          example: CRITICAL
-        acknowledged:
-          type: boolean
-          description: Acknowledged
-          example: true
-        cleared:
-          type: boolean
-          description: Cleared
-          example: false
-        assigneeId:
-          $ref: '#/components/schemas/UserId'
-          description: Alarm assignee user id
-        startTs:
-          type: integer
-          format: int64
-          description: Timestamp of the alarm start time, in milliseconds
-          example: 1634058704565
-        endTs:
-          type: integer
-          format: int64
-          description: Timestamp of the alarm end time(last time update), in milliseconds
-          example: 1634111163522
-        ackTs:
-          type: integer
-          format: int64
-          description: Timestamp of the alarm acknowledgement, in milliseconds
-          example: 1634115221948
-        clearTs:
-          type: integer
-          format: int64
-          description: Timestamp of the alarm clearing, in milliseconds
-          example: 1634114528465
-        assignTs:
-          type: integer
-          format: int64
-          description: Timestamp of the alarm assignment, in milliseconds
-          example: 1634115928465
-        details:
-          $ref: '#/components/schemas/JsonNode'
-        propagate:
-          type: boolean
-          description: Propagation flag to specify if alarm should be propagated to parent entities of alarm originator
-          example: true
-        propagateToOwner:
-          type: boolean
-          description: Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator
-          example: true
-        propagateToTenant:
-          type: boolean
-          description: Propagation flag to specify if alarm should be propagated to the tenant entity
-          example: true
-        propagateRelationTypes:
-          type: array
-          description: JSON array of relation types that should be used for propagation. By default, 'propagateRelationTypes' array is empty which means that the alarm will be propagated based on any relation type to parent entities. This parameter should be used only in case when 'propagate' parameter is set to true, otherwise, 'propagateRelationTypes' array will be ignored.
-          items:
-            type: string
-        id:
-          $ref: '#/components/schemas/AlarmId'
-          description: JSON object with the alarm Id. Specify this field to update the alarm. Referencing non-existing alarm Id will cause error. Omit this field to create new alarm.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the alarm creation, in milliseconds
-          example: 1634058704567
-          readOnly: true
-        name:
-          type: string
-          description: representing type of the Alarm
-          example: High Temperature Alarm
-          readOnly: true
-        status:
-          type: string
-          description: status of the Alarm
-          enum:
-          - ACTIVE_UNACK
-          - ACTIVE_ACK
-          - CLEARED_UNACK
-          - CLEARED_ACK
-          example: ACTIVE_UNACK
-          readOnly: true
-      required:
-      - acknowledged
-      - cleared
-      - name
-      - originator
-      - severity
-      - status
-      - type
-    PageDataAlarmInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/AlarmInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    AlarmAssignee:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/UserId'
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-    EntitySubtype:
-      type: object
-      properties:
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-        type:
-          type: string
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    CustomerId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
-    EntityId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-          example: DEVICE
-      required:
-      - entityType
-      - id
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 

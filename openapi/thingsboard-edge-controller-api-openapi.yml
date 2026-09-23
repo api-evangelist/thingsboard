@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ThingsBoard Admin admin-controller edge-controller API
-  description: 'ThingsBoard Admin API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Admin, Audit Log, Event, Usage Info, Queue, Queue Stats, Mail Config Template, Qr Code Settings, Job.'
+  title: ThingsBoard Edge Edge Controller API
+  description: 'ThingsBoard Edge API — subset of the ThingsBoard REST API (open-source IoT platform). Covers: Edge, Edge Event, Entities Version Control.'
   version: 4.3.0.3DEMO
   contact:
     name: ThingsBoard team
@@ -119,7 +119,13 @@ paths:
       tags:
       - edge-controller
       summary: Create or Update Edge (saveEdge)
-      description: "Create or update the Edge. When creating edge, platform generates Edge Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created edge id will be present in the response. Specify existing Edge id to update the edge. Referencing non-existing Edge Id will cause 'Not Found' error.\n\nEdge name is unique in the scope of tenant. Use unique identifiers like MAC or IMEI for the edge names and non-unique 'label' field for user-friendly visualization purposes.Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Edge entity. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Create or update the Edge. When creating edge, platform generates Edge Id as time-based UUID). The newly created edge id will be present in the response. Specify existing Edge id to update the edge. Referencing non-existing Edge Id will cause ''Not Found'' error.
+
+
+        Edge name is unique in the scope of tenant. Use unique identifiers like MAC or IMEI for the edge names and non-unique ''label'' field for user-friendly visualization purposes.Remove ''id'', ''tenantId'' and optionally ''customerId'' from the request body example (below) to create new Edge entity.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: saveEdge
       requestBody:
         content:
@@ -139,7 +145,12 @@ paths:
       tags:
       - edge-controller
       summary: Set Root Rule Chain for Provided Edge (setEdgeRootRuleChain)
-      description: "Change root rule chain of the edge to the new provided rule chain. \nThis operation will send a notification to update root rule chain on remote edge service.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Change root rule chain of the edge to the new provided rule chain.
+
+        This operation will send a notification to update root rule chain on remote edge service.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: setEdgeRootRuleChain
       parameters:
       - name: edgeId
@@ -166,7 +177,12 @@ paths:
       tags:
       - edge-controller
       summary: Sync Edge (syncEdge)
-      description: "Starts synchronization process between edge and cloud. \nAll entities that are assigned to particular edge are going to be send to remote edge service.\n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Starts synchronization process between edge and cloud.
+
+        All entities that are assigned to particular edge are going to be send to remote edge service.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: syncEdge
       parameters:
       - name: edgeId
@@ -337,7 +353,10 @@ paths:
       tags:
       - edge-controller
       summary: Get Tenant Edge Infos (getTenantEdgeInfos)
-      description: "Returns a page of edges info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' authority."
+      description: 'Returns a page of edges info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name.
+
+
+        Available for users with ''TENANT_ADMIN'' authority.'
       operationId: getTenantEdgeInfos
       parameters:
       - name: pageSize
@@ -612,7 +631,10 @@ paths:
       tags:
       - edge-controller
       summary: Get Customer Edges (getCustomerEdges)
-      description: "Returns a page of edges objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of edges objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getCustomerEdges
       parameters:
       - name: customerId
@@ -680,7 +702,10 @@ paths:
       tags:
       - edge-controller
       summary: Get Customer Edge Infos (getCustomerEdgeInfos)
-      description: "Returns a page of edges info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name. \n\nAvailable for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority."
+      description: 'Returns a page of edges info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See response schema for more details. Edge Info is an extension of the default Edge object that contains information about the assigned customer name.
+
+
+        Available for users with ''TENANT_ADMIN'' or ''CUSTOMER_USER'' authority.'
       operationId: getCustomerEdgeInfos
       parameters:
       - name: customerId
@@ -769,6 +794,19 @@ paths:
                 $ref: '#/components/schemas/Edge'
 components:
   schemas:
+    Mapping:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnMapping'
+        delimiter:
+          type: string
+        update:
+          type: boolean
+        header:
+          type: boolean
     EdgeSearchQuery:
       type: object
       properties:
@@ -783,6 +821,44 @@ components:
           description: Array of edge types to filter the related entities (e.g. 'Silos', 'Stores').
           items:
             type: string
+    ColumnMapping:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - NAME
+          - TYPE
+          - LABEL
+          - SHARED_ATTRIBUTE
+          - SERVER_ATTRIBUTE
+          - TIMESERIES
+          - ACCESS_TOKEN
+          - X509
+          - MQTT_CLIENT_ID
+          - MQTT_USER_NAME
+          - MQTT_PASSWORD
+          - LWM2M_CLIENT_ENDPOINT
+          - LWM2M_CLIENT_SECURITY_CONFIG_MODE
+          - LWM2M_CLIENT_IDENTITY
+          - LWM2M_CLIENT_KEY
+          - LWM2M_CLIENT_CERT
+          - LWM2M_BOOTSTRAP_SERVER_SECURITY_MODE
+          - LWM2M_BOOTSTRAP_SERVER_PUBLIC_KEY_OR_ID
+          - LWM2M_BOOTSTRAP_SERVER_SECRET_KEY
+          - LWM2M_SERVER_SECURITY_MODE
+          - LWM2M_SERVER_CLIENT_PUBLIC_KEY_OR_ID
+          - LWM2M_SERVER_CLIENT_SECRET_KEY
+          - SNMP_HOST
+          - SNMP_PORT
+          - SNMP_VERSION
+          - SNMP_COMMUNITY_STRING
+          - IS_GATEWAY
+          - DESCRIPTION
+          - ROUTING_KEY
+          - SECRET
+        key:
+          type: string
     BulkImportResultEdge:
       type: object
       properties:
@@ -856,10 +932,53 @@ components:
           type: array
           items:
             type: string
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    PageDataEdge:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Edge'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    BulkImportRequest:
+      type: object
+      properties:
+        file:
+          type: string
+        mapping:
+          $ref: '#/components/schemas/Mapping'
     Edge:
       type: object
       description: A JSON value representing the edge.
@@ -913,74 +1032,6 @@ components:
       - routingKey
       - secret
       - type
-    BulkImportRequest:
-      type: object
-      properties:
-        file:
-          type: string
-        mapping:
-          $ref: '#/components/schemas/Mapping'
-    PageDataEdge:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/Edge'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    ColumnMapping:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - NAME
-          - TYPE
-          - LABEL
-          - SHARED_ATTRIBUTE
-          - SERVER_ATTRIBUTE
-          - TIMESERIES
-          - ACCESS_TOKEN
-          - X509
-          - MQTT_CLIENT_ID
-          - MQTT_USER_NAME
-          - MQTT_PASSWORD
-          - LWM2M_CLIENT_ENDPOINT
-          - LWM2M_CLIENT_SECURITY_CONFIG_MODE
-          - LWM2M_CLIENT_IDENTITY
-          - LWM2M_CLIENT_KEY
-          - LWM2M_CLIENT_CERT
-          - LWM2M_BOOTSTRAP_SERVER_SECURITY_MODE
-          - LWM2M_BOOTSTRAP_SERVER_PUBLIC_KEY_OR_ID
-          - LWM2M_BOOTSTRAP_SERVER_SECRET_KEY
-          - LWM2M_SERVER_SECURITY_MODE
-          - LWM2M_SERVER_CLIENT_PUBLIC_KEY_OR_ID
-          - LWM2M_SERVER_CLIENT_SECRET_KEY
-          - SNMP_HOST
-          - SNMP_PORT
-          - SNMP_VERSION
-          - SNMP_COMMUNITY_STRING
-          - IS_GATEWAY
-          - DESCRIPTION
-          - ROUTING_KEY
-          - SECRET
-        key:
-          type: string
     EdgeInfo:
       type: object
       properties:
@@ -1037,6 +1088,52 @@ components:
       - routingKey
       - secret
       - type
+    EntitySubtype:
+      type: object
+      properties:
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        type:
+          type: string
     RelationsSearchParameters:
       type: object
       properties:
@@ -1108,139 +1205,6 @@ components:
         fetchLastLevelOnly:
           type: boolean
           description: Fetch entities that match the last level of search. Useful to find Devices that are strictly 'maxLevel' relations away from the root entity.
-    EntitySubtype:
-      type: object
-      properties:
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-        type:
-          type: string
-    PageDataEdgeInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/EdgeInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    RuleChainId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - RULE_CHAIN
-          example: RULE_CHAIN
-      required:
-      - entityType
-      - id
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    CustomerId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
-    Mapping:
-      type: object
-      properties:
-        columns:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnMapping'
-        delimiter:
-          type: string
-        update:
-          type: boolean
-        header:
-          type: boolean
     EdgeInstructions:
       type: object
       properties:
@@ -1264,13 +1228,74 @@ components:
       required:
       - entityType
       - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    RuleChainId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - RULE_CHAIN
+          example: RULE_CHAIN
+      required:
+      - entityType
+      - id
+    PageDataEdgeInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EdgeInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
   securitySchemes:
-    HTTP login form:
+    HTTP_login_form:
       type: http
       description: Enter Username / Password
       scheme: loginPassword
       bearerFormat: /api/auth/login|X-Authorization
-    API key form:
+    API_key_form:
       type: apiKey
       description: 'Enter the API key value with ''ApiKey'' prefix in format: **ApiKey <your_api_key_value>**
 
