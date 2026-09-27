@@ -74,6 +74,17 @@ paths:
           description: OK
 components:
   schemas:
+    OAuth2CustomMapperConfig:
+      type: object
+      properties:
+        url:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        sendToken:
+          type: boolean
     OAuth2MapperConfig:
       type: object
       properties:
@@ -133,17 +144,20 @@ components:
           description: Whether default dashboard should be open in full screen
       required:
       - tenantNameStrategy
-    OAuth2CustomMapperConfig:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    OAuth2ClientRegistrationTemplateId:
       type: object
       properties:
-        url:
+        id:
           type: string
-        username:
-          type: string
-        password:
-          type: string
-        sendToken:
-          type: boolean
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
     OAuth2ClientRegistrationTemplate:
       type: object
       properties:
@@ -202,20 +216,6 @@ components:
           $ref: '#/components/schemas/JsonNode'
       required:
       - providerId
-    OAuth2ClientRegistrationTemplateId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: string
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-      required:
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
   securitySchemes:
     HTTP_login_form:
       type: http

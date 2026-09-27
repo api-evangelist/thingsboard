@@ -139,6 +139,23 @@ paths:
           description: OK
 components:
   schemas:
+    AlarmId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ALARM
+          example: ALARM
+      required:
+      - entityType
+      - id
     AlarmComment:
       type: object
       properties:
@@ -176,23 +193,6 @@ components:
           description: representing comment text
           example: Please take a look
           readOnly: true
-    AlarmId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - ALARM
-          example: ALARM
-      required:
-      - entityType
-      - id
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:

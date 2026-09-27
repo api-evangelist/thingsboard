@@ -535,27 +535,6 @@ components:
       type: object
       properties:
         id: {}
-    TbResourceId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TB_RESOURCE
-          example: TB_RESOURCE
-      required:
-      - entityType
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     ResourceExportData:
       type: object
       properties:
@@ -618,17 +597,6 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    TbImageDeleteResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-        references:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/HasIdObject'
     TenantId:
       type: object
       properties:
@@ -646,6 +614,38 @@ components:
       required:
       - entityType
       - id
+    TbResourceId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TB_RESOURCE
+          example: TB_RESOURCE
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    TbImageDeleteResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        references:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/HasIdObject'
   securitySchemes:
     HTTP_login_form:
       type: http

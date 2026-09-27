@@ -216,6 +216,17 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
+    OAuth2CustomMapperConfig:
+      type: object
+      properties:
+        url:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        sendToken:
+          type: boolean
     OAuth2MapperConfig:
       type: object
       properties:
@@ -275,17 +286,35 @@ components:
           description: Whether default dashboard should be open in full screen
       required:
       - tenantNameStrategy
-    OAuth2CustomMapperConfig:
+    OAuth2ClientInfo:
       type: object
       properties:
-        url:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        title:
           type: string
-        username:
+          description: Oauth2 client registration title (e.g. My google)
+        providerName:
           type: string
-        password:
+          description: Oauth2 client provider name (e.g. Google)
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
           type: string
-        sendToken:
-          type: boolean
+          readOnly: true
     OAuth2ClientId:
       type: object
       properties:
@@ -337,6 +366,27 @@ components:
       required:
       - entityType
       - id
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     OAuth2ClientLoginInfo:
       type: object
       properties:
@@ -352,39 +402,6 @@ components:
           type: string
           description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
           example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
-    OAuth2ClientInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/OAuth2ClientId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        title:
-          type: string
-          description: Oauth2 client registration title (e.g. My google)
-        providerName:
-          type: string
-          description: Oauth2 client provider name (e.g. Google)
-        platforms:
-          type: array
-          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
-          items:
-            type: string
-            enum:
-            - WEB
-            - ANDROID
-            - IOS
-        name:
-          type: string
-          readOnly: true
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     OAuth2Client:
       type: object
       properties:
@@ -476,23 +493,6 @@ components:
       - scope
       - title
       - userNameAttributeName
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
   securitySchemes:
     HTTP_login_form:
       type: http

@@ -781,6 +781,39 @@ paths:
           description: OK
 components:
   schemas:
+    LastVisitedDashboardInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: JSON object with Dashboard id.
+          readOnly: true
+        title:
+          type: string
+          description: Title of the dashboard.
+        starred:
+          type: boolean
+          description: Starred flag
+        lastVisited:
+          type: integer
+          format: int64
+          description: Last visit timestamp
+    StarredDashboardInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: JSON object with Dashboard id.
+          readOnly: true
+        title:
+          type: string
+          description: Title of the dashboard.
+        starredAt:
+          type: integer
+          format: int64
+          description: Starred timestamp
     User:
       type: object
       description: A JSON value representing the User.
@@ -843,39 +876,14 @@ components:
       required:
       - authority
       - email
-    StarredDashboardInfo:
+    UserActivationLink:
       type: object
       properties:
-        id:
+        value:
           type: string
-          format: uuid
-          description: JSON object with Dashboard id.
-          readOnly: true
-        title:
-          type: string
-          description: Title of the dashboard.
-        starredAt:
+        ttlMs:
           type: integer
           format: int64
-          description: Starred timestamp
-    LastVisitedDashboardInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: JSON object with Dashboard id.
-          readOnly: true
-        title:
-          type: string
-          description: Title of the dashboard.
-        starred:
-          type: boolean
-          description: Starred flag
-        lastVisited:
-          type: integer
-          format: int64
-          description: Last visit timestamp
     CustomerId:
       type: object
       properties:
@@ -893,6 +901,104 @@ components:
       required:
       - entityType
       - id
+    UserEmailInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+          description: User id
+        email:
+          type: string
+          description: User email
+          example: john@gmail.com
+        firstName:
+          type: string
+          description: User first name
+          example: John
+        lastName:
+          type: string
+          description: User last name
+          example: Brown
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    JwtPair:
+      type: object
+      description: JWT Pair
+      properties:
+        token:
+          type: string
+          description: The JWT Access Token. Used to perform API calls.
+          example: AAB254FF67D..
+        refreshToken:
+          type: string
+          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
+          example: AAB254FF67D..
+        scope:
+          type: string
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+    UserDashboardsInfo:
+      type: object
+      properties:
+        last:
+          type: array
+          description: List of last visited dashboards.
+          items:
+            $ref: '#/components/schemas/LastVisitedDashboardInfo'
+          readOnly: true
+        starred:
+          type: array
+          description: List of starred dashboards.
+          items:
+            $ref: '#/components/schemas/StarredDashboardInfo'
+          readOnly: true
+    MobileSessionInfo:
+      type: object
+      properties:
+        fcmTokenTimestamp:
+          type: integer
+          format: int64
     PageDataUserEmailInfo:
       type: object
       properties:
@@ -916,112 +1022,6 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    UserEmailInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/UserId'
-          description: User id
-        email:
-          type: string
-          description: User email
-          example: john@gmail.com
-        firstName:
-          type: string
-          description: User first name
-          example: John
-        lastName:
-          type: string
-          description: User last name
-          example: Brown
-    UserDashboardsInfo:
-      type: object
-      properties:
-        last:
-          type: array
-          description: List of last visited dashboards.
-          items:
-            $ref: '#/components/schemas/LastVisitedDashboardInfo'
-          readOnly: true
-        starred:
-          type: array
-          description: List of starred dashboards.
-          items:
-            $ref: '#/components/schemas/StarredDashboardInfo'
-          readOnly: true
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    UserActivationLink:
-      type: object
-      properties:
-        value:
-          type: string
-        ttlMs:
-          type: integer
-          format: int64
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
-    MobileSessionInfo:
-      type: object
-      properties:
-        fcmTokenTimestamp:
-          type: integer
-          format: int64
-    JwtPair:
-      type: object
-      description: JWT Pair
-      properties:
-        token:
-          type: string
-          description: The JWT Access Token. Used to perform API calls.
-          example: AAB254FF67D..
-        refreshToken:
-          type: string
-          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
-          example: AAB254FF67D..
-        scope:
-          type: string
-          enum:
-          - SYS_ADMIN
-          - TENANT_ADMIN
-          - CUSTOMER_USER
-          - REFRESH_TOKEN
-          - PRE_VERIFICATION_TOKEN
-          - MFA_CONFIGURATION_TOKEN
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
     PageDataUser:
       type: object
       properties:

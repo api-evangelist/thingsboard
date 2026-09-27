@@ -456,30 +456,6 @@ paths:
                 type: boolean
 components:
   schemas:
-    AdminSettings:
-      type: object
-      description: A JSON value representing the Mail Settings.
-      properties:
-        id:
-          $ref: '#/components/schemas/AdminSettingsId'
-          description: The Id of the Administration Settings, auto-generated, UUID
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the settings creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id.
-          readOnly: true
-        key:
-          type: string
-          description: The Administration Settings key, (e.g. 'general' or 'mail')
-          example: mail
-        jsonValue:
-          $ref: '#/components/schemas/JsonNode'
-          description: JSON representation of the Administration Settings value
     AwsSnsSmsProviderConfiguration:
       allOf:
       - $ref: '#/components/schemas/SmsProviderConfiguration'
@@ -494,35 +470,28 @@ components:
           region:
             type: string
             description: The AWS region.
-    SmsProviderConfiguration:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    UpdateMessage:
+    JwtSettings:
       type: object
+      description: A JSON value representing the JWT Settings.
       properties:
-        updateAvailable:
-          type: boolean
-          description: '''True'' if new platform update is available.'
-        currentVersion:
+        tokenExpirationTime:
+          type: integer
+          format: int32
+          description: The JWT will expire after seconds.
+          example: 9000
+        refreshTokenExpTime:
+          type: integer
+          format: int32
+          description: The JWT can be refreshed during seconds.
+          example: 604800
+        tokenIssuer:
           type: string
-          description: Current ThingsBoard version.
-        latestVersion:
+          description: The JWT issuer.
+          example: thingsboard.io
+        tokenSigningKey:
           type: string
-          description: Latest ThingsBoard version.
-        upgradeInstructionsUrl:
-          type: string
-          description: Upgrade instructions URL.
-        currentVersionReleaseNotesUrl:
-          type: string
-          description: Current ThingsBoard version release notes URL.
-        latestVersionReleaseNotesUrl:
-          type: string
-          description: Latest ThingsBoard version release notes URL.
+          description: The JWT key is used to sing token. Base64 encoded.
+          example: dkVTUzU2M2VMWUNwVVltTUhQU2o5SUM0Tkc3M0k2Ykdwcm85QTl6R0RaQ252OFlmVDk2OEptZXBNcndGeExFZg==
     SecuritySettings:
       type: object
       description: A JSON value representing the Security Settings.
@@ -556,6 +525,13 @@ components:
       required:
       - passwordResetTokenTtl
       - userActivationTokenTtl
+    RepositorySettingsInfo:
+      type: object
+      properties:
+        configured:
+          type: boolean
+        readOnly:
+          type: boolean
     RepositorySettings:
       type: object
       description: A JSON value representing the Repository Settings.
@@ -595,13 +571,6 @@ components:
             $ref: '#/components/schemas/SystemInfoData'
         monolith:
           type: boolean
-    RepositorySettingsInfo:
-      type: object
-      properties:
-        configured:
-          type: boolean
-        readOnly:
-          type: boolean
     SystemInfoData:
       type: object
       properties:
@@ -635,56 +604,73 @@ components:
           type: integer
           format: int64
           description: Total disc space in bytes.
-    TenantId:
+    AdminSettings:
       type: object
+      description: A JSON value representing the Mail Settings.
       properties:
         id:
+          $ref: '#/components/schemas/AdminSettingsId'
+          description: The Id of the Administration Settings, auto-generated, UUID
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the settings creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        key:
           type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
+          description: The Administration Settings key, (e.g. 'general' or 'mail')
+          example: mail
+        jsonValue:
+          $ref: '#/components/schemas/JsonNode'
+          description: JSON representation of the Administration Settings value
     AutoCommitSettings:
       type: object
       additionalProperties:
         $ref: '#/components/schemas/AutoVersionCreateConfig'
-    TestSmsRequest:
-      type: object
-      description: A JSON value representing the Test SMS request.
-      properties:
-        providerConfiguration:
-          description: The SMS provider configuration
-          oneOf:
-          - $ref: '#/components/schemas/AwsSnsSmsProviderConfiguration'
-          - $ref: '#/components/schemas/SmppSmsProviderConfiguration'
-          - $ref: '#/components/schemas/TwilioSmsProviderConfiguration'
-        numberTo:
-          type: string
-          description: The phone number or other identifier to specify as a recipient of the SMS.
-        message:
-          type: string
-          description: The test message
-    AutoVersionCreateConfig:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    UpdateMessage:
       type: object
       properties:
-        saveRelations:
+        updateAvailable:
           type: boolean
-        saveAttributes:
-          type: boolean
-        saveCredentials:
-          type: boolean
-        saveCalculatedFields:
-          type: boolean
-        branch:
+          description: '''True'' if new platform update is available.'
+        currentVersion:
           type: string
+          description: Current ThingsBoard version.
+        latestVersion:
+          type: string
+          description: Latest ThingsBoard version.
+        upgradeInstructionsUrl:
+          type: string
+          description: Upgrade instructions URL.
+        currentVersionReleaseNotesUrl:
+          type: string
+          description: Current ThingsBoard version release notes URL.
+        latestVersionReleaseNotesUrl:
+          type: string
+          description: Latest ThingsBoard version release notes URL.
+    TwilioSmsProviderConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/SmsProviderConfiguration'
+      - type: object
+        properties:
+          accountSid:
+            type: string
+            description: Twilio account Sid.
+          accountToken:
+            type: string
+            description: Twilio account Token.
+          numberFrom:
+            type: string
+            description: The number/id of a sender.
     AdminSettingsId:
       type: object
       properties:
@@ -702,28 +688,6 @@ components:
       required:
       - entityType
       - id
-    JwtSettings:
-      type: object
-      description: A JSON value representing the JWT Settings.
-      properties:
-        tokenExpirationTime:
-          type: integer
-          format: int32
-          description: The JWT will expire after seconds.
-          example: 9000
-        refreshTokenExpTime:
-          type: integer
-          format: int32
-          description: The JWT can be refreshed during seconds.
-          example: 604800
-        tokenIssuer:
-          type: string
-          description: The JWT issuer.
-          example: thingsboard.io
-        tokenSigningKey:
-          type: string
-          description: The JWT key is used to sing token. Base64 encoded.
-          example: dkVTUzU2M2VMWUNwVVltTUhQU2o5SUM0Tkc3M0k2Ykdwcm85QTl6R0RaQ252OFlmVDk2OEptZXBNcndGeExFZg==
     SmppSmsProviderConfiguration:
       allOf:
       - $ref: '#/components/schemas/SmsProviderConfiguration'
@@ -941,24 +905,47 @@ components:
           type: integer
           format: int32
           description: Password reuse frequency (days). Disallow to use the same password for the defined number of days
-    TwilioSmsProviderConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/SmsProviderConfiguration'
-      - type: object
-        properties:
-          accountSid:
-            type: string
-            description: Twilio account Sid.
-          accountToken:
-            type: string
-            description: Twilio account Token.
-          numberFrom:
-            type: string
-            description: The number/id of a sender.
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
+    SmsProviderConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    TestSmsRequest:
+      type: object
+      description: A JSON value representing the Test SMS request.
+      properties:
+        providerConfiguration:
+          description: The SMS provider configuration
+          oneOf:
+          - $ref: '#/components/schemas/AwsSnsSmsProviderConfiguration'
+          - $ref: '#/components/schemas/SmppSmsProviderConfiguration'
+          - $ref: '#/components/schemas/TwilioSmsProviderConfiguration'
+        numberTo:
+          type: string
+          description: The phone number or other identifier to specify as a recipient of the SMS.
+        message:
+          type: string
+          description: The test message
     JwtPair:
       type: object
       description: JWT Pair
@@ -980,6 +967,19 @@ components:
           - REFRESH_TOKEN
           - PRE_VERIFICATION_TOKEN
           - MFA_CONFIGURATION_TOKEN
+    AutoVersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+        branch:
+          type: string
   securitySchemes:
     HTTP_login_form:
       type: http

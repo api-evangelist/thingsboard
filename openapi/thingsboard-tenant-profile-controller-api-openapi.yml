@@ -402,14 +402,65 @@ paths:
           description: OK
 components:
   schemas:
-    PageDataEntityInfo:
+    TenantProfileConfiguration:
+      discriminator:
+        propertyName: type
+        mapping:
+          DEFAULT: '#/components/schemas/DefaultTenantProfileConfiguration'
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TenantProfileId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT_PROFILE
+          example: TENANT_PROFILE
+      required:
+      - entityType
+      - id
+    TenantProfileQueueConfiguration:
+      type: object
+      properties:
+        name:
+          type: string
+        topic:
+          type: string
+        pollInterval:
+          type: integer
+          format: int32
+        partitions:
+          type: integer
+          format: int32
+        consumerPerPartition:
+          type: boolean
+        packProcessingTimeout:
+          type: integer
+          format: int64
+        submitStrategy:
+          $ref: '#/components/schemas/SubmitStrategy'
+        processingStrategy:
+          $ref: '#/components/schemas/ProcessingStrategy'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+    PageDataTenantProfile:
       type: object
       properties:
         data:
           type: array
           description: Array of the entities
           items:
-            $ref: '#/components/schemas/EntityInfo'
+            $ref: '#/components/schemas/TenantProfile'
           readOnly: true
         totalPages:
           type: integer
@@ -425,6 +476,18 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
+    TenantProfileData:
+      type: object
+      properties:
+        configuration:
+          description: 'Complex JSON object that contains profile settings: max devices, max assets, rate limits, etc.'
+          oneOf:
+          - $ref: '#/components/schemas/DefaultTenantProfileConfiguration'
+        queueConfiguration:
+          type: array
+          description: JSON array of queue configuration per tenant profile
+          items:
+            $ref: '#/components/schemas/TenantProfileQueueConfiguration'
     ProcessingStrategy:
       type: object
       properties:
@@ -449,29 +512,20 @@ components:
         maxPauseBetweenRetries:
           type: integer
           format: int64
-    PageDataTenantProfile:
+    SubmitStrategy:
       type: object
       properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/TenantProfile'
-          readOnly: true
-        totalPages:
+        type:
+          type: string
+          enum:
+          - BURST
+          - BATCH
+          - SEQUENTIAL_BY_ORIGINATOR
+          - SEQUENTIAL_BY_TENANT
+          - SEQUENTIAL
+        batchSize:
           type: integer
           format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
     EntityId:
       type: object
       properties:
@@ -523,88 +577,33 @@ components:
       required:
       - entityType
       - id
-    SubmitStrategy:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - BURST
-          - BATCH
-          - SEQUENTIAL_BY_ORIGINATOR
-          - SEQUENTIAL_BY_TENANT
-          - SEQUENTIAL
-        batchSize:
-          type: integer
-          format: int32
-    EntityInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/EntityId'
-          description: 'JSON object with the entity Id. '
-        name:
-          type: string
-          description: Entity Name
-    TenantProfileQueueConfiguration:
-      type: object
-      properties:
-        name:
-          type: string
-        topic:
-          type: string
-        pollInterval:
-          type: integer
-          format: int32
-        partitions:
-          type: integer
-          format: int32
-        consumerPerPartition:
-          type: boolean
-        packProcessingTimeout:
-          type: integer
-          format: int64
-        submitStrategy:
-          $ref: '#/components/schemas/SubmitStrategy'
-        processingStrategy:
-          $ref: '#/components/schemas/ProcessingStrategy'
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
-    TenantProfile:
+    PageDataEntityInfo:
       type: object
-      description: A JSON value representing the tenant profile.
       properties:
-        id:
-          $ref: '#/components/schemas/TenantProfileId'
-          description: JSON object with the tenant profile Id. Specify this field to update the tenant profile. Referencing non-existing tenant profile Id will cause error. Omit this field to create new tenant profile.
-        createdTime:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
           type: integer
           format: int64
-          description: Timestamp of the tenant profile creation, in milliseconds
-          example: 1609459200000
+          description: Total number of elements in all available pages
           readOnly: true
-        name:
-          type: string
-          description: Name of the tenant profile
-          example: High Priority Tenants
-        description:
-          type: string
-          description: Description of the tenant profile
-          example: Any text
-        isolatedTbRuleEngine:
+        hasNext:
           type: boolean
-          description: If enabled, will push all messages related to this tenant and processed by the rule engine into separate queue. Useful for complex microservices deployments, to isolate processing of the data for specific tenants
-          example: false
-        profileData:
-          $ref: '#/components/schemas/TenantProfileData'
-        default:
-          type: boolean
-          description: Default Tenant profile to be used.
-          example: false
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     DefaultTenantProfileConfiguration:
       allOf:
       - $ref: '#/components/schemas/TenantProfileConfiguration'
@@ -854,45 +853,46 @@ components:
             type: integer
             format: int64
             example: 60
-    TenantProfileData:
+    TenantProfile:
       type: object
+      description: A JSON value representing the tenant profile.
       properties:
-        configuration:
-          description: 'Complex JSON object that contains profile settings: max devices, max assets, rate limits, etc.'
-          oneOf:
-          - $ref: '#/components/schemas/DefaultTenantProfileConfiguration'
-        queueConfiguration:
-          type: array
-          description: JSON array of queue configuration per tenant profile
-          items:
-            $ref: '#/components/schemas/TenantProfileQueueConfiguration'
-    TenantProfileId:
+        id:
+          $ref: '#/components/schemas/TenantProfileId'
+          description: JSON object with the tenant profile Id. Specify this field to update the tenant profile. Referencing non-existing tenant profile Id will cause error. Omit this field to create new tenant profile.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the tenant profile creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        name:
+          type: string
+          description: Name of the tenant profile
+          example: High Priority Tenants
+        description:
+          type: string
+          description: Description of the tenant profile
+          example: Any text
+        isolatedTbRuleEngine:
+          type: boolean
+          description: If enabled, will push all messages related to this tenant and processed by the rule engine into separate queue. Useful for complex microservices deployments, to isolate processing of the data for specific tenants
+          example: false
+        profileData:
+          $ref: '#/components/schemas/TenantProfileData'
+        default:
+          type: boolean
+          description: Default Tenant profile to be used.
+          example: false
+    EntityInfo:
       type: object
       properties:
         id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
           type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT_PROFILE
-          example: TENANT_PROFILE
-      required:
-      - entityType
-      - id
-    TenantProfileConfiguration:
-      discriminator:
-        propertyName: type
-        mapping:
-          DEFAULT: '#/components/schemas/DefaultTenantProfileConfiguration'
-      properties:
-        type:
-          type: string
-      required:
-      - type
+          description: Entity Name
   securitySchemes:
     HTTP_login_form:
       type: http

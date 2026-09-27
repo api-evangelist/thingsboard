@@ -170,33 +170,6 @@ paths:
           description: OK
 components:
   schemas:
-    Domain:
-      type: object
-      description: A JSON value representing the Domain.
-      properties:
-        id:
-          $ref: '#/components/schemas/DomainId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id
-        name:
-          type: string
-          description: Domain name. Cannot be empty
-          minLength: 1
-        oauth2Enabled:
-          type: boolean
-          description: Whether OAuth2 settings are enabled or not
-        propagateToEdge:
-          type: boolean
-          description: Whether OAuth2 settings are enabled on Edge or not
-      required:
-      - name
     PageDataDomainInfo:
       type: object
       properties:
@@ -219,6 +192,35 @@ components:
         hasNext:
           type: boolean
           description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    OAuth2ClientInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        title:
+          type: string
+          description: Oauth2 client registration title (e.g. My google)
+        providerName:
+          type: string
+          description: Oauth2 client provider name (e.g. Google)
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
+          type: string
           readOnly: true
     OAuth2ClientId:
       type: object
@@ -268,6 +270,54 @@ components:
           - AI_MODEL
           - API_KEY
           example: DEVICE
+      required:
+      - entityType
+      - id
+    DomainInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DomainId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        name:
+          type: string
+          description: Domain name. Cannot be empty
+          minLength: 1
+        oauth2Enabled:
+          type: boolean
+          description: Whether OAuth2 settings are enabled or not
+        propagateToEdge:
+          type: boolean
+          description: Whether OAuth2 settings are enabled on Edge or not
+        oauth2ClientInfos:
+          type: array
+          description: List of available oauth2 clients
+          items:
+            $ref: '#/components/schemas/OAuth2ClientInfo'
+      required:
+      - name
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
       required:
       - entityType
       - id
@@ -322,37 +372,9 @@ components:
       required:
       - entityType
       - id
-    OAuth2ClientInfo:
+    Domain:
       type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/OAuth2ClientId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        title:
-          type: string
-          description: Oauth2 client registration title (e.g. My google)
-        providerName:
-          type: string
-          description: Oauth2 client provider name (e.g. Google)
-        platforms:
-          type: array
-          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
-          items:
-            type: string
-            enum:
-            - WEB
-            - ANDROID
-            - IOS
-        name:
-          type: string
-          readOnly: true
-    DomainInfo:
-      type: object
+      description: A JSON value representing the Domain.
       properties:
         id:
           $ref: '#/components/schemas/DomainId'
@@ -375,30 +397,8 @@ components:
         propagateToEdge:
           type: boolean
           description: Whether OAuth2 settings are enabled on Edge or not
-        oauth2ClientInfos:
-          type: array
-          description: List of available oauth2 clients
-          items:
-            $ref: '#/components/schemas/OAuth2ClientInfo'
       required:
       - name
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
   securitySchemes:
     HTTP_login_form:
       type: http

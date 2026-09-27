@@ -193,6 +193,23 @@ paths:
                 $ref: '#/components/schemas/Queue'
 components:
   schemas:
+    QueueId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - QUEUE
+          example: QUEUE
+      required:
+      - entityType
+      - id
     Queue:
       type: object
       description: A JSON value representing the queue.
@@ -228,6 +245,43 @@ components:
           $ref: '#/components/schemas/ProcessingStrategy'
         additionalInfo:
           $ref: '#/components/schemas/JsonNode'
+    PageDataQueue:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Queue'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    SubmitStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - BURST
+          - BATCH
+          - SEQUENTIAL_BY_ORIGINATOR
+          - SEQUENTIAL_BY_TENANT
+          - SEQUENTIAL
+        batchSize:
+          type: integer
+          format: int32
     ProcessingStrategy:
       type: object
       properties:
@@ -252,64 +306,6 @@ components:
         maxPauseBetweenRetries:
           type: integer
           format: int64
-    SubmitStrategy:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - BURST
-          - BATCH
-          - SEQUENTIAL_BY_ORIGINATOR
-          - SEQUENTIAL_BY_TENANT
-          - SEQUENTIAL
-        batchSize:
-          type: integer
-          format: int32
-    QueueId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - QUEUE
-          example: QUEUE
-      required:
-      - entityType
-      - id
-    PageDataQueue:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/Queue'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     TenantId:
       type: object
       properties:
@@ -327,6 +323,10 @@ components:
       required:
       - entityType
       - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
   securitySchemes:
     HTTP_login_form:
       type: http

@@ -1085,30 +1085,73 @@ paths:
                   $ref: '#/components/schemas/BranchInfo'
 components:
   schemas:
-    PageDataEntityVersion:
+    EntityTypeLoadResult:
       type: object
       properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/EntityVersion'
-          readOnly: true
-        totalPages:
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+        created:
           type: integer
           format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
+        updated:
           type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
+          format: int32
+        deleted:
+          type: integer
+          format: int32
+    OutputStrategy: {}
+    OtaPackageExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/OtaPackage'
+    BranchInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        default:
           type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    DeviceProfileId:
+    CalculatedFieldId:
       type: object
       properties:
         id:
@@ -1120,11 +1163,268 @@ components:
           type: string
           description: string
           enum:
-          - DEVICE_PROFILE
-          example: DEVICE_PROFILE
+          - CALCULATED_FIELD
+          example: CALCULATED_FIELD
       required:
       - entityType
       - id
+    AttributesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+    VersionCreationResult:
+      type: object
+      properties:
+        version:
+          $ref: '#/components/schemas/EntityVersion'
+        added:
+          type: integer
+          format: int32
+        modified:
+          type: integer
+          format: int32
+        removed:
+          type: integer
+          format: int32
+        error:
+          type: string
+        done:
+          type: boolean
+    DeviceId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DEVICE
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    CfArgumentDynamicSourceConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    VersionCreateRequest:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        versionName:
+          type: string
+        branch:
+          type: string
+        type:
+          type: string
+          enum:
+          - SINGLE_ENTITY
+          - COMPLEX
+    ComplexVersionCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/VersionCreateRequest'
+      - type: object
+        properties:
+          syncStrategy:
+            type: string
+            enum:
+            - MERGE
+            - OVERWRITE
+          entityTypes:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/EntityTypeVersionCreateConfig'
+    MqttDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+    EntityTypeVersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+        syncStrategy:
+          type: string
+          enum:
+          - MERGE
+          - OVERWRITE
+        entityIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        allEntities:
+          type: boolean
+    EntityTypeVersionLoadRequest:
+      allOf:
+      - $ref: '#/components/schemas/VersionLoadRequest'
+      - type: object
+        properties:
+          entityTypes:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/EntityTypeVersionLoadConfig'
+          rollbackOnError:
+            type: boolean
+    RuleChainId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - RULE_CHAIN
+          example: RULE_CHAIN
+      required:
+      - entityType
+      - id
+    DefaultDeviceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceConfiguration'
+    WidgetsBundle:
+      type: object
+      description: A JSON value representing the Widget Bundle.
+      properties:
+        id:
+          $ref: '#/components/schemas/WidgetsBundleId'
+          description: JSON object with the Widget Bundle Id. Specify this field to update the Widget Bundle. Referencing non-existing Widget Bundle Id will cause error. Omit this field to create new Widget Bundle.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the Widget Bundle creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        alias:
+          type: string
+          description: Unique alias that is used in widget types as a reference widget bundle
+          readOnly: true
+        title:
+          type: string
+          description: Title used in search and UI
+          readOnly: true
+        image:
+          type: string
+          description: Relative or external image URL. Replaced with image data URL (Base64) in case of relative URL and 'inlineImages' option enabled.
+          readOnly: true
+        scada:
+          type: boolean
+          description: Whether widgets bundle contains SCADA symbol widget types.
+          readOnly: true
+        description:
+          type: string
+          description: Description
+          readOnly: true
+        order:
+          type: integer
+          format: int32
+          description: Order
+          readOnly: true
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Same as title of the Widget Bundle. Read-only field. Update the 'title' to change the 'name' of the Widget Bundle.
+          readOnly: true
+    Lwm2mDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+      - type: object
+        properties:
+          powerMode:
+            type: string
+            enum:
+            - PSM
+            - DRX
+            - E_DRX
+          psmActivityTimer:
+            type: integer
+            format: int64
+          edrxCycle:
+            type: integer
+            format: int64
+          pagingTransmissionWindow:
+            type: integer
+            format: int64
+    DeviceExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/Device'
+          credentials:
+            $ref: '#/components/schemas/DeviceCredentials'
+    WidgetsBundleExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/WidgetsBundle'
+          widgets:
+            type: array
+            items:
+              type: object
+          fqns:
+            type: array
+            items:
+              type: string
+    SingleEntityVersionCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/VersionCreateRequest'
+      - type: object
+        properties:
+          entityId:
+            $ref: '#/components/schemas/EntityId'
+          config:
+            $ref: '#/components/schemas/VersionCreateConfig'
+    RuleChainExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/RuleChain'
+          metaData:
+            $ref: '#/components/schemas/RuleChainMetaData'
+    DeviceData:
+      type: object
+      properties:
+        configuration:
+          description: Device configuration for device profile type. DEFAULT is only supported value for now
+          oneOf:
+          - $ref: '#/components/schemas/DefaultDeviceConfiguration'
+        transportConfiguration:
+          description: Device transport configuration used to connect the device
+          oneOf:
+          - $ref: '#/components/schemas/CoapDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/DefaultDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/Lwm2mDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/MqttDeviceTransportConfiguration'
+          - $ref: '#/components/schemas/SnmpDeviceTransportConfiguration'
     WidgetTypeDetails:
       type: object
       description: A JSON value representing the Widget Type Details.
@@ -1180,43 +1480,7 @@ components:
           description: Tags of the widget type
           items:
             type: string
-    TimeSeriesOutputStrategy:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    RelationPathLevel:
-      type: object
-      properties:
-        direction:
-          type: string
-          enum:
-          - FROM
-          - TO
-        relationType:
-          type: string
-          minLength: 1
-      required:
-      - direction
-      - relationType
-    ComplexVersionCreateRequest:
-      allOf:
-      - $ref: '#/components/schemas/VersionCreateRequest'
-      - type: object
-        properties:
-          syncStrategy:
-            type: string
-            enum:
-            - MERGE
-            - OVERWRITE
-          entityTypes:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/EntityTypeVersionCreateConfig'
-    CalculatedFieldId:
+    EntityId:
       type: object
       properties:
         id:
@@ -1226,16 +1490,66 @@ components:
           example: 784f394c-42b6-435a-983c-b7beff2784f9
         entityType:
           type: string
-          description: string
           enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
           - CALCULATED_FIELD
-          example: CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
       required:
       - entityType
       - id
-    AttributesRuleChainOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/AttributesOutputStrategy'
+    SimpleCalculatedFieldConfiguration:
+      type: object
+      properties:
+        arguments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Argument'
+          minProperties: 1
+        expression:
+          type: string
+        output:
+          oneOf:
+          - $ref: '#/components/schemas/AttributesOutput'
+          - $ref: '#/components/schemas/TimeSeriesOutput'
+        useLatestTs:
+          type: boolean
+      required:
+      - arguments
+      - output
     SnmpDeviceTransportConfiguration:
       allOf:
       - $ref: '#/components/schemas/DeviceTransportConfiguration'
@@ -1282,32 +1596,6 @@ components:
             type: string
           engineId:
             type: string
-    CustomerId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
-    AttributesOutput:
-      allOf:
-      - $ref: '#/components/schemas/Output'
-      - type: object
-        properties:
-          strategy:
-            oneOf:
-            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
-            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
     ResourceExportData:
       type: object
       properties:
@@ -1347,7 +1635,7 @@ components:
           type: string
         public:
           type: boolean
-    WidgetsBundleId:
+    RuleNodeId:
       type: object
       properties:
         id:
@@ -1359,19 +1647,92 @@ components:
           type: string
           description: string
           enum:
-          - WIDGETS_BUNDLE
-          example: WIDGETS_BUNDLE
+          - RULE_NODE
+          example: RULE_NODE
       required:
       - entityType
       - id
-    CfArgumentDynamicSourceConfiguration:
-      discriminator:
-        propertyName: type
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    RuleChain:
+      type: object
+      description: A JSON value representing the rule chain.
       properties:
+        id:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with the Rule Chain Id. Specify this field to update the Rule Chain. Referencing non-existing Rule Chain Id will cause error. Omit this field to create new rule chain.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the rule chain creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        name:
+          type: string
+          description: Rule Chain name
+          example: Humidity data processing
         type:
           type: string
+          description: Rule Chain type. 'EDGE' rule chains are processing messages on the edge devices only.
+          enum:
+          - CORE
+          - EDGE
+          example: A4B72CCDFF33
+        firstRuleNodeId:
+          $ref: '#/components/schemas/RuleNodeId'
+          description: JSON object with Rule Chain Id. Pointer to the first rule node that should receive all messages pushed to this rule chain.
+        root:
+          type: boolean
+          description: Indicates root rule chain. The root rule chain process messages from all devices and entities by default. User may configure default rule chain per device profile.
+        debugMode:
+          type: boolean
+          description: Reserved for future usage.
+        version:
+          type: integer
+          format: int64
+        configuration:
+          $ref: '#/components/schemas/JsonNode'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
       required:
-      - type
+      - name
+      - tenantId
+    VersionLoadConfig:
+      type: object
+      properties:
+        loadRelations:
+          type: boolean
+        loadAttributes:
+          type: boolean
+        loadCredentials:
+          type: boolean
+        loadCalculatedFields:
+          type: boolean
+    Argument:
+      type: object
+      properties:
+        refEntityId:
+          $ref: '#/components/schemas/EntityId'
+        refDynamicSourceConfiguration:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
+          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
+        refEntityKey:
+          $ref: '#/components/schemas/ReferencedEntityKey'
+        defaultValue:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        timeWindow:
+          type: integer
+          format: int64
     SingleEntityVersionLoadRequest:
       allOf:
       - $ref: '#/components/schemas/VersionLoadRequest'
@@ -1381,23 +1742,7 @@ components:
             $ref: '#/components/schemas/EntityId'
           config:
             $ref: '#/components/schemas/VersionLoadConfig'
-    VersionedEntityInfo:
-      type: object
-      properties:
-        externalId:
-          $ref: '#/components/schemas/EntityId'
-    EntityTypeVersionLoadRequest:
-      allOf:
-      - $ref: '#/components/schemas/VersionLoadRequest'
-      - type: object
-        properties:
-          entityTypes:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/EntityTypeVersionLoadConfig'
-          rollbackOnError:
-            type: boolean
-    DeviceId:
+    OtaPackageId:
       type: object
       properties:
         id:
@@ -1409,14 +1754,56 @@ components:
           type: string
           description: string
           enum:
-          - DEVICE
-          example: DEVICE
+          - OTA_PACKAGE
+          example: OTA_PACKAGE
       required:
       - entityType
       - id
-    MqttDeviceTransportConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+    RuleChainMetaData:
+      type: object
+      description: A JSON value representing the rule chain metadata.
+      properties:
+        ruleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with Rule Chain Id.
+          readOnly: true
+        version:
+          type: integer
+          format: int64
+          description: Version of the Rule Chain
+        firstNodeIndex:
+          type: integer
+          format: int32
+          description: Index of the first rule node in the 'nodes' list
+        nodes:
+          type: array
+          description: List of rule node JSON objects
+          items:
+            $ref: '#/components/schemas/RuleNode'
+        connections:
+          type: array
+          description: List of JSON objects that represent connections between rule nodes
+          items:
+            $ref: '#/components/schemas/NodeConnectionInfo'
+        ruleChainConnections:
+          type: array
+          description: List of JSON objects that represent connections between rule nodes and other rule chains.
+          items:
+            $ref: '#/components/schemas/RuleChainConnectionInfo'
+      required:
+      - connections
+      - firstNodeIndex
+      - nodes
+      - ruleChainConnections
+      - ruleChainId
+    DeviceConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
     EntityExportDataObject:
       type: object
       discriminator:
@@ -1476,165 +1863,45 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CalculatedField'
-    BranchInfo:
-      type: object
-      properties:
-        name:
-          type: string
-        default:
-          type: boolean
-    WidgetTypeId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - WIDGET_TYPE
-          example: WIDGET_TYPE
-      required:
-      - entityType
-      - id
-    DeviceConfiguration:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    RuleNodeId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - RULE_NODE
-          example: RULE_NODE
-      required:
-      - entityType
-      - id
-    VersionLoadConfig:
-      type: object
-      properties:
-        loadRelations:
-          type: boolean
-        loadAttributes:
-          type: boolean
-        loadCredentials:
-          type: boolean
-        loadCalculatedFields:
-          type: boolean
-    AttributesImmediateOutputStrategy:
+    TimeSeriesImmediateOutputStrategy:
       allOf:
-      - $ref: '#/components/schemas/AttributesOutputStrategy'
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
       - type: object
         properties:
-          sendAttributesUpdatedNotification:
+          ttl:
+            type: integer
+            format: int64
+          saveTimeSeries:
             type: boolean
-          updateAttributesOnlyOnValueChange:
-            type: boolean
-          saveAttribute:
+          saveLatest:
             type: boolean
           sendWsUpdate:
             type: boolean
           processCfs:
             type: boolean
-    EntityId:
+    PageDataEntityVersion:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-          example: DEVICE
-      required:
-      - entityType
-      - id
-    EntityDataInfo:
-      type: object
-      properties:
-        hasRelations:
-          type: boolean
-        hasAttributes:
-          type: boolean
-        hasCredentials:
-          type: boolean
-        hasCalculatedFields:
-          type: boolean
-    RuleChainConnectionInfo:
-      type: object
-      properties:
-        fromIndex:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EntityVersion'
+          readOnly: true
+        totalPages:
           type: integer
           format: int32
-          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
-        targetRuleChainId:
-          $ref: '#/components/schemas/RuleChainId'
-          description: JSON object with the Rule Chain Id.
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: JSON object with the additional information about the connection.
-        type:
-          type: string
-          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
-      required:
-      - additionalInfo
-      - fromIndex
-      - targetRuleChainId
-      - type
-    OutputStrategy: {}
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     TenantId:
       type: object
       properties:
@@ -1652,112 +1919,17 @@ components:
       required:
       - entityType
       - id
-    EntityLoadError:
+    EntityDataInfo:
       type: object
       properties:
-        type:
-          type: string
-        source:
-          $ref: '#/components/schemas/EntityId'
-        target:
-          $ref: '#/components/schemas/EntityId'
-        message:
-          type: string
-    VersionLoadResult:
-      type: object
-      properties:
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityTypeLoadResult'
-        error:
-          $ref: '#/components/schemas/EntityLoadError'
-        done:
+        hasRelations:
           type: boolean
-    DebugSettings:
-      type: object
-      properties:
-        failuresEnabled:
+        hasAttributes:
           type: boolean
-          description: 'Debug failures. '
-          example: false
-        allEnabled:
+        hasCredentials:
           type: boolean
-          description: Debug All. Used as a trigger for updating debugAllUntil.
-          example: false
-        allEnabledUntil:
-          type: integer
-          format: int64
-          description: Timestamp of the end time for the processing debug events.
-    OtaPackageExportData:
-      allOf:
-      - $ref: '#/components/schemas/EntityExportDataObject'
-      - type: object
-        properties:
-          entity:
-            $ref: '#/components/schemas/OtaPackage'
-    TimeSeriesOutput:
-      allOf:
-      - $ref: '#/components/schemas/Output'
-      - type: object
-        properties:
-          strategy:
-            oneOf:
-            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
-            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
-    RuleChainExportData:
-      allOf:
-      - $ref: '#/components/schemas/EntityExportDataObject'
-      - type: object
-        properties:
-          entity:
-            $ref: '#/components/schemas/RuleChain'
-          metaData:
-            $ref: '#/components/schemas/RuleChainMetaData'
-    TimeSeriesRuleChainOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
-    WidgetTypeExportData:
-      allOf:
-      - $ref: '#/components/schemas/EntityExportDataObject'
-      - type: object
-        properties:
-          entity:
-            $ref: '#/components/schemas/WidgetTypeDetails'
-    EntityTypeVersionLoadConfig:
-      type: object
-      properties:
-        loadRelations:
+        hasCalculatedFields:
           type: boolean
-        loadAttributes:
-          type: boolean
-        loadCredentials:
-          type: boolean
-        loadCalculatedFields:
-          type: boolean
-        removeOtherEntities:
-          type: boolean
-        findExistingEntityByName:
-          type: boolean
-    SimpleCalculatedFieldConfiguration:
-      type: object
-      properties:
-        arguments:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Argument'
-          minProperties: 1
-        expression:
-          type: string
-        output:
-          oneOf:
-          - $ref: '#/components/schemas/AttributesOutput'
-          - $ref: '#/components/schemas/TimeSeriesOutput'
-        useLatestTs:
-          type: boolean
-      required:
-      - arguments
-      - output
     Device:
       type: object
       properties:
@@ -1811,568 +1983,56 @@ components:
       required:
       - deviceProfileId
       - name
-    SingleEntityVersionCreateRequest:
-      allOf:
-      - $ref: '#/components/schemas/VersionCreateRequest'
-      - type: object
-        properties:
-          entityId:
-            $ref: '#/components/schemas/EntityId'
-          config:
-            $ref: '#/components/schemas/VersionCreateConfig'
-    VersionLoadRequest:
-      type: object
-      discriminator:
-        propertyName: type
-      properties:
-        versionId:
-          type: string
-        type:
-          type: string
-          enum:
-          - SINGLE_ENTITY
-          - ENTITY_TYPE
-    DeviceData:
+    DebugSettings:
       type: object
       properties:
-        configuration:
-          description: Device configuration for device profile type. DEFAULT is only supported value for now
+        failuresEnabled:
+          type: boolean
+          description: 'Debug failures. '
+          example: false
+        allEnabled:
+          type: boolean
+          description: Debug All. Used as a trigger for updating debugAllUntil.
+          example: false
+        allEnabledUntil:
+          type: integer
+          format: int64
+          description: Timestamp of the end time for the processing debug events.
+    EntityTypeVersionLoadConfig:
+      type: object
+      properties:
+        loadRelations:
+          type: boolean
+        loadAttributes:
+          type: boolean
+        loadCredentials:
+          type: boolean
+        loadCalculatedFields:
+          type: boolean
+        removeOtherEntities:
+          type: boolean
+        findExistingEntityByName:
+          type: boolean
+    EntityDataDiff:
+      type: object
+      properties:
+        currentVersion:
           oneOf:
-          - $ref: '#/components/schemas/DefaultDeviceConfiguration'
-        transportConfiguration:
-          description: Device transport configuration used to connect the device
+          - $ref: '#/components/schemas/EntityExportDataObject'
+          - $ref: '#/components/schemas/DeviceExportData'
+          - $ref: '#/components/schemas/OtaPackageExportData'
+          - $ref: '#/components/schemas/RuleChainExportData'
+          - $ref: '#/components/schemas/WidgetTypeExportData'
+          - $ref: '#/components/schemas/WidgetsBundleExportData'
+        otherVersion:
           oneOf:
-          - $ref: '#/components/schemas/CoapDeviceTransportConfiguration'
-          - $ref: '#/components/schemas/DefaultDeviceTransportConfiguration'
-          - $ref: '#/components/schemas/Lwm2mDeviceTransportConfiguration'
-          - $ref: '#/components/schemas/MqttDeviceTransportConfiguration'
-          - $ref: '#/components/schemas/SnmpDeviceTransportConfiguration'
-    TimeSeriesImmediateOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
-      - type: object
-        properties:
-          ttl:
-            type: integer
-            format: int64
-          saveTimeSeries:
-            type: boolean
-          saveLatest:
-            type: boolean
-          sendWsUpdate:
-            type: boolean
-          processCfs:
-            type: boolean
-    DefaultDeviceTransportConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/DeviceTransportConfiguration'
-    CalculatedField:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/CalculatedFieldId'
-          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the calculated field creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        entityId:
-          $ref: '#/components/schemas/EntityId'
-        type:
-          type: string
-          enum:
-          - SIMPLE
-          - SCRIPT
-          - GEOFENCING
-          - ALARM
-          - PROPAGATION
-          - RELATED_ENTITIES_AGGREGATION
-          - ENTITY_AGGREGATION
-        name:
-          type: string
-          description: User defined name of the calculated field.
-        debugMode:
-          type: boolean
-          deprecated: true
-          writeOnly: true
-        debugSettings:
-          $ref: '#/components/schemas/DebugSettings'
-          description: Debug settings object.
-        configurationVersion:
-          type: integer
-          format: int32
-          description: Version of calculated field configuration.
-          example: 0
-        configuration:
-          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
-        version:
-          type: integer
-          format: int64
-      required:
-      - configuration
-    EntityVersion:
-      type: object
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-        id:
-          type: string
-        name:
-          type: string
-        author:
-          type: string
-    Argument:
-      type: object
-      properties:
-        refEntityId:
-          $ref: '#/components/schemas/EntityId'
-        refDynamicSourceConfiguration:
-          oneOf:
-          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
-          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
-        refEntityKey:
-          $ref: '#/components/schemas/ReferencedEntityKey'
-        defaultValue:
-          type: string
-        limit:
-          type: integer
-          format: int32
-        timeWindow:
-          type: integer
-          format: int64
-    DefaultDeviceConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/DeviceConfiguration'
-    NodeConnectionInfo:
-      type: object
-      properties:
-        fromIndex:
-          type: integer
-          format: int32
-          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
-        toIndex:
-          type: integer
-          format: int32
-          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'to' part of the connection.
-        type:
-          type: string
-          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
-      required:
-      - fromIndex
-      - toIndex
-      - type
-    VersionCreationResult:
-      type: object
-      properties:
-        version:
-          $ref: '#/components/schemas/EntityVersion'
-        added:
-          type: integer
-          format: int32
-        modified:
-          type: integer
-          format: int32
-        removed:
-          type: integer
-          format: int32
-        error:
-          type: string
-        done:
-          type: boolean
-    RuleChain:
-      type: object
-      description: A JSON value representing the rule chain.
-      properties:
-        id:
-          $ref: '#/components/schemas/RuleChainId'
-          description: JSON object with the Rule Chain Id. Specify this field to update the Rule Chain. Referencing non-existing Rule Chain Id will cause error. Omit this field to create new rule chain.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the rule chain creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id.
-          readOnly: true
-        name:
-          type: string
-          description: Rule Chain name
-          example: Humidity data processing
-        type:
-          type: string
-          description: Rule Chain type. 'EDGE' rule chains are processing messages on the edge devices only.
-          enum:
-          - CORE
-          - EDGE
-          example: A4B72CCDFF33
-        firstRuleNodeId:
-          $ref: '#/components/schemas/RuleNodeId'
-          description: JSON object with Rule Chain Id. Pointer to the first rule node that should receive all messages pushed to this rule chain.
-        root:
-          type: boolean
-          description: Indicates root rule chain. The root rule chain process messages from all devices and entities by default. User may configure default rule chain per device profile.
-        debugMode:
-          type: boolean
-          description: Reserved for future usage.
-        version:
-          type: integer
-          format: int64
-        configuration:
-          $ref: '#/components/schemas/JsonNode'
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-      required:
-      - name
-      - tenantId
-    AttributesOutputStrategy:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    VersionCreateRequest:
-      type: object
-      discriminator:
-        propertyName: type
-      properties:
-        versionName:
-          type: string
-        branch:
-          type: string
-        type:
-          type: string
-          enum:
-          - SINGLE_ENTITY
-          - COMPLEX
-    VersionCreateConfig:
-      type: object
-      properties:
-        saveRelations:
-          type: boolean
-        saveAttributes:
-          type: boolean
-        saveCredentials:
-          type: boolean
-        saveCalculatedFields:
-          type: boolean
-    DeviceExportData:
-      allOf:
-      - $ref: '#/components/schemas/EntityExportDataObject'
-      - type: object
-        properties:
-          entity:
-            $ref: '#/components/schemas/Device'
-          credentials:
-            $ref: '#/components/schemas/DeviceCredentials'
-    EntityTypeLoadResult:
-      type: object
-      properties:
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-        created:
-          type: integer
-          format: int32
-        updated:
-          type: integer
-          format: int32
-        deleted:
-          type: integer
-          format: int32
-    DeviceCredentials:
-      type: object
-      description: A JSON value representing the device credentials.
-      properties:
-        id:
-          $ref: '#/components/schemas/DeviceCredentialsId'
-          description: 'The Id is automatically generated during device creation. Use ''getDeviceCredentialsByDeviceId'' to obtain the id based on device id. Use ''updateDeviceCredentials'' to update device credentials. '
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-          readOnly: true
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the device credentials creation, in milliseconds
-          example: 1609459200000
-        deviceId:
-          $ref: '#/components/schemas/DeviceId'
-          description: JSON object with the device Id.
-        credentialsType:
-          type: string
-          description: Type of the credentials
-          enum:
-          - ACCESS_TOKEN
-          - X509_CERTIFICATE
-          - MQTT_BASIC
-          - LWM2M_CREDENTIALS
-        credentialsId:
-          type: string
-          description: Unique Credentials Id per platform instance. Used to lookup credentials from the database. By default, new access token for your device. Depends on the type of the credentials.
-          example: Access token or other value that depends on the credentials type
-        credentialsValue:
-          type: string
-          description: Value of the credentials. Null in case of ACCESS_TOKEN credentials type. Base64 value in case of X509_CERTIFICATE. Complex object in case of MQTT_BASIC and LWM2M_CREDENTIALS
-          example: Null in case of ACCESS_TOKEN. See model definition.
-        version:
-          type: integer
-          format: int64
-      required:
-      - credentialsId
-      - deviceId
-      - id
-    WidgetsBundle:
-      type: object
-      description: A JSON value representing the Widget Bundle.
-      properties:
-        id:
-          $ref: '#/components/schemas/WidgetsBundleId'
-          description: JSON object with the Widget Bundle Id. Specify this field to update the Widget Bundle. Referencing non-existing Widget Bundle Id will cause error. Omit this field to create new Widget Bundle.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the Widget Bundle creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id.
-          readOnly: true
-        alias:
-          type: string
-          description: Unique alias that is used in widget types as a reference widget bundle
-          readOnly: true
-        title:
-          type: string
-          description: Title used in search and UI
-          readOnly: true
-        image:
-          type: string
-          description: Relative or external image URL. Replaced with image data URL (Base64) in case of relative URL and 'inlineImages' option enabled.
-          readOnly: true
-        scada:
-          type: boolean
-          description: Whether widgets bundle contains SCADA symbol widget types.
-          readOnly: true
-        description:
-          type: string
-          description: Description
-          readOnly: true
-        order:
-          type: integer
-          format: int32
-          description: Order
-          readOnly: true
-        version:
-          type: integer
-          format: int64
-        name:
-          type: string
-          description: Same as title of the Widget Bundle. Read-only field. Update the 'title' to change the 'name' of the Widget Bundle.
-          readOnly: true
-    EntityTypeVersionCreateConfig:
-      type: object
-      properties:
-        saveRelations:
-          type: boolean
-        saveAttributes:
-          type: boolean
-        saveCredentials:
-          type: boolean
-        saveCalculatedFields:
-          type: boolean
-        syncStrategy:
-          type: string
-          enum:
-          - MERGE
-          - OVERWRITE
-        entityIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-        allEntities:
-          type: boolean
-    OtaPackageId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - OTA_PACKAGE
-          example: OTA_PACKAGE
-      required:
-      - entityType
-      - id
-    DeviceTransportConfiguration:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    RuleChainId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - RULE_CHAIN
-          example: RULE_CHAIN
-      required:
-      - entityType
-      - id
-    RuleChainMetaData:
-      type: object
-      description: A JSON value representing the rule chain metadata.
-      properties:
-        ruleChainId:
-          $ref: '#/components/schemas/RuleChainId'
-          description: JSON object with Rule Chain Id.
-          readOnly: true
-        version:
-          type: integer
-          format: int64
-          description: Version of the Rule Chain
-        firstNodeIndex:
-          type: integer
-          format: int32
-          description: Index of the first rule node in the 'nodes' list
-        nodes:
-          type: array
-          description: List of rule node JSON objects
-          items:
-            $ref: '#/components/schemas/RuleNode'
-        connections:
-          type: array
-          description: List of JSON objects that represent connections between rule nodes
-          items:
-            $ref: '#/components/schemas/NodeConnectionInfo'
-        ruleChainConnections:
-          type: array
-          description: List of JSON objects that represent connections between rule nodes and other rule chains.
-          items:
-            $ref: '#/components/schemas/RuleChainConnectionInfo'
-      required:
-      - connections
-      - firstNodeIndex
-      - nodes
-      - ruleChainConnections
-      - ruleChainId
-    EntityRelation:
-      type: object
-      description: A JSON value representing the relation.
-      properties:
-        from:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [from] Entity Id.
-        to:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [to] Entity Id.
-        type:
-          type: string
-          description: String value of relation type.
-          example: Contains
-          minLength: 1
-        typeGroup:
-          type: string
-          description: Represents the type group of the relation.
-          enum:
-          - COMMON
-          - DASHBOARD
-          - RULE_CHAIN
-          - RULE_NODE
-          - EDGE
-          - EDGE_AUTO_ASSIGN_RULE_CHAIN
-          example: COMMON
-        version:
-          type: integer
-          format: int64
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: Additional parameters of the relation
-      required:
-      - from
-      - to
-      - type
-      - typeGroup
-    AttributeExportData:
-      type: object
-      properties:
-        key:
-          type: string
-        lastUpdateTs:
-          type: integer
-          format: int64
-        booleanValue:
-          type: boolean
-        strValue:
-          type: string
-        longValue:
-          type: integer
-          format: int64
-        doubleValue:
-          type: number
-          format: double
-        jsonValue:
-          type: string
-    Lwm2mDeviceTransportConfiguration:
+          - $ref: '#/components/schemas/EntityExportDataObject'
+          - $ref: '#/components/schemas/DeviceExportData'
+          - $ref: '#/components/schemas/OtaPackageExportData'
+          - $ref: '#/components/schemas/RuleChainExportData'
+          - $ref: '#/components/schemas/WidgetTypeExportData'
+          - $ref: '#/components/schemas/WidgetsBundleExportData'
+    CoapDeviceTransportConfiguration:
       allOf:
       - $ref: '#/components/schemas/DeviceTransportConfiguration'
       - type: object
@@ -2414,6 +2074,17 @@ components:
           type: string
       required:
       - type
+    CurrentOwnerDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+    DeviceTransportConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
     DeviceCredentialsId:
       type: object
       properties:
@@ -2424,26 +2095,222 @@ components:
           example: 784f394c-42b6-435a-983c-b7beff2784f9
       required:
       - id
-    CoapDeviceTransportConfiguration:
+    RuleChainConnectionInfo:
+      type: object
+      properties:
+        fromIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
+        targetRuleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with the Rule Chain Id.
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: JSON object with the additional information about the connection.
+        type:
+          type: string
+          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
+      required:
+      - additionalInfo
+      - fromIndex
+      - targetRuleChainId
+      - type
+    WidgetTypeId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - WIDGET_TYPE
+          example: WIDGET_TYPE
+      required:
+      - entityType
+      - id
+    DeviceCredentials:
+      type: object
+      description: A JSON value representing the device credentials.
+      properties:
+        id:
+          $ref: '#/components/schemas/DeviceCredentialsId'
+          description: 'The Id is automatically generated during device creation. Use ''getDeviceCredentialsByDeviceId'' to obtain the id based on device id. Use ''updateDeviceCredentials'' to update device credentials. '
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+          readOnly: true
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the device credentials creation, in milliseconds
+          example: 1609459200000
+        deviceId:
+          $ref: '#/components/schemas/DeviceId'
+          description: JSON object with the device Id.
+        credentialsType:
+          type: string
+          description: Type of the credentials
+          enum:
+          - ACCESS_TOKEN
+          - X509_CERTIFICATE
+          - MQTT_BASIC
+          - LWM2M_CREDENTIALS
+        credentialsId:
+          type: string
+          description: Unique Credentials Id per platform instance. Used to lookup credentials from the database. By default, new access token for your device. Depends on the type of the credentials.
+          example: Access token or other value that depends on the credentials type
+        credentialsValue:
+          type: string
+          description: Value of the credentials. Null in case of ACCESS_TOKEN credentials type. Base64 value in case of X509_CERTIFICATE. Complex object in case of MQTT_BASIC and LWM2M_CREDENTIALS
+          example: Null in case of ACCESS_TOKEN. See model definition.
+        version:
+          type: integer
+          format: int64
+      required:
+      - credentialsId
+      - deviceId
+      - id
+    NodeConnectionInfo:
+      type: object
+      properties:
+        fromIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
+        toIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'to' part of the connection.
+        type:
+          type: string
+          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
+      required:
+      - fromIndex
+      - toIndex
+      - type
+    AttributeExportData:
+      type: object
+      properties:
+        key:
+          type: string
+        lastUpdateTs:
+          type: integer
+          format: int64
+        booleanValue:
+          type: boolean
+        strValue:
+          type: string
+        longValue:
+          type: integer
+          format: int64
+        doubleValue:
+          type: number
+          format: double
+        jsonValue:
+          type: string
+    EntityLoadError:
+      type: object
+      properties:
+        type:
+          type: string
+        source:
+          $ref: '#/components/schemas/EntityId'
+        target:
+          $ref: '#/components/schemas/EntityId'
+        message:
+          type: string
+    VersionLoadResult:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityTypeLoadResult'
+        error:
+          $ref: '#/components/schemas/EntityLoadError'
+        done:
+          type: boolean
+    AttributesImmediateOutputStrategy:
       allOf:
-      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
       - type: object
         properties:
-          powerMode:
-            type: string
-            enum:
-            - PSM
-            - DRX
-            - E_DRX
-          psmActivityTimer:
-            type: integer
-            format: int64
-          edrxCycle:
-            type: integer
-            format: int64
-          pagingTransmissionWindow:
-            type: integer
-            format: int64
+          sendAttributesUpdatedNotification:
+            type: boolean
+          updateAttributesOnlyOnValueChange:
+            type: boolean
+          saveAttribute:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    DefaultDeviceTransportConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/DeviceTransportConfiguration'
+    RuleNode:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/RuleNodeId'
+          description: JSON object with the Rule Node Id. Specify this field to update the Rule Node. Referencing non-existing Rule Node Id will cause error. Omit this field to create new rule node.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the rule node creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        ruleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: 'JSON object with the Rule Chain Id. '
+          readOnly: true
+        type:
+          type: string
+          description: 'Full Java Class Name of the rule node implementation. '
+          example: com.mycompany.iot.rule.engine.ProcessingNode
+        name:
+          type: string
+          description: 'User defined name of the rule node. Used on UI and for logging. '
+          example: Process sensor reading
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        singletonMode:
+          type: boolean
+          description: 'Enable/disable singleton mode. '
+          example: false
+        queueName:
+          type: string
+          description: 'Queue name. '
+          example: Main
+        configurationVersion:
+          type: integer
+          format: int32
+          description: 'Version of rule node configuration. '
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/JsonNode'
+          description: JSON with the rule node configuration. Structure depends on the rule node implementation.
+        externalId:
+          $ref: '#/components/schemas/RuleNodeId'
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the rule node. Contains 'layoutX' and 'layoutY' properties for visualization.
+    TimeSeriesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
     OtaPackage:
       type: object
       properties:
@@ -2562,6 +2429,160 @@ components:
           $ref: '#/components/schemas/JsonNode'
           description: OTA Package description.
           example: Description for the OTA Package fw_1.0
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    WidgetTypeExportData:
+      allOf:
+      - $ref: '#/components/schemas/EntityExportDataObject'
+      - type: object
+        properties:
+          entity:
+            $ref: '#/components/schemas/WidgetTypeDetails'
+    TimeSeriesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+    RelationPathQueryDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+      - type: object
+        properties:
+          levels:
+            type: array
+            items:
+              $ref: '#/components/schemas/RelationPathLevel'
+    EntityVersion:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        id:
+          type: string
+        name:
+          type: string
+        author:
+          type: string
+    VersionLoadRequest:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        versionId:
+          type: string
+        type:
+          type: string
+          enum:
+          - SINGLE_ENTITY
+          - ENTITY_TYPE
+    EntityRelation:
+      type: object
+      description: A JSON value representing the relation.
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
+    CalculatedField:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CalculatedFieldId'
+          description: JSON object with the Calculated Field Id. Referencing non-existing Calculated Field Id will cause error.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the calculated field creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+          - SIMPLE
+          - SCRIPT
+          - GEOFENCING
+          - ALARM
+          - PROPAGATION
+          - RELATED_ENTITIES_AGGREGATION
+          - ENTITY_AGGREGATION
+        name:
+          type: string
+          description: User defined name of the calculated field.
+        debugMode:
+          type: boolean
+          deprecated: true
+          writeOnly: true
+        debugSettings:
+          $ref: '#/components/schemas/DebugSettings'
+          description: Debug settings object.
+        configurationVersion:
+          type: integer
+          format: int32
+          description: Version of calculated field configuration.
+          example: 0
+        configuration:
+          $ref: '#/components/schemas/SimpleCalculatedFieldConfiguration'
+        version:
+          type: integer
+          format: int64
+      required:
+      - configuration
+    AttributesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
     ReferencedEntityKey:
       type: object
       properties:
@@ -2579,108 +2600,87 @@ components:
           - CLIENT_SCOPE
           - SERVER_SCOPE
           - SHARED_SCOPE
-    RelationPathQueryDynamicSourceConfiguration:
+    TimeSeriesOutput:
       allOf:
-      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
+      - $ref: '#/components/schemas/Output'
       - type: object
         properties:
-          levels:
-            type: array
-            items:
-              $ref: '#/components/schemas/RelationPathLevel'
-    WidgetsBundleExportData:
-      allOf:
-      - $ref: '#/components/schemas/EntityExportDataObject'
-      - type: object
-        properties:
-          entity:
-            $ref: '#/components/schemas/WidgetsBundle'
-          widgets:
-            type: array
-            items:
-              type: object
-          fqns:
-            type: array
-            items:
-              type: string
-    CurrentOwnerDynamicSourceConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    RuleNode:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
+    VersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+    AttributesOutputStrategy:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    DeviceProfileId:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/RuleNodeId'
-          description: JSON object with the Rule Node Id. Specify this field to update the Rule Node. Referencing non-existing Rule Node Id will cause error. Omit this field to create new rule node.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the rule node creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        ruleChainId:
-          $ref: '#/components/schemas/RuleChainId'
-          description: 'JSON object with the Rule Chain Id. '
-          readOnly: true
-        type:
           type: string
-          description: 'Full Java Class Name of the rule node implementation. '
-          example: com.mycompany.iot.rule.engine.ProcessingNode
-        name:
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
           type: string
-          description: 'User defined name of the rule node. Used on UI and for logging. '
-          example: Process sensor reading
-        debugMode:
-          type: boolean
-          deprecated: true
-          writeOnly: true
-        debugSettings:
-          $ref: '#/components/schemas/DebugSettings'
-          description: Debug settings object.
-        singletonMode:
-          type: boolean
-          description: 'Enable/disable singleton mode. '
-          example: false
-        queueName:
-          type: string
-          description: 'Queue name. '
-          example: Main
-        configurationVersion:
-          type: integer
-          format: int32
-          description: 'Version of rule node configuration. '
-          example: 0
-        configuration:
-          $ref: '#/components/schemas/JsonNode'
-          description: JSON with the rule node configuration. Structure depends on the rule node implementation.
-        externalId:
-          $ref: '#/components/schemas/RuleNodeId'
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: Additional parameters of the rule node. Contains 'layoutX' and 'layoutY' properties for visualization.
-    EntityDataDiff:
+          description: string
+          enum:
+          - DEVICE_PROFILE
+          example: DEVICE_PROFILE
+      required:
+      - entityType
+      - id
+    VersionedEntityInfo:
       type: object
       properties:
-        currentVersion:
-          oneOf:
-          - $ref: '#/components/schemas/EntityExportDataObject'
-          - $ref: '#/components/schemas/DeviceExportData'
-          - $ref: '#/components/schemas/OtaPackageExportData'
-          - $ref: '#/components/schemas/RuleChainExportData'
-          - $ref: '#/components/schemas/WidgetTypeExportData'
-          - $ref: '#/components/schemas/WidgetsBundleExportData'
-        otherVersion:
-          oneOf:
-          - $ref: '#/components/schemas/EntityExportDataObject'
-          - $ref: '#/components/schemas/DeviceExportData'
-          - $ref: '#/components/schemas/OtaPackageExportData'
-          - $ref: '#/components/schemas/RuleChainExportData'
-          - $ref: '#/components/schemas/WidgetTypeExportData'
-          - $ref: '#/components/schemas/WidgetsBundleExportData'
+        externalId:
+          $ref: '#/components/schemas/EntityId'
+    WidgetsBundleId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - WIDGETS_BUNDLE
+          example: WIDGETS_BUNDLE
+      required:
+      - entityType
+      - id
+    RelationPathLevel:
+      type: object
+      properties:
+        direction:
+          type: string
+          enum:
+          - FROM
+          - TO
+        relationType:
+          type: string
+          minLength: 1
+      required:
+      - direction
+      - relationType
   securitySchemes:
     HTTP_login_form:
       type: http

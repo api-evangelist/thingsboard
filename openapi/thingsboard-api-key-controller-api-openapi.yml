@@ -213,6 +213,46 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
+    ApiKeyInfo:
+      type: object
+      description: A JSON value representing the Api Key token.
+      properties:
+        id:
+          $ref: '#/components/schemas/ApiKeyId'
+          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
+          readOnly: true
+        userId:
+          $ref: '#/components/schemas/UserId'
+          description: JSON object with User Id. User Id of the API key cannot be changed.
+        expirationTime:
+          type: integer
+          format: int64
+          description: Expiration time of the API key.
+        description:
+          type: string
+          description: API Key description.
+          example: API Key description
+          minLength: 1
+        enabled:
+          type: boolean
+          description: Enabled/disabled API key.
+          example: true
+        expired:
+          type: boolean
+          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
+          example: false
+          readOnly: true
+      required:
+      - description
     ApiKey:
       type: object
       properties:
@@ -256,7 +296,7 @@ components:
       required:
       - description
       - value
-    ApiKeyId:
+    TenantId:
       type: object
       properties:
         id:
@@ -268,8 +308,8 @@ components:
           type: string
           description: string
           enum:
-          - API_KEY
-          example: API_KEY
+          - TENANT
+          example: TENANT
       required:
       - entityType
       - id
@@ -290,7 +330,7 @@ components:
       required:
       - entityType
       - id
-    TenantId:
+    ApiKeyId:
       type: object
       properties:
         id:
@@ -302,51 +342,11 @@ components:
           type: string
           description: string
           enum:
-          - TENANT
-          example: TENANT
+          - API_KEY
+          example: API_KEY
       required:
       - entityType
       - id
-    ApiKeyInfo:
-      type: object
-      description: A JSON value representing the Api Key token.
-      properties:
-        id:
-          $ref: '#/components/schemas/ApiKeyId'
-          description: JSON object with the API Key Id. Specify this field to update the API Key. Referencing non-existing API Key Id will cause error. Omit this field to create new API Key.
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id. Tenant Id of the API key cannot be changed.
-          readOnly: true
-        userId:
-          $ref: '#/components/schemas/UserId'
-          description: JSON object with User Id. User Id of the API key cannot be changed.
-        expirationTime:
-          type: integer
-          format: int64
-          description: Expiration time of the API key.
-        description:
-          type: string
-          description: API Key description.
-          example: API Key description
-          minLength: 1
-        enabled:
-          type: boolean
-          description: Enabled/disabled API key.
-          example: true
-        expired:
-          type: boolean
-          description: Indicates if the API key is expired based on current time. Returns false if expirationTime is 0 (no expiry).
-          example: false
-          readOnly: true
-      required:
-      - description
   securitySchemes:
     HTTP_login_form:
       type: http

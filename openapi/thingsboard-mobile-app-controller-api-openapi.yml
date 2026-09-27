@@ -202,6 +202,40 @@ paths:
           description: OK
 components:
   schemas:
+    PageDataMobileApp:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/MobileApp'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    LoginMobileInfo:
+      type: object
+      properties:
+        oAuth2ClientLoginInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/OAuth2ClientLoginInfo'
+        storeInfo:
+          $ref: '#/components/schemas/StoreInfo'
+        versionInfo:
+          $ref: '#/components/schemas/MobileAppVersionInfo'
     StoreInfo:
       type: object
       properties:
@@ -211,6 +245,23 @@ components:
           type: string
         storeLink:
           type: string
+    DashboardId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DASHBOARD
+          example: DASHBOARD
+      required:
+      - entityType
+      - id
     User:
       type: object
       description: A JSON value representing the User.
@@ -273,46 +324,6 @@ components:
       required:
       - authority
       - email
-    CustomerId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
-    PageDataMobileApp:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/MobileApp'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
     MobileApp:
       type: object
       description: A JSON value representing the Mobile Application.
@@ -370,21 +381,54 @@ components:
       - pkgName
       - platformType
       - status
-    MobileAppVersionInfo:
+    CustomerId:
       type: object
       properties:
-        minVersion:
+        id:
           type: string
-          description: Minimum supported version
-        minVersionReleaseNotes:
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
           type: string
-          description: Release notes of minimum supported version
-        latestVersion:
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    HomeDashboardInfo:
+      type: object
+      description: A JSON object that represents home dashboard id and other parameters
+      properties:
+        dashboardId:
+          $ref: '#/components/schemas/DashboardId'
+          description: JSON object with the dashboard Id.
+        hideDashboardToolbar:
+          type: boolean
+          description: Hide dashboard toolbar flag. Useful for rendering dashboards on mobile.
+    TenantId:
+      type: object
+      properties:
+        id:
           type: string
-          description: Latest supported version
-        latestVersionReleaseNotes:
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
           type: string
-          description: Release notes of latest supported version
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     OAuth2ClientLoginInfo:
       type: object
       properties:
@@ -400,48 +444,6 @@ components:
           type: string
           description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
           example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
-    HomeDashboardInfo:
-      type: object
-      description: A JSON object that represents home dashboard id and other parameters
-      properties:
-        dashboardId:
-          $ref: '#/components/schemas/DashboardId'
-          description: JSON object with the dashboard Id.
-        hideDashboardToolbar:
-          type: boolean
-          description: Hide dashboard toolbar flag. Useful for rendering dashboards on mobile.
-    LoginMobileInfo:
-      type: object
-      properties:
-        oAuth2ClientLoginInfos:
-          type: array
-          items:
-            $ref: '#/components/schemas/OAuth2ClientLoginInfo'
-        storeInfo:
-          $ref: '#/components/schemas/StoreInfo'
-        versionInfo:
-          $ref: '#/components/schemas/MobileAppVersionInfo'
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    DashboardId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - DASHBOARD
-          example: DASHBOARD
-      required:
-      - entityType
-      - id
     UserId:
       type: object
       properties:
@@ -459,19 +461,21 @@ components:
       required:
       - entityType
       - id
-    UserMobileInfo:
+    MobileAppVersionInfo:
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/User'
-        storeInfo:
-          $ref: '#/components/schemas/StoreInfo'
-        versionInfo:
-          $ref: '#/components/schemas/MobileAppVersionInfo'
-        homeDashboardInfo:
-          $ref: '#/components/schemas/HomeDashboardInfo'
-        pages:
-          $ref: '#/components/schemas/JsonNode'
+        minVersion:
+          type: string
+          description: Minimum supported version
+        minVersionReleaseNotes:
+          type: string
+          description: Release notes of minimum supported version
+        latestVersion:
+          type: string
+          description: Latest supported version
+        latestVersionReleaseNotes:
+          type: string
+          description: Release notes of latest supported version
     MobileAppId:
       type: object
       properties:
@@ -523,23 +527,19 @@ components:
       required:
       - entityType
       - id
-    TenantId:
+    UserMobileInfo:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
+        user:
+          $ref: '#/components/schemas/User'
+        storeInfo:
+          $ref: '#/components/schemas/StoreInfo'
+        versionInfo:
+          $ref: '#/components/schemas/MobileAppVersionInfo'
+        homeDashboardInfo:
+          $ref: '#/components/schemas/HomeDashboardInfo'
+        pages:
+          $ref: '#/components/schemas/JsonNode'
   securitySchemes:
     HTTP_login_form:
       type: http

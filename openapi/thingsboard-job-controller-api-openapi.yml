@@ -182,47 +182,13 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageDataJob:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/Job'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    JobConfiguration:
-      type: object
-      discriminator:
-        propertyName: type
-      properties:
-        tasksKey:
-          type: string
-          minLength: 1
-        toReprocess:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/DummyTaskResult'
-        type:
-          type: string
-      required:
-      - tasksKey
-      - type
+    DummyTaskResult:
+      allOf:
+      - $ref: '#/components/schemas/TaskResult'
+      - type: object
+        properties:
+          failure:
+            $ref: '#/components/schemas/DummyTaskFailure'
     Job:
       type: object
       properties:
@@ -270,9 +236,58 @@ components:
       - status
       - tenantId
       - type
-    DummyJobResult:
+    DummyJobConfiguration:
       allOf:
-      - $ref: '#/components/schemas/JobResult'
+      - $ref: '#/components/schemas/JobConfiguration'
+      - type: object
+        properties:
+          taskProcessingTimeMs:
+            type: integer
+            format: int64
+          successfulTasksCount:
+            type: integer
+            format: int32
+          failedTasksCount:
+            type: integer
+            format: int32
+          permanentlyFailedTasksCount:
+            type: integer
+            format: int32
+          errors:
+            type: array
+            items:
+              type: string
+          retries:
+            type: integer
+            format: int32
+          taskProcessingTimeoutMs:
+            type: integer
+            format: int64
+          generalError:
+            type: string
+          submittedTasksBeforeGeneralError:
+            type: integer
+            format: int32
+      required:
+      - tasksKey
+    JobConfiguration:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        tasksKey:
+          type: string
+          minLength: 1
+        toReprocess:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/DummyTaskResult'
+        type:
+          type: string
+      required:
+      - tasksKey
+      - type
     JobResult:
       type: object
       discriminator:
@@ -310,6 +325,26 @@ components:
           type: string
       required:
       - jobType
+    DummyJobResult:
+      allOf:
+      - $ref: '#/components/schemas/JobResult'
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
     EntityId:
       type: object
       properties:
@@ -389,13 +424,6 @@ components:
           type: string
       required:
       - jobType
-    DummyTaskResult:
-      allOf:
-      - $ref: '#/components/schemas/TaskResult'
-      - type: object
-        properties:
-          failure:
-            $ref: '#/components/schemas/DummyTaskFailure'
     JobId:
       type: object
       properties:
@@ -413,57 +441,29 @@ components:
       required:
       - entityType
       - id
-    TenantId:
+    PageDataJob:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    DummyJobConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/JobConfiguration'
-      - type: object
-        properties:
-          taskProcessingTimeMs:
-            type: integer
-            format: int64
-          successfulTasksCount:
-            type: integer
-            format: int32
-          failedTasksCount:
-            type: integer
-            format: int32
-          permanentlyFailedTasksCount:
-            type: integer
-            format: int32
-          errors:
-            type: array
-            items:
-              type: string
-          retries:
-            type: integer
-            format: int32
-          taskProcessingTimeoutMs:
-            type: integer
-            format: int64
-          generalError:
-            type: string
-          submittedTasksBeforeGeneralError:
-            type: integer
-            format: int32
-      required:
-      - tasksKey
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Job'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
   securitySchemes:
     HTTP_login_form:
       type: http
