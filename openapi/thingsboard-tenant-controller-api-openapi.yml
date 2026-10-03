@@ -254,6 +254,104 @@ paths:
                 $ref: '#/components/schemas/TenantInfo'
 components:
   schemas:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    TenantInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with the tenant Id. Specify this field to update the tenant. Referencing non-existing tenant Id will cause error. Omit this field to create new tenant.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the tenant creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        country:
+          type: string
+          description: Country
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: New York
+        address:
+          type: string
+          description: Address Line 1
+          example: 42
+        address2:
+          type: string
+          description: Address Line 2
+        zip:
+          type: string
+          description: Zip code
+          example: 10004
+        phone:
+          type: string
+          description: Phone number
+          example: +1(415)777-7777
+        email:
+          type: string
+          description: Email
+          example: example@company.com
+        title:
+          type: string
+          description: Title of the tenant
+          example: Company A
+        region:
+          type: string
+          description: Geo region of the tenant
+          example: North America
+        tenantProfileId:
+          $ref: '#/components/schemas/TenantProfileId'
+          description: JSON object with Tenant Profile Id
+        version:
+          type: integer
+          format: int64
+        tenantProfileName:
+          type: string
+          description: Tenant Profile name
+          example: Default
+        name:
+          type: string
+          description: Name of the tenant. Read-only, duplicated from title for backward compatibility
+          example: Company A
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the device
+      required:
+      - title
+    PageDataTenant:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Tenant'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     TenantProfileId:
       type: object
       properties:
@@ -268,6 +366,23 @@ components:
           enum:
           - TENANT_PROFILE
           example: TENANT_PROFILE
+      required:
+      - entityType
+      - id
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
       required:
       - entityType
       - id
@@ -362,121 +477,6 @@ components:
           description: Additional parameters of the device
       required:
       - title
-    PageDataTenant:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/Tenant'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    TenantInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with the tenant Id. Specify this field to update the tenant. Referencing non-existing tenant Id will cause error. Omit this field to create new tenant.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the tenant creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        country:
-          type: string
-          description: Country
-          example: US
-        state:
-          type: string
-          description: State
-          example: NY
-        city:
-          type: string
-          description: City
-          example: New York
-        address:
-          type: string
-          description: Address Line 1
-          example: 42
-        address2:
-          type: string
-          description: Address Line 2
-        zip:
-          type: string
-          description: Zip code
-          example: 10004
-        phone:
-          type: string
-          description: Phone number
-          example: +1(415)777-7777
-        email:
-          type: string
-          description: Email
-          example: example@company.com
-        title:
-          type: string
-          description: Title of the tenant
-          example: Company A
-        region:
-          type: string
-          description: Geo region of the tenant
-          example: North America
-        tenantProfileId:
-          $ref: '#/components/schemas/TenantProfileId'
-          description: JSON object with Tenant Profile Id
-        version:
-          type: integer
-          format: int64
-        tenantProfileName:
-          type: string
-          description: Tenant Profile name
-          example: Default
-        name:
-          type: string
-          description: Name of the tenant. Read-only, duplicated from title for backward compatibility
-          example: Company A
-          readOnly: true
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: Additional parameters of the device
-      required:
-      - title
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
   securitySchemes:
     HTTP_login_form:
       type: http

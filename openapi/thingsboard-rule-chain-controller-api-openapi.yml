@@ -697,40 +697,6 @@ paths:
                 $ref: '#/components/schemas/PageDataRuleChain'
 components:
   schemas:
-    DebugSettings:
-      type: object
-      properties:
-        failuresEnabled:
-          type: boolean
-          description: 'Debug failures. '
-          example: false
-        allEnabled:
-          type: boolean
-          description: Debug All. Used as a trigger for updating debugAllUntil.
-          example: false
-        allEnabledUntil:
-          type: integer
-          format: int64
-          description: Timestamp of the end time for the processing debug events.
-    RuleChainData:
-      type: object
-      description: A JSON value representing the rule chains.
-      properties:
-        ruleChains:
-          type: array
-          description: List of the Rule Chain objects.
-          items:
-            $ref: '#/components/schemas/RuleChain'
-          readOnly: true
-        metadata:
-          type: array
-          description: List of the Rule Chain metadata objects.
-          items:
-            $ref: '#/components/schemas/RuleChainMetaData'
-          readOnly: true
-      required:
-      - metadata
-      - ruleChains
     RuleChainConnectionInfo:
       type: object
       properties:
@@ -752,6 +718,86 @@ components:
       - fromIndex
       - targetRuleChainId
       - type
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    RuleChainImportResult:
+      type: object
+      properties:
+        ruleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+        ruleChainName:
+          type: string
+        updated:
+          type: boolean
+        error:
+          type: string
+    RuleChainOutputLabelsUsage:
+      type: object
+      properties:
+        ruleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: Rule Chain Id
+          readOnly: true
+        ruleNodeId:
+          $ref: '#/components/schemas/RuleNodeId'
+          description: Rule Node Id
+          readOnly: true
+        ruleChainName:
+          type: string
+          description: Rule Chain Name
+          readOnly: true
+        ruleNodeName:
+          type: string
+          description: Rule Node Name
+          readOnly: true
+        labels:
+          type: array
+          description: Output labels
+          items:
+            type: string
+          readOnly: true
+          uniqueItems: true
+      required:
+      - labels
+      - ruleChainId
+      - ruleChainName
+      - ruleNodeId
+      - ruleNodeName
+    NodeConnectionInfo:
+      type: object
+      properties:
+        fromIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
+        toIndex:
+          type: integer
+          format: int32
+          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'to' part of the connection.
+        type:
+          type: string
+          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
+      required:
+      - fromIndex
+      - toIndex
+      - type
+    DebugSettings:
+      type: object
+      properties:
+        failuresEnabled:
+          type: boolean
+          description: 'Debug failures. '
+          example: false
+        allEnabled:
+          type: boolean
+          description: Debug All. Used as a trigger for updating debugAllUntil.
+          example: false
+        allEnabledUntil:
+          type: integer
+          format: int64
+          description: Timestamp of the end time for the processing debug events.
     RuleChain:
       type: object
       description: A JSON value representing the rule chain.
@@ -799,17 +845,6 @@ components:
       required:
       - name
       - tenantId
-    RuleChainImportResult:
-      type: object
-      properties:
-        ruleChainId:
-          $ref: '#/components/schemas/RuleChainId'
-        ruleChainName:
-          type: string
-        updated:
-          type: boolean
-        error:
-          type: string
     DefaultRuleChainCreateRequest:
       type: object
       description: A JSON value representing the request.
@@ -820,6 +855,46 @@ components:
           example: Root Rule Chain
       required:
       - name
+    PageDataRuleChain:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/RuleChain'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    RuleChainId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - RULE_CHAIN
+          example: RULE_CHAIN
+      required:
+      - entityType
+      - id
     TenantId:
       type: object
       properties:
@@ -837,42 +912,25 @@ components:
       required:
       - entityType
       - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    RuleChainOutputLabelsUsage:
+    RuleChainData:
       type: object
+      description: A JSON value representing the rule chains.
       properties:
-        ruleChainId:
-          $ref: '#/components/schemas/RuleChainId'
-          description: Rule Chain Id
-          readOnly: true
-        ruleNodeId:
-          $ref: '#/components/schemas/RuleNodeId'
-          description: Rule Node Id
-          readOnly: true
-        ruleChainName:
-          type: string
-          description: Rule Chain Name
-          readOnly: true
-        ruleNodeName:
-          type: string
-          description: Rule Node Name
-          readOnly: true
-        labels:
+        ruleChains:
           type: array
-          description: Output labels
+          description: List of the Rule Chain objects.
           items:
-            type: string
+            $ref: '#/components/schemas/RuleChain'
           readOnly: true
-          uniqueItems: true
+        metadata:
+          type: array
+          description: List of the Rule Chain metadata objects.
+          items:
+            $ref: '#/components/schemas/RuleChainMetaData'
+          readOnly: true
       required:
-      - labels
-      - ruleChainId
-      - ruleChainName
-      - ruleNodeId
-      - ruleNodeName
+      - metadata
+      - ruleChains
     RuleNodeId:
       type: object
       properties:
@@ -890,6 +948,43 @@ components:
       required:
       - entityType
       - id
+    RuleChainMetaData:
+      type: object
+      description: A JSON value representing the rule chain metadata.
+      properties:
+        ruleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with Rule Chain Id.
+          readOnly: true
+        version:
+          type: integer
+          format: int64
+          description: Version of the Rule Chain
+        firstNodeIndex:
+          type: integer
+          format: int32
+          description: Index of the first rule node in the 'nodes' list
+        nodes:
+          type: array
+          description: List of rule node JSON objects
+          items:
+            $ref: '#/components/schemas/RuleNode'
+        connections:
+          type: array
+          description: List of JSON objects that represent connections between rule nodes
+          items:
+            $ref: '#/components/schemas/NodeConnectionInfo'
+        ruleChainConnections:
+          type: array
+          description: List of JSON objects that represent connections between rule nodes and other rule chains.
+          items:
+            $ref: '#/components/schemas/RuleChainConnectionInfo'
+      required:
+      - connections
+      - firstNodeIndex
+      - nodes
+      - ruleChainConnections
+      - ruleChainId
     RuleNode:
       type: object
       properties:
@@ -942,101 +1037,6 @@ components:
         additionalInfo:
           $ref: '#/components/schemas/JsonNode'
           description: Additional parameters of the rule node. Contains 'layoutX' and 'layoutY' properties for visualization.
-    NodeConnectionInfo:
-      type: object
-      properties:
-        fromIndex:
-          type: integer
-          format: int32
-          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'from' part of the connection.
-        toIndex:
-          type: integer
-          format: int32
-          description: Index of rule node in the 'nodes' array of the RuleChainMetaData. Indicates the 'to' part of the connection.
-        type:
-          type: string
-          description: Type of the relation. Typically indicated the result of processing by the 'from' rule node. For example, 'Success' or 'Failure'
-      required:
-      - fromIndex
-      - toIndex
-      - type
-    RuleChainMetaData:
-      type: object
-      description: A JSON value representing the rule chain metadata.
-      properties:
-        ruleChainId:
-          $ref: '#/components/schemas/RuleChainId'
-          description: JSON object with Rule Chain Id.
-          readOnly: true
-        version:
-          type: integer
-          format: int64
-          description: Version of the Rule Chain
-        firstNodeIndex:
-          type: integer
-          format: int32
-          description: Index of the first rule node in the 'nodes' list
-        nodes:
-          type: array
-          description: List of rule node JSON objects
-          items:
-            $ref: '#/components/schemas/RuleNode'
-        connections:
-          type: array
-          description: List of JSON objects that represent connections between rule nodes
-          items:
-            $ref: '#/components/schemas/NodeConnectionInfo'
-        ruleChainConnections:
-          type: array
-          description: List of JSON objects that represent connections between rule nodes and other rule chains.
-          items:
-            $ref: '#/components/schemas/RuleChainConnectionInfo'
-      required:
-      - connections
-      - firstNodeIndex
-      - nodes
-      - ruleChainConnections
-      - ruleChainId
-    PageDataRuleChain:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/RuleChain'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    RuleChainId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - RULE_CHAIN
-          example: RULE_CHAIN
-      required:
-      - entityType
-      - id
   securitySchemes:
     HTTP_login_form:
       type: http

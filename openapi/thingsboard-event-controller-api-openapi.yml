@@ -586,6 +586,264 @@ paths:
                 $ref: '#/components/schemas/PageDataEventInfo'
 components:
   schemas:
+    ErrorEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          method:
+            type: string
+            description: String value representing the method name when the error happened
+            example: onClusterEventMsg
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+      required:
+      - eventType
+    EventFilter:
+      type: object
+      discriminator:
+        propertyName: eventType
+      properties:
+        eventType:
+          type: string
+          description: String value representing the event type
+          enum:
+          - ERROR
+          - LC_EVENT
+          - STATS
+          - DEBUG_RULE_NODE
+          - DEBUG_RULE_CHAIN
+          - DEBUG_CALCULATED_FIELD
+          example: STATS
+        notEmpty:
+          type: boolean
+      required:
+      - eventType
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    RuleChainDebugEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          isError:
+            type: boolean
+            writeOnly: true
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+          message:
+            type: string
+            description: String value representing the message
+          error:
+            type: boolean
+      required:
+      - eventType
+    EventId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    LifeCycleEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          event:
+            type: string
+            description: String value representing the lifecycle event type
+            example: STARTED
+          status:
+            type: string
+            description: String value representing status of the lifecycle event
+            enum:
+            - Success
+            - Failure
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+      required:
+      - eventType
+    StatisticsEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          minMessagesProcessed:
+            type: integer
+            format: int32
+            description: The minimum number of successfully processed messages
+            example: 25
+          maxMessagesProcessed:
+            type: integer
+            format: int32
+            description: The maximum number of successfully processed messages
+            example: 250
+          minErrorsOccurred:
+            type: integer
+            format: int32
+            description: The minimum number of errors occurred during messages processing
+            example: 30
+          maxErrorsOccurred:
+            type: integer
+            format: int32
+            description: The maximum number of errors occurred during messages processing
+            example: 300
+      required:
+      - eventType
+    CalculatedFieldDebugEventFilter:
+      allOf:
+      - $ref: '#/components/schemas/EventFilter'
+      - type: object
+        properties:
+          server:
+            type: string
+            description: String value representing the server name, identifier or ip address where the platform is running
+            example: ip-172-31-24-152
+          isError:
+            type: boolean
+            writeOnly: true
+          errorStr:
+            type: string
+            description: The case insensitive 'contains' filter based on error message
+            example: not present in the DB
+          entityId:
+            type: string
+            description: String value representing the entity id in the event body
+            example: 57b6bafe-d600-423c-9267-fe31e5218986
+          entityType:
+            type: string
+            description: String value representing the entity type
+            enum:
+            - DEVICE
+          msgId:
+            type: string
+            description: String value representing the message id in the rule engine
+            example: dcf44612-2ce4-4e5d-b462-ebb9c5628228
+          msgType:
+            type: string
+            description: String value representing the message type
+            example: POST_TELEMETRY_REQUEST
+          arguments:
+            type: string
+            description: String value representing the arguments that were used in the calculation performed
+            example:
+              x:
+                ts: 1739432016629
+                value: 20
+              y:
+                ts: 1739429717656
+                value: 12
+          result:
+            type: string
+            description: String value representing the result of a calculation
+            example:
+              x + y: 32
+          error:
+            type: boolean
+      required:
+      - eventType
+    PageDataEventInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/EventInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     RuleNodeDebugEventFilter:
       allOf:
       - $ref: '#/components/schemas/EventFilter'
@@ -641,134 +899,6 @@ components:
             type: boolean
       required:
       - eventType
-    StatisticsEventFilter:
-      allOf:
-      - $ref: '#/components/schemas/EventFilter'
-      - type: object
-        properties:
-          server:
-            type: string
-            description: String value representing the server name, identifier or ip address where the platform is running
-            example: ip-172-31-24-152
-          minMessagesProcessed:
-            type: integer
-            format: int32
-            description: The minimum number of successfully processed messages
-            example: 25
-          maxMessagesProcessed:
-            type: integer
-            format: int32
-            description: The maximum number of successfully processed messages
-            example: 250
-          minErrorsOccurred:
-            type: integer
-            format: int32
-            description: The minimum number of errors occurred during messages processing
-            example: 30
-          maxErrorsOccurred:
-            type: integer
-            format: int32
-            description: The maximum number of errors occurred during messages processing
-            example: 300
-      required:
-      - eventType
-    RuleChainDebugEventFilter:
-      allOf:
-      - $ref: '#/components/schemas/EventFilter'
-      - type: object
-        properties:
-          server:
-            type: string
-            description: String value representing the server name, identifier or ip address where the platform is running
-            example: ip-172-31-24-152
-          isError:
-            type: boolean
-            writeOnly: true
-          errorStr:
-            type: string
-            description: The case insensitive 'contains' filter based on error message
-            example: not present in the DB
-          message:
-            type: string
-            description: String value representing the message
-          error:
-            type: boolean
-      required:
-      - eventType
-    EventId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: string
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-      required:
-      - id
-    ErrorEventFilter:
-      allOf:
-      - $ref: '#/components/schemas/EventFilter'
-      - type: object
-        properties:
-          server:
-            type: string
-            description: String value representing the server name, identifier or ip address where the platform is running
-            example: ip-172-31-24-152
-          method:
-            type: string
-            description: String value representing the method name when the error happened
-            example: onClusterEventMsg
-          errorStr:
-            type: string
-            description: The case insensitive 'contains' filter based on error message
-            example: not present in the DB
-      required:
-      - eventType
-    LifeCycleEventFilter:
-      allOf:
-      - $ref: '#/components/schemas/EventFilter'
-      - type: object
-        properties:
-          server:
-            type: string
-            description: String value representing the server name, identifier or ip address where the platform is running
-            example: ip-172-31-24-152
-          event:
-            type: string
-            description: String value representing the lifecycle event type
-            example: STARTED
-          status:
-            type: string
-            description: String value representing status of the lifecycle event
-            enum:
-            - Success
-            - Failure
-          errorStr:
-            type: string
-            description: The case insensitive 'contains' filter based on error message
-            example: not present in the DB
-      required:
-      - eventType
-    EventFilter:
-      type: object
-      discriminator:
-        propertyName: eventType
-      properties:
-        eventType:
-          type: string
-          description: String value representing the event type
-          enum:
-          - ERROR
-          - LC_EVENT
-          - STATS
-          - DEBUG_RULE_NODE
-          - DEBUG_RULE_CHAIN
-          - DEBUG_CALCULATED_FIELD
-          example: STATS
-        notEmpty:
-          type: boolean
-      required:
-      - eventType
     TenantId:
       type: object
       properties:
@@ -786,136 +916,6 @@ components:
       required:
       - entityType
       - id
-    EntityId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-          example: DEVICE
-      required:
-      - entityType
-      - id
-    PageDataEventInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/EventInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    CalculatedFieldDebugEventFilter:
-      allOf:
-      - $ref: '#/components/schemas/EventFilter'
-      - type: object
-        properties:
-          server:
-            type: string
-            description: String value representing the server name, identifier or ip address where the platform is running
-            example: ip-172-31-24-152
-          isError:
-            type: boolean
-            writeOnly: true
-          errorStr:
-            type: string
-            description: The case insensitive 'contains' filter based on error message
-            example: not present in the DB
-          entityId:
-            type: string
-            description: String value representing the entity id in the event body
-            example: 57b6bafe-d600-423c-9267-fe31e5218986
-          entityType:
-            type: string
-            description: String value representing the entity type
-            enum:
-            - DEVICE
-          msgId:
-            type: string
-            description: String value representing the message id in the rule engine
-            example: dcf44612-2ce4-4e5d-b462-ebb9c5628228
-          msgType:
-            type: string
-            description: String value representing the message type
-            example: POST_TELEMETRY_REQUEST
-          arguments:
-            type: string
-            description: String value representing the arguments that were used in the calculation performed
-            example:
-              x:
-                ts: 1739432016629
-                value: 20
-              y:
-                ts: 1739429717656
-                value: 12
-          result:
-            type: string
-            description: String value representing the result of a calculation
-            example:
-              x + y: 32
-          error:
-            type: boolean
-      required:
-      - eventType
     EventInfo:
       type: object
       properties:

@@ -178,38 +178,23 @@ paths:
                 $ref: '#/components/schemas/User'
 components:
   schemas:
-    ResetPasswordEmailRequest:
+    CustomerId:
       type: object
-      description: The JSON object representing the reset password email request.
       properties:
-        email:
+        id:
           type: string
-          description: The email of the user
-          example: user@example.com
-    ChangePasswordRequest:
-      type: object
-      description: Change Password Request
-      properties:
-        currentPassword:
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
           type: string
-          description: The old password
-          example: OldPassword
-        newPassword:
-          type: string
-          description: The new password
-          example: NewPassword
-    ResetPasswordRequest:
-      type: object
-      description: Reset password request.
-      properties:
-        resetToken:
-          type: string
-          description: The reset token to verify
-          example: AAB254FF67D..
-        password:
-          type: string
-          description: The new password to set
-          example: secret
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
     User:
       type: object
       description: A JSON value representing the User.
@@ -272,35 +257,30 @@ components:
       required:
       - authority
       - email
-    ActivateUserRequest:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    ChangePasswordRequest:
       type: object
-      description: Activate user request.
+      description: Change Password Request
       properties:
-        activateToken:
+        currentPassword:
           type: string
-          description: The activate token to verify
-          example: AAB254FF67D..
-        password:
+          description: The old password
+          example: OldPassword
+        newPassword:
           type: string
-          description: The new password to set
-          example: secret
-    CustomerId:
+          description: The new password
+          example: NewPassword
+    ResetPasswordEmailRequest:
       type: object
+      description: The JSON object representing the reset password email request.
       properties:
-        id:
+        email:
           type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
+          description: The email of the user
+          example: user@example.com
     TenantId:
       type: object
       properties:
@@ -318,10 +298,6 @@ components:
       required:
       - entityType
       - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     JwtPair:
       type: object
       description: JWT Pair
@@ -360,6 +336,18 @@ components:
       required:
       - entityType
       - id
+    ResetPasswordRequest:
+      type: object
+      description: Reset password request.
+      properties:
+        resetToken:
+          type: string
+          description: The reset token to verify
+          example: AAB254FF67D..
+        password:
+          type: string
+          description: The new password to set
+          example: secret
     UserPasswordPolicy:
       type: object
       properties:
@@ -401,6 +389,18 @@ components:
           type: integer
           format: int32
           description: Password reuse frequency (days). Disallow to use the same password for the defined number of days
+    ActivateUserRequest:
+      type: object
+      description: Activate user request.
+      properties:
+        activateToken:
+          type: string
+          description: The activate token to verify
+          example: AAB254FF67D..
+        password:
+          type: string
+          description: The new password to set
+          example: secret
   securitySchemes:
     HTTP_login_form:
       type: http

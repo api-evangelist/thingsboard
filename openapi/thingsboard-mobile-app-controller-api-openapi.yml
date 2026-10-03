@@ -202,50 +202,7 @@ paths:
           description: OK
 components:
   schemas:
-    PageDataMobileApp:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/MobileApp'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    LoginMobileInfo:
-      type: object
-      properties:
-        oAuth2ClientLoginInfos:
-          type: array
-          items:
-            $ref: '#/components/schemas/OAuth2ClientLoginInfo'
-        storeInfo:
-          $ref: '#/components/schemas/StoreInfo'
-        versionInfo:
-          $ref: '#/components/schemas/MobileAppVersionInfo'
-    StoreInfo:
-      type: object
-      properties:
-        appId:
-          type: string
-        sha256CertFingerprints:
-          type: string
-        storeLink:
-          type: string
-    DashboardId:
+    CustomerId:
       type: object
       properties:
         id:
@@ -257,8 +214,8 @@ components:
           type: string
           description: string
           enum:
-          - DASHBOARD
-          example: DASHBOARD
+          - CUSTOMER
+          example: CUSTOMER
       required:
       - entityType
       - id
@@ -324,143 +281,10 @@ components:
       required:
       - authority
       - email
-    MobileApp:
-      type: object
-      description: A JSON value representing the Mobile Application.
-      properties:
-        id:
-          $ref: '#/components/schemas/MobileAppId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id
-        pkgName:
-          type: string
-          description: Application package name. Cannot be empty
-          minLength: 1
-        title:
-          type: string
-          description: Application title
-        appSecret:
-          type: string
-          description: Application secret. The length must be at least 16 characters
-          minLength: 1
-        platformType:
-          type: string
-          description: 'Application platform type: ANDROID or IOS'
-          enum:
-          - WEB
-          - ANDROID
-          - IOS
-        status:
-          type: string
-          description: 'Application status: PUBLISHED, DEPRECATED, SUSPENDED, DRAFT'
-          enum:
-          - DRAFT
-          - PUBLISHED
-          - DEPRECATED
-          - SUSPENDED
-        versionInfo:
-          $ref: '#/components/schemas/MobileAppVersionInfo'
-          description: Application version info
-        storeInfo:
-          $ref: '#/components/schemas/StoreInfo'
-          description: Application store information
-        name:
-          type: string
-          description: Mobile app package name
-          example: my.mobile.app
-          readOnly: true
-      required:
-      - appSecret
-      - pkgName
-      - platformType
-      - status
-    CustomerId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
-    HomeDashboardInfo:
-      type: object
-      description: A JSON object that represents home dashboard id and other parameters
-      properties:
-        dashboardId:
-          $ref: '#/components/schemas/DashboardId'
-          description: JSON object with the dashboard Id.
-        hideDashboardToolbar:
-          type: boolean
-          description: Hide dashboard toolbar flag. Useful for rendering dashboards on mobile.
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
-    OAuth2ClientLoginInfo:
-      type: object
-      properties:
-        name:
-          type: string
-          description: OAuth2 client name
-          example: GitHub
-        icon:
-          type: string
-          description: Name of the icon, displayed on OAuth2 log in button
-          example: github-logo
-        url:
-          type: string
-          description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
-          example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
     MobileAppVersionInfo:
       type: object
       properties:
@@ -527,6 +351,49 @@ components:
       required:
       - entityType
       - id
+    DashboardId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DASHBOARD
+          example: DASHBOARD
+      required:
+      - entityType
+      - id
+    StoreInfo:
+      type: object
+      properties:
+        appId:
+          type: string
+        sha256CertFingerprints:
+          type: string
+        storeLink:
+          type: string
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
     UserMobileInfo:
       type: object
       properties:
@@ -540,6 +407,139 @@ components:
           $ref: '#/components/schemas/HomeDashboardInfo'
         pages:
           $ref: '#/components/schemas/JsonNode'
+    MobileApp:
+      type: object
+      description: A JSON value representing the Mobile Application.
+      properties:
+        id:
+          $ref: '#/components/schemas/MobileAppId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id
+        pkgName:
+          type: string
+          description: Application package name. Cannot be empty
+          minLength: 1
+        title:
+          type: string
+          description: Application title
+        appSecret:
+          type: string
+          description: Application secret. The length must be at least 16 characters
+          minLength: 1
+        platformType:
+          type: string
+          description: 'Application platform type: ANDROID or IOS'
+          enum:
+          - WEB
+          - ANDROID
+          - IOS
+        status:
+          type: string
+          description: 'Application status: PUBLISHED, DEPRECATED, SUSPENDED, DRAFT'
+          enum:
+          - DRAFT
+          - PUBLISHED
+          - DEPRECATED
+          - SUSPENDED
+        versionInfo:
+          $ref: '#/components/schemas/MobileAppVersionInfo'
+          description: Application version info
+        storeInfo:
+          $ref: '#/components/schemas/StoreInfo'
+          description: Application store information
+        name:
+          type: string
+          description: Mobile app package name
+          example: my.mobile.app
+          readOnly: true
+      required:
+      - appSecret
+      - pkgName
+      - platformType
+      - status
+    PageDataMobileApp:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/MobileApp'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    LoginMobileInfo:
+      type: object
+      properties:
+        oAuth2ClientLoginInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/OAuth2ClientLoginInfo'
+        storeInfo:
+          $ref: '#/components/schemas/StoreInfo'
+        versionInfo:
+          $ref: '#/components/schemas/MobileAppVersionInfo'
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    OAuth2ClientLoginInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: OAuth2 client name
+          example: GitHub
+        icon:
+          type: string
+          description: Name of the icon, displayed on OAuth2 log in button
+          example: github-logo
+        url:
+          type: string
+          description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
+          example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
+    HomeDashboardInfo:
+      type: object
+      description: A JSON object that represents home dashboard id and other parameters
+      properties:
+        dashboardId:
+          $ref: '#/components/schemas/DashboardId'
+          description: JSON object with the dashboard Id.
+        hideDashboardToolbar:
+          type: boolean
+          description: Hide dashboard toolbar flag. Useful for rendering dashboards on mobile.
   securitySchemes:
     HTTP_login_form:
       type: http

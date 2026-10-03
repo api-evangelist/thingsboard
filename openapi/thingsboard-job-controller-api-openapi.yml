@@ -182,94 +182,29 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    DummyTaskResult:
-      allOf:
-      - $ref: '#/components/schemas/TaskResult'
-      - type: object
-        properties:
-          failure:
-            $ref: '#/components/schemas/DummyTaskFailure'
-    Job:
+    PageDataJob:
       type: object
       properties:
-        id:
-          $ref: '#/components/schemas/JobId'
-        createdTime:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Job'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
           type: integer
           format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
+          description: Total number of elements in all available pages
           readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        type:
-          type: string
-          enum:
-          - DUMMY
-        key:
-          type: string
-          minLength: 1
-        entityId:
-          $ref: '#/components/schemas/EntityId'
-        entityName:
-          type: string
-        status:
-          type: string
-          enum:
-          - QUEUED
-          - PENDING
-          - RUNNING
-          - COMPLETED
-          - FAILED
-          - CANCELLED
-        configuration:
-          oneOf:
-          - $ref: '#/components/schemas/DummyJobConfiguration'
-        result:
-          oneOf:
-          - $ref: '#/components/schemas/DummyJobResult'
-      required:
-      - configuration
-      - entityId
-      - key
-      - result
-      - status
-      - tenantId
-      - type
-    DummyJobConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/JobConfiguration'
-      - type: object
-        properties:
-          taskProcessingTimeMs:
-            type: integer
-            format: int64
-          successfulTasksCount:
-            type: integer
-            format: int32
-          failedTasksCount:
-            type: integer
-            format: int32
-          permanentlyFailedTasksCount:
-            type: integer
-            format: int32
-          errors:
-            type: array
-            items:
-              type: string
-          retries:
-            type: integer
-            format: int32
-          taskProcessingTimeoutMs:
-            type: integer
-            format: int64
-          generalError:
-            type: string
-          submittedTasksBeforeGeneralError:
-            type: integer
-            format: int32
-      required:
-      - tasksKey
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     JobConfiguration:
       type: object
       discriminator:
@@ -288,63 +223,24 @@ components:
       required:
       - tasksKey
       - type
-    JobResult:
+    TaskResult:
       type: object
       discriminator:
         propertyName: jobType
       properties:
-        successfulCount:
-          type: integer
-          format: int32
-        failedCount:
-          type: integer
-          format: int32
-        discardedCount:
-          type: integer
-          format: int32
-        totalCount:
-          type: integer
-          format: int32
-        results:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/DummyTaskResult'
-        generalError:
+        key:
           type: string
-        startTs:
-          type: integer
-          format: int64
+        success:
+          type: boolean
+        discarded:
+          type: boolean
         finishTs:
-          type: integer
-          format: int64
-        cancellationTs:
           type: integer
           format: int64
         jobType:
           type: string
       required:
       - jobType
-    DummyJobResult:
-      allOf:
-      - $ref: '#/components/schemas/JobResult'
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
     EntityId:
       type: object
       properties:
@@ -396,34 +292,6 @@ components:
       required:
       - entityType
       - id
-    DummyTaskFailure:
-      type: object
-      properties:
-        error:
-          type: string
-        number:
-          type: integer
-          format: int32
-        failAlways:
-          type: boolean
-    TaskResult:
-      type: object
-      discriminator:
-        propertyName: jobType
-      properties:
-        key:
-          type: string
-        success:
-          type: boolean
-        discarded:
-          type: boolean
-        finishTs:
-          type: integer
-          format: int64
-        jobType:
-          type: string
-      required:
-      - jobType
     JobId:
       type: object
       properties:
@@ -441,29 +309,161 @@ components:
       required:
       - entityType
       - id
-    PageDataJob:
+    Job:
       type: object
       properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/Job'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
+        id:
+          $ref: '#/components/schemas/JobId'
+        createdTime:
           type: integer
           format: int64
-          description: Total number of elements in all available pages
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
           readOnly: true
-        hasNext:
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        type:
+          type: string
+          enum:
+          - DUMMY
+        key:
+          type: string
+          minLength: 1
+        entityId:
+          $ref: '#/components/schemas/EntityId'
+        entityName:
+          type: string
+        status:
+          type: string
+          enum:
+          - QUEUED
+          - PENDING
+          - RUNNING
+          - COMPLETED
+          - FAILED
+          - CANCELLED
+        configuration:
+          oneOf:
+          - $ref: '#/components/schemas/DummyJobConfiguration'
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/DummyJobResult'
+      required:
+      - configuration
+      - entityId
+      - key
+      - result
+      - status
+      - tenantId
+      - type
+    DummyJobResult:
+      allOf:
+      - $ref: '#/components/schemas/JobResult'
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    DummyTaskFailure:
+      type: object
+      properties:
+        error:
+          type: string
+        number:
+          type: integer
+          format: int32
+        failAlways:
           type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
+    DummyTaskResult:
+      allOf:
+      - $ref: '#/components/schemas/TaskResult'
+      - type: object
+        properties:
+          failure:
+            $ref: '#/components/schemas/DummyTaskFailure'
+    JobResult:
+      type: object
+      discriminator:
+        propertyName: jobType
+      properties:
+        successfulCount:
+          type: integer
+          format: int32
+        failedCount:
+          type: integer
+          format: int32
+        discardedCount:
+          type: integer
+          format: int32
+        totalCount:
+          type: integer
+          format: int32
+        results:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/DummyTaskResult'
+        generalError:
+          type: string
+        startTs:
+          type: integer
+          format: int64
+        finishTs:
+          type: integer
+          format: int64
+        cancellationTs:
+          type: integer
+          format: int64
+        jobType:
+          type: string
+      required:
+      - jobType
+    DummyJobConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/JobConfiguration'
+      - type: object
+        properties:
+          taskProcessingTimeMs:
+            type: integer
+            format: int64
+          successfulTasksCount:
+            type: integer
+            format: int32
+          failedTasksCount:
+            type: integer
+            format: int32
+          permanentlyFailedTasksCount:
+            type: integer
+            format: int32
+          errors:
+            type: array
+            items:
+              type: string
+          retries:
+            type: integer
+            format: int32
+          taskProcessingTimeoutMs:
+            type: integer
+            format: int64
+          generalError:
+            type: string
+          submittedTasksBeforeGeneralError:
+            type: integer
+            format: int32
+      required:
+      - tasksKey
   securitySchemes:
     HTTP_login_form:
       type: http

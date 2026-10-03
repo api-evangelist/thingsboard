@@ -144,6 +144,10 @@ paths:
                 $ref: '#/components/schemas/JsonNode'
 components:
   schemas:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     MobileAppBundleId:
       type: object
       properties:
@@ -195,74 +199,6 @@ components:
       required:
       - entityType
       - id
-    QrCodeSettingsId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: string
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-      required:
-      - id
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    QRCodeConfig:
-      type: object
-      properties:
-        showOnHomePage:
-          type: boolean
-        badgeEnabled:
-          type: boolean
-        qrCodeLabelEnabled:
-          type: boolean
-        badgePosition:
-          type: string
-          enum:
-          - RIGHT
-          - LEFT
-        qrCodeLabel:
-          type: string
-    JwtPair:
-      type: object
-      description: JWT Pair
-      properties:
-        token:
-          type: string
-          description: The JWT Access Token. Used to perform API calls.
-          example: AAB254FF67D..
-        refreshToken:
-          type: string
-          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
-          example: AAB254FF67D..
-        scope:
-          type: string
-          enum:
-          - SYS_ADMIN
-          - TENANT_ADMIN
-          - CUSTOMER_USER
-          - REFRESH_TOKEN
-          - PRE_VERIFICATION_TOKEN
-          - MFA_CONFIGURATION_TOKEN
     QrCodeSettings:
       type: object
       description: A JSON value representing the mobile apps configuration
@@ -309,6 +245,70 @@ components:
           readOnly: true
       required:
       - qrCodeConfig
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    QrCodeSettingsId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+      required:
+      - id
+    QRCodeConfig:
+      type: object
+      properties:
+        showOnHomePage:
+          type: boolean
+        badgeEnabled:
+          type: boolean
+        qrCodeLabelEnabled:
+          type: boolean
+        badgePosition:
+          type: string
+          enum:
+          - RIGHT
+          - LEFT
+        qrCodeLabel:
+          type: string
+    JwtPair:
+      type: object
+      description: JWT Pair
+      properties:
+        token:
+          type: string
+          description: The JWT Access Token. Used to perform API calls.
+          example: AAB254FF67D..
+        refreshToken:
+          type: string
+          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
+          example: AAB254FF67D..
+        scope:
+          type: string
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
   securitySchemes:
     HTTP_login_form:
       type: http
