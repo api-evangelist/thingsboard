@@ -190,6 +190,23 @@ paths:
           description: OK
 components:
   schemas:
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
     ApiKeyInfo:
       type: object
       description: A JSON value representing the Api Key token.
@@ -230,40 +247,6 @@ components:
           readOnly: true
       required:
       - description
-    ApiKeyId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - API_KEY
-          example: API_KEY
-      required:
-      - entityType
-      - id
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
     ApiKey:
       type: object
       properties:
@@ -307,6 +290,23 @@ components:
       required:
       - description
       - value
+    ApiKeyId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - API_KEY
+          example: API_KEY
+      required:
+      - entityType
+      - id
     PageDataApiKeyInfo:
       type: object
       properties:
@@ -330,7 +330,7 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    UserId:
+    TenantId:
       type: object
       properties:
         id:
@@ -342,8 +342,8 @@ components:
           type: string
           description: string
           enum:
-          - USER
-          example: USER
+          - TENANT
+          example: TENANT
       required:
       - entityType
       - id

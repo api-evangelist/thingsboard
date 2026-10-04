@@ -489,6 +489,68 @@ components:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
+    ResourceExportData:
+      type: object
+      properties:
+        link:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+          - IMAGE
+          - DASHBOARD
+          - GENERAL
+        subType:
+          type: string
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+          - EXTENSION
+          - MODULE
+        resourceKey:
+          type: string
+        fileName:
+          type: string
+        publicResourceKey:
+          type: string
+        isPublic:
+          type: boolean
+          writeOnly: true
+        mediaType:
+          type: string
+        data:
+          type: string
+        public:
+          type: boolean
+    PageDataTbResourceInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TbResourceInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     TbResourceInfo:
       type: object
       description: A JSON value representing the Resource Info.
@@ -563,29 +625,10 @@ components:
         publicLink:
           type: string
           readOnly: true
-    PageDataTbResourceInfo:
+    HasIdObject:
       type: object
       properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/TbResourceInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
+        id: {}
     TenantId:
       type: object
       properties:
@@ -603,49 +646,6 @@ components:
       required:
       - entityType
       - id
-    HasIdObject:
-      type: object
-      properties:
-        id: {}
-    ResourceExportData:
-      type: object
-      properties:
-        link:
-          type: string
-        title:
-          type: string
-        type:
-          type: string
-          enum:
-          - LWM2M_MODEL
-          - JKS
-          - PKCS_12
-          - JS_MODULE
-          - IMAGE
-          - DASHBOARD
-          - GENERAL
-        subType:
-          type: string
-          enum:
-          - IMAGE
-          - SCADA_SYMBOL
-          - EXTENSION
-          - MODULE
-        resourceKey:
-          type: string
-        fileName:
-          type: string
-        publicResourceKey:
-          type: string
-        isPublic:
-          type: boolean
-          writeOnly: true
-        mediaType:
-          type: string
-        data:
-          type: string
-        public:
-          type: boolean
   securitySchemes:
     HTTP_login_form:
       type: http

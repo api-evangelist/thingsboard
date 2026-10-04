@@ -193,6 +193,20 @@ paths:
                 $ref: '#/components/schemas/Queue'
 components:
   schemas:
+    SubmitStrategy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - BURST
+          - BATCH
+          - SEQUENTIAL_BY_ORIGINATOR
+          - SEQUENTIAL_BY_TENANT
+          - SEQUENTIAL
+        batchSize:
+          type: integer
+          format: int32
     ProcessingStrategy:
       type: object
       properties:
@@ -217,41 +231,6 @@ components:
         maxPauseBetweenRetries:
           type: integer
           format: int64
-    SubmitStrategy:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - BURST
-          - BATCH
-          - SEQUENTIAL_BY_ORIGINATOR
-          - SEQUENTIAL_BY_TENANT
-          - SEQUENTIAL
-        batchSize:
-          type: integer
-          format: int32
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
     QueueId:
       type: object
       properties:
@@ -269,6 +248,10 @@ components:
       required:
       - entityType
       - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     Queue:
       type: object
       description: A JSON value representing the queue.
@@ -327,6 +310,23 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
   securitySchemes:
     HTTP_login_form:
       type: http

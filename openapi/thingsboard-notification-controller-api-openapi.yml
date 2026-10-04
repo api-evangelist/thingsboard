@@ -726,158 +726,6 @@ paths:
           description: OK
 components:
   schemas:
-    NotificationRequestStats:
-      type: object
-      properties:
-        sent:
-          type: object
-          additionalProperties:
-            type: object
-            properties:
-              opaque:
-                type: integer
-                format: int32
-              acquire:
-                type: integer
-                format: int32
-              release:
-                type: integer
-                format: int32
-                writeOnly: true
-              andIncrement:
-                type: integer
-                format: int32
-              andDecrement:
-                type: integer
-                format: int32
-              plain:
-                type: integer
-                format: int32
-        errors:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              type: string
-        totalErrors:
-          type: object
-          properties:
-            opaque:
-              type: integer
-              format: int32
-            acquire:
-              type: integer
-              format: int32
-            release:
-              type: integer
-              format: int32
-              writeOnly: true
-            andIncrement:
-              type: integer
-              format: int32
-            andDecrement:
-              type: integer
-              format: int32
-            plain:
-              type: integer
-              format: int32
-        error:
-          type: string
-    SmsDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      required:
-      - body
-    NotificationInfo:
-      type: object
-      discriminator:
-        propertyName: type
-      properties:
-        dashboardId:
-          $ref: '#/components/schemas/DashboardId'
-        stateEntityId:
-          $ref: '#/components/schemas/EntityId'
-        type:
-          type: string
-      required:
-      - type
-    PageDataNotificationRequestInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/NotificationRequestInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    Button:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        text:
-          type: string
-        linkType:
-          type: string
-          enum:
-          - LINK
-          - DASHBOARD
-        link:
-          type: string
-        dashboardId:
-          type: string
-          format: uuid
-        dashboardState:
-          type: string
-        setEntityIdInState:
-          type: boolean
-    UserId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - USER
-          example: USER
-      required:
-      - entityType
-      - id
-    MobileAppNotificationDeliveryMethodConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationDeliveryMethodConfig'
-      - type: object
-        properties:
-          firebaseServiceAccountCredentialsFileName:
-            type: string
-          firebaseServiceAccountCredentials:
-            type: string
-            minLength: 1
-      required:
-      - firebaseServiceAccountCredentials
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     PageDataNotification:
       type: object
       properties:
@@ -901,188 +749,19 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    UserNotificationSettings:
-      type: object
-      properties:
-        prefs:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/NotificationPref'
-      required:
-      - prefs
-    DashboardId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - DASHBOARD
-          example: DASHBOARD
-      required:
-      - entityType
-      - id
-    NotificationTemplateConfig:
-      type: object
-      properties:
-        deliveryMethodsTemplates:
-          type: object
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
-          minProperties: 1
-      required:
-      - deliveryMethodsTemplates
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    NotificationDeliveryMethodConfig:
-      discriminator:
-        propertyName: method
-      properties:
-        method:
-          type: string
-      required:
-      - method
-    NotificationSettings:
-      type: object
-      properties:
-        deliveryMethodsConfigs:
-          type: object
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/MobileAppNotificationDeliveryMethodConfig'
-            - $ref: '#/components/schemas/SlackNotificationDeliveryMethodConfig'
-      required:
-      - deliveryMethodsConfigs
-    NotificationRequestInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/NotificationRequestId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        targets:
-          type: array
-          items:
-            type: string
-            format: uuid
-          minItems: 1
-        templateId:
-          $ref: '#/components/schemas/NotificationTemplateId'
-        template:
-          $ref: '#/components/schemas/NotificationTemplate'
-        info:
-          $ref: '#/components/schemas/NotificationInfo'
-        additionalConfig:
-          $ref: '#/components/schemas/NotificationRequestConfig'
-        originatorEntityId:
-          $ref: '#/components/schemas/EntityId'
-        ruleId:
-          $ref: '#/components/schemas/NotificationRuleId'
-        status:
-          type: string
-          enum:
-          - PROCESSING
-          - SENT
-          - SCHEDULED
-        stats:
-          $ref: '#/components/schemas/NotificationRequestStats'
-        templateName:
-          type: string
-        deliveryMethods:
-          type: array
-          items:
-            type: string
-            enum:
-            - WEB
-            - EMAIL
-            - SMS
-            - SLACK
-            - MICROSOFT_TEAMS
-            - MOBILE_APP
-      required:
-      - targets
-    NotificationTemplateId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - NOTIFICATION_TEMPLATE
-          example: NOTIFICATION_TEMPLATE
-      required:
-      - entityType
-      - id
-    NotificationPref:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        enabledDeliveryMethods:
-          type: object
-          additionalProperties:
-            type: boolean
-      required:
-      - enabledDeliveryMethods
-    NotificationId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - NOTIFICATION
-          example: NOTIFICATION
-      required:
-      - entityType
-      - id
-    SlackDeliveryMethodNotificationTemplate:
+    WebDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+          additionalConfig:
+            $ref: '#/components/schemas/JsonNode'
       required:
       - body
+      - subject
     NotificationRequestId:
       type: object
       properties:
@@ -1097,82 +776,6 @@ components:
           enum:
           - NOTIFICATION_REQUEST
           example: NOTIFICATION_REQUEST
-      required:
-      - entityType
-      - id
-    NotificationRequestPreview:
-      type: object
-      properties:
-        processedTemplates:
-          type: object
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
-        totalRecipientsCount:
-          type: integer
-          format: int32
-        recipientsCountByTarget:
-          type: object
-          additionalProperties:
-            type: integer
-            format: int32
-        recipientsPreview:
-          type: array
-          items:
-            type: string
-    EntityId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          enum:
-          - TENANT
-          - CUSTOMER
-          - USER
-          - DASHBOARD
-          - ASSET
-          - DEVICE
-          - ALARM
-          - RULE_CHAIN
-          - RULE_NODE
-          - ENTITY_VIEW
-          - WIDGETS_BUNDLE
-          - WIDGET_TYPE
-          - TENANT_PROFILE
-          - DEVICE_PROFILE
-          - ASSET_PROFILE
-          - API_USAGE_STATE
-          - TB_RESOURCE
-          - OTA_PACKAGE
-          - EDGE
-          - RPC
-          - QUEUE
-          - NOTIFICATION_TARGET
-          - NOTIFICATION_TEMPLATE
-          - NOTIFICATION_REQUEST
-          - NOTIFICATION
-          - NOTIFICATION_RULE
-          - QUEUE_STATS
-          - OAUTH2_CLIENT
-          - DOMAIN
-          - MOBILE_APP
-          - MOBILE_APP_BUNDLE
-          - CALCULATED_FIELD
-          - JOB
-          - ADMIN_SETTINGS
-          - AI_MODEL
-          - API_KEY
-          example: DEVICE
       required:
       - entityType
       - id
@@ -1191,66 +794,6 @@ components:
       required:
       - body
       - method
-    NotificationRequestConfig:
-      type: object
-      properties:
-        sendingDelayInSec:
-          type: integer
-          format: int32
-          maximum: 604800
-    EmailDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-            minLength: 1
-      required:
-      - body
-      - subject
-    NotificationTemplate:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/NotificationTemplateId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        name:
-          type: string
-          minLength: 1
-        notificationType:
-          type: string
-          enum:
-          - GENERAL
-          - ALARM
-          - DEVICE_ACTIVITY
-          - ENTITY_ACTION
-          - ALARM_COMMENT
-          - RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT
-          - ALARM_ASSIGNMENT
-          - NEW_PLATFORM_VERSION
-          - ENTITIES_LIMIT
-          - ENTITIES_LIMIT_INCREASE_REQUEST
-          - API_USAGE_LIMIT
-          - RULE_NODE
-          - RATE_LIMITS
-          - EDGE_CONNECTION
-          - EDGE_COMMUNICATION_FAILURE
-          - TASK_PROCESSING_FAILURE
-          - RESOURCES_SHORTAGE
-        configuration:
-          $ref: '#/components/schemas/NotificationTemplateConfig'
-      required:
-      - configuration
-      - name
-      - notificationType
     Notification:
       type: object
       properties:
@@ -1308,6 +851,51 @@ components:
           description: Entity creation timestamp in milliseconds since Unix epoch
           example: 1746028547220
           readOnly: true
+    NotificationSettings:
+      type: object
+      properties:
+        deliveryMethodsConfigs:
+          type: object
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/MobileAppNotificationDeliveryMethodConfig'
+            - $ref: '#/components/schemas/SlackNotificationDeliveryMethodConfig'
+      required:
+      - deliveryMethodsConfigs
+    MicrosoftTeamsDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+          themeColor:
+            type: string
+          button:
+            $ref: '#/components/schemas/Button'
+      required:
+      - body
+    Button:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        text:
+          type: string
+        linkType:
+          type: string
+          enum:
+          - LINK
+          - DASHBOARD
+        link:
+          type: string
+        dashboardId:
+          type: string
+          format: uuid
+        dashboardState:
+          type: string
+        setEntityIdInState:
+          type: boolean
     NotificationRuleId:
       type: object
       properties:
@@ -1325,6 +913,126 @@ components:
       required:
       - entityType
       - id
+    NotificationRequestInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/NotificationRequestId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        targets:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+        templateId:
+          $ref: '#/components/schemas/NotificationTemplateId'
+        template:
+          $ref: '#/components/schemas/NotificationTemplate'
+        info:
+          $ref: '#/components/schemas/NotificationInfo'
+        additionalConfig:
+          $ref: '#/components/schemas/NotificationRequestConfig'
+        originatorEntityId:
+          $ref: '#/components/schemas/EntityId'
+        ruleId:
+          $ref: '#/components/schemas/NotificationRuleId'
+        status:
+          type: string
+          enum:
+          - PROCESSING
+          - SENT
+          - SCHEDULED
+        stats:
+          $ref: '#/components/schemas/NotificationRequestStats'
+        templateName:
+          type: string
+        deliveryMethods:
+          type: array
+          items:
+            type: string
+            enum:
+            - WEB
+            - EMAIL
+            - SMS
+            - SLACK
+            - MICROSOFT_TEAMS
+            - MOBILE_APP
+      required:
+      - targets
+    NotificationRequestConfig:
+      type: object
+      properties:
+        sendingDelayInSec:
+          type: integer
+          format: int32
+          maximum: 604800
+    NotificationTemplate:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/NotificationTemplateId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        name:
+          type: string
+          minLength: 1
+        notificationType:
+          type: string
+          enum:
+          - GENERAL
+          - ALARM
+          - DEVICE_ACTIVITY
+          - ENTITY_ACTION
+          - ALARM_COMMENT
+          - RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT
+          - ALARM_ASSIGNMENT
+          - NEW_PLATFORM_VERSION
+          - ENTITIES_LIMIT
+          - ENTITIES_LIMIT_INCREASE_REQUEST
+          - API_USAGE_LIMIT
+          - RULE_NODE
+          - RATE_LIMITS
+          - EDGE_CONNECTION
+          - EDGE_COMMUNICATION_FAILURE
+          - TASK_PROCESSING_FAILURE
+          - RESOURCES_SHORTAGE
+        configuration:
+          $ref: '#/components/schemas/NotificationTemplateConfig'
+      required:
+      - configuration
+      - name
+      - notificationType
+    NotificationInfo:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        dashboardId:
+          $ref: '#/components/schemas/DashboardId'
+        stateEntityId:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+      required:
+      - type
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     NotificationRequest:
       type: object
       properties:
@@ -1366,6 +1074,153 @@ components:
           readOnly: true
       required:
       - targets
+    EmailDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+      required:
+      - body
+      - subject
+    NotificationDeliveryMethodConfig:
+      discriminator:
+        propertyName: method
+      properties:
+        method:
+          type: string
+      required:
+      - method
+    DashboardId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DASHBOARD
+          example: DASHBOARD
+      required:
+      - entityType
+      - id
+    NotificationId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - NOTIFICATION
+          example: NOTIFICATION
+      required:
+      - entityType
+      - id
+    EntityId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          enum:
+          - TENANT
+          - CUSTOMER
+          - USER
+          - DASHBOARD
+          - ASSET
+          - DEVICE
+          - ALARM
+          - RULE_CHAIN
+          - RULE_NODE
+          - ENTITY_VIEW
+          - WIDGETS_BUNDLE
+          - WIDGET_TYPE
+          - TENANT_PROFILE
+          - DEVICE_PROFILE
+          - ASSET_PROFILE
+          - API_USAGE_STATE
+          - TB_RESOURCE
+          - OTA_PACKAGE
+          - EDGE
+          - RPC
+          - QUEUE
+          - NOTIFICATION_TARGET
+          - NOTIFICATION_TEMPLATE
+          - NOTIFICATION_REQUEST
+          - NOTIFICATION
+          - NOTIFICATION_RULE
+          - QUEUE_STATS
+          - OAUTH2_CLIENT
+          - DOMAIN
+          - MOBILE_APP
+          - MOBILE_APP_BUNDLE
+          - CALCULATED_FIELD
+          - JOB
+          - ADMIN_SETTINGS
+          - AI_MODEL
+          - API_KEY
+          example: DEVICE
+      required:
+      - entityType
+      - id
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    NotificationTemplateId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - NOTIFICATION_TEMPLATE
+          example: NOTIFICATION_TEMPLATE
+      required:
+      - entityType
+      - id
+    UserNotificationSettings:
+      type: object
+      properties:
+        prefs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NotificationPref'
+      required:
+      - prefs
     SlackNotificationDeliveryMethodConfig:
       allOf:
       - $ref: '#/components/schemas/NotificationDeliveryMethodConfig'
@@ -1376,6 +1231,88 @@ components:
             minLength: 1
       required:
       - botToken
+    NotificationRequestStats:
+      type: object
+      properties:
+        sent:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              opaque:
+                type: integer
+                format: int32
+              acquire:
+                type: integer
+                format: int32
+              release:
+                type: integer
+                format: int32
+                writeOnly: true
+              andIncrement:
+                type: integer
+                format: int32
+              andDecrement:
+                type: integer
+                format: int32
+              plain:
+                type: integer
+                format: int32
+        errors:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+        totalErrors:
+          type: object
+          properties:
+            opaque:
+              type: integer
+              format: int32
+            acquire:
+              type: integer
+              format: int32
+            release:
+              type: integer
+              format: int32
+              writeOnly: true
+            andIncrement:
+              type: integer
+              format: int32
+            andDecrement:
+              type: integer
+              format: int32
+            plain:
+              type: integer
+              format: int32
+        error:
+          type: string
+    NotificationRequestPreview:
+      type: object
+      properties:
+        processedTemplates:
+          type: object
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
+        totalRecipientsCount:
+          type: integer
+          format: int32
+        recipientsCountByTarget:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        recipientsPreview:
+          type: array
+          items:
+            type: string
     MobileAppDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
@@ -1389,32 +1326,95 @@ components:
       required:
       - body
       - subject
-    MicrosoftTeamsDeliveryMethodNotificationTemplate:
+    SlackDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-          themeColor:
-            type: string
-          button:
-            $ref: '#/components/schemas/Button'
       required:
       - body
-    WebDeliveryMethodNotificationTemplate:
+    MobileAppNotificationDeliveryMethodConfig:
       allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - $ref: '#/components/schemas/NotificationDeliveryMethodConfig'
       - type: object
         properties:
-          subject:
+          firebaseServiceAccountCredentialsFileName:
+            type: string
+          firebaseServiceAccountCredentials:
             type: string
             minLength: 1
-          additionalConfig:
-            $ref: '#/components/schemas/JsonNode'
+      required:
+      - firebaseServiceAccountCredentials
+    NotificationTemplateConfig:
+      type: object
+      properties:
+        deliveryMethodsTemplates:
+          type: object
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
+          minProperties: 1
+      required:
+      - deliveryMethodsTemplates
+    SmsDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
       required:
       - body
-      - subject
+    NotificationPref:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        enabledDeliveryMethods:
+          type: object
+          additionalProperties:
+            type: boolean
+      required:
+      - enabledDeliveryMethods
+    PageDataNotificationRequestInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/NotificationRequestInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
   securitySchemes:
     HTTP_login_form:
       type: http

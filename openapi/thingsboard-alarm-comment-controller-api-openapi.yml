@@ -139,27 +139,39 @@ paths:
           description: OK
 components:
   schemas:
-    AlarmId:
+    PageDataAlarmCommentInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/AlarmCommentInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    AlarmCommentId:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
           description: string
-          enum:
-          - ALARM
-          example: ALARM
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
       required:
-      - entityType
       - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     AlarmComment:
       type: object
       properties:
@@ -197,6 +209,27 @@ components:
           description: representing comment text
           example: Please take a look
           readOnly: true
+    UserId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - USER
+          example: USER
+      required:
+      - entityType
+      - id
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     AlarmCommentInfo:
       type: object
       properties:
@@ -246,30 +279,7 @@ components:
           description: representing comment text
           example: Please take a look
           readOnly: true
-    PageDataAlarmCommentInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/AlarmCommentInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    UserId:
+    AlarmId:
       type: object
       properties:
         id:
@@ -281,20 +291,10 @@ components:
           type: string
           description: string
           enum:
-          - USER
-          example: USER
+          - ALARM
+          example: ALARM
       required:
       - entityType
-      - id
-    AlarmCommentId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: string
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-      required:
       - id
   securitySchemes:
     HTTP_login_form:

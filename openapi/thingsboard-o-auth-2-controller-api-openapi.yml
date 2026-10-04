@@ -193,35 +193,35 @@ paths:
                 - $ref: '#/components/schemas/PageDataOAuth2ClientInfo'
 components:
   schemas:
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    OAuth2MapperConfig:
+    OAuth2ClientInfo:
       type: object
       properties:
-        allowUserCreation:
-          type: boolean
-          description: Whether user should be created if not yet present on the platform after successful authentication
-        activateUser:
-          type: boolean
-          description: Whether user credentials should be activated when user is created after successful authentication
-        type:
+        id:
+          $ref: '#/components/schemas/OAuth2ClientId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        title:
           type: string
-          description: Type of OAuth2 mapper. Depending on this param, different mapper config fields must be specified
-          enum:
-          - BASIC
-          - CUSTOM
-          - GITHUB
-          - APPLE
-        basic:
-          $ref: '#/components/schemas/OAuth2BasicMapperConfig'
-          description: Mapper config for BASIC and GITHUB mapper types
-        custom:
-          $ref: '#/components/schemas/OAuth2CustomMapperConfig'
-          description: Mapper config for CUSTOM mapper type
-      required:
-      - type
+          description: Oauth2 client registration title (e.g. My google)
+        providerName:
+          type: string
+          description: Oauth2 client provider name (e.g. Google)
+        platforms:
+          type: array
+          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
+          items:
+            type: string
+            enum:
+            - WEB
+            - ANDROID
+            - IOS
+        name:
+          type: string
+          readOnly: true
     OAuth2Client:
       type: object
       properties:
@@ -313,23 +313,25 @@ components:
       - scope
       - title
       - userNameAttributeName
-    TenantId:
+    OAuth2ClientLoginInfo:
       type: object
       properties:
-        id:
+        name:
           type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
+          description: OAuth2 client name
+          example: GitHub
+        icon:
           type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
+          description: Name of the icon, displayed on OAuth2 log in button
+          example: github-logo
+        url:
+          type: string
+          description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
+          example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     OAuth2ClientId:
       type: object
       properties:
@@ -381,21 +383,6 @@ components:
       required:
       - entityType
       - id
-    OAuth2ClientLoginInfo:
-      type: object
-      properties:
-        name:
-          type: string
-          description: OAuth2 client name
-          example: GitHub
-        icon:
-          type: string
-          description: Name of the icon, displayed on OAuth2 log in button
-          example: github-logo
-        url:
-          type: string
-          description: URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page
-          example: /oauth2/authorization/8352f191-2b4d-11ec-9ed1-cbf57c026ecc
     OAuth2BasicMapperConfig:
       type: object
       properties:
@@ -430,35 +417,23 @@ components:
           description: Whether default dashboard should be open in full screen
       required:
       - tenantNameStrategy
-    OAuth2ClientInfo:
+    TenantId:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/OAuth2ClientId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        title:
           type: string
-          description: Oauth2 client registration title (e.g. My google)
-        providerName:
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
           type: string
-          description: Oauth2 client provider name (e.g. Google)
-        platforms:
-          type: array
-          description: List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)
-          items:
-            type: string
-            enum:
-            - WEB
-            - ANDROID
-            - IOS
-        name:
-          type: string
-          readOnly: true
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
     OAuth2CustomMapperConfig:
       type: object
       properties:
@@ -470,6 +445,31 @@ components:
           type: string
         sendToken:
           type: boolean
+    OAuth2MapperConfig:
+      type: object
+      properties:
+        allowUserCreation:
+          type: boolean
+          description: Whether user should be created if not yet present on the platform after successful authentication
+        activateUser:
+          type: boolean
+          description: Whether user credentials should be activated when user is created after successful authentication
+        type:
+          type: string
+          description: Type of OAuth2 mapper. Depending on this param, different mapper config fields must be specified
+          enum:
+          - BASIC
+          - CUSTOM
+          - GITHUB
+          - APPLE
+        basic:
+          $ref: '#/components/schemas/OAuth2BasicMapperConfig'
+          description: Mapper config for BASIC and GITHUB mapper types
+        custom:
+          $ref: '#/components/schemas/OAuth2CustomMapperConfig'
+          description: Mapper config for CUSTOM mapper type
+      required:
+      - type
     PageDataOAuth2ClientInfo:
       type: object
       properties:

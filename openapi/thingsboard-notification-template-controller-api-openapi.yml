@@ -261,15 +261,136 @@ paths:
                   $ref: '#/components/schemas/SlackConversation'
 components:
   schemas:
+    MobileAppDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+          additionalConfig:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - body
+      - subject
     SlackDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
       required:
       - body
+    NotificationTemplate:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/NotificationTemplateId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+        name:
+          type: string
+          minLength: 1
+        notificationType:
+          type: string
+          enum:
+          - GENERAL
+          - ALARM
+          - DEVICE_ACTIVITY
+          - ENTITY_ACTION
+          - ALARM_COMMENT
+          - RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT
+          - ALARM_ASSIGNMENT
+          - NEW_PLATFORM_VERSION
+          - ENTITIES_LIMIT
+          - ENTITIES_LIMIT_INCREASE_REQUEST
+          - API_USAGE_LIMIT
+          - RULE_NODE
+          - RATE_LIMITS
+          - EDGE_CONNECTION
+          - EDGE_COMMUNICATION_FAILURE
+          - TASK_PROCESSING_FAILURE
+          - RESOURCES_SHORTAGE
+        configuration:
+          $ref: '#/components/schemas/NotificationTemplateConfig'
+      required:
+      - configuration
+      - name
+      - notificationType
+    WebDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+          additionalConfig:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - body
+      - subject
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
+    SlackConversation:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - DIRECT
+          - PUBLIC_CHANNEL
+          - PRIVATE_CHANNEL
+        id:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        wholeName:
+          type: string
+        email:
+          type: string
+        title:
+          type: string
+      required:
+      - id
+      - name
+      - type
+    EmailDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+      required:
+      - body
+      - subject
+    NotificationTemplateId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - NOTIFICATION_TEMPLATE
+          example: NOTIFICATION_TEMPLATE
+      required:
+      - entityType
+      - id
     PageDataNotificationTemplate:
       type: object
       properties:
@@ -329,48 +450,6 @@ components:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
       required:
       - body
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    SlackConversation:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - DIRECT
-          - PUBLIC_CHANNEL
-          - PRIVATE_CHANNEL
-        id:
-          type: string
-          minLength: 1
-        name:
-          type: string
-          minLength: 1
-        wholeName:
-          type: string
-        email:
-          type: string
-        title:
-          type: string
-      required:
-      - id
-      - name
-      - type
     MicrosoftTeamsDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
@@ -384,19 +463,6 @@ components:
             $ref: '#/components/schemas/Button'
       required:
       - body
-    MobileAppDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-            minLength: 1
-          additionalConfig:
-            $ref: '#/components/schemas/JsonNode'
-      required:
-      - body
-      - subject
     Button:
       type: object
       properties:
@@ -418,20 +484,7 @@ components:
           type: string
         setEntityIdInState:
           type: boolean
-    WebDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-            minLength: 1
-          additionalConfig:
-            $ref: '#/components/schemas/JsonNode'
-      required:
-      - body
-      - subject
-    NotificationTemplateId:
+    TenantId:
       type: object
       properties:
         id:
@@ -443,64 +496,11 @@ components:
           type: string
           description: string
           enum:
-          - NOTIFICATION_TEMPLATE
-          example: NOTIFICATION_TEMPLATE
+          - TENANT
+          example: TENANT
       required:
       - entityType
       - id
-    EmailDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-            minLength: 1
-      required:
-      - body
-      - subject
-    NotificationTemplate:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/NotificationTemplateId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-        name:
-          type: string
-          minLength: 1
-        notificationType:
-          type: string
-          enum:
-          - GENERAL
-          - ALARM
-          - DEVICE_ACTIVITY
-          - ENTITY_ACTION
-          - ALARM_COMMENT
-          - RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT
-          - ALARM_ASSIGNMENT
-          - NEW_PLATFORM_VERSION
-          - ENTITIES_LIMIT
-          - ENTITIES_LIMIT_INCREASE_REQUEST
-          - API_USAGE_LIMIT
-          - RULE_NODE
-          - RATE_LIMITS
-          - EDGE_CONNECTION
-          - EDGE_COMMUNICATION_FAILURE
-          - TASK_PROCESSING_FAILURE
-          - RESOURCES_SHORTAGE
-        configuration:
-          $ref: '#/components/schemas/NotificationTemplateConfig'
-      required:
-      - configuration
-      - name
-      - notificationType
   securitySchemes:
     HTTP_login_form:
       type: http

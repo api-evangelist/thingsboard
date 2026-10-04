@@ -456,23 +456,6 @@ paths:
                 type: boolean
 components:
   schemas:
-    AdminSettingsId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - ADMIN_SETTINGS
-          example: ADMIN_SETTINGS
-      required:
-      - entityType
-      - id
     JwtSettings:
       type: object
       description: A JSON value representing the JWT Settings.
@@ -502,177 +485,6 @@ components:
           type: boolean
         readOnly:
           type: boolean
-    JwtPair:
-      type: object
-      description: JWT Pair
-      properties:
-        token:
-          type: string
-          description: The JWT Access Token. Used to perform API calls.
-          example: AAB254FF67D..
-        refreshToken:
-          type: string
-          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
-          example: AAB254FF67D..
-        scope:
-          type: string
-          enum:
-          - SYS_ADMIN
-          - TENANT_ADMIN
-          - CUSTOMER_USER
-          - REFRESH_TOKEN
-          - PRE_VERIFICATION_TOKEN
-          - MFA_CONFIGURATION_TOKEN
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    SystemInfo:
-      type: object
-      properties:
-        systemData:
-          type: array
-          description: System data.
-          items:
-            $ref: '#/components/schemas/SystemInfoData'
-        monolith:
-          type: boolean
-    SecuritySettings:
-      type: object
-      description: A JSON value representing the Security Settings.
-      properties:
-        passwordPolicy:
-          $ref: '#/components/schemas/UserPasswordPolicy'
-          description: The user password policy object.
-        maxFailedLoginAttempts:
-          type: integer
-          format: int32
-          description: Maximum number of failed login attempts allowed before user account is locked.
-        userLockoutNotificationEmail:
-          type: string
-          description: Email to use for notifications about locked users.
-        mobileSecretKeyLength:
-          type: integer
-          format: int32
-          description: Mobile secret key length
-        userActivationTokenTtl:
-          type: integer
-          format: int32
-          description: TTL in hours for user activation link
-          maximum: 24
-          minimum: 1
-        passwordResetTokenTtl:
-          type: integer
-          format: int32
-          description: TTL in hours for password reset link
-          maximum: 24
-          minimum: 1
-      required:
-      - passwordResetTokenTtl
-      - userActivationTokenTtl
-    UpdateMessage:
-      type: object
-      properties:
-        updateAvailable:
-          type: boolean
-          description: '''True'' if new platform update is available.'
-        currentVersion:
-          type: string
-          description: Current ThingsBoard version.
-        latestVersion:
-          type: string
-          description: Latest ThingsBoard version.
-        upgradeInstructionsUrl:
-          type: string
-          description: Upgrade instructions URL.
-        currentVersionReleaseNotesUrl:
-          type: string
-          description: Current ThingsBoard version release notes URL.
-        latestVersionReleaseNotesUrl:
-          type: string
-          description: Latest ThingsBoard version release notes URL.
-    AwsSnsSmsProviderConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/SmsProviderConfiguration'
-      - type: object
-        properties:
-          accessKeyId:
-            type: string
-            description: The AWS SNS Access Key ID.
-          secretAccessKey:
-            type: string
-            description: The AWS SNS Access Key.
-          region:
-            type: string
-            description: The AWS region.
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    FeaturesInfo:
-      type: object
-      properties:
-        smsEnabled:
-          type: boolean
-        oauthEnabled:
-          type: boolean
-        twoFaEnabled:
-          type: boolean
-        emailEnabled:
-          type: boolean
-        notificationEnabled:
-          type: boolean
-    SmsProviderConfiguration:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
-    TestSmsRequest:
-      type: object
-      description: A JSON value representing the Test SMS request.
-      properties:
-        providerConfiguration:
-          description: The SMS provider configuration
-          oneOf:
-          - $ref: '#/components/schemas/AwsSnsSmsProviderConfiguration'
-          - $ref: '#/components/schemas/SmppSmsProviderConfiguration'
-          - $ref: '#/components/schemas/TwilioSmsProviderConfiguration'
-        numberTo:
-          type: string
-          description: The phone number or other identifier to specify as a recipient of the SMS.
-        message:
-          type: string
-          description: The test message
-    TwilioSmsProviderConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/SmsProviderConfiguration'
-      - type: object
-        properties:
-          accountSid:
-            type: string
-            description: Twilio account Sid.
-          accountToken:
-            type: string
-            description: Twilio account Token.
-          numberFrom:
-            type: string
-            description: The number/id of a sender.
     AdminSettings:
       type: object
       description: A JSON value representing the Mail Settings.
@@ -697,35 +509,6 @@ components:
         jsonValue:
           $ref: '#/components/schemas/JsonNode'
           description: JSON representation of the Administration Settings value
-    RepositorySettings:
-      type: object
-      description: A JSON value representing the Repository Settings.
-      properties:
-        repositoryUri:
-          type: string
-        authMethod:
-          type: string
-          enum:
-          - USERNAME_PASSWORD
-          - PRIVATE_KEY
-        username:
-          type: string
-        password:
-          type: string
-        privateKeyFileName:
-          type: string
-        privateKey:
-          type: string
-        privateKeyPassword:
-          type: string
-        defaultBranch:
-          type: string
-        readOnly:
-          type: boolean
-        showMergeCommits:
-          type: boolean
-        localOnly:
-          type: boolean
     UserPasswordPolicy:
       type: object
       properties:
@@ -767,19 +550,106 @@ components:
           type: integer
           format: int32
           description: Password reuse frequency (days). Disallow to use the same password for the defined number of days
-    AutoVersionCreateConfig:
+    SmsProviderConfiguration:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+    TestSmsRequest:
+      type: object
+      description: A JSON value representing the Test SMS request.
+      properties:
+        providerConfiguration:
+          description: The SMS provider configuration
+          oneOf:
+          - $ref: '#/components/schemas/AwsSnsSmsProviderConfiguration'
+          - $ref: '#/components/schemas/SmppSmsProviderConfiguration'
+          - $ref: '#/components/schemas/TwilioSmsProviderConfiguration'
+        numberTo:
+          type: string
+          description: The phone number or other identifier to specify as a recipient of the SMS.
+        message:
+          type: string
+          description: The test message
+    AwsSnsSmsProviderConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/SmsProviderConfiguration'
+      - type: object
+        properties:
+          accessKeyId:
+            type: string
+            description: The AWS SNS Access Key ID.
+          secretAccessKey:
+            type: string
+            description: The AWS SNS Access Key.
+          region:
+            type: string
+            description: The AWS region.
+    UpdateMessage:
       type: object
       properties:
-        saveRelations:
+        updateAvailable:
           type: boolean
-        saveAttributes:
-          type: boolean
-        saveCredentials:
-          type: boolean
-        saveCalculatedFields:
-          type: boolean
-        branch:
+          description: '''True'' if new platform update is available.'
+        currentVersion:
           type: string
+          description: Current ThingsBoard version.
+        latestVersion:
+          type: string
+          description: Latest ThingsBoard version.
+        upgradeInstructionsUrl:
+          type: string
+          description: Upgrade instructions URL.
+        currentVersionReleaseNotesUrl:
+          type: string
+          description: Current ThingsBoard version release notes URL.
+        latestVersionReleaseNotesUrl:
+          type: string
+          description: Latest ThingsBoard version release notes URL.
+    AutoCommitSettings:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AutoVersionCreateConfig'
+    SecuritySettings:
+      type: object
+      description: A JSON value representing the Security Settings.
+      properties:
+        passwordPolicy:
+          $ref: '#/components/schemas/UserPasswordPolicy'
+          description: The user password policy object.
+        maxFailedLoginAttempts:
+          type: integer
+          format: int32
+          description: Maximum number of failed login attempts allowed before user account is locked.
+        userLockoutNotificationEmail:
+          type: string
+          description: Email to use for notifications about locked users.
+        mobileSecretKeyLength:
+          type: integer
+          format: int32
+          description: Mobile secret key length
+        userActivationTokenTtl:
+          type: integer
+          format: int32
+          description: TTL in hours for user activation link
+          maximum: 24
+          minimum: 1
+        passwordResetTokenTtl:
+          type: integer
+          format: int32
+          description: TTL in hours for password reset link
+          maximum: 24
+          minimum: 1
+      required:
+      - passwordResetTokenTtl
+      - userActivationTokenTtl
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     SmppSmsProviderConfiguration:
       allOf:
       - $ref: '#/components/schemas/SmsProviderConfiguration'
@@ -943,6 +813,77 @@ components:
       - port
       - protocolVersion
       - systemId
+    JwtPair:
+      type: object
+      description: JWT Pair
+      properties:
+        token:
+          type: string
+          description: The JWT Access Token. Used to perform API calls.
+          example: AAB254FF67D..
+        refreshToken:
+          type: string
+          description: The JWT Refresh Token. Used to get new JWT Access Token if old one has expired.
+          example: AAB254FF67D..
+        scope:
+          type: string
+          enum:
+          - SYS_ADMIN
+          - TENANT_ADMIN
+          - CUSTOMER_USER
+          - REFRESH_TOKEN
+          - PRE_VERIFICATION_TOKEN
+          - MFA_CONFIGURATION_TOKEN
+    TwilioSmsProviderConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/SmsProviderConfiguration'
+      - type: object
+        properties:
+          accountSid:
+            type: string
+            description: Twilio account Sid.
+          accountToken:
+            type: string
+            description: Twilio account Token.
+          numberFrom:
+            type: string
+            description: The number/id of a sender.
+    FeaturesInfo:
+      type: object
+      properties:
+        smsEnabled:
+          type: boolean
+        oauthEnabled:
+          type: boolean
+        twoFaEnabled:
+          type: boolean
+        emailEnabled:
+          type: boolean
+        notificationEnabled:
+          type: boolean
+    SystemInfo:
+      type: object
+      properties:
+        systemData:
+          type: array
+          description: System data.
+          items:
+            $ref: '#/components/schemas/SystemInfoData'
+        monolith:
+          type: boolean
+    AutoVersionCreateConfig:
+      type: object
+      properties:
+        saveRelations:
+          type: boolean
+        saveAttributes:
+          type: boolean
+        saveCredentials:
+          type: boolean
+        saveCalculatedFields:
+          type: boolean
+        branch:
+          type: string
     SystemInfoData:
       type: object
       properties:
@@ -976,10 +917,69 @@ components:
           type: integer
           format: int64
           description: Total disc space in bytes.
-    AutoCommitSettings:
+    RepositorySettings:
       type: object
-      additionalProperties:
-        $ref: '#/components/schemas/AutoVersionCreateConfig'
+      description: A JSON value representing the Repository Settings.
+      properties:
+        repositoryUri:
+          type: string
+        authMethod:
+          type: string
+          enum:
+          - USERNAME_PASSWORD
+          - PRIVATE_KEY
+        username:
+          type: string
+        password:
+          type: string
+        privateKeyFileName:
+          type: string
+        privateKey:
+          type: string
+        privateKeyPassword:
+          type: string
+        defaultBranch:
+          type: string
+        readOnly:
+          type: boolean
+        showMergeCommits:
+          type: boolean
+        localOnly:
+          type: boolean
+    AdminSettingsId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - ADMIN_SETTINGS
+          example: ADMIN_SETTINGS
+      required:
+      - entityType
+      - id
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
   securitySchemes:
     HTTP_login_form:
       type: http

@@ -391,10 +391,120 @@ paths:
           description: OK
 components:
   schemas:
+    EntityRelationsQuery:
+      type: object
+      description: A JSON value representing the entity relations query object.
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RelationsSearchParameters'
+          description: Main search parameters.
+        filters:
+          type: array
+          description: Main filters.
+          items:
+            $ref: '#/components/schemas/RelationEntityTypeFilter'
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
+    EntityRelationInfo:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        fromName:
+          type: string
+          description: Name of the entity for [from] direction.
+          example: A4B72CCDFF33
+          readOnly: true
+        toName:
+          type: string
+          description: Name of the entity for [to] direction.
+          example: A4B72CCDFF35
+          readOnly: true
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
+    RelationEntityTypeFilter:
+      type: object
+      properties:
+        relationType:
+          type: string
+          description: Type of the relation between root entity and other entity (e.g. 'Contains' or 'Manages').
+          example: Contains
+        entityTypes:
+          type: array
+          description: Array of entity types to filter the related entities (e.g. 'DEVICE', 'ASSET').
+          items:
+            type: string
+            enum:
+            - TENANT
+            - CUSTOMER
+            - USER
+            - DASHBOARD
+            - ASSET
+            - DEVICE
+            - ALARM
+            - RULE_CHAIN
+            - RULE_NODE
+            - ENTITY_VIEW
+            - WIDGETS_BUNDLE
+            - WIDGET_TYPE
+            - TENANT_PROFILE
+            - DEVICE_PROFILE
+            - ASSET_PROFILE
+            - API_USAGE_STATE
+            - TB_RESOURCE
+            - OTA_PACKAGE
+            - EDGE
+            - RPC
+            - QUEUE
+            - NOTIFICATION_TARGET
+            - NOTIFICATION_TEMPLATE
+            - NOTIFICATION_REQUEST
+            - NOTIFICATION
+            - NOTIFICATION_RULE
+            - QUEUE_STATS
+            - OAUTH2_CLIENT
+            - DOMAIN
+            - MOBILE_APP
+            - MOBILE_APP_BUNDLE
+            - CALCULATED_FIELD
+            - JOB
+            - ADMIN_SETTINGS
+            - AI_MODEL
+            - API_KEY
+        negate:
+          type: boolean
+          description: Negate relation type between root entity and other entity.
     EntityId:
       type: object
       properties:
@@ -446,6 +556,43 @@ components:
       required:
       - entityType
       - id
+    EntityRelation:
+      type: object
+      description: A JSON value representing the relation.
+      properties:
+        from:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [from] Entity Id.
+        to:
+          $ref: '#/components/schemas/EntityId'
+          description: JSON object with [to] Entity Id.
+        type:
+          type: string
+          description: String value of relation type.
+          example: Contains
+          minLength: 1
+        typeGroup:
+          type: string
+          description: Represents the type group of the relation.
+          enum:
+          - COMMON
+          - DASHBOARD
+          - RULE_CHAIN
+          - RULE_NODE
+          - EDGE
+          - EDGE_AUTO_ASSIGN_RULE_CHAIN
+          example: COMMON
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+          description: Additional parameters of the relation
+      required:
+      - from
+      - to
+      - type
+      - typeGroup
     RelationsSearchParameters:
       type: object
       properties:
@@ -517,153 +664,6 @@ components:
         fetchLastLevelOnly:
           type: boolean
           description: Fetch entities that match the last level of search. Useful to find Devices that are strictly 'maxLevel' relations away from the root entity.
-    RelationEntityTypeFilter:
-      type: object
-      properties:
-        relationType:
-          type: string
-          description: Type of the relation between root entity and other entity (e.g. 'Contains' or 'Manages').
-          example: Contains
-        entityTypes:
-          type: array
-          description: Array of entity types to filter the related entities (e.g. 'DEVICE', 'ASSET').
-          items:
-            type: string
-            enum:
-            - TENANT
-            - CUSTOMER
-            - USER
-            - DASHBOARD
-            - ASSET
-            - DEVICE
-            - ALARM
-            - RULE_CHAIN
-            - RULE_NODE
-            - ENTITY_VIEW
-            - WIDGETS_BUNDLE
-            - WIDGET_TYPE
-            - TENANT_PROFILE
-            - DEVICE_PROFILE
-            - ASSET_PROFILE
-            - API_USAGE_STATE
-            - TB_RESOURCE
-            - OTA_PACKAGE
-            - EDGE
-            - RPC
-            - QUEUE
-            - NOTIFICATION_TARGET
-            - NOTIFICATION_TEMPLATE
-            - NOTIFICATION_REQUEST
-            - NOTIFICATION
-            - NOTIFICATION_RULE
-            - QUEUE_STATS
-            - OAUTH2_CLIENT
-            - DOMAIN
-            - MOBILE_APP
-            - MOBILE_APP_BUNDLE
-            - CALCULATED_FIELD
-            - JOB
-            - ADMIN_SETTINGS
-            - AI_MODEL
-            - API_KEY
-        negate:
-          type: boolean
-          description: Negate relation type between root entity and other entity.
-    EntityRelationInfo:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [from] Entity Id.
-        to:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [to] Entity Id.
-        type:
-          type: string
-          description: String value of relation type.
-          example: Contains
-          minLength: 1
-        typeGroup:
-          type: string
-          description: Represents the type group of the relation.
-          enum:
-          - COMMON
-          - DASHBOARD
-          - RULE_CHAIN
-          - RULE_NODE
-          - EDGE
-          - EDGE_AUTO_ASSIGN_RULE_CHAIN
-          example: COMMON
-        version:
-          type: integer
-          format: int64
-        fromName:
-          type: string
-          description: Name of the entity for [from] direction.
-          example: A4B72CCDFF33
-          readOnly: true
-        toName:
-          type: string
-          description: Name of the entity for [to] direction.
-          example: A4B72CCDFF35
-          readOnly: true
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: Additional parameters of the relation
-      required:
-      - from
-      - to
-      - type
-      - typeGroup
-    EntityRelationsQuery:
-      type: object
-      description: A JSON value representing the entity relations query object.
-      properties:
-        parameters:
-          $ref: '#/components/schemas/RelationsSearchParameters'
-          description: Main search parameters.
-        filters:
-          type: array
-          description: Main filters.
-          items:
-            $ref: '#/components/schemas/RelationEntityTypeFilter'
-    EntityRelation:
-      type: object
-      description: A JSON value representing the relation.
-      properties:
-        from:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [from] Entity Id.
-        to:
-          $ref: '#/components/schemas/EntityId'
-          description: JSON object with [to] Entity Id.
-        type:
-          type: string
-          description: String value of relation type.
-          example: Contains
-          minLength: 1
-        typeGroup:
-          type: string
-          description: Represents the type group of the relation.
-          enum:
-          - COMMON
-          - DASHBOARD
-          - RULE_CHAIN
-          - RULE_NODE
-          - EDGE
-          - EDGE_AUTO_ASSIGN_RULE_CHAIN
-          example: COMMON
-        version:
-          type: integer
-          format: int64
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-          description: Additional parameters of the relation
-      required:
-      - from
-      - to
-      - type
-      - typeGroup
   securitySchemes:
     HTTP_login_form:
       type: http

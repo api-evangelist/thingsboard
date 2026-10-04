@@ -223,57 +223,6 @@ paths:
           description: OK
 components:
   schemas:
-    RuleEngineComponentLifecycleEventNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          ruleChains:
-            type: array
-            items:
-              type: string
-              format: uuid
-            uniqueItems: true
-          ruleChainEvents:
-            type: array
-            items:
-              type: string
-              enum:
-              - CREATED
-              - STARTED
-              - ACTIVATED
-              - SUSPENDED
-              - UPDATED
-              - STOPPED
-              - DELETED
-              - FAILED
-              - DEACTIVATED
-              - RELATION_UPDATED
-              - RELATION_DELETED
-            uniqueItems: true
-          onlyRuleChainLifecycleFailures:
-            type: boolean
-          trackRuleNodeEvents:
-            type: boolean
-          ruleNodeEvents:
-            type: array
-            items:
-              type: string
-              enum:
-              - CREATED
-              - STARTED
-              - ACTIVATED
-              - SUSPENDED
-              - UPDATED
-              - STOPPED
-              - DELETED
-              - FAILED
-              - DEACTIVATED
-              - RELATION_UPDATED
-              - RELATION_DELETED
-            uniqueItems: true
-          onlyRuleNodeLifecycleFailures:
-            type: boolean
     PageDataNotificationRuleInfo:
       type: object
       properties:
@@ -297,23 +246,354 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    ClearRule:
-      type: object
-      properties:
-        alarmStatuses:
-          type: array
-          items:
-            type: string
-            enum:
-            - ANY
-            - ACTIVE
-            - CLEARED
-            - ACK
-            - UNACK
-          uniqueItems: true
-    NewPlatformVersionNotificationRuleTriggerConfig:
+    ResourcesShortageNotificationRuleTriggerConfig:
       allOf:
       - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          cpuThreshold:
+            type: number
+            format: float
+            maximum: 1
+          ramThreshold:
+            type: number
+            format: float
+            maximum: 1
+          storageThreshold:
+            type: number
+            format: float
+            maximum: 1
+    NotificationRuleId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - NOTIFICATION_RULE
+          example: NOTIFICATION_RULE
+      required:
+      - entityType
+      - id
+    EscalatedNotificationRuleRecipientsConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleRecipientsConfig'
+      - type: object
+        properties:
+          escalationTable:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                type: string
+                format: uuid
+            minProperties: 1
+      required:
+      - escalationTable
+      - triggerType
+    EntityActionNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          entityTypes:
+            type: array
+            items:
+              type: string
+              enum:
+              - TENANT
+              - CUSTOMER
+              - USER
+              - DASHBOARD
+              - ASSET
+              - DEVICE
+              - ALARM
+              - RULE_CHAIN
+              - RULE_NODE
+              - ENTITY_VIEW
+              - WIDGETS_BUNDLE
+              - WIDGET_TYPE
+              - TENANT_PROFILE
+              - DEVICE_PROFILE
+              - ASSET_PROFILE
+              - API_USAGE_STATE
+              - TB_RESOURCE
+              - OTA_PACKAGE
+              - EDGE
+              - RPC
+              - QUEUE
+              - NOTIFICATION_TARGET
+              - NOTIFICATION_TEMPLATE
+              - NOTIFICATION_REQUEST
+              - NOTIFICATION
+              - NOTIFICATION_RULE
+              - QUEUE_STATS
+              - OAUTH2_CLIENT
+              - DOMAIN
+              - MOBILE_APP
+              - MOBILE_APP_BUNDLE
+              - CALCULATED_FIELD
+              - JOB
+              - ADMIN_SETTINGS
+              - AI_MODEL
+              - API_KEY
+            uniqueItems: true
+          created:
+            type: boolean
+          updated:
+            type: boolean
+          deleted:
+            type: boolean
+    DeviceActivityNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          devices:
+            type: array
+            items:
+              type: string
+              format: uuid
+            uniqueItems: true
+          deviceProfiles:
+            type: array
+            items:
+              type: string
+              format: uuid
+            uniqueItems: true
+          notifyOn:
+            type: array
+            items:
+              type: string
+              enum:
+              - ACTIVE
+              - INACTIVE
+            minItems: 1
+            uniqueItems: true
+      required:
+      - notifyOn
+    ApiUsageLimitNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          apiFeatures:
+            type: array
+            items:
+              type: string
+              enum:
+              - TRANSPORT
+              - DB
+              - RE
+              - JS
+              - TBEL
+              - EMAIL
+              - SMS
+              - ALARM
+            uniqueItems: true
+          notifyOn:
+            type: array
+            items:
+              type: string
+              enum:
+              - ENABLED
+              - WARNING
+              - DISABLED
+            uniqueItems: true
+    AlarmAssignmentNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          alarmTypes:
+            type: array
+            items:
+              type: string
+            uniqueItems: true
+          alarmSeverities:
+            type: array
+            items:
+              type: string
+              enum:
+              - CRITICAL
+              - MAJOR
+              - MINOR
+              - WARNING
+              - INDETERMINATE
+            uniqueItems: true
+          alarmStatuses:
+            type: array
+            items:
+              type: string
+              enum:
+              - ANY
+              - ACTIVE
+              - CLEARED
+              - ACK
+              - UNACK
+            uniqueItems: true
+          notifyOn:
+            type: array
+            items:
+              type: string
+              enum:
+              - ASSIGNED
+              - UNASSIGNED
+            minItems: 1
+            uniqueItems: true
+      required:
+      - notifyOn
+    NotificationRuleRecipientsConfig:
+      type: object
+      discriminator:
+        propertyName: triggerType
+      properties:
+        triggerType:
+          type: string
+          enum:
+          - ENTITY_ACTION
+          - ALARM
+          - ALARM_COMMENT
+          - ALARM_ASSIGNMENT
+          - DEVICE_ACTIVITY
+          - RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT
+          - EDGE_CONNECTION
+          - EDGE_COMMUNICATION_FAILURE
+          - NEW_PLATFORM_VERSION
+          - ENTITIES_LIMIT
+          - API_USAGE_LIMIT
+          - RATE_LIMITS
+          - TASK_PROCESSING_FAILURE
+          - RESOURCES_SHORTAGE
+      required:
+      - triggerType
+    AlarmNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          alarmTypes:
+            type: array
+            items:
+              type: string
+            uniqueItems: true
+          alarmSeverities:
+            type: array
+            items:
+              type: string
+              enum:
+              - CRITICAL
+              - MAJOR
+              - MINOR
+              - WARNING
+              - INDETERMINATE
+            uniqueItems: true
+          notifyOn:
+            type: array
+            items:
+              type: string
+              enum:
+              - CREATED
+              - SEVERITY_CHANGED
+              - ACKNOWLEDGED
+              - CLEARED
+            minItems: 1
+            uniqueItems: true
+          clearRule:
+            $ref: '#/components/schemas/ClearRule'
+      required:
+      - notifyOn
+    TaskProcessingFailureNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+    EdgeConnectionNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          edges:
+            type: array
+            items:
+              type: string
+              format: uuid
+            uniqueItems: true
+          notifyOn:
+            type: array
+            items:
+              type: string
+              enum:
+              - CONNECTED
+              - DISCONNECTED
+            uniqueItems: true
+    EdgeCommunicationFailureNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          edges:
+            type: array
+            items:
+              type: string
+              format: uuid
+            uniqueItems: true
+    NotificationTemplateId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - NOTIFICATION_TEMPLATE
+          example: NOTIFICATION_TEMPLATE
+      required:
+      - entityType
+      - id
+    AlarmCommentNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
+      - type: object
+        properties:
+          alarmTypes:
+            type: array
+            items:
+              type: string
+            uniqueItems: true
+          alarmSeverities:
+            type: array
+            items:
+              type: string
+              enum:
+              - CRITICAL
+              - MAJOR
+              - MINOR
+              - WARNING
+              - INDETERMINATE
+            uniqueItems: true
+          alarmStatuses:
+            type: array
+            items:
+              type: string
+              enum:
+              - ANY
+              - ACTIVE
+              - CLEARED
+              - ACK
+              - UNACK
+            uniqueItems: true
+          onlyUserComments:
+            type: boolean
+          notifyOnCommentUpdate:
+            type: boolean
     NotificationRuleInfo:
       type: object
       properties:
@@ -391,6 +671,9 @@ components:
       - templateId
       - triggerConfig
       - triggerType
+    NewPlatformVersionNotificationRuleTriggerConfig:
+      allOf:
+      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
     NotificationRuleTriggerConfig:
       type: object
       discriminator:
@@ -413,37 +696,50 @@ components:
           - RATE_LIMITS
           - TASK_PROCESSING_FAILURE
           - RESOURCES_SHORTAGE
-    TaskProcessingFailureNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-    DeviceActivityNotificationRuleTriggerConfig:
+    NotificationRuleConfig:
+      type: object
+      properties:
+        description:
+          type: string
+    RateLimitsNotificationRuleTriggerConfig:
       allOf:
       - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
       - type: object
         properties:
-          devices:
-            type: array
-            items:
-              type: string
-              format: uuid
-            uniqueItems: true
-          deviceProfiles:
-            type: array
-            items:
-              type: string
-              format: uuid
-            uniqueItems: true
-          notifyOn:
+          apis:
             type: array
             items:
               type: string
               enum:
-              - ACTIVE
-              - INACTIVE
-            minItems: 1
+              - ENTITY_EXPORT
+              - ENTITY_IMPORT
+              - NOTIFICATION_REQUESTS
+              - NOTIFICATION_REQUESTS_PER_RULE
+              - REST_REQUESTS_PER_TENANT
+              - REST_REQUESTS_PER_CUSTOMER
+              - WS_UPDATES_PER_SESSION
+              - CASSANDRA_WRITE_QUERIES_CORE
+              - CASSANDRA_READ_QUERIES_CORE
+              - CASSANDRA_WRITE_QUERIES_RULE_ENGINE
+              - CASSANDRA_READ_QUERIES_RULE_ENGINE
+              - CASSANDRA_READ_QUERIES_MONOLITH
+              - CASSANDRA_WRITE_QUERIES_MONOLITH
+              - CASSANDRA_QUERIES
+              - EDGE_EVENTS
+              - EDGE_EVENTS_PER_EDGE
+              - EDGE_UPLINK_MESSAGES
+              - EDGE_UPLINK_MESSAGES_PER_EDGE
+              - PASSWORD_RESET
+              - TWO_FA_VERIFICATION_CODE_SEND
+              - TWO_FA_VERIFICATION_CODE_CHECK
+              - TRANSPORT_MESSAGES_PER_TENANT
+              - TRANSPORT_MESSAGES_PER_DEVICE
+              - TRANSPORT_MESSAGES_PER_GATEWAY
+              - TRANSPORT_MESSAGES_PER_GATEWAY_DEVICE
+              - EMAILS
+              - WS_SUBSCRIPTIONS
+              - CALCULATED_FIELD_DEBUG_EVENTS
             uniqueItems: true
-      required:
-      - notifyOn
     EntitiesLimitNotificationRuleTriggerConfig:
       allOf:
       - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
@@ -495,288 +791,57 @@ components:
             type: number
             format: float
             maximum: 1
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
-    ApiUsageLimitNotificationRuleTriggerConfig:
+    RuleEngineComponentLifecycleEventNotificationRuleTriggerConfig:
       allOf:
       - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
       - type: object
         properties:
-          apiFeatures:
+          ruleChains:
             type: array
             items:
               type: string
-              enum:
-              - TRANSPORT
-              - DB
-              - RE
-              - JS
-              - TBEL
-              - EMAIL
-              - SMS
-              - ALARM
+              format: uuid
             uniqueItems: true
-          notifyOn:
-            type: array
-            items:
-              type: string
-              enum:
-              - ENABLED
-              - WARNING
-              - DISABLED
-            uniqueItems: true
-    EscalatedNotificationRuleRecipientsConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleRecipientsConfig'
-      - type: object
-        properties:
-          escalationTable:
-            type: object
-            additionalProperties:
-              type: array
-              items:
-                type: string
-                format: uuid
-            minProperties: 1
-      required:
-      - escalationTable
-      - triggerType
-    NotificationTemplateId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - NOTIFICATION_TEMPLATE
-          example: NOTIFICATION_TEMPLATE
-      required:
-      - entityType
-      - id
-    AlarmNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          alarmTypes:
-            type: array
-            items:
-              type: string
-            uniqueItems: true
-          alarmSeverities:
-            type: array
-            items:
-              type: string
-              enum:
-              - CRITICAL
-              - MAJOR
-              - MINOR
-              - WARNING
-              - INDETERMINATE
-            uniqueItems: true
-          notifyOn:
+          ruleChainEvents:
             type: array
             items:
               type: string
               enum:
               - CREATED
-              - SEVERITY_CHANGED
-              - ACKNOWLEDGED
-              - CLEARED
-            minItems: 1
+              - STARTED
+              - ACTIVATED
+              - SUSPENDED
+              - UPDATED
+              - STOPPED
+              - DELETED
+              - FAILED
+              - DEACTIVATED
+              - RELATION_UPDATED
+              - RELATION_DELETED
             uniqueItems: true
-          clearRule:
-            $ref: '#/components/schemas/ClearRule'
-      required:
-      - notifyOn
-    RateLimitsNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          apis:
-            type: array
-            items:
-              type: string
-              enum:
-              - ENTITY_EXPORT
-              - ENTITY_IMPORT
-              - NOTIFICATION_REQUESTS
-              - NOTIFICATION_REQUESTS_PER_RULE
-              - REST_REQUESTS_PER_TENANT
-              - REST_REQUESTS_PER_CUSTOMER
-              - WS_UPDATES_PER_SESSION
-              - CASSANDRA_WRITE_QUERIES_CORE
-              - CASSANDRA_READ_QUERIES_CORE
-              - CASSANDRA_WRITE_QUERIES_RULE_ENGINE
-              - CASSANDRA_READ_QUERIES_RULE_ENGINE
-              - CASSANDRA_READ_QUERIES_MONOLITH
-              - CASSANDRA_WRITE_QUERIES_MONOLITH
-              - CASSANDRA_QUERIES
-              - EDGE_EVENTS
-              - EDGE_EVENTS_PER_EDGE
-              - EDGE_UPLINK_MESSAGES
-              - EDGE_UPLINK_MESSAGES_PER_EDGE
-              - PASSWORD_RESET
-              - TWO_FA_VERIFICATION_CODE_SEND
-              - TWO_FA_VERIFICATION_CODE_CHECK
-              - TRANSPORT_MESSAGES_PER_TENANT
-              - TRANSPORT_MESSAGES_PER_DEVICE
-              - TRANSPORT_MESSAGES_PER_GATEWAY
-              - TRANSPORT_MESSAGES_PER_GATEWAY_DEVICE
-              - EMAILS
-              - WS_SUBSCRIPTIONS
-              - CALCULATED_FIELD_DEBUG_EVENTS
-            uniqueItems: true
-    NotificationRuleRecipientsConfig:
-      type: object
-      discriminator:
-        propertyName: triggerType
-      properties:
-        triggerType:
-          type: string
-          enum:
-          - ENTITY_ACTION
-          - ALARM
-          - ALARM_COMMENT
-          - ALARM_ASSIGNMENT
-          - DEVICE_ACTIVITY
-          - RULE_ENGINE_COMPONENT_LIFECYCLE_EVENT
-          - EDGE_CONNECTION
-          - EDGE_COMMUNICATION_FAILURE
-          - NEW_PLATFORM_VERSION
-          - ENTITIES_LIMIT
-          - API_USAGE_LIMIT
-          - RATE_LIMITS
-          - TASK_PROCESSING_FAILURE
-          - RESOURCES_SHORTAGE
-      required:
-      - triggerType
-    AlarmCommentNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          alarmTypes:
-            type: array
-            items:
-              type: string
-            uniqueItems: true
-          alarmSeverities:
-            type: array
-            items:
-              type: string
-              enum:
-              - CRITICAL
-              - MAJOR
-              - MINOR
-              - WARNING
-              - INDETERMINATE
-            uniqueItems: true
-          alarmStatuses:
-            type: array
-            items:
-              type: string
-              enum:
-              - ANY
-              - ACTIVE
-              - CLEARED
-              - ACK
-              - UNACK
-            uniqueItems: true
-          onlyUserComments:
+          onlyRuleChainLifecycleFailures:
             type: boolean
-          notifyOnCommentUpdate:
+          trackRuleNodeEvents:
             type: boolean
-    EdgeConnectionNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          edges:
-            type: array
-            items:
-              type: string
-              format: uuid
-            uniqueItems: true
-          notifyOn:
+          ruleNodeEvents:
             type: array
             items:
               type: string
               enum:
-              - CONNECTED
-              - DISCONNECTED
+              - CREATED
+              - STARTED
+              - ACTIVATED
+              - SUSPENDED
+              - UPDATED
+              - STOPPED
+              - DELETED
+              - FAILED
+              - DEACTIVATED
+              - RELATION_UPDATED
+              - RELATION_DELETED
             uniqueItems: true
-    EdgeCommunicationFailureNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          edges:
-            type: array
-            items:
-              type: string
-              format: uuid
-            uniqueItems: true
-    NotificationRuleConfig:
-      type: object
-      properties:
-        description:
-          type: string
-    NotificationRuleId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - NOTIFICATION_RULE
-          example: NOTIFICATION_RULE
-      required:
-      - entityType
-      - id
-    ResourcesShortageNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          cpuThreshold:
-            type: number
-            format: float
-            maximum: 1
-          ramThreshold:
-            type: number
-            format: float
-            maximum: 1
-          storageThreshold:
-            type: number
-            format: float
-            maximum: 1
+          onlyRuleNodeLifecycleFailures:
+            type: boolean
     NotificationRule:
       type: object
       properties:
@@ -841,102 +906,37 @@ components:
       - templateId
       - triggerConfig
       - triggerType
-    EntityActionNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          entityTypes:
-            type: array
-            items:
-              type: string
-              enum:
-              - TENANT
-              - CUSTOMER
-              - USER
-              - DASHBOARD
-              - ASSET
-              - DEVICE
-              - ALARM
-              - RULE_CHAIN
-              - RULE_NODE
-              - ENTITY_VIEW
-              - WIDGETS_BUNDLE
-              - WIDGET_TYPE
-              - TENANT_PROFILE
-              - DEVICE_PROFILE
-              - ASSET_PROFILE
-              - API_USAGE_STATE
-              - TB_RESOURCE
-              - OTA_PACKAGE
-              - EDGE
-              - RPC
-              - QUEUE
-              - NOTIFICATION_TARGET
-              - NOTIFICATION_TEMPLATE
-              - NOTIFICATION_REQUEST
-              - NOTIFICATION
-              - NOTIFICATION_RULE
-              - QUEUE_STATS
-              - OAUTH2_CLIENT
-              - DOMAIN
-              - MOBILE_APP
-              - MOBILE_APP_BUNDLE
-              - CALCULATED_FIELD
-              - JOB
-              - ADMIN_SETTINGS
-              - AI_MODEL
-              - API_KEY
-            uniqueItems: true
-          created:
-            type: boolean
-          updated:
-            type: boolean
-          deleted:
-            type: boolean
-    AlarmAssignmentNotificationRuleTriggerConfig:
-      allOf:
-      - $ref: '#/components/schemas/NotificationRuleTriggerConfig'
-      - type: object
-        properties:
-          alarmTypes:
-            type: array
-            items:
-              type: string
-            uniqueItems: true
-          alarmSeverities:
-            type: array
-            items:
-              type: string
-              enum:
-              - CRITICAL
-              - MAJOR
-              - MINOR
-              - WARNING
-              - INDETERMINATE
-            uniqueItems: true
-          alarmStatuses:
-            type: array
-            items:
-              type: string
-              enum:
-              - ANY
-              - ACTIVE
-              - CLEARED
-              - ACK
-              - UNACK
-            uniqueItems: true
-          notifyOn:
-            type: array
-            items:
-              type: string
-              enum:
-              - ASSIGNED
-              - UNASSIGNED
-            minItems: 1
-            uniqueItems: true
+    ClearRule:
+      type: object
+      properties:
+        alarmStatuses:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANY
+            - ACTIVE
+            - CLEARED
+            - ACK
+            - UNACK
+          uniqueItems: true
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
       required:
-      - notifyOn
+      - entityType
+      - id
   securitySchemes:
     HTTP_login_form:
       type: http
