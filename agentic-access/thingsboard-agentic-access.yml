@@ -1,150 +1,48 @@
-generated: '2026-07-15'
+generated: '2026-09-23'
 method: generated
-source: openapi/thingsboard-admin-openapi.yml, openapi/thingsboard-ai-openapi.yml, openapi/thingsboard-alarms-openapi.yml,
-  openapi/thingsboard-assets-openapi.yml, openapi/thingsboard-auth-openapi.yml, openapi/thingsboard-dashboards-openapi.yml,
-  openapi/thingsboard-devices-openapi.yml, openapi/thingsboard-edge-openapi.yml, openapi/thingsboard-lwm2m-openapi.yml,
-  openapi/thingsboard-mobile-openapi.yml, openapi/thingsboard-notifications-openapi.yml, openapi/thingsboard-rpc-openapi.yml,
-  openapi/thingsboard-rule-engine-openapi.yml, openapi/thingsboard-telemetry-openapi.yml, openapi/thingsboard-tenants-openapi.yml
+source: openapi/thingsboard-admin-controller-api-openapi.yml, openapi/thingsboard-ai-model-controller-api-openapi.yml,
+  openapi/thingsboard-alarm-comment-controller-api-openapi.yml, openapi/thingsboard-alarm-controller-api-openapi.yml,
+  openapi/thingsboard-api-key-controller-api-openapi.yml, openapi/thingsboard-asset-controller-api-openapi.yml,
+  openapi/thingsboard-asset-profile-controller-api-openapi.yml, openapi/thingsboard-audit-log-controller-api-openapi.yml,
+  openapi/thingsboard-auth-controller-api-openapi.yml, openapi/thingsboard-calculated-field-controller-api-openapi.yml,
+  openapi/thingsboard-component-descriptor-controller-api-openapi.yml, openapi/thingsboard-customer-controller-api-openapi.yml,
+  openapi/thingsboard-dashboard-controller-api-openapi.yml, openapi/thingsboard-device-connectivity-controller-api-openapi.yml,
+  openapi/thingsboard-device-controller-api-openapi.yml, openapi/thingsboard-device-profile-controller-api-openapi.yml,
+  openapi/thingsboard-domain-controller-api-openapi.yml, openapi/thingsboard-edge-controller-api-openapi.yml,
+  openapi/thingsboard-edge-event-controller-api-openapi.yml, openapi/thingsboard-entities-version-control-controller-api-openapi.yml,
+  openapi/thingsboard-entity-query-controller-api-openapi.yml, openapi/thingsboard-entity-relation-controller-api-openapi.yml,
+  openapi/thingsboard-entity-view-controller-api-openapi.yml, openapi/thingsboard-event-controller-api-openapi.yml,
+  openapi/thingsboard-image-controller-api-openapi.yml, openapi/thingsboard-job-controller-api-openapi.yml,
+  openapi/thingsboard-login-endpoint-api-openapi.yml, openapi/thingsboard-lwm-2m-controller-api-openapi.yml,
+  openapi/thingsboard-mail-config-template-controller-api-openapi.yml, openapi/thingsboard-mobile-app-bundle-controller-api-openapi.yml,
+  openapi/thingsboard-mobile-app-controller-api-openapi.yml, openapi/thingsboard-notification-controller-api-openapi.yml,
+  openapi/thingsboard-notification-rule-controller-api-openapi.yml, openapi/thingsboard-notification-target-controller-api-openapi.yml,
+  openapi/thingsboard-notification-template-controller-api-openapi.yml, openapi/thingsboard-o-auth-2-config-template-controller-api-openapi.yml,
+  openapi/thingsboard-o-auth-2-controller-api-openapi.yml, openapi/thingsboard-ota-package-controller-api-openapi.yml,
+  openapi/thingsboard-qr-code-settings-controller-api-openapi.yml, openapi/thingsboard-queue-controller-api-openapi.yml,
+  openapi/thingsboard-queue-stats-controller-api-openapi.yml, openapi/thingsboard-rpc-v-1-controller-api-openapi.yml,
+  openapi/thingsboard-rpc-v-2-controller-api-openapi.yml, openapi/thingsboard-rule-chain-controller-api-openapi.yml,
+  openapi/thingsboard-rule-engine-controller-api-openapi.yml, openapi/thingsboard-sign-up-controller-api-openapi.yml,
+  openapi/thingsboard-tb-resource-controller-api-openapi.yml, openapi/thingsboard-telemetry-controller-api-openapi.yml,
+  openapi/thingsboard-tenant-controller-api-openapi.yml, openapi/thingsboard-tenant-profile-controller-api-openapi.yml,
+  openapi/thingsboard-trendz-controller-api-openapi.yml, openapi/thingsboard-two-factor-auth-config-controller-api-openapi.yml,
+  openapi/thingsboard-two-factor-auth-controller-api-openapi.yml, openapi/thingsboard-ui-settings-controller-api-openapi.yml,
+  openapi/thingsboard-usage-info-controller-api-openapi.yml, openapi/thingsboard-user-controller-api-openapi.yml,
+  openapi/thingsboard-widget-type-controller-api-openapi.yml, openapi/thingsboard-widgets-bundle-controller-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 491
   by_action_class:
-    connected: 263
-    acting: 228
+    acting: 213
+    connected: 278
   by_consequence:
-    read: 263
-    safety-critical: 226
+    safety-critical: 211
+    read: 278
     write: 2
-  human_in_the_loop_required: 226
+  human_in_the_loop_required: 211
 operations:
-- path: /api/queues
-  method: get
-  operationId: getTenantQueuesByServiceType
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/queues
-  method: post
-  operationId: saveQueue
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/mobile/qr/settings
-  method: get
-  operationId: getQrCodeSettings
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/mobile/qr/settings
-  method: post
-  operationId: saveQrCodeSettings
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/job/{id}/reprocess
-  method: post
-  operationId: reprocessJob
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/job/{id}/cancel
-  method: post
-  operationId: cancelJob
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/events/{entityType}/{entityId}
-  method: get
-  operationId: getEvents
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/events/{entityType}/{entityId}
-  method: post
-  operationId: getEvents_1
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/events/{entityType}/{entityId}/clear
-  method: post
-  operationId: clearEvents
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/admin/settings
   method: post
   operationId: saveAdminSettings
@@ -345,198 +243,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/usage
-  method: get
-  operationId: getTenantUsageInfo
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/queues/{queueId}
-  method: get
-  operationId: getQueueById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/queues/{queueId}
-  method: delete
-  operationId: deleteQueue
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/queues/name/{queueName}
-  method: get
-  operationId: getQueueByName
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/queueStats
-  method: get
-  operationId: getQueueStatsByIds
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/queueStats/{queueStatsId}
-  method: get
-  operationId: getQueueStatsById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/noauth/qr
-  method: get
-  operationId: getApplicationRedirect
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/noauth/qr/{secret}
-  method: get
-  operationId: getUserTokenByMobileSecret
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/mobile/qr/deepLink
-  method: get
-  operationId: getMobileAppDeepLink
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/mail/config/template
-  method: get
-  operationId: getClientRegistrationTemplates_1
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/jobs
-  method: get
-  operationId: getJobs
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/job/{id}
-  method: get
-  operationId: getJobById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/job/{id}
-  method: delete
-  operationId: deleteJob
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/events/{entityType}/{entityId}/{eventType}
-  method: get
-  operationId: getEvents_2
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/audit/logs
-  method: get
-  operationId: getAuditLogs
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/audit/logs/user/{userId}
-  method: get
-  operationId: getAuditLogsByUserId
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/audit/logs/entity/{entityType}/{entityId}
-  method: get
-  operationId: getAuditLogsByEntityId
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/audit/logs/customer/{customerId}
-  method: get
-  operationId: getAuditLogsByCustomerId
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/admin/updates
   method: get
   operationId: checkUpdates
@@ -637,52 +343,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /.well-known/assetlinks.json
-  method: get
-  operationId: getAssetLinks
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /.well-known/apple-app-site-association
-  method: get
-  operationId: getAppleAppSiteAssociation
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/trendz/settings
-  method: get
-  operationId: getTrendzSettings
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/trendz/settings
-  method: post
-  operationId: saveTrendzSettings
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/ai/model
   method: get
   operationId: getAiModels
@@ -751,22 +411,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/alarm
-  method: post
-  operationId: saveAlarm
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/alarm/{alarmId}/comment
   method: get
   operationId: getAlarmComments
@@ -780,6 +424,38 @@ operations:
 - path: /api/alarm/{alarmId}/comment
   method: post
   operationId: saveAlarmComment
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/alarm/{alarmId}/comment/{commentId}
+  method: delete
+  operationId: deleteAlarmComment
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/alarm
+  method: post
+  operationId: saveAlarm
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -937,22 +613,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/alarm/{alarmId}/comment/{commentId}
-  method: delete
-  operationId: deleteAlarmComment
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/alarm/{alarmId}/assign
   method: delete
   operationId: unassignAlarm
@@ -969,9 +629,41 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/v2/relation
+- path: /api/apiKey/{id}/enabled/{enabledValue}
+  method: put
+  operationId: enableApiKey
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/apiKey/{id}/description
+  method: put
+  operationId: updateApiKeyDescription
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/apiKey
   method: post
-  operationId: saveRelationV2
+  operationId: saveApiKey
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -985,25 +677,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/v2/relation
-  method: delete
-  operationId: deleteRelationV2
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/relations
+- path: /api/apiKeys/{userId}
   method: get
-  operationId: findByTo
+  operationId: getUserApiKeys
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1011,167 +687,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/relations
-  method: post
-  operationId: findByQuery
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/relations
+- path: /api/apiKey/{id}
   method: delete
-  operationId: deleteRelations
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/relations/info
-  method: get
-  operationId: findInfoByTo
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/relations/info
-  method: post
-  operationId: findInfoByQuery
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/relation
-  method: get
-  operationId: getRelation
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/relation
-  method: post
-  operationId: saveRelation
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/relation
-  method: delete
-  operationId: deleteRelation
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/entityViews
-  method: get
-  operationId: getEntityViewsByIds
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entityViews
-  method: post
-  operationId: findByQuery_1
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/entityView
-  method: post
-  operationId: saveEntityView
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/edge/{edgeId}/entityView/{entityViewId}
-  method: post
-  operationId: assignEntityViewToEdge
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/edge/{edgeId}/entityView/{entityViewId}
-  method: delete
-  operationId: unassignEntityViewFromEdge
+  operationId: deleteApiKey
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -1217,41 +735,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/customer/{customerId}/entityView/{entityViewId}
-  method: post
-  operationId: assignEntityViewToCustomer
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/customer/{customerId}/asset/{assetId}
   method: post
   operationId: assignAssetToCustomer
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/customer/public/entityView/{entityViewId}
-  method: post
-  operationId: assignEntityViewToPublicCustomer
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -1295,6 +781,16 @@ operations:
   method: post
   operationId: findByQuery_4
   x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/asset
+  method: post
+  operationId: saveAsset
+  x-agentic-access:
     action-class: acting
     consequence: safety-critical
     subject: required
@@ -1307,9 +803,121 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/asset
+- path: /api/asset/bulk_import
   method: post
-  operationId: saveAsset
+  operationId: processAssetsBulkImport
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/tenant/assets
+  method: get
+  operationId: getTenantAssets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenant/assetInfos
+  method: get
+  operationId: getTenantAssetInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/edge/{edgeId}/assets
+  method: get
+  operationId: getEdgeAssets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}/assets
+  method: get
+  operationId: getCustomerAssets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}/assetInfos
+  method: get
+  operationId: getCustomerAssetInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/asset/{assetId}
+  method: get
+  operationId: getAssetById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/asset/{assetId}
+  method: delete
+  operationId: deleteAsset
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/asset/types
+  method: get
+  operationId: getAssetTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/asset/info/{assetId}
+  method: get
+  operationId: getAssetInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/asset/{assetId}
+  method: delete
+  operationId: unassignAssetFromCustomer
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -1355,168 +963,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/asset/bulk_import
-  method: post
-  operationId: processAssetsBulkImport
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/tenant/entityViews
-  method: get
-  operationId: getTenantEntityViews
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenant/entityViewInfos
-  method: get
-  operationId: getTenantEntityViewInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenant/assets
-  method: get
-  operationId: getTenantAssets
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenant/assetInfos
-  method: get
-  operationId: getTenantAssetInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entityView/{entityViewId}
-  method: get
-  operationId: getEntityViewById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entityView/{entityViewId}
-  method: delete
-  operationId: deleteEntityView
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/entityView/types
-  method: get
-  operationId: getEntityViewTypes
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entityView/info/{entityViewId}
-  method: get
-  operationId: getEntityViewInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/edge/{edgeId}/entityViews
-  method: get
-  operationId: getEdgeEntityViews
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/edge/{edgeId}/assets
-  method: get
-  operationId: getEdgeAssets
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/entityViews
-  method: get
-  operationId: getCustomerEntityViews
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/entityViewInfos
-  method: get
-  operationId: getCustomerEntityViewInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/assets
-  method: get
-  operationId: getCustomerAssets
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/assetInfos
-  method: get
-  operationId: getCustomerAssetInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/assetProfiles
   method: get
   operationId: getAssetProfiles
@@ -1593,9 +1039,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/asset/{assetId}
+- path: /api/audit/logs
   method: get
-  operationId: getAssetById
+  operationId: getAuditLogs
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1603,25 +1049,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/asset/{assetId}
-  method: delete
-  operationId: deleteAsset
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/asset/types
+- path: /api/audit/logs/user/{userId}
   method: get
-  operationId: getAssetTypes
+  operationId: getAuditLogsByUserId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1629,9 +1059,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/asset/info/{assetId}
+- path: /api/audit/logs/entity/{entityType}/{entityId}
   method: get
-  operationId: getAssetInfoById
+  operationId: getAuditLogsByEntityId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1639,183 +1069,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/customer/entityView/{entityViewId}
-  method: delete
-  operationId: unassignEntityViewFromCustomer
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/customer/asset/{assetId}
-  method: delete
-  operationId: unassignAssetFromCustomer
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/auth/login
-  method: post
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /api/auth/token
-  method: post
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /api/domain/{id}/oauth2Clients
-  method: put
-  operationId: updateOauth2Clients_1
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/apiKey/{id}/enabled/{enabledValue}
-  method: put
-  operationId: enableApiKey
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/apiKey/{id}/description
-  method: put
-  operationId: updateApiKeyDescription
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/2fa/account/config
-  method: put
-  operationId: updateTwoFaAccountConfig
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/2fa/account/config
-  method: post
-  operationId: verifyAndSaveTwoFaAccountConfig
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/2fa/account/config
-  method: delete
-  operationId: deleteTwoFaAccountConfig
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/signup/acceptPrivacyPolicy
-  method: post
-  operationId: acceptPrivacyPolicy
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/oauth2/config/template
+- path: /api/audit/logs/customer/{customerId}
   method: get
-  operationId: getClientRegistrationTemplates
+  operationId: getAuditLogsByCustomerId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1823,54 +1079,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/oauth2/config/template
-  method: post
-  operationId: saveClientRegistrationTemplate
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/oauth2/client
-  method: post
-  operationId: saveOAuth2Client
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/noauth/signup
-  method: post
-  operationId: signUp
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/noauth/resetPassword
   method: get
   operationId: checkResetToken
@@ -1913,38 +1121,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/noauth/resendEmailActivation
-  method: post
-  operationId: resendEmailActivation
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/noauth/oauth2Clients
-  method: post
-  operationId: getOAuth2Clients
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/noauth/activate
   method: get
   operationId: checkActivateToken
@@ -1958,38 +1134,6 @@ operations:
 - path: /api/noauth/activate
   method: post
   operationId: activateUser
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/noauth/activateByEmailCode
-  method: post
-  operationId: activateUserByEmailCode
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/domain
-  method: post
-  operationId: saveDomain
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -2035,247 +1179,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/auth/2fa/verification/send
-  method: post
-  operationId: requestTwoFaVerificationCode
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/auth/2fa/verification/check
-  method: post
-  operationId: checkTwoFaVerificationCode
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/auth/2fa/login
-  method: post
-  operationId: authenticateByTwoFaConfigurationToken
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/apiKey
-  method: post
-  operationId: saveApiKey
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/2fa/settings
-  method: get
-  operationId: getPlatformTwoFaSettings
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/2fa/settings
-  method: post
-  operationId: savePlatformTwoFaSettings
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/2fa/account/config/submit
-  method: post
-  operationId: submitTwoFaAccountConfig
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/2fa/account/config/generate
-  method: post
-  operationId: generateTwoFaAccountConfig
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/signup/privacyPolicyAccepted
-  method: get
-  operationId: privacyPolicyAccepted
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/oauth2/loginProcessingUrl
-  method: get
-  operationId: getLoginProcessingUrl
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/oauth2/client/{id}
-  method: get
-  operationId: getOAuth2ClientById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/oauth2/client/{id}
-  method: delete
-  operationId: deleteOauth2Client
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/oauth2/client/infos
-  method: get
-  operationId: findTenantOAuth2ClientInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/noauth/userPasswordPolicy
   method: get
   operationId: getUserPasswordPolicy
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/noauth/signup/recaptchaPublicKey
-  method: get
-  operationId: getRecaptchaPublicKey
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/noauth/signup/recaptchaParams
-  method: get
-  operationId: getRecaptchaParams
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/noauth/login
-  method: get
-  operationId: mobileLogin
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/noauth/activateEmail
-  method: get
-  operationId: activateEmail
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/domain/infos
-  method: get
-  operationId: getTenantDomainInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/domain/info/{id}
-  method: get
-  operationId: getDomainInfoById
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2293,245 +1199,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/auth/2fa/providers
-  method: get
-  operationId: getAvailableTwoFaProviders
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/apiKeys/{userId}
-  method: get
-  operationId: getUserApiKeys
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/2fa/providers
-  method: get
-  operationId: getAvailableTwoFaProviders_1
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/2fa/account/settings
-  method: get
-  operationId: getAccountTwoFaSettings
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/signup/tenantAccount
-  method: delete
-  operationId: deleteTenantAccount
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/oauth2/config/template/{clientRegistrationTemplateId}
-  method: delete
-  operationId: deleteClientRegistrationTemplate
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/domain/{id}
-  method: delete
-  operationId: deleteDomain
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/apiKey/{id}
-  method: delete
-  operationId: deleteApiKey
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/resource/{id}/info
-  method: put
-  operationId: updateResourceInfo
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/resource/{id}/data
-  method: put
-  operationId: updateResourceData
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/images/{type}/{key}
-  method: get
-  operationId: downloadImage
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/images/{type}/{key}
-  method: put
-  operationId: updateImage
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/images/{type}/{key}
-  method: delete
-  operationId: deleteImage
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/images/{type}/{key}/public/{isPublic}
-  method: put
-  operationId: updateImagePublicStatus
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/images/{type}/{key}/info
-  method: get
-  operationId: getImageInfo
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/images/{type}/{key}/info
-  method: put
-  operationId: updateImageInfo
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/image/import
-  method: put
-  operationId: importImage
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/widgetsBundle
+- path: /api/calculatedField
   method: post
-  operationId: saveWidgetsBundle
+  operationId: saveCalculatedField
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -2545,9 +1215,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/widgetsBundle/{widgetsBundleId}/widgetTypes
+- path: /api/calculatedField/testScript
   method: post
-  operationId: updateWidgetsBundleWidgetTypes
+  operationId: testScript_1
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -2561,25 +1231,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/widgetsBundle/{widgetsBundleId}/widgetTypeFqns
-  method: post
-  operationId: updateWidgetsBundleWidgetFqns
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/widgetType
+- path: /api/{entityType}/{entityId}/calculatedFields
   method: get
-  operationId: getWidgetTypeByBundleAliasAndTypeAlias
+  operationId: getCalculatedFieldsByEntityId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2587,9 +1241,39 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/widgetType
-  method: post
-  operationId: saveWidgetType
+- path: /api/calculatedFields
+  method: get
+  operationId: getCalculatedFields
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/calculatedFields/names
+  method: get
+  operationId: getCalculatedFieldNames
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/calculatedField/{calculatedFieldId}
+  method: get
+  operationId: getCalculatedFieldById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/calculatedField/{calculatedFieldId}
+  method: delete
+  operationId: deleteCalculatedField
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -2603,6 +1287,128 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
+- path: /api/calculatedField/{calculatedFieldId}/debug
+  method: get
+  operationId: getLatestCalculatedFieldDebugEvent
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/components
+  method: get
+  operationId: getComponentDescriptorsByTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/components/{componentType}
+  method: get
+  operationId: getComponentDescriptorsByType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/component/{componentDescriptorClazz}
+  method: get
+  operationId: getComponentDescriptorByClazz
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer
+  method: post
+  operationId: saveCustomer
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/tenant/customers
+  method: get
+  operationId: getTenantCustomer
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customers
+  method: get
+  operationId: getCustomers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}
+  method: get
+  operationId: getCustomerById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}
+  method: delete
+  operationId: deleteCustomer
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/customer/{customerId}/title
+  method: get
+  operationId: getCustomerTitleById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}/shortInfo
+  method: get
+  operationId: getShortCustomerInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /api/tenant/dashboard/home/info
   method: get
   operationId: getTenantHomeDashboardInfo
@@ -2616,64 +1422,6 @@ operations:
 - path: /api/tenant/dashboard/home/info
   method: post
   operationId: setTenantHomeDashboardInfo
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/resource
-  method: get
-  operationId: getResources
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource
-  method: post
-  operationId: saveResource
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/resource/upload
-  method: post
-  operationId: uploadResource
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/image
-  method: post
-  operationId: uploadImage
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -2847,128 +1595,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/widgetsBundles
-  method: get
-  operationId: getWidgetsBundles
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetsBundle/{widgetsBundleId}
-  method: get
-  operationId: getWidgetsBundleById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetsBundle/{widgetsBundleId}
-  method: delete
-  operationId: deleteWidgetsBundle
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/widgetTypes
-  method: get
-  operationId: getBundleWidgetTypes
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetTypesInfos
-  method: get
-  operationId: getBundleWidgetTypesInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetTypesDetails
-  method: get
-  operationId: getBundleWidgetTypesDetails
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetTypeInfo/{widgetTypeId}
-  method: get
-  operationId: getWidgetTypeInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetTypeFqns
-  method: get
-  operationId: getBundleWidgetTypeFqns
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetType/{widgetTypeId}
-  method: get
-  operationId: getWidgetTypeById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/widgetType/{widgetTypeId}
-  method: delete
-  operationId: deleteWidgetType
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/uiSettings/helpBaseUrl
-  method: get
-  operationId: getHelpBaseUrl
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/tenant/{tenantId}/dashboards
   method: get
   operationId: getTenantDashboards
@@ -2982,182 +1608,6 @@ operations:
 - path: /api/tenant/dashboards
   method: get
   operationId: getTenantDashboards_1
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/{resourceType}/{scope}/{key}
-  method: get
-  operationId: downloadResourceIfChanged
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/{resourceType}/{scope}/{key}/info
-  method: get
-  operationId: getResourceInfo
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/{resourceId}
-  method: get
-  operationId: getResourceById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/{resourceId}
-  method: delete
-  operationId: deleteResource
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/resource/{resourceId}/download
-  method: get
-  operationId: downloadResource
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/tenant
-  method: get
-  operationId: getTenantResources
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/pkcs12/{resourceId}/download
-  method: get
-  operationId: downloadPkcs12ResourceIfChanged
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/lwm2m
-  method: get
-  operationId: getLwm2mListObjects
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/lwm2m/{resourceId}/download
-  method: get
-  operationId: downloadLwm2mResourceIfChanged
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/lwm2m/page
-  method: get
-  operationId: getLwm2mListObjectsPage
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/js/{resourceId}/download
-  method: get
-  operationId: downloadJsResourceIfChanged
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/jks/{resourceId}/download
-  method: get
-  operationId: downloadJksResourceIfChanged
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/resource/info/{resourceId}
-  method: get
-  operationId: getResourceInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/images
-  method: get
-  operationId: getImages
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/images/{type}/{key}/preview
-  method: get
-  operationId: downloadImagePreview
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/images/{type}/{key}/export
-  method: get
-  operationId: exportImage
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/images/public/{publicResourceKey}
-  method: get
-  operationId: downloadPublicImage
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -3271,41 +1721,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/tenant/{tenantId}/device/{deviceId}
-  method: post
-  operationId: assignDeviceToTenant
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/otaPackage
-  method: post
-  operationId: saveOtaPackageInfo
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/otaPackage/{otaPackageId}
+- path: /api/device-connectivity/{protocol}/certificate/download
   method: get
-  operationId: getOtaPackageById
+  operationId: downloadServerCertificate
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -3313,25 +1731,29 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/otaPackage/{otaPackageId}
-  method: post
-  operationId: saveOtaPackageData
+- path: /api/device-connectivity/{deviceId}
+  method: get
+  operationId: getDevicePublishTelemetryCommands
   x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/otaPackage/{otaPackageId}
-  method: delete
-  operationId: deleteOtaPackage
+      max-ttl: 3600
+    audit: none
+- path: /api/device-connectivity/gateway-launch/{deviceId}/docker-compose/download
+  method: get
+  operationId: downloadGatewayDockerCompose
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenant/{tenantId}/device/{deviceId}
+  method: post
+  operationId: assignDeviceToTenant
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -3391,53 +1813,15 @@ operations:
   method: post
   operationId: findByQuery_3
   x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/device
   method: post
   operationId: saveDevice
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/deviceProfile
-  method: post
-  operationId: saveDeviceProfile
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/deviceProfile/{deviceProfileId}/default
-  method: post
-  operationId: setDefaultDeviceProfile
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -3583,46 +1967,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/otaPackages
-  method: get
-  operationId: getOtaPackages
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/otaPackages/{deviceProfileId}/{type}
-  method: get
-  operationId: getOtaPackages_1
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/otaPackage/{otaPackageId}/download
-  method: get
-  operationId: downloadOtaPackage
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/otaPackage/info/{otaPackageId}
-  method: get
-  operationId: getOtaPackageInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/edge/{edgeId}/devices
   method: get
   operationId: getEdgeDevices
@@ -3643,6 +1987,130 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /api/device/{deviceId}
+  method: get
+  operationId: getDeviceById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/device/{deviceId}
+  method: delete
+  operationId: deleteDevice
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/device/{deviceId}/credentials
+  method: get
+  operationId: getDeviceCredentialsByDeviceId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/device/types
+  method: get
+  operationId: getDeviceTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/device/info/{deviceId}
+  method: get
+  operationId: getDeviceInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}/devices
+  method: get
+  operationId: getCustomerDevices
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}/deviceInfos
+  method: get
+  operationId: getCustomerDeviceInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/device/{deviceId}
+  method: delete
+  operationId: unassignDeviceFromCustomer
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/deviceProfile
+  method: post
+  operationId: saveDeviceProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/deviceProfile/{deviceProfileId}/default
+  method: post
+  operationId: setDefaultDeviceProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
 - path: /api/deviceProfiles
   method: get
   operationId: getDeviceProfiles
@@ -3739,19 +2207,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/device/{deviceId}
-  method: get
-  operationId: getDeviceById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/device/{deviceId}
-  method: delete
-  operationId: deleteDevice
+- path: /api/domain/{id}/oauth2Clients
+  method: put
+  operationId: updateOauth2Clients_1
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -3765,115 +2223,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/device/{deviceId}/credentials
-  method: get
-  operationId: getDeviceCredentialsByDeviceId
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/device/types
-  method: get
-  operationId: getDeviceTypes
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/device/info/{deviceId}
-  method: get
-  operationId: getDeviceInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/device-connectivity/{protocol}/certificate/download
-  method: get
-  operationId: downloadServerCertificate
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/device-connectivity/{deviceId}
-  method: get
-  operationId: getDevicePublishTelemetryCommands
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/device-connectivity/gateway-launch/{deviceId}/docker-compose/download
-  method: get
-  operationId: downloadGatewayDockerCompose
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/devices
-  method: get
-  operationId: getCustomerDevices
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/deviceInfos
-  method: get
-  operationId: getCustomerDeviceInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/device/{deviceId}
-  method: delete
-  operationId: unassignDeviceFromCustomer
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/entities/vc/version
-  method: get
-  operationId: listVersions
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/version
+- path: /api/domain
   method: post
-  operationId: saveEntitiesVersion
+  operationId: saveDomain
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -3887,9 +2239,29 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/entities/vc/entity
-  method: post
-  operationId: loadEntitiesVersion
+- path: /api/domain/infos
+  method: get
+  operationId: getTenantDomainInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/domain/info/{id}
+  method: get
+  operationId: getDomainInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/domain/{id}
+  method: delete
+  operationId: deleteDomain
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -3917,18 +2289,12 @@ operations:
   method: post
   operationId: findByQuery_2
   x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/edge
   method: post
   operationId: saveEdge
@@ -4045,96 +2411,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/entities/vc/version/{requestId}/status
-  method: get
-  operationId: getVersionCreateRequestStatus
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/version/{entityType}
-  method: get
-  operationId: listEntityTypeVersions
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/version/{entityType}/{externalEntityUuid}
-  method: get
-  operationId: listEntityVersions
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/info/{versionId}/{entityType}/{externalEntityUuid}
-  method: get
-  operationId: getEntityDataInfo
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/entity/{versionId}
-  method: get
-  operationId: listAllEntitiesAtVersion
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/entity/{requestId}/status
-  method: get
-  operationId: getVersionLoadRequestStatus
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/entity/{entityType}/{versionId}
-  method: get
-  operationId: listEntitiesAtVersion
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/diff/{entityType}/{internalEntityUuid}
-  method: get
-  operationId: compareEntityDataToVersion
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/entities/vc/branches
-  method: get
-  operationId: listBranches
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/edges/enabled
   method: get
   operationId: isEdgesSupportEnabled
@@ -4174,16 +2450,6 @@ operations:
 - path: /api/edge/{edgeId}/upgrade/available
   method: get
   operationId: isEdgeUpgradeAvailable
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/edge/{edgeId}/events
-  method: get
-  operationId: getEdgeEvents
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -4277,6 +2543,868 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
+- path: /api/edge/{edgeId}/events
+  method: get
+  operationId: getEdgeEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/version
+  method: get
+  operationId: listVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/version
+  method: post
+  operationId: saveEntitiesVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/entities/vc/entity
+  method: post
+  operationId: loadEntitiesVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/entities/vc/version/{requestId}/status
+  method: get
+  operationId: getVersionCreateRequestStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/version/{entityType}
+  method: get
+  operationId: listEntityTypeVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/version/{entityType}/{externalEntityUuid}
+  method: get
+  operationId: listEntityVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/info/{versionId}/{entityType}/{externalEntityUuid}
+  method: get
+  operationId: getEntityDataInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/entity/{versionId}
+  method: get
+  operationId: listAllEntitiesAtVersion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/entity/{requestId}/status
+  method: get
+  operationId: getVersionLoadRequestStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/entity/{entityType}/{versionId}
+  method: get
+  operationId: listEntitiesAtVersion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/diff/{entityType}/{internalEntityUuid}
+  method: get
+  operationId: compareEntityDataToVersion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entities/vc/branches
+  method: get
+  operationId: listBranches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entitiesQuery/find
+  method: post
+  operationId: findEntityDataByQuery
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entitiesQuery/find/keys
+  method: post
+  operationId: findAvailableEntityKeysByQuery
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entitiesQuery/count
+  method: post
+  operationId: countEntitiesByQuery
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/edqs/system/request
+  method: post
+  operationId: processSystemEdqsRequest
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/alarmsQuery/find
+  method: post
+  operationId: findAlarmDataByQuery
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/alarmsQuery/count
+  method: post
+  operationId: countAlarmsByQuery
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/edqs/state
+  method: get
+  operationId: getEdqsState
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/relation
+  method: post
+  operationId: saveRelationV2
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v2/relation
+  method: delete
+  operationId: deleteRelationV2
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/relations
+  method: get
+  operationId: findByTo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/relations
+  method: post
+  operationId: findByQuery
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/relations
+  method: delete
+  operationId: deleteRelations
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/relations/info
+  method: get
+  operationId: findInfoByTo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/relations/info
+  method: post
+  operationId: findInfoByQuery
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/relation
+  method: get
+  operationId: getRelation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/relation
+  method: post
+  operationId: saveRelation
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/relation
+  method: delete
+  operationId: deleteRelation
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/entityViews
+  method: get
+  operationId: getEntityViewsByIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entityViews
+  method: post
+  operationId: findByQuery_1
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entityView
+  method: post
+  operationId: saveEntityView
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/edge/{edgeId}/entityView/{entityViewId}
+  method: post
+  operationId: assignEntityViewToEdge
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/edge/{edgeId}/entityView/{entityViewId}
+  method: delete
+  operationId: unassignEntityViewFromEdge
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/customer/{customerId}/entityView/{entityViewId}
+  method: post
+  operationId: assignEntityViewToCustomer
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/customer/public/entityView/{entityViewId}
+  method: post
+  operationId: assignEntityViewToPublicCustomer
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/tenant/entityViews
+  method: get
+  operationId: getTenantEntityViews
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenant/entityViewInfos
+  method: get
+  operationId: getTenantEntityViewInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entityView/{entityViewId}
+  method: get
+  operationId: getEntityViewById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entityView/{entityViewId}
+  method: delete
+  operationId: deleteEntityView
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/entityView/types
+  method: get
+  operationId: getEntityViewTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/entityView/info/{entityViewId}
+  method: get
+  operationId: getEntityViewInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/edge/{edgeId}/entityViews
+  method: get
+  operationId: getEdgeEntityViews
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}/entityViews
+  method: get
+  operationId: getCustomerEntityViews
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/{customerId}/entityViewInfos
+  method: get
+  operationId: getCustomerEntityViewInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/customer/entityView/{entityViewId}
+  method: delete
+  operationId: unassignEntityViewFromCustomer
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/events/{entityType}/{entityId}
+  method: get
+  operationId: getEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/events/{entityType}/{entityId}
+  method: post
+  operationId: getEvents_1
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/events/{entityType}/{entityId}/clear
+  method: post
+  operationId: clearEvents
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/events/{entityType}/{entityId}/{eventType}
+  method: get
+  operationId: getEvents_2
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/images/{type}/{key}
+  method: get
+  operationId: downloadImage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/images/{type}/{key}
+  method: put
+  operationId: updateImage
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/images/{type}/{key}
+  method: delete
+  operationId: deleteImage
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/images/{type}/{key}/public/{isPublic}
+  method: put
+  operationId: updateImagePublicStatus
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/images/{type}/{key}/info
+  method: get
+  operationId: getImageInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/images/{type}/{key}/info
+  method: put
+  operationId: updateImageInfo
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/image/import
+  method: put
+  operationId: importImage
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/image
+  method: post
+  operationId: uploadImage
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/images
+  method: get
+  operationId: getImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/images/{type}/{key}/preview
+  method: get
+  operationId: downloadImagePreview
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/images/{type}/{key}/export
+  method: get
+  operationId: exportImage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/images/public/{publicResourceKey}
+  method: get
+  operationId: downloadPublicImage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/job/{id}/reprocess
+  method: post
+  operationId: reprocessJob
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/job/{id}/cancel
+  method: post
+  operationId: cancelJob
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/jobs
+  method: get
+  operationId: getJobs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/job/{id}
+  method: get
+  operationId: getJobById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/job/{id}
+  method: delete
+  operationId: deleteJob
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/auth/login
+  method: post
+  operationId: postApiAuthLogin
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/auth/token
+  method: post
+  operationId: postApiAuthToken
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /api/lwm2m/device-credentials
   method: post
   operationId: saveDeviceWithCredentials
@@ -4303,6 +3431,16 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /api/mail/config/template
+  method: get
+  operationId: getClientRegistrationTemplates_1
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /api/mobile/bundle/{id}/oauth2Clients
   method: put
   operationId: updateOauth2Clients
@@ -4322,6 +3460,42 @@ operations:
 - path: /api/mobile/bundle
   method: post
   operationId: saveMobileAppBundle
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/mobile/bundle/infos
+  method: get
+  operationId: getTenantMobileAppBundleInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/mobile/bundle/info/{id}
+  method: get
+  operationId: getMobileAppBundleInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/mobile/bundle/{id}
+  method: delete
+  operationId: deleteMobileAppBundle
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -4381,26 +3555,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/mobile/bundle/infos
-  method: get
-  operationId: getTenantMobileAppBundleInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/mobile/bundle/info/{id}
-  method: get
-  operationId: getMobileAppBundleInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/mobile/app/{id}
   method: get
   operationId: getMobileAppById
@@ -4414,22 +3568,6 @@ operations:
 - path: /api/mobile/app/{id}
   method: delete
   operationId: deleteMobileApp
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/mobile/bundle/{id}
-  method: delete
-  operationId: deleteMobileAppBundle
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -4462,54 +3600,6 @@ operations:
 - path: /api/notification/{id}/read
   method: put
   operationId: markNotificationAsRead
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/notification/template
-  method: post
-  operationId: saveNotificationTemplate
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/notification/target
-  method: post
-  operationId: saveNotificationTarget
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/notification/target/recipients
-  method: post
-  operationId: getRecipientsForNotificationTargetConfig
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -4575,22 +3665,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/notification/rule
-  method: post
-  operationId: saveNotificationRule
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/notification/request
   method: post
   operationId: createNotificationRequest
@@ -4611,18 +3685,12 @@ operations:
   method: post
   operationId: getNotificationRequestPreview
   x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/notification/entitiesLimitIncreaseRequest/{entityType}
   method: post
   operationId: sendEntitiesLimitIncreaseRequest
@@ -4659,124 +3727,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/notification/templates
-  method: get
-  operationId: getNotificationTemplates
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/notification/template/{id}
-  method: get
-  operationId: getNotificationTemplateById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/notification/template/{id}
-  method: delete
-  operationId: deleteNotificationTemplateById
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/notification/targets
-  method: get
-  operationId: getNotificationTargets
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/notification/target/{id}
-  method: get
-  operationId: getNotificationTargetById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/notification/target/{id}
-  method: delete
-  operationId: deleteNotificationTargetById
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/notification/slack/conversations
-  method: get
-  operationId: listSlackConversations
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/notification/rules
-  method: get
-  operationId: getNotificationRules
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/notification/rule/{id}
-  method: get
-  operationId: getNotificationRuleById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/notification/rule/{id}
-  method: delete
-  operationId: deleteNotificationRule
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/notification/requests
   method: get
   operationId: getNotificationRequests
@@ -4839,9 +3789,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/rpc/twoway/{deviceId}
+- path: /api/notification/rule
   method: post
-  operationId: handleTwoWayDeviceRPCRequest
+  operationId: saveNotificationRule
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -4855,9 +3805,29 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/rpc/oneway/{deviceId}
-  method: post
-  operationId: handleOneWayDeviceRPCRequest
+- path: /api/notification/rules
+  method: get
+  operationId: getNotificationRules
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/notification/rule/{id}
+  method: get
+  operationId: getNotificationRuleById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/notification/rule/{id}
+  method: delete
+  operationId: deleteNotificationRule
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -4871,6 +3841,500 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
+- path: /api/notification/target
+  method: post
+  operationId: saveNotificationTarget
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/notification/target/recipients
+  method: post
+  operationId: getRecipientsForNotificationTargetConfig
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/notification/targets
+  method: get
+  operationId: getNotificationTargets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/notification/target/{id}
+  method: get
+  operationId: getNotificationTargetById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/notification/target/{id}
+  method: delete
+  operationId: deleteNotificationTargetById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/notification/template
+  method: post
+  operationId: saveNotificationTemplate
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/notification/templates
+  method: get
+  operationId: getNotificationTemplates
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/notification/template/{id}
+  method: get
+  operationId: getNotificationTemplateById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/notification/template/{id}
+  method: delete
+  operationId: deleteNotificationTemplateById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/notification/slack/conversations
+  method: get
+  operationId: listSlackConversations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/oauth2/config/template
+  method: get
+  operationId: getClientRegistrationTemplates
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/oauth2/config/template
+  method: post
+  operationId: saveClientRegistrationTemplate
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/oauth2/config/template/{clientRegistrationTemplateId}
+  method: delete
+  operationId: deleteClientRegistrationTemplate
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/oauth2/client
+  method: post
+  operationId: saveOAuth2Client
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/noauth/oauth2Clients
+  method: post
+  operationId: getOAuth2Clients
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/oauth2/loginProcessingUrl
+  method: get
+  operationId: getLoginProcessingUrl
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/oauth2/client/{id}
+  method: get
+  operationId: getOAuth2ClientById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/oauth2/client/{id}
+  method: delete
+  operationId: deleteOauth2Client
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/oauth2/client/infos
+  method: get
+  operationId: findTenantOAuth2ClientInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/otaPackage
+  method: post
+  operationId: saveOtaPackageInfo
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/otaPackage/{otaPackageId}
+  method: get
+  operationId: getOtaPackageById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/otaPackage/{otaPackageId}
+  method: post
+  operationId: saveOtaPackageData
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/otaPackage/{otaPackageId}
+  method: delete
+  operationId: deleteOtaPackage
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/otaPackages
+  method: get
+  operationId: getOtaPackages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/otaPackages/{deviceProfileId}/{type}
+  method: get
+  operationId: getOtaPackages_1
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/otaPackage/{otaPackageId}/download
+  method: get
+  operationId: downloadOtaPackage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/otaPackage/info/{otaPackageId}
+  method: get
+  operationId: getOtaPackageInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/mobile/qr/settings
+  method: get
+  operationId: getQrCodeSettings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/mobile/qr/settings
+  method: post
+  operationId: saveQrCodeSettings
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/noauth/qr
+  method: get
+  operationId: getApplicationRedirect
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/noauth/qr/{secret}
+  method: get
+  operationId: getUserTokenByMobileSecret
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/mobile/qr/deepLink
+  method: get
+  operationId: getMobileAppDeepLink
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /.well-known/assetlinks.json
+  method: get
+  operationId: getAssetLinks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /.well-known/apple-app-site-association
+  method: get
+  operationId: getAppleAppSiteAssociation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/queues
+  method: get
+  operationId: getTenantQueuesByServiceType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/queues
+  method: post
+  operationId: saveQueue
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/queues/{queueId}
+  method: get
+  operationId: getQueueById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/queues/{queueId}
+  method: delete
+  operationId: deleteQueue
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/queues/name/{queueName}
+  method: get
+  operationId: getQueueByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/queueStats
+  method: get
+  operationId: getQueueStatsByIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/queueStats/{queueStatsId}
+  method: get
+  operationId: getQueueStatsById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /api/plugins/rpc/twoway/{deviceId}
   method: post
   operationId: handleTwoWayDeviceRPCRequest_1
@@ -4890,6 +4354,38 @@ operations:
 - path: /api/plugins/rpc/oneway/{deviceId}
   method: post
   operationId: handleOneWayDeviceRPCRequest_1
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/rpc/twoway/{deviceId}
+  method: post
+  operationId: handleTwoWayDeviceRPCRequest
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/rpc/oneway/{deviceId}
+  method: post
+  operationId: handleOneWayDeviceRPCRequest
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -5083,70 +4579,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/rule-engine/{entityType}/{entityId}
-  method: post
-  operationId: handleRuleEngineRequest
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/rule-engine/{entityType}/{entityId}/{timeout}
-  method: post
-  operationId: handleRuleEngineRequest_1
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/rule-engine/{entityType}/{entityId}/{queueName}/{timeout}
-  method: post
-  operationId: handleRuleEngineRequest_2
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/rule-engine/
-  method: post
-  operationId: handleRuleEngineRequest_3
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/edge/{edgeId}/ruleChain/{ruleChainId}
   method: post
   operationId: assignRuleChainToEdge
@@ -5295,9 +4727,137 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/components
+- path: /api/rule-engine/{entityType}/{entityId}
+  method: post
+  operationId: handleRuleEngineRequest
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/rule-engine/{entityType}/{entityId}/{timeout}
+  method: post
+  operationId: handleRuleEngineRequest_1
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/rule-engine/{entityType}/{entityId}/{queueName}/{timeout}
+  method: post
+  operationId: handleRuleEngineRequest_2
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/rule-engine/
+  method: post
+  operationId: handleRuleEngineRequest_3
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/signup/acceptPrivacyPolicy
+  method: post
+  operationId: acceptPrivacyPolicy
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/noauth/signup
+  method: post
+  operationId: signUp
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/noauth/resendEmailActivation
+  method: post
+  operationId: resendEmailActivation
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/noauth/activateByEmailCode
+  method: post
+  operationId: activateUserByEmailCode
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/signup/privacyPolicyAccepted
   method: get
-  operationId: getComponentDescriptorsByTypes
+  operationId: privacyPolicyAccepted
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -5305,9 +4865,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/components/{componentType}
+- path: /api/noauth/signup/recaptchaPublicKey
   method: get
-  operationId: getComponentDescriptorsByType
+  operationId: getRecaptchaPublicKey
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -5315,9 +4875,255 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/component/{componentDescriptorClazz}
+- path: /api/noauth/signup/recaptchaParams
   method: get
-  operationId: getComponentDescriptorByClazz
+  operationId: getRecaptchaParams
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/noauth/login
+  method: get
+  operationId: mobileLogin
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/noauth/activateEmail
+  method: get
+  operationId: activateEmail
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/signup/tenantAccount
+  method: delete
+  operationId: deleteTenantAccount
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/resource/{id}/info
+  method: put
+  operationId: updateResourceInfo
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/resource/{id}/data
+  method: put
+  operationId: updateResourceData
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/resource
+  method: get
+  operationId: getResources
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource
+  method: post
+  operationId: saveResource
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/resource/upload
+  method: post
+  operationId: uploadResource
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/resource/{resourceType}/{scope}/{key}
+  method: get
+  operationId: downloadResourceIfChanged
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/{resourceType}/{scope}/{key}/info
+  method: get
+  operationId: getResourceInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/{resourceId}
+  method: get
+  operationId: getResourceById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/{resourceId}
+  method: delete
+  operationId: deleteResource
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/resource/{resourceId}/download
+  method: get
+  operationId: downloadResource
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/tenant
+  method: get
+  operationId: getTenantResources
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/pkcs12/{resourceId}/download
+  method: get
+  operationId: downloadPkcs12ResourceIfChanged
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/lwm2m
+  method: get
+  operationId: getLwm2mListObjects
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/lwm2m/{resourceId}/download
+  method: get
+  operationId: downloadLwm2mResourceIfChanged
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/lwm2m/page
+  method: get
+  operationId: getLwm2mListObjectsPage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/js/{resourceId}/download
+  method: get
+  operationId: downloadJsResourceIfChanged
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/jks/{resourceId}/download
+  method: get
+  operationId: downloadJksResourceIfChanged
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/resource/info/{resourceId}
+  method: get
+  operationId: getResourceInfoById
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -5437,144 +5243,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/entitiesQuery/find
-  method: post
-  operationId: findEntityDataByQuery
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/entitiesQuery/find/keys
-  method: post
-  operationId: findAvailableEntityKeysByQuery
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/entitiesQuery/count
-  method: post
-  operationId: countEntitiesByQuery
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/edqs/system/request
-  method: post
-  operationId: processSystemEdqsRequest
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/calculatedField
-  method: post
-  operationId: saveCalculatedField
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/calculatedField/testScript
-  method: post
-  operationId: testScript_1
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/alarmsQuery/find
-  method: post
-  operationId: findAlarmDataByQuery
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/alarmsQuery/count
-  method: post
-  operationId: countAlarmsByQuery
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/{entityType}/{entityId}/calculatedFields
-  method: get
-  operationId: getCalculatedFieldsByEntityId
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/plugins/telemetry/{entityType}/{entityId}/values/timeseries
   method: get
   operationId: getLatestTimeseries
@@ -5635,72 +5303,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/edqs/state
-  method: get
-  operationId: getEdqsState
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/calculatedFields
-  method: get
-  operationId: getCalculatedFields
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/calculatedFields/names
-  method: get
-  operationId: getCalculatedFieldNames
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/calculatedField/{calculatedFieldId}
-  method: get
-  operationId: getCalculatedFieldById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/calculatedField/{calculatedFieldId}
-  method: delete
-  operationId: deleteCalculatedField
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/calculatedField/{calculatedFieldId}/debug
-  method: get
-  operationId: getLatestCalculatedFieldDebugEvent
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /api/plugins/telemetry/{entityType}/{entityId}/timeseries/delete
   method: delete
   operationId: deleteEntityTimeseries
@@ -5717,6 +5319,406 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
+- path: /api/tenant
+  method: post
+  operationId: saveTenant
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/tenants
+  method: get
+  operationId: getTenantsByIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenantInfos
+  method: get
+  operationId: getTenantInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenant/{tenantId}
+  method: get
+  operationId: getTenantById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenant/{tenantId}
+  method: delete
+  operationId: deleteTenant
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/tenant/info/{tenantId}
+  method: get
+  operationId: getTenantInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenantProfile
+  method: post
+  operationId: saveTenantProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/tenantProfile/{tenantProfileId}/default
+  method: post
+  operationId: setDefaultTenantProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/tenantProfiles
+  method: get
+  operationId: getTenantProfiles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenantProfileInfos
+  method: get
+  operationId: getTenantProfileInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenantProfileInfo/{tenantProfileId}
+  method: get
+  operationId: getTenantProfileInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenantProfileInfo/default
+  method: get
+  operationId: getDefaultTenantProfileInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenantProfile/{tenantProfileId}
+  method: get
+  operationId: getTenantProfileById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tenantProfile/{tenantProfileId}
+  method: delete
+  operationId: deleteTenantProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/trendz/settings
+  method: get
+  operationId: getTrendzSettings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/trendz/settings
+  method: post
+  operationId: saveTrendzSettings
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/2fa/account/config
+  method: put
+  operationId: updateTwoFaAccountConfig
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/2fa/account/config
+  method: post
+  operationId: verifyAndSaveTwoFaAccountConfig
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/2fa/account/config
+  method: delete
+  operationId: deleteTwoFaAccountConfig
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/2fa/settings
+  method: get
+  operationId: getPlatformTwoFaSettings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/2fa/settings
+  method: post
+  operationId: savePlatformTwoFaSettings
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/2fa/account/config/submit
+  method: post
+  operationId: submitTwoFaAccountConfig
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/2fa/account/config/generate
+  method: post
+  operationId: generateTwoFaAccountConfig
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/2fa/providers
+  method: get
+  operationId: getAvailableTwoFaProviders_1
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/2fa/account/settings
+  method: get
+  operationId: getAccountTwoFaSettings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/auth/2fa/verification/send
+  method: post
+  operationId: requestTwoFaVerificationCode
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/auth/2fa/verification/check
+  method: post
+  operationId: checkTwoFaVerificationCode
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/auth/2fa/login
+  method: post
+  operationId: authenticateByTwoFaConfigurationToken
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/auth/2fa/providers
+  method: get
+  operationId: getAvailableTwoFaProviders
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/uiSettings/helpBaseUrl
+  method: get
+  operationId: getHelpBaseUrl
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/usage
+  method: get
+  operationId: getTenantUsageInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /api/user/settings
   method: get
   operationId: getUserSettings
@@ -5875,70 +5877,6 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /api/tenant
-  method: post
-  operationId: saveTenant
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/tenantProfile
-  method: post
-  operationId: saveTenantProfile
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/tenantProfile/{tenantProfileId}/default
-  method: post
-  operationId: setDefaultTenantProfile
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/customer
-  method: post
-  operationId: saveCustomer
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/users
   method: get
   operationId: getUsersByIds
@@ -6055,118 +5993,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/tenants
-  method: get
-  operationId: getTenantsByIds
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenantProfiles
-  method: get
-  operationId: getTenantProfiles
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenantProfileInfos
-  method: get
-  operationId: getTenantProfileInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenantProfileInfo/{tenantProfileId}
-  method: get
-  operationId: getTenantProfileInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenantProfileInfo/default
-  method: get
-  operationId: getDefaultTenantProfileInfo
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenantProfile/{tenantProfileId}
-  method: get
-  operationId: getTenantProfileById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenantProfile/{tenantProfileId}
-  method: delete
-  operationId: deleteTenantProfile
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /api/tenantInfos
-  method: get
-  operationId: getTenantInfos
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenant/{tenantId}
-  method: get
-  operationId: getTenantById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenant/{tenantId}
-  method: delete
-  operationId: deleteTenant
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/tenant/{tenantId}/users
   method: get
   operationId: getTenantAdmins
@@ -6177,85 +6003,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /api/tenant/info/{tenantId}
-  method: get
-  operationId: getTenantInfoById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/tenant/customers
-  method: get
-  operationId: getTenantCustomer
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customers
-  method: get
-  operationId: getCustomers
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}
-  method: get
-  operationId: getCustomerById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}
-  method: delete
-  operationId: deleteCustomer
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
 - path: /api/customer/{customerId}/users
   method: get
   operationId: getCustomerUsers
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/title
-  method: get
-  operationId: getCustomerTitleById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /api/customer/{customerId}/shortInfo
-  method: get
-  operationId: getShortCustomerInfoById
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -6282,6 +6032,192 @@ operations:
 - path: /api/user/settings/{paths}
   method: delete
   operationId: deleteUserSettings_1
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/widgetType
+  method: get
+  operationId: getWidgetTypeByBundleAliasAndTypeAlias
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetType
+  method: post
+  operationId: saveWidgetType
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/widgetTypes
+  method: get
+  operationId: getBundleWidgetTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetTypesInfos
+  method: get
+  operationId: getBundleWidgetTypesInfos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetTypesDetails
+  method: get
+  operationId: getBundleWidgetTypesDetails
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetTypeInfo/{widgetTypeId}
+  method: get
+  operationId: getWidgetTypeInfoById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetTypeFqns
+  method: get
+  operationId: getBundleWidgetTypeFqns
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetType/{widgetTypeId}
+  method: get
+  operationId: getWidgetTypeById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetType/{widgetTypeId}
+  method: delete
+  operationId: deleteWidgetType
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/widgetsBundle
+  method: post
+  operationId: saveWidgetsBundle
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/widgetsBundle/{widgetsBundleId}/widgetTypes
+  method: post
+  operationId: updateWidgetsBundleWidgetTypes
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/widgetsBundle/{widgetsBundleId}/widgetTypeFqns
+  method: post
+  operationId: updateWidgetsBundleWidgetFqns
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/widgetsBundles
+  method: get
+  operationId: getWidgetsBundles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetsBundle/{widgetsBundleId}
+  method: get
+  operationId: getWidgetsBundleById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/widgetsBundle/{widgetsBundleId}
+  method: delete
+  operationId: deleteWidgetsBundle
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
