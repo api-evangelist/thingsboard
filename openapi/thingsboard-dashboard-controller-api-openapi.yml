@@ -756,24 +756,89 @@ paths:
                 $ref: '#/components/schemas/PageDataDashboardInfo'
 components:
   schemas:
-    ShortCustomerInfo:
-      type: object
-      properties:
-        customerId:
-          $ref: '#/components/schemas/CustomerId'
-          description: JSON object with the customer Id.
-        title:
-          type: string
-          description: Title of the customer.
-        isPublic:
-          type: boolean
-          writeOnly: true
-        public:
-          type: boolean
     JsonNode:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
+    PageDataDashboardInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/DashboardInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    DashboardId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - DASHBOARD
+          example: DASHBOARD
+      required:
+      - entityType
+      - id
+    ResourceExportData:
+      type: object
+      properties:
+        link:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+          - IMAGE
+          - DASHBOARD
+          - GENERAL
+        subType:
+          type: string
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+          - EXTENSION
+          - MODULE
+        resourceKey:
+          type: string
+        fileName:
+          type: string
+        publicResourceKey:
+          type: string
+        isPublic:
+          type: boolean
+          writeOnly: true
+        mediaType:
+          type: string
+        data:
+          type: string
+        public:
+          type: boolean
     DashboardInfo:
       type: object
       properties:
@@ -822,45 +887,47 @@ components:
           readOnly: true
       required:
       - title
-    ResourceExportData:
+    ShortCustomerInfo:
       type: object
       properties:
-        link:
-          type: string
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with the customer Id.
         title:
           type: string
-        type:
-          type: string
-          enum:
-          - LWM2M_MODEL
-          - JKS
-          - PKCS_12
-          - JS_MODULE
-          - IMAGE
-          - DASHBOARD
-          - GENERAL
-        subType:
-          type: string
-          enum:
-          - IMAGE
-          - SCADA_SYMBOL
-          - EXTENSION
-          - MODULE
-        resourceKey:
-          type: string
-        fileName:
-          type: string
-        publicResourceKey:
-          type: string
+          description: Title of the customer.
         isPublic:
           type: boolean
           writeOnly: true
-        mediaType:
-          type: string
-        data:
-          type: string
         public:
           type: boolean
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    HomeDashboardInfo:
+      type: object
+      description: A JSON object that represents home dashboard id and other parameters
+      properties:
+        dashboardId:
+          $ref: '#/components/schemas/DashboardId'
+          description: JSON object with the dashboard Id.
+        hideDashboardToolbar:
+          type: boolean
+          description: Hide dashboard toolbar flag. Useful for rendering dashboards on mobile.
     Dashboard:
       type: object
       properties:
@@ -916,56 +983,6 @@ components:
           format: int64
       required:
       - title
-    PageDataDashboardInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/DashboardInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    HomeDashboardInfo:
-      type: object
-      description: A JSON object that represents home dashboard id and other parameters
-      properties:
-        dashboardId:
-          $ref: '#/components/schemas/DashboardId'
-          description: JSON object with the dashboard Id.
-        hideDashboardToolbar:
-          type: boolean
-          description: Hide dashboard toolbar flag. Useful for rendering dashboards on mobile.
-    DashboardId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - DASHBOARD
-          example: DASHBOARD
-      required:
-      - entityType
-      - id
     CustomerId:
       type: object
       properties:
@@ -980,23 +997,6 @@ components:
           enum:
           - CUSTOMER
           example: CUSTOMER
-      required:
-      - entityType
-      - id
-    TenantId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
       required:
       - entityType
       - id

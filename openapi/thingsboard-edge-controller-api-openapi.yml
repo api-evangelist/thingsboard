@@ -794,20 +794,86 @@ paths:
                 $ref: '#/components/schemas/Edge'
 components:
   schemas:
-    EdgeSearchQuery:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    Edge:
+      type: object
+      description: A JSON value representing the edge.
+      properties:
+        id:
+          $ref: '#/components/schemas/EdgeId'
+          description: JSON object with the Edge Id. Specify this field to update the Edge. Referencing non-existing Edge Id will cause error. Omit this field to create new Edge.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the edge creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Use 'assignDeviceToTenant' to change the Tenant Id.
+          readOnly: true
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+          description: JSON object with Customer Id. Use 'assignEdgeToCustomer' to change the Customer Id.
+          readOnly: true
+        rootRuleChainId:
+          $ref: '#/components/schemas/RuleChainId'
+          description: JSON object with Root Rule Chain Id. Use 'setEdgeRootRuleChain' to change the Root Rule Chain Id.
+          readOnly: true
+        name:
+          type: string
+          description: Unique Edge Name in scope of Tenant
+          example: Silo_A_Edge
+        type:
+          type: string
+          description: Edge type
+          example: Silos
+        label:
+          type: string
+          description: Label that may be used in widgets
+          example: Silo Edge on far field
+        routingKey:
+          type: string
+          description: Edge routing key ('username') to authorize on cloud
+        secret:
+          type: string
+          description: Edge secret ('password') to authorize on cloud
+        version:
+          type: integer
+          format: int64
+        additionalInfo:
+          $ref: '#/components/schemas/JsonNode'
+      required:
+      - name
+      - routingKey
+      - secret
+      - type
+    PageDataEdgeInfo:
       type: object
       properties:
-        parameters:
-          $ref: '#/components/schemas/RelationsSearchParameters'
-          description: Main search parameters.
-        relationType:
-          type: string
-          description: Type of the relation between root entity and edge (e.g. 'Contains' or 'Manages').
-        edgeTypes:
+        data:
           type: array
-          description: Array of edge types to filter the related entities (e.g. 'Silos', 'Stores').
+          description: Array of the entities
           items:
-            type: string
+            $ref: '#/components/schemas/EdgeInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     BulkImportResultEdge:
       type: object
       properties:
@@ -881,6 +947,49 @@ components:
           type: array
           items:
             type: string
+    PageDataEdge:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/Edge'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    EdgeSearchQuery:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RelationsSearchParameters'
+          description: Main search parameters.
+        relationType:
+          type: string
+          description: Type of the relation between root entity and edge (e.g. 'Contains' or 'Manages').
+        edgeTypes:
+          type: array
+          description: Array of edge types to filter the related entities (e.g. 'Silos', 'Stores').
+          items:
+            type: string
+    EdgeInstructions:
+      type: object
+      properties:
+        instructions:
+          type: string
+          description: Markdown with install/upgrade instructions
     EntitySubtype:
       type: object
       properties:
@@ -927,7 +1036,7 @@ components:
           - API_KEY
         type:
           type: string
-    EdgeId:
+    TenantId:
       type: object
       properties:
         id:
@@ -939,53 +1048,11 @@ components:
           type: string
           description: string
           enum:
-          - EDGE
-          example: EDGE
+          - TENANT
+          example: TENANT
       required:
       - entityType
       - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
-    ColumnMapping:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - NAME
-          - TYPE
-          - LABEL
-          - SHARED_ATTRIBUTE
-          - SERVER_ATTRIBUTE
-          - TIMESERIES
-          - ACCESS_TOKEN
-          - X509
-          - MQTT_CLIENT_ID
-          - MQTT_USER_NAME
-          - MQTT_PASSWORD
-          - LWM2M_CLIENT_ENDPOINT
-          - LWM2M_CLIENT_SECURITY_CONFIG_MODE
-          - LWM2M_CLIENT_IDENTITY
-          - LWM2M_CLIENT_KEY
-          - LWM2M_CLIENT_CERT
-          - LWM2M_BOOTSTRAP_SERVER_SECURITY_MODE
-          - LWM2M_BOOTSTRAP_SERVER_PUBLIC_KEY_OR_ID
-          - LWM2M_BOOTSTRAP_SERVER_SECRET_KEY
-          - LWM2M_SERVER_SECURITY_MODE
-          - LWM2M_SERVER_CLIENT_PUBLIC_KEY_OR_ID
-          - LWM2M_SERVER_CLIENT_SECRET_KEY
-          - SNMP_HOST
-          - SNMP_PORT
-          - SNMP_VERSION
-          - SNMP_COMMUNITY_STRING
-          - IS_GATEWAY
-          - DESCRIPTION
-          - ROUTING_KEY
-          - SECRET
-        key:
-          type: string
     BulkImportRequest:
       type: object
       properties:
@@ -993,29 +1060,6 @@ components:
           type: string
         mapping:
           $ref: '#/components/schemas/Mapping'
-    PageDataEdge:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/Edge'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
     Mapping:
       type: object
       properties:
@@ -1029,59 +1073,6 @@ components:
           type: boolean
         header:
           type: boolean
-    Edge:
-      type: object
-      description: A JSON value representing the edge.
-      properties:
-        id:
-          $ref: '#/components/schemas/EdgeId'
-          description: JSON object with the Edge Id. Specify this field to update the Edge. Referencing non-existing Edge Id will cause error. Omit this field to create new Edge.
-        createdTime:
-          type: integer
-          format: int64
-          description: Timestamp of the edge creation, in milliseconds
-          example: 1609459200000
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id. Use 'assignDeviceToTenant' to change the Tenant Id.
-          readOnly: true
-        customerId:
-          $ref: '#/components/schemas/CustomerId'
-          description: JSON object with Customer Id. Use 'assignEdgeToCustomer' to change the Customer Id.
-          readOnly: true
-        rootRuleChainId:
-          $ref: '#/components/schemas/RuleChainId'
-          description: JSON object with Root Rule Chain Id. Use 'setEdgeRootRuleChain' to change the Root Rule Chain Id.
-          readOnly: true
-        name:
-          type: string
-          description: Unique Edge Name in scope of Tenant
-          example: Silo_A_Edge
-        type:
-          type: string
-          description: Edge type
-          example: Silos
-        label:
-          type: string
-          description: Label that may be used in widgets
-          example: Silo Edge on far field
-        routingKey:
-          type: string
-          description: Edge routing key ('username') to authorize on cloud
-        secret:
-          type: string
-          description: Edge secret ('password') to authorize on cloud
-        version:
-          type: integer
-          format: int64
-        additionalInfo:
-          $ref: '#/components/schemas/JsonNode'
-      required:
-      - name
-      - routingKey
-      - secret
-      - type
     EdgeInfo:
       type: object
       properties:
@@ -1138,36 +1129,7 @@ components:
       - routingKey
       - secret
       - type
-    EdgeInstructions:
-      type: object
-      properties:
-        instructions:
-          type: string
-          description: Markdown with install/upgrade instructions
-    PageDataEdgeInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/EdgeInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    CustomerId:
+    EdgeId:
       type: object
       properties:
         id:
@@ -1179,25 +1141,8 @@ components:
           type: string
           description: string
           enum:
-          - CUSTOMER
-          example: CUSTOMER
-      required:
-      - entityType
-      - id
-    RuleChainId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - RULE_CHAIN
-          example: RULE_CHAIN
+          - EDGE
+          example: EDGE
       required:
       - entityType
       - id
@@ -1272,7 +1217,7 @@ components:
         fetchLastLevelOnly:
           type: boolean
           description: Fetch entities that match the last level of search. Useful to find Devices that are strictly 'maxLevel' relations away from the root entity.
-    TenantId:
+    RuleChainId:
       type: object
       properties:
         id:
@@ -1284,11 +1229,66 @@ components:
           type: string
           description: string
           enum:
-          - TENANT
-          example: TENANT
+          - RULE_CHAIN
+          example: RULE_CHAIN
       required:
       - entityType
       - id
+    CustomerId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - CUSTOMER
+          example: CUSTOMER
+      required:
+      - entityType
+      - id
+    ColumnMapping:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - NAME
+          - TYPE
+          - LABEL
+          - SHARED_ATTRIBUTE
+          - SERVER_ATTRIBUTE
+          - TIMESERIES
+          - ACCESS_TOKEN
+          - X509
+          - MQTT_CLIENT_ID
+          - MQTT_USER_NAME
+          - MQTT_PASSWORD
+          - LWM2M_CLIENT_ENDPOINT
+          - LWM2M_CLIENT_SECURITY_CONFIG_MODE
+          - LWM2M_CLIENT_IDENTITY
+          - LWM2M_CLIENT_KEY
+          - LWM2M_CLIENT_CERT
+          - LWM2M_BOOTSTRAP_SERVER_SECURITY_MODE
+          - LWM2M_BOOTSTRAP_SERVER_PUBLIC_KEY_OR_ID
+          - LWM2M_BOOTSTRAP_SERVER_SECRET_KEY
+          - LWM2M_SERVER_SECURITY_MODE
+          - LWM2M_SERVER_CLIENT_PUBLIC_KEY_OR_ID
+          - LWM2M_SERVER_CLIENT_SECRET_KEY
+          - SNMP_HOST
+          - SNMP_PORT
+          - SNMP_VERSION
+          - SNMP_COMMUNITY_STRING
+          - IS_GATEWAY
+          - DESCRIPTION
+          - ROUTING_KEY
+          - SECRET
+        key:
+          type: string
   securitySchemes:
     HTTP_login_form:
       type: http

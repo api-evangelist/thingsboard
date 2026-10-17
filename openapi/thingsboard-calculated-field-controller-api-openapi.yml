@@ -451,32 +451,6 @@ paths:
                 $ref: '#/components/schemas/JsonNode'
 components:
   schemas:
-    TimeSeriesOutput:
-      allOf:
-      - $ref: '#/components/schemas/Output'
-      - type: object
-        properties:
-          strategy:
-            oneOf:
-            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
-            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
-    CalculatedFieldId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - CALCULATED_FIELD
-          example: CALCULATED_FIELD
-      required:
-      - entityType
-      - id
     TimeSeriesOutputStrategy:
       discriminator:
         propertyName: type
@@ -485,43 +459,35 @@ components:
           type: string
       required:
       - type
-    AttributesRuleChainOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/AttributesOutputStrategy'
-    AttributesImmediateOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/AttributesOutputStrategy'
-      - type: object
-        properties:
-          sendAttributesUpdatedNotification:
-            type: boolean
-          updateAttributesOnlyOnValueChange:
-            type: boolean
-          saveAttribute:
-            type: boolean
-          sendWsUpdate:
-            type: boolean
-          processCfs:
-            type: boolean
-    Argument:
+    RelationPathLevel:
       type: object
       properties:
-        refEntityId:
-          $ref: '#/components/schemas/EntityId'
-        refDynamicSourceConfiguration:
-          oneOf:
-          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
-          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
-        refEntityKey:
-          $ref: '#/components/schemas/ReferencedEntityKey'
-        defaultValue:
+        direction:
           type: string
-        limit:
-          type: integer
-          format: int32
-        timeWindow:
+          enum:
+          - FROM
+          - TO
+        relationType:
+          type: string
+          minLength: 1
+      required:
+      - direction
+      - relationType
+    DebugSettings:
+      type: object
+      properties:
+        failuresEnabled:
+          type: boolean
+          description: 'Debug failures. '
+          example: false
+        allEnabled:
+          type: boolean
+          description: Debug All. Used as a trigger for updating debugAllUntil.
+          example: false
+        allEnabledUntil:
           type: integer
           format: int64
+          description: Timestamp of the end time for the processing debug events.
     CfArgumentDynamicSourceConfiguration:
       discriminator:
         propertyName: type
@@ -530,11 +496,6 @@ components:
           type: string
       required:
       - type
-    OutputStrategy: {}
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     CalculatedField:
       type: object
       properties:
@@ -583,60 +544,9 @@ components:
           format: int64
       required:
       - configuration
-    PageDataString:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            type: string
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    PageDataCalculatedFieldInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/CalculatedFieldInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    AttributesOutputStrategy:
-      discriminator:
-        propertyName: type
-      properties:
-        type:
-          type: string
-      required:
-      - type
+    CurrentOwnerDynamicSourceConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
     EntityId:
       type: object
       properties:
@@ -688,24 +598,106 @@ components:
       required:
       - entityType
       - id
-    CurrentOwnerDynamicSourceConfiguration:
+    RelationPathQueryDynamicSourceConfiguration:
       allOf:
       - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
-    DebugSettings:
+      - type: object
+        properties:
+          levels:
+            type: array
+            items:
+              $ref: '#/components/schemas/RelationPathLevel'
+    PageDataString:
       type: object
       properties:
-        failuresEnabled:
-          type: boolean
-          description: 'Debug failures. '
-          example: false
-        allEnabled:
-          type: boolean
-          description: Debug All. Used as a trigger for updating debugAllUntil.
-          example: false
-        allEnabledUntil:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            type: string
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
           type: integer
           format: int64
-          description: Timestamp of the end time for the processing debug events.
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    AttributesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
+    SimpleCalculatedFieldConfiguration:
+      type: object
+      properties:
+        arguments:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Argument'
+          minProperties: 1
+        expression:
+          type: string
+        output:
+          oneOf:
+          - $ref: '#/components/schemas/AttributesOutput'
+          - $ref: '#/components/schemas/TimeSeriesOutput'
+        useLatestTs:
+          type: boolean
+      required:
+      - arguments
+      - output
+    OutputStrategy: {}
+    TimeSeriesImmediateOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+      - type: object
+        properties:
+          ttl:
+            type: integer
+            format: int64
+          saveTimeSeries:
+            type: boolean
+          saveLatest:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    PageDataCalculatedFieldInfo:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/CalculatedFieldInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
     ReferencedEntityKey:
       type: object
       properties:
@@ -723,43 +715,10 @@ components:
           - CLIENT_SCOPE
           - SERVER_SCOPE
           - SHARED_SCOPE
-    AttributesOutput:
-      allOf:
-      - $ref: '#/components/schemas/Output'
-      - type: object
-        properties:
-          strategy:
-            oneOf:
-            - $ref: '#/components/schemas/AttributesImmediateOutputStrategy'
-            - $ref: '#/components/schemas/AttributesRuleChainOutputStrategy'
-    TimeSeriesImmediateOutputStrategy:
-      allOf:
-      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
-      - type: object
-        properties:
-          ttl:
-            type: integer
-            format: int64
-          saveTimeSeries:
-            type: boolean
-          saveLatest:
-            type: boolean
-          sendWsUpdate:
-            type: boolean
-          processCfs:
-            type: boolean
-    MultiValueMapStringString:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-      properties:
-        all:
-          type: object
-          additionalProperties:
-            type: string
-          writeOnly: true
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
     CalculatedFieldInfo:
       type: object
       properties:
@@ -810,48 +769,52 @@ components:
           type: string
       required:
       - configuration
-    RelationPathLevel:
+    CalculatedFieldId:
       type: object
       properties:
-        direction:
+        id:
           type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
           enum:
-          - FROM
-          - TO
-        relationType:
-          type: string
-          minLength: 1
+          - CALCULATED_FIELD
+          example: CALCULATED_FIELD
       required:
-      - direction
-      - relationType
-    RelationPathQueryDynamicSourceConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/CfArgumentDynamicSourceConfiguration'
-      - type: object
-        properties:
-          levels:
-            type: array
-            items:
-              $ref: '#/components/schemas/RelationPathLevel'
-    SimpleCalculatedFieldConfiguration:
+      - entityType
+      - id
+    TenantId:
       type: object
       properties:
-        arguments:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    MultiValueMapStringString:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      properties:
+        all:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/Argument'
-          minProperties: 1
-        expression:
-          type: string
-        output:
-          oneOf:
-          - $ref: '#/components/schemas/AttributesOutput'
-          - $ref: '#/components/schemas/TimeSeriesOutput'
-        useLatestTs:
-          type: boolean
-      required:
-      - arguments
-      - output
+            type: string
+          writeOnly: true
     PageDataCalculatedField:
       type: object
       properties:
@@ -875,9 +838,40 @@ components:
           type: boolean
           description: '''false'' value indicates the end of the result set'
           readOnly: true
-    TimeSeriesRuleChainOutputStrategy:
+    AttributesImmediateOutputStrategy:
       allOf:
-      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
+      - type: object
+        properties:
+          sendAttributesUpdatedNotification:
+            type: boolean
+          updateAttributesOnlyOnValueChange:
+            type: boolean
+          saveAttribute:
+            type: boolean
+          sendWsUpdate:
+            type: boolean
+          processCfs:
+            type: boolean
+    Argument:
+      type: object
+      properties:
+        refEntityId:
+          $ref: '#/components/schemas/EntityId'
+        refDynamicSourceConfiguration:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentOwnerDynamicSourceConfiguration'
+          - $ref: '#/components/schemas/RelationPathQueryDynamicSourceConfiguration'
+        refEntityKey:
+          $ref: '#/components/schemas/ReferencedEntityKey'
+        defaultValue:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        timeWindow:
+          type: integer
+          format: int64
     Output:
       type: object
       discriminator:
@@ -900,23 +894,29 @@ components:
           type: string
       required:
       - type
-    TenantId:
-      type: object
+    TimeSeriesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/TimeSeriesOutputStrategy'
+    TimeSeriesOutput:
+      allOf:
+      - $ref: '#/components/schemas/Output'
+      - type: object
+        properties:
+          strategy:
+            oneOf:
+            - $ref: '#/components/schemas/TimeSeriesImmediateOutputStrategy'
+            - $ref: '#/components/schemas/TimeSeriesRuleChainOutputStrategy'
+    AttributesOutputStrategy:
+      discriminator:
+        propertyName: type
       properties:
-        id:
+        type:
           type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
       required:
-      - entityType
-      - id
+      - type
+    AttributesRuleChainOutputStrategy:
+      allOf:
+      - $ref: '#/components/schemas/AttributesOutputStrategy'
   securitySchemes:
     HTTP_login_form:
       type: http

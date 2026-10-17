@@ -745,51 +745,6 @@ components:
       description: A value representing the any type (object or primitive)
       examples:
       - {}
-    EntityInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/EntityId'
-          description: 'JSON object with the entity Id. '
-        name:
-          type: string
-          description: Entity Name
-    LwM2mInstance:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: LwM2M Instance id.
-          example: 0
-        resources:
-          type: array
-          description: LwM2M Resource observe.
-          items:
-            $ref: '#/components/schemas/LwM2mResourceObserve'
-    PageDataTbResourceInfo:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/TbResourceInfo'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
     LwM2mObject:
       type: object
       properties:
@@ -819,6 +774,108 @@ components:
           description: LwM2M Object instances.
           items:
             $ref: '#/components/schemas/LwM2mInstance'
+    TbResourceInfo:
+      type: object
+      description: A JSON value representing the Resource Info.
+      properties:
+        id:
+          $ref: '#/components/schemas/TbResourceId'
+          description: JSON object with the Resource Id. Specify this field to update the Resource. Referencing non-existing Resource Id will cause error. Omit this field to create new Resource.
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp of the resource creation, in milliseconds
+          example: 1609459200000
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id. Tenant Id of the resource can't be changed.
+          readOnly: true
+        title:
+          type: string
+          description: Resource title.
+          example: BinaryAppDataContainer id=19 v1.0
+        resourceType:
+          type: string
+          description: Resource type.
+          enum:
+          - LWM2M_MODEL
+          - JKS
+          - PKCS_12
+          - JS_MODULE
+          - IMAGE
+          - DASHBOARD
+          - GENERAL
+          example: LWM2M_MODEL
+          readOnly: true
+        resourceSubType:
+          type: string
+          description: Resource sub type.
+          enum:
+          - IMAGE
+          - SCADA_SYMBOL
+          - EXTENSION
+          - MODULE
+          example: IOT_SVG
+          readOnly: true
+        resourceKey:
+          type: string
+          description: Resource key.
+          example: '19_1.0'
+          readOnly: true
+        publicResourceKey:
+          type: string
+        etag:
+          type: string
+          description: Resource etag.
+          example: 33a64df551425fcc55e4d42a148795d9f25f89d4
+          readOnly: true
+        fileName:
+          type: string
+          description: Resource file name.
+          example: 19.xml
+          readOnly: true
+        descriptor:
+          $ref: '#/components/schemas/JsonNode'
+        name:
+          type: string
+          readOnly: true
+        public:
+          type: boolean
+        link:
+          type: string
+          readOnly: true
+        publicLink:
+          type: string
+          readOnly: true
+    LwM2mResourceObserve:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: LwM2M Resource Observe id.
+          example: 0
+        name:
+          type: string
+          description: LwM2M Resource Observe name.
+          example: Data
+        observe:
+          type: boolean
+          description: LwM2M Resource Observe observe.
+          example: false
+        attribute:
+          type: boolean
+          description: LwM2M Resource Observe attribute.
+          example: false
+        telemetry:
+          type: boolean
+          description: LwM2M Resource Observe telemetry.
+          example: false
+        keyName:
+          type: string
+          description: LwM2M Resource Observe key name.
+          example: data
     TbResourceDeleteResult:
       type: object
       properties:
@@ -910,34 +967,36 @@ components:
         publicLink:
           type: string
           readOnly: true
-    LwM2mResourceObserve:
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    LwM2mInstance:
       type: object
       properties:
         id:
           type: integer
           format: int32
-          description: LwM2M Resource Observe id.
+          description: LwM2M Instance id.
           example: 0
-        name:
-          type: string
-          description: LwM2M Resource Observe name.
-          example: Data
-        observe:
-          type: boolean
-          description: LwM2M Resource Observe observe.
-          example: false
-        attribute:
-          type: boolean
-          description: LwM2M Resource Observe attribute.
-          example: false
-        telemetry:
-          type: boolean
-          description: LwM2M Resource Observe telemetry.
-          example: false
-        keyName:
-          type: string
-          description: LwM2M Resource Observe key name.
-          example: data
+        resources:
+          type: array
+          description: LwM2M Resource observe.
+          items:
+            $ref: '#/components/schemas/LwM2mResourceObserve'
     EntityId:
       type: object
       properties:
@@ -989,97 +1048,38 @@ components:
       required:
       - entityType
       - id
-    TbResourceInfo:
+    PageDataTbResourceInfo:
       type: object
-      description: A JSON value representing the Resource Info.
       properties:
-        id:
-          $ref: '#/components/schemas/TbResourceId'
-          description: JSON object with the Resource Id. Specify this field to update the Resource. Referencing non-existing Resource Id will cause error. Omit this field to create new Resource.
-        createdTime:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/TbResourceInfo'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
           type: integer
           format: int64
-          description: Timestamp of the resource creation, in milliseconds
-          example: 1609459200000
+          description: Total number of elements in all available pages
           readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id. Tenant Id of the resource can't be changed.
-          readOnly: true
-        title:
-          type: string
-          description: Resource title.
-          example: BinaryAppDataContainer id=19 v1.0
-        resourceType:
-          type: string
-          description: Resource type.
-          enum:
-          - LWM2M_MODEL
-          - JKS
-          - PKCS_12
-          - JS_MODULE
-          - IMAGE
-          - DASHBOARD
-          - GENERAL
-          example: LWM2M_MODEL
-          readOnly: true
-        resourceSubType:
-          type: string
-          description: Resource sub type.
-          enum:
-          - IMAGE
-          - SCADA_SYMBOL
-          - EXTENSION
-          - MODULE
-          example: IOT_SVG
-          readOnly: true
-        resourceKey:
-          type: string
-          description: Resource key.
-          example: '19_1.0'
-          readOnly: true
-        publicResourceKey:
-          type: string
-        etag:
-          type: string
-          description: Resource etag.
-          example: 33a64df551425fcc55e4d42a148795d9f25f89d4
-          readOnly: true
-        fileName:
-          type: string
-          description: Resource file name.
-          example: 19.xml
-          readOnly: true
-        descriptor:
-          $ref: '#/components/schemas/JsonNode'
-        name:
-          type: string
-          readOnly: true
-        public:
+        hasNext:
           type: boolean
-        link:
-          type: string
+          description: '''false'' value indicates the end of the result set'
           readOnly: true
-        publicLink:
-          type: string
-          readOnly: true
-    TenantId:
+    EntityInfo:
       type: object
       properties:
         id:
+          $ref: '#/components/schemas/EntityId'
+          description: 'JSON object with the entity Id. '
+        name:
           type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - TENANT
-          example: TENANT
-      required:
-      - entityType
-      - id
+          description: Entity Name
   securitySchemes:
     HTTP_login_form:
       type: http

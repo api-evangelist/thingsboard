@@ -261,24 +261,6 @@ paths:
                   $ref: '#/components/schemas/SlackConversation'
 components:
   schemas:
-    MobileAppDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-            minLength: 1
-          additionalConfig:
-            $ref: '#/components/schemas/JsonNode'
-      required:
-      - body
-      - subject
-    SlackDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      required:
-      - body
     NotificationTemplate:
       type: object
       properties:
@@ -321,6 +303,25 @@ components:
       - configuration
       - name
       - notificationType
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    DeliveryMethodNotificationTemplate:
+      type: object
+      discriminator:
+        propertyName: method
+      properties:
+        enabled:
+          type: boolean
+        body:
+          type: string
+          minLength: 1
+        method:
+          type: string
+      required:
+      - body
+      - method
     WebDeliveryMethodNotificationTemplate:
       allOf:
       - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
@@ -334,10 +335,99 @@ components:
       required:
       - body
       - subject
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
+    PageDataNotificationTemplate:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of the entities
+          items:
+            $ref: '#/components/schemas/NotificationTemplate'
+          readOnly: true
+        totalPages:
+          type: integer
+          format: int32
+          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
+          readOnly: true
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements in all available pages
+          readOnly: true
+        hasNext:
+          type: boolean
+          description: '''false'' value indicates the end of the result set'
+          readOnly: true
+    MobileAppDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+          additionalConfig:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - body
+      - subject
+    EmailDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+            minLength: 1
+      required:
+      - body
+      - subject
+    TenantId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the entity, time-based UUID v1
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
+        entityType:
+          type: string
+          description: string
+          enum:
+          - TENANT
+          example: TENANT
+      required:
+      - entityType
+      - id
+    MicrosoftTeamsDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      - type: object
+        properties:
+          subject:
+            type: string
+          themeColor:
+            type: string
+          button:
+            $ref: '#/components/schemas/Button'
+      required:
+      - body
+    NotificationTemplateConfig:
+      type: object
+      properties:
+        deliveryMethodsTemplates:
+          type: object
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
+            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
+          minProperties: 1
+      required:
+      - deliveryMethodsTemplates
     SlackConversation:
       type: object
       properties:
@@ -363,106 +453,6 @@ components:
       - id
       - name
       - type
-    EmailDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-            minLength: 1
-      required:
-      - body
-      - subject
-    NotificationTemplateId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the entity, time-based UUID v1
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-        entityType:
-          type: string
-          description: string
-          enum:
-          - NOTIFICATION_TEMPLATE
-          example: NOTIFICATION_TEMPLATE
-      required:
-      - entityType
-      - id
-    PageDataNotificationTemplate:
-      type: object
-      properties:
-        data:
-          type: array
-          description: Array of the entities
-          items:
-            $ref: '#/components/schemas/NotificationTemplate'
-          readOnly: true
-        totalPages:
-          type: integer
-          format: int32
-          description: Total number of available pages. Calculated based on the 'pageSize' request parameter and total number of entities that match search criteria
-          readOnly: true
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of elements in all available pages
-          readOnly: true
-        hasNext:
-          type: boolean
-          description: '''false'' value indicates the end of the result set'
-          readOnly: true
-    DeliveryMethodNotificationTemplate:
-      type: object
-      discriminator:
-        propertyName: method
-      properties:
-        enabled:
-          type: boolean
-        body:
-          type: string
-          minLength: 1
-        method:
-          type: string
-      required:
-      - body
-      - method
-    NotificationTemplateConfig:
-      type: object
-      properties:
-        deliveryMethodsTemplates:
-          type: object
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/EmailDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MicrosoftTeamsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/MobileAppDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SlackDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/SmsDeliveryMethodNotificationTemplate'
-            - $ref: '#/components/schemas/WebDeliveryMethodNotificationTemplate'
-          minProperties: 1
-      required:
-      - deliveryMethodsTemplates
-    SmsDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      required:
-      - body
-    MicrosoftTeamsDeliveryMethodNotificationTemplate:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
-      - type: object
-        properties:
-          subject:
-            type: string
-          themeColor:
-            type: string
-          button:
-            $ref: '#/components/schemas/Button'
-      required:
-      - body
     Button:
       type: object
       properties:
@@ -484,7 +474,12 @@ components:
           type: string
         setEntityIdInState:
           type: boolean
-    TenantId:
+    SmsDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      required:
+      - body
+    NotificationTemplateId:
       type: object
       properties:
         id:
@@ -496,11 +491,16 @@ components:
           type: string
           description: string
           enum:
-          - TENANT
-          example: TENANT
+          - NOTIFICATION_TEMPLATE
+          example: NOTIFICATION_TEMPLATE
       required:
       - entityType
       - id
+    SlackDeliveryMethodNotificationTemplate:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryMethodNotificationTemplate'
+      required:
+      - body
   securitySchemes:
     HTTP_login_form:
       type: http

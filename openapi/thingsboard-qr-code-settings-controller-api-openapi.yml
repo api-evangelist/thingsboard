@@ -144,52 +144,20 @@ paths:
                 $ref: '#/components/schemas/JsonNode'
 components:
   schemas:
-    QrCodeSettings:
+    JsonNode:
+      description: A value representing the any type (object or primitive)
+      examples:
+      - {}
+    QrCodeSettingsId:
       type: object
-      description: A JSON value representing the mobile apps configuration
       properties:
         id:
-          $ref: '#/components/schemas/QrCodeSettingsId'
-        createdTime:
-          type: integer
-          format: int64
-          description: Entity creation timestamp in milliseconds since Unix epoch
-          example: 1746028547220
-          readOnly: true
-        tenantId:
-          $ref: '#/components/schemas/TenantId'
-          description: JSON object with Tenant Id.
-          readOnly: true
-        useSystemSettings:
-          type: boolean
-          description: Use settings from system level
-          example: true
-        useDefaultApp:
-          type: boolean
-          description: 'Type of application: true means use default Thingsboard app'
-          example: true
-        mobileAppBundleId:
-          $ref: '#/components/schemas/MobileAppBundleId'
-          description: Mobile app bundle.
-        qrCodeConfig:
-          $ref: '#/components/schemas/QRCodeConfig'
-          description: QR code config configuration.
-        androidEnabled:
-          type: boolean
-          description: Indicates if google play link is available
-          example: true
-        iosEnabled:
-          type: boolean
-          description: Indicates if apple store link is available
-          example: true
-        googlePlayLink:
           type: string
-          readOnly: true
-        appStoreLink:
-          type: string
-          readOnly: true
+          format: uuid
+          description: string
+          example: 784f394c-42b6-435a-983c-b7beff2784f9
       required:
-      - qrCodeConfig
+      - id
     MobileAppBundleId:
       type: object
       properties:
@@ -241,20 +209,6 @@ components:
       required:
       - entityType
       - id
-    QrCodeSettingsId:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: string
-          example: 784f394c-42b6-435a-983c-b7beff2784f9
-      required:
-      - id
-    JsonNode:
-      description: A value representing the any type (object or primitive)
-      examples:
-      - {}
     JwtPair:
       type: object
       description: JWT Pair
@@ -292,6 +246,52 @@ components:
           - LEFT
         qrCodeLabel:
           type: string
+    QrCodeSettings:
+      type: object
+      description: A JSON value representing the mobile apps configuration
+      properties:
+        id:
+          $ref: '#/components/schemas/QrCodeSettingsId'
+        createdTime:
+          type: integer
+          format: int64
+          description: Entity creation timestamp in milliseconds since Unix epoch
+          example: 1746028547220
+          readOnly: true
+        tenantId:
+          $ref: '#/components/schemas/TenantId'
+          description: JSON object with Tenant Id.
+          readOnly: true
+        useSystemSettings:
+          type: boolean
+          description: Use settings from system level
+          example: true
+        useDefaultApp:
+          type: boolean
+          description: 'Type of application: true means use default Thingsboard app'
+          example: true
+        mobileAppBundleId:
+          $ref: '#/components/schemas/MobileAppBundleId'
+          description: Mobile app bundle.
+        qrCodeConfig:
+          $ref: '#/components/schemas/QRCodeConfig'
+          description: QR code config configuration.
+        androidEnabled:
+          type: boolean
+          description: Indicates if google play link is available
+          example: true
+        iosEnabled:
+          type: boolean
+          description: Indicates if apple store link is available
+          example: true
+        googlePlayLink:
+          type: string
+          readOnly: true
+        appStoreLink:
+          type: string
+          readOnly: true
+      required:
+      - qrCodeConfig
     TenantId:
       type: object
       properties:

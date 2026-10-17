@@ -500,21 +500,18 @@ paths:
                 $ref: '#/components/schemas/AccountTwoFaSettings'
 components:
   schemas:
-    SmsTwoFaProviderConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaProviderConfig'
-      - type: object
-        properties:
-          verificationCodeLifetime:
-            type: integer
-            format: int32
-            minimum: 1
-          smsVerificationMessageTemplate:
-            type: string
-            minLength: 1
-            pattern: .*\$\{code}.*
-      required:
-      - smsVerificationMessageTemplate
+    AccountTwoFaSettings:
+      type: object
+      properties:
+        configs:
+          type: object
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/BackupCodeTwoFaAccountConfig'
+            - $ref: '#/components/schemas/EmailTwoFaAccountConfig'
+            - $ref: '#/components/schemas/SmsTwoFaAccountConfig'
+            - $ref: '#/components/schemas/TotpTwoFaAccountConfig'
+    SystemLevelUsersFilter: {}
     TwoFaAccountConfig:
       type: object
       discriminator:
@@ -526,15 +523,24 @@ components:
           type: string
       required:
       - providerType
-    EmailTwoFaProviderConfig:
+    EmailTwoFaAccountConfig:
       allOf:
-      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - $ref: '#/components/schemas/TwoFaAccountConfig'
       - type: object
         properties:
-          verificationCodeLifetime:
-            type: integer
-            format: int32
-            minimum: 1
+          email:
+            type: string
+            minLength: 1
+      required:
+      - email
+    TwoFaProviderConfig:
+      discriminator:
+        propertyName: providerType
+      properties:
+        providerType:
+          type: string
+      required:
+      - providerType
     BackupCodeTwoFaAccountConfig:
       allOf:
       - $ref: '#/components/schemas/TwoFaAccountConfig'
@@ -551,24 +557,26 @@ components:
             format: int32
       required:
       - codes
-    TwoFaProviderConfig:
-      discriminator:
-        propertyName: providerType
-      properties:
-        providerType:
-          type: string
-      required:
-      - providerType
-    EmailTwoFaAccountConfig:
+    TotpTwoFaAccountConfig:
       allOf:
       - $ref: '#/components/schemas/TwoFaAccountConfig'
       - type: object
         properties:
-          email:
+          authUrl:
             type: string
             minLength: 1
+            pattern: otpauth://totp/(\S+?):(\S+?)\?issuer=(\S+?)&secret=(\w+?)
       required:
-      - email
+      - authUrl
+    EmailTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          verificationCodeLifetime:
+            type: integer
+            format: int32
+            minimum: 1
     PlatformTwoFaSettings:
       type: object
       description: Settings value
@@ -604,43 +612,6 @@ components:
       - minVerificationCodeSendPeriod
       - providers
       - totalAllowedTimeForVerification
-    TwoFaAccountConfigUpdateRequest:
-      type: object
-      properties:
-        useByDefault:
-          type: boolean
-    TotpTwoFaAccountConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaAccountConfig'
-      - type: object
-        properties:
-          authUrl:
-            type: string
-            minLength: 1
-            pattern: otpauth://totp/(\S+?):(\S+?)\?issuer=(\S+?)&secret=(\w+?)
-      required:
-      - authUrl
-    SystemLevelUsersFilter: {}
-    AccountTwoFaSettings:
-      type: object
-      properties:
-        configs:
-          type: object
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/BackupCodeTwoFaAccountConfig'
-            - $ref: '#/components/schemas/EmailTwoFaAccountConfig'
-            - $ref: '#/components/schemas/SmsTwoFaAccountConfig'
-            - $ref: '#/components/schemas/TotpTwoFaAccountConfig'
-    BackupCodeTwoFaProviderConfig:
-      allOf:
-      - $ref: '#/components/schemas/TwoFaProviderConfig'
-      - type: object
-        properties:
-          codesQuantity:
-            type: integer
-            format: int32
-            minimum: 1
     TotpTwoFaProviderConfig:
       allOf:
       - $ref: '#/components/schemas/TwoFaProviderConfig'
@@ -662,6 +633,35 @@ components:
             pattern: ^\+[1-9]\d{1,14}$
       required:
       - phoneNumber
+    BackupCodeTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          codesQuantity:
+            type: integer
+            format: int32
+            minimum: 1
+    TwoFaAccountConfigUpdateRequest:
+      type: object
+      properties:
+        useByDefault:
+          type: boolean
+    SmsTwoFaProviderConfig:
+      allOf:
+      - $ref: '#/components/schemas/TwoFaProviderConfig'
+      - type: object
+        properties:
+          verificationCodeLifetime:
+            type: integer
+            format: int32
+            minimum: 1
+          smsVerificationMessageTemplate:
+            type: string
+            minLength: 1
+            pattern: .*\$\{code}.*
+      required:
+      - smsVerificationMessageTemplate
   securitySchemes:
     HTTP_login_form:
       type: http
