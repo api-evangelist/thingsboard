@@ -1,4 +1,4 @@
-# ThingsBoard (thingsboard)
+# ThingsBoard
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,396 +66,246 @@
 
 ThingsBoard is an open-source IoT platform for device connectivity, data collection, processing, and visualization. Licensed under Apache 2.0 and developed by ThingsBoard Inc., it supports multi-tenant device management, telemetry over MQTT/HTTP/CoAP/LwM2M/SNMP, a drag-and-drop rule engine, calculated fields, 600+ customizable dashboard widgets, alarms, RPC, OTA firmware updates, edge computing, mobile apps, and a distributed MQTT broker (TBMQ). Available as Community Edition (free, self-hosted), Professional Edition (self-hosted subscription), and ThingsBoard Cloud (managed PaaS).
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/thingsboard/refs/heads/main/apis.yml)
+**Areas:** IoT · Device Management · Telemetry · Open Source · Apache 2.0 · MQTT · LwM2M · CoAP · Rule Engine · Dashboards · Edge · Multi-Tenant
+
+## ThingsBoard on APIs.io
+
+Everything profiled for ThingsBoard is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/thingsboard/](https://apis.io/providers/thingsboard/)** — or go straight to one of the APIs or properties below.
+
+### APIs (58)
+
+- [ThingsBoard Admin Controller API](https://apis.io/apis/thingsboard/thingsboard-admin-controller-api/) — Admin
+- [ThingsBoard AI Model Controller API](https://apis.io/apis/thingsboard/thingsboard-ai-model-controller-api/) — Ai Model
+- [ThingsBoard Alarm Comment Controller API](https://apis.io/apis/thingsboard/thingsboard-alarm-comment-controller-api/) — Alarm Comment
+- [ThingsBoard Alarm Controller API](https://apis.io/apis/thingsboard/thingsboard-alarm-controller-api/) — Alarm
+- [ThingsBoard API Key Controller API](https://apis.io/apis/thingsboard/thingsboard-api-key-controller-api/) — Api Key
+- [ThingsBoard Asset Controller API](https://apis.io/apis/thingsboard/thingsboard-asset-controller-api/) — Asset
+- [ThingsBoard Asset Profile Controller API](https://apis.io/apis/thingsboard/thingsboard-asset-profile-controller-api/) — Asset Profile
+- [ThingsBoard Audit Log Controller API](https://apis.io/apis/thingsboard/thingsboard-audit-log-controller-api/) — Audit Log
+- [ThingsBoard Auth Controller API](https://apis.io/apis/thingsboard/thingsboard-auth-controller-api/) — Auth
+- [ThingsBoard Calculated Field Controller API](https://apis.io/apis/thingsboard/thingsboard-calculated-field-controller-api/) — Calculated Field
+- [ThingsBoard Component Descriptor Controller API](https://apis.io/apis/thingsboard/thingsboard-component-descriptor-controller-api/) — Component Descriptor
+- [ThingsBoard Customer Controller API](https://apis.io/apis/thingsboard/thingsboard-customer-controller-api/) — Customer
+- [ThingsBoard Dashboard Controller API](https://apis.io/apis/thingsboard/thingsboard-dashboard-controller-api/) — Dashboard
+- [ThingsBoard Device Connectivity Controller API](https://apis.io/apis/thingsboard/thingsboard-device-connectivity-controller-api/) — Device Connectivity
+- [ThingsBoard Device Controller API](https://apis.io/apis/thingsboard/thingsboard-device-controller-api/) — Device
+- [ThingsBoard Device Profile Controller API](https://apis.io/apis/thingsboard/thingsboard-device-profile-controller-api/) — Device Profile
+- [ThingsBoard Domain Controller API](https://apis.io/apis/thingsboard/thingsboard-domain-controller-api/) — Domain
+- [ThingsBoard Edge Controller API](https://apis.io/apis/thingsboard/thingsboard-edge-controller-api/) — Edge
+- [ThingsBoard Edge Event Controller API](https://apis.io/apis/thingsboard/thingsboard-edge-event-controller-api/) — Edge Event
+- [ThingsBoard Entities Version Control Controller API](https://apis.io/apis/thingsboard/thingsboard-entities-version-control-controller-api/) — Entities Version Control
+- [ThingsBoard Entity Query Controller API](https://apis.io/apis/thingsboard/thingsboard-entity-query-controller-api/) — Entity Query
+- [ThingsBoard Entity Relation Controller API](https://apis.io/apis/thingsboard/thingsboard-entity-relation-controller-api/) — Entity Relation
+- [ThingsBoard Entity View Controller API](https://apis.io/apis/thingsboard/thingsboard-entity-view-controller-api/) — Entity View
+- [ThingsBoard Event Controller API](https://apis.io/apis/thingsboard/thingsboard-event-controller-api/) — Event
+- [ThingsBoard Image Controller API](https://apis.io/apis/thingsboard/thingsboard-image-controller-api/) — Image
+- [ThingsBoard Job Controller API](https://apis.io/apis/thingsboard/thingsboard-job-controller-api/) — Job
+- [ThingsBoard Login Endpoint API](https://apis.io/apis/thingsboard/thingsboard-login-endpoint-api/) — Login
+- [ThingsBoard Lwm 2m Controller API](https://apis.io/apis/thingsboard/thingsboard-lwm-2m-controller-api/) — Lwm 2m
+- [ThingsBoard Mail Config Template Controller API](https://apis.io/apis/thingsboard/thingsboard-mail-config-template-controller-api/) — Mail Config Template
+- [ThingsBoard Mobile App Bundle Controller API](https://apis.io/apis/thingsboard/thingsboard-mobile-app-bundle-controller-api/) — Mobile App Bundle
+- [ThingsBoard Mobile App Controller API](https://apis.io/apis/thingsboard/thingsboard-mobile-app-controller-api/) — Mobile App
+- [ThingsBoard Notification Controller API](https://apis.io/apis/thingsboard/thingsboard-notification-controller-api/) — Notification
+- [ThingsBoard Notification Rule Controller API](https://apis.io/apis/thingsboard/thingsboard-notification-rule-controller-api/) — Notification Rule
+- [ThingsBoard Notification Target Controller API](https://apis.io/apis/thingsboard/thingsboard-notification-target-controller-api/) — Notification Target
+- [ThingsBoard Notification Template Controller API](https://apis.io/apis/thingsboard/thingsboard-notification-template-controller-api/) — Notification Template
+- [ThingsBoard O Auth 2 Config Template Controller API](https://apis.io/apis/thingsboard/thingsboard-o-auth-2-config-template-controller-api/) — O Auth 2 Config Template
+- [ThingsBoard O Auth 2 Controller API](https://apis.io/apis/thingsboard/thingsboard-o-auth-2-controller-api/) — O Auth 2
+- [ThingsBoard Ota Package Controller API](https://apis.io/apis/thingsboard/thingsboard-ota-package-controller-api/) — Ota Package
+- [ThingsBoard Qr Code Settings Controller API](https://apis.io/apis/thingsboard/thingsboard-qr-code-settings-controller-api/) — Qr Code Settings
+- [ThingsBoard Queue Controller API](https://apis.io/apis/thingsboard/thingsboard-queue-controller-api/) — Queue
+- [ThingsBoard Queue Stats Controller API](https://apis.io/apis/thingsboard/thingsboard-queue-stats-controller-api/) — Queue Stats
+- [ThingsBoard Rpc V 1 Controller API](https://apis.io/apis/thingsboard/thingsboard-rpc-v-1-controller-api/) — Rpc V 1
+- [ThingsBoard Rpc V 2 Controller API](https://apis.io/apis/thingsboard/thingsboard-rpc-v-2-controller-api/) — Rpc V 2
+- [ThingsBoard Rule Chain Controller API](https://apis.io/apis/thingsboard/thingsboard-rule-chain-controller-api/) — Rule Chain
+- [ThingsBoard Rule Engine Controller API](https://apis.io/apis/thingsboard/thingsboard-rule-engine-controller-api/) — Rule Engine
+- [ThingsBoard Sign Up Controller API](https://apis.io/apis/thingsboard/thingsboard-sign-up-controller-api/) — Sign Up
+- [ThingsBoard Tb Resource Controller API](https://apis.io/apis/thingsboard/thingsboard-tb-resource-controller-api/) — Tb Resource
+- [ThingsBoard Telemetry Controller API](https://apis.io/apis/thingsboard/thingsboard-telemetry-controller-api/) — Telemetry
+- [ThingsBoard Tenant Controller API](https://apis.io/apis/thingsboard/thingsboard-tenant-controller-api/) — Tenant
+- [ThingsBoard Tenant Profile Controller API](https://apis.io/apis/thingsboard/thingsboard-tenant-profile-controller-api/) — Tenant Profile
+- [ThingsBoard Trendz Controller API](https://apis.io/apis/thingsboard/thingsboard-trendz-controller-api/) — Trendz
+- [ThingsBoard Two Factor Auth Config Controller API](https://apis.io/apis/thingsboard/thingsboard-two-factor-auth-config-controller-api/) — Two Factor Auth Config
+- [ThingsBoard Two Factor Auth Controller API](https://apis.io/apis/thingsboard/thingsboard-two-factor-auth-controller-api/) — Two Factor Auth
+- [ThingsBoard UI Settings Controller API](https://apis.io/apis/thingsboard/thingsboard-ui-settings-controller-api/) — Ui Settings
+- [ThingsBoard Usage Info Controller API](https://apis.io/apis/thingsboard/thingsboard-usage-info-controller-api/) — Usage Info
+- [ThingsBoard User Controller API](https://apis.io/apis/thingsboard/thingsboard-user-controller-api/) — User
+- [ThingsBoard Widget Type Controller API](https://apis.io/apis/thingsboard/thingsboard-widget-type-controller-api/) — Widget Type
+- [ThingsBoard Widgets Bundle Controller API](https://apis.io/apis/thingsboard/thingsboard-widgets-bundle-controller-api/) — Widgets Bundle
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Thingsboard Agentic Access](https://apis.io/agentic-access/thingsboard/thingsboard-agentic-access/)
+
+#### JSON Schema (11)
+
+The data models the API reads and writes.
+
+- [ThingsBoard Alarm](https://apis.io/schemas/thingsboard/thingsboard-alarm/)
+- [ThingsBoard Asset](https://apis.io/schemas/thingsboard/thingsboard-asset/)
+- [ThingsBoard AssetProfile](https://apis.io/schemas/thingsboard/thingsboard-assetprofile/)
+- [ThingsBoard Customer](https://apis.io/schemas/thingsboard/thingsboard-customer/)
+- [ThingsBoard Dashboard](https://apis.io/schemas/thingsboard/thingsboard-dashboard/)
+- [ThingsBoard Device](https://apis.io/schemas/thingsboard/thingsboard-device/)
+- [ThingsBoard DeviceProfile](https://apis.io/schemas/thingsboard/thingsboard-deviceprofile/)
+- [ThingsBoard EntityRelation](https://apis.io/schemas/thingsboard/thingsboard-entityrelation/)
+- [ThingsBoard RuleChain](https://apis.io/schemas/thingsboard/thingsboard-rulechain/)
+- [ThingsBoard Tenant](https://apis.io/schemas/thingsboard/thingsboard-tenant/)
+- [ThingsBoard User](https://apis.io/schemas/thingsboard/thingsboard-user/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Thingsboard Context](https://apis.io/jsonld/thingsboard/thingsboard-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
 
-## Scope
+- [Thingsboard Vocabulary](https://apis.io/vocabularies/thingsboard/thingsboard-vocabulary/)
 
-- **Position:** Consuming
-- **Access:** 3rd-Party
+#### Examples (2)
 
-## Tags
+Example requests and responses.
 
-- IoT
-- Internet of Things
-- Device Management
-- Telemetry
-- Open Source
-- Apache 2.0
-- MQTT
-- LwM2M
-- CoAP
-- Rule Engine
-- Dashboards
-- Edge
-- Multi-tenant
-- Java
-- Spring
+- [Thingsboard Login Example](https://apis.io/examples/thingsboard/thingsboard-login-example/)
+- [Thingsboard Telemetry Post Example](https://apis.io/examples/thingsboard/thingsboard-telemetry-post-example/)
 
-## Timestamps
+#### Collections (131)
 
-- **Created:** 2026-05-25
-- **Modified:** 2026-05-25
+Postman and Open Collection request collections.
 
-## APIs
+- [ThingsBoard Admin API](https://apis.io/collections/thingsboard/open-thingsboard-admin/)
+- [ThingsBoard Admin admin-controller API](https://apis.io/collections/thingsboard/open-thingsboard-admin-controller-api/)
+- [ThingsBoard AI API](https://apis.io/collections/thingsboard/open-thingsboard-ai/)
+- [ThingsBoard Admin admin-controller ai-model-controller API](https://apis.io/collections/thingsboard/open-thingsboard-ai-model-controller-api/)
+- [ThingsBoard Admin admin-controller alarm-comment-controller API](https://apis.io/collections/thingsboard/open-thingsboard-alarm-comment-controller-api/)
+- [ThingsBoard Admin admin-controller alarm-controller API](https://apis.io/collections/thingsboard/open-thingsboard-alarm-controller-api/)
+- [ThingsBoard Alarms API](https://apis.io/collections/thingsboard/open-thingsboard-alarms/)
+- [ThingsBoard Admin admin-controller api-key-controller API](https://apis.io/collections/thingsboard/open-thingsboard-api-key-controller-api/)
+- [ThingsBoard Admin admin-controller asset-controller API](https://apis.io/collections/thingsboard/open-thingsboard-asset-controller-api/)
+- [ThingsBoard Admin admin-controller asset-profile-controller API](https://apis.io/collections/thingsboard/open-thingsboard-asset-profile-controller-api/)
+- [ThingsBoard Assets API](https://apis.io/collections/thingsboard/open-thingsboard-assets/)
+- [ThingsBoard Admin admin-controller audit-log-controller API](https://apis.io/collections/thingsboard/open-thingsboard-audit-log-controller-api/)
+- [ThingsBoard Authentication API](https://apis.io/collections/thingsboard/open-thingsboard-auth/)
+- [ThingsBoard Admin admin-controller auth-controller API](https://apis.io/collections/thingsboard/open-thingsboard-auth-controller-api/)
+- [ThingsBoard Admin admin-controller calculated-field-controller API](https://apis.io/collections/thingsboard/open-thingsboard-calculated-field-controller-api/)
+- [ThingsBoard Admin admin-controller component-descriptor-controller API](https://apis.io/collections/thingsboard/open-thingsboard-component-descriptor-controller-api/)
+- [ThingsBoard Admin admin-controller customer-controller API](https://apis.io/collections/thingsboard/open-thingsboard-customer-controller-api/)
+- [ThingsBoard Admin admin-controller dashboard-controller API](https://apis.io/collections/thingsboard/open-thingsboard-dashboard-controller-api/)
+- [ThingsBoard Dashboards API](https://apis.io/collections/thingsboard/open-thingsboard-dashboards/)
+- [ThingsBoard Admin admin-controller device-connectivity-controller API](https://apis.io/collections/thingsboard/open-thingsboard-device-connectivity-controller-api/)
+- [ThingsBoard Admin admin-controller device-controller API](https://apis.io/collections/thingsboard/open-thingsboard-device-controller-api/)
+- [ThingsBoard Admin admin-controller device-profile-controller API](https://apis.io/collections/thingsboard/open-thingsboard-device-profile-controller-api/)
+- [ThingsBoard Devices API](https://apis.io/collections/thingsboard/open-thingsboard-devices/)
+- [ThingsBoard Admin admin-controller domain-controller API](https://apis.io/collections/thingsboard/open-thingsboard-domain-controller-api/)
+- [ThingsBoard Edge API](https://apis.io/collections/thingsboard/open-thingsboard-edge/)
+- …and 106 more published on APIs.io
 
-### ThingsBoard Devices API
+#### Governance rules (2)
 
-Provision, list, retrieve, update, assign, and delete IoT devices and device profiles. Includes device connectivity helpers and OTA package management for over-the-air firmware updates. 40 endpoints across device, device-profile, device-connectivity, and ota-package controllers.
+Spectral rulesets for the provider's contracts.
 
-- **Human URL:** [https://thingsboard.io/docs/reference/rest-api/](https://thingsboard.io/docs/reference/rest-api/)
+- [ThingsBoard — jsonschema rules](https://apis.io/rules/thingsboard/thingsboard-jsonschema-spectral-rules/)
+- [ThingsBoard API Rules](https://apis.io/rules/thingsboard/thingsboard-rules/)
 
-#### Tags
+#### Security (2)
 
-- IoT
-- Devices
-- Provisioning
-- OTA
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Properties
+- [Thingsboard Authentication](https://apis.io/security/thingsboard/thingsboard-authentication/)
+- [Thingsboard Domain Security](https://apis.io/security/thingsboard/thingsboard-domain-security/)
 
-- [Documentation](https://thingsboard.io/docs/reference/rest-api/)
-- [OpenAPI](openapi/thingsboard-devices-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-devices.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-devices.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/thingsboard-device-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/thingsboard-deviceprofile-schema.json) — [JSON Schema](https://json-schema.org/specification)
+#### Plans and pricing (2)
 
-### ThingsBoard Assets API
+Published plans, tiers and prices.
 
-Logical/physical asset modelling with profiles, entity views, and typed entity relations for hierarchical IoT solutions (Buildings, Floors, Rooms, Machines). 41 endpoints.
+- [Thingsboard Plans Pricing](https://apis.io/plans/thingsboard/thingsboard-plans-pricing/)
+- [Thingsboard Price Estimates](https://apis.io/plans/thingsboard/thingsboard-price-estimates/)
 
-- **Human URL:** [https://thingsboard.io/docs/user-guide/assets/](https://thingsboard.io/docs/user-guide/assets/)
+#### Rate limits (1)
 
-#### Tags
+Published request limits.
 
-- IoT
-- Assets
-- Hierarchy
-- EntityViews
+- [Thingsboard Rate Limits](https://apis.io/rate-limits/thingsboard/thingsboard-rate-limits/)
 
-#### Properties
+#### FinOps (1)
 
-- [Documentation](https://thingsboard.io/docs/user-guide/assets/)
-- [OpenAPI](openapi/thingsboard-assets-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-assets.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-assets.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/thingsboard-asset-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/thingsboard-assetprofile-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/thingsboard-entityrelation-schema.json) — [JSON Schema](https://json-schema.org/specification)
+What the API costs to run, by operation.
 
-### ThingsBoard Telemetry API
+- [Thingsboard Finops](https://apis.io/finops/thingsboard/thingsboard-finops/)
 
-Read and write device/asset time-series telemetry and key/value attributes (CLIENT/SERVER/SHARED scopes), run entity queries, and manage calculated fields. 26 endpoints.
+## Where to find this API
 
-- **Human URL:** [https://thingsboard.io/docs/reference/rest-api/](https://thingsboard.io/docs/reference/rest-api/)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-#### Tags
-
-- IoT
-- Telemetry
-- TimeSeries
-- Attributes
-- CalculatedFields
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/telemetry/)
-- [OpenAPI](openapi/thingsboard-telemetry-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-telemetry.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-telemetry.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard Alarms API
-
-Manage IoT alarms — list, acknowledge, clear, assign, and comment. Includes alarm queries and the alarm-comment thread. 15 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/alarms/](https://thingsboard.io/docs/user-guide/alarms/)
-
-#### Tags
-
-- IoT
-- Alarms
-- Operations
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/alarms/)
-- [OpenAPI](openapi/thingsboard-alarms-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-alarms.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-alarms.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/thingsboard-alarm-schema.json) — [JSON Schema](https://json-schema.org/specification)
-
-### ThingsBoard Rule Engine API
-
-Manage Rule Chains, Rule Nodes, and component descriptors that power ThingsBoard's drag-and-drop data-processing engine. 26 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/rule-engine-2-0/re-getting-started/](https://thingsboard.io/docs/user-guide/rule-engine-2-0/re-getting-started/)
-
-#### Tags
-
-- IoT
-- RuleEngine
-- Automation
-- Workflow
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/rule-engine-2-0/re-getting-started/)
-- [OpenAPI](openapi/thingsboard-rule-engine-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-rule-engine.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-rule-engine.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/thingsboard-rulechain-schema.json) — [JSON Schema](https://json-schema.org/specification)
-
-### ThingsBoard RPC API
-
-One-way and two-way Remote Procedure Calls from server to device, with persistent RPC support (RPC v2). 6 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/rpc/](https://thingsboard.io/docs/user-guide/rpc/)
-
-#### Tags
-
-- IoT
-- RPC
-- DeviceControl
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/rpc/)
-- [OpenAPI](openapi/thingsboard-rpc-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-rpc.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-rpc.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard Dashboards API
-
-Create and manage dashboards, widget bundles, widget types, image resources, and tenant resources that drive the ThingsBoard UI. Includes SCADA dashboards. 57 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/dashboards/](https://thingsboard.io/docs/user-guide/dashboards/)
-
-#### Tags
-
-- IoT
-- Dashboards
-- Visualization
-- Widgets
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/dashboards/)
-- [OpenAPI](openapi/thingsboard-dashboards-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-dashboards.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-dashboards.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/thingsboard-dashboard-schema.json) — [JSON Schema](https://json-schema.org/specification)
-
-### ThingsBoard Authentication API
-
-Login (JWT), refresh tokens, sign-up, API key management (since 4.3), 2FA, OAuth2 federation, and custom domain configuration. 46 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/reference/rest-api/](https://thingsboard.io/docs/reference/rest-api/)
-
-#### Tags
-
-- IoT
-- Authentication
-- Security
-- OAuth2
-- 2FA
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/reference/rest-api/)
-- [OpenAPI](openapi/thingsboard-auth-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-auth.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-auth.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard Tenants and Customers API
-
-Manage tenants, tenant profiles, customers, and users — the multi-tenancy backbone of ThingsBoard. 38 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/ui/customers/](https://thingsboard.io/docs/user-guide/ui/customers/)
-
-#### Tags
-
-- IoT
-- Tenants
-- Customers
-- Users
-- MultiTenant
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/ui/customers/)
-- [OpenAPI](openapi/thingsboard-tenants-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-tenants.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-tenants.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/thingsboard-tenant-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/thingsboard-customer-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/thingsboard-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-
-### ThingsBoard Admin API
-
-System-administrator endpoints — admin settings, audit logs, events, usage info, queues and queue stats, mail-config templates, QR-code settings, and background jobs. 42 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/reference/rest-api/](https://thingsboard.io/docs/reference/rest-api/)
-
-#### Tags
-
-- IoT
-- Administration
-- AuditLog
-- Queue
-- Usage
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/reference/rest-api/)
-- [OpenAPI](openapi/thingsboard-admin-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-admin.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-admin.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard Notifications API
-
-Manage notification requests, rules, templates, and targets across email, SMS, Slack, MS Teams, mobile push, and web delivery channels. 24 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/notifications/](https://thingsboard.io/docs/user-guide/notifications/)
-
-#### Tags
-
-- IoT
-- Notifications
-- Messaging
-- Email
-- Slack
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/notifications/)
-- [OpenAPI](openapi/thingsboard-notifications-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-notifications.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-notifications.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard Edge API
-
-Manage ThingsBoard Edge instances — provisioning, synchronization, event tracking, and entity version control between edge and cloud. 32 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/edge/](https://thingsboard.io/docs/edge/)
-
-#### Tags
-
-- IoT
-- Edge
-- Sync
-- VersionControl
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/edge/)
-- [OpenAPI](openapi/thingsboard-edge-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-edge.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-edge.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard Mobile App API
-
-Manage mobile app configurations and mobile-app bundles used by the ThingsBoard mobile applications (Flutter). 9 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/mobile-app/](https://thingsboard.io/docs/user-guide/mobile-app/)
-
-#### Tags
-
-- IoT
-- Mobile
-- AppCenter
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/mobile-app/)
-- [OpenAPI](openapi/thingsboard-mobile-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-mobile.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-mobile.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard LwM2M API
-
-LwM2M (Lightweight M2M) device-management endpoints for low-power devices over CoAP/DTLS. 2 endpoints.
-
-- **Human URL:** [https://thingsboard.io/docs/user-guide/lwm2m/](https://thingsboard.io/docs/user-guide/lwm2m/)
-
-#### Tags
-
-- IoT
-- LwM2M
-- Protocols
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/docs/user-guide/lwm2m/)
-- [OpenAPI](openapi/thingsboard-lwm2m-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-lwm2m.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-lwm2m.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### ThingsBoard AI API
-
-AI model management and Trendz Analytics integration for forecasting, anomaly detection, and predictive-maintenance workflows over IoT telemetry. 4 endpoints.
-
-- **Human URL:** [https://thingsboard.io/products/trendz/](https://thingsboard.io/products/trendz/)
-
-#### Tags
-
-- IoT
-- AI
-- PredictiveMaintenance
-- Trendz
-
-#### Properties
-
-- [Documentation](https://thingsboard.io/products/trendz/)
-- [OpenAPI](openapi/thingsboard-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/thingsboard-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/thingsboard-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [Portal](https://thingsboard.io)
+- [Website](https://www.thingsboard.io/)
 - [Documentation](https://thingsboard.io/docs/)
-- [Getting Started](https://thingsboard.io/docs/getting-started-guides/helloworld/)
-- [Documentation](https://thingsboard.io/docs/reference/rest-api/)
-- [OpenAPI](https://demo.thingsboard.io/v3/api-docs) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://demo.thingsboard.io/swagger-ui/index.html)
+- [Getting started](https://thingsboard.io/docs/getting-started-guides/helloworld/)
 - [Pricing](https://thingsboard.io/pricing/)
-- [Portal](https://thingsboard.io/products/thingsboard/)
-- [Portal](https://thingsboard.io/products/thingsboard-cloud/)
-- [Portal](https://thingsboard.io/products/thingsboard-pe/)
-- [Portal](https://thingsboard.io/products/thingsboard-edge/)
-- [Portal](https://thingsboard.io/products/tbmq/)
-- [Portal](https://thingsboard.io/products/trendz/)
-- [Portal](https://thingsboard.io/products/iot-gateway/)
-- [Blog](https://thingsboard.io/blog/)
-- [Release Policy](https://thingsboard.io/docs/releases/release-policy/)
-- [Changelog](https://thingsboard.io/docs/releases/releases-table/)
-- [Sign Up](https://thingsboard.cloud/signup)
-- [Sandbox](https://demo.thingsboard.io/)
 - [Support](https://thingsboard.io/docs/contact-us/)
-- [GitHub Organization](https://github.com/thingsboard)
-- [Source Code](https://github.com/thingsboard/thingsboard)
-- [Tool](https://github.com/thingsboard/thingsboard-gateway)
-- [Tool](https://github.com/thingsboard/thingsboard-edge)
-- [Tool](https://github.com/thingsboard/tbmq)
-- [SDK](https://github.com/thingsboard/thingsboard-java-client)
-- [SDK](https://github.com/thingsboard/thingsboard-python-client)
-- [Tool](https://github.com/thingsboard/flutter_thingsboard_app)
-- [Tool](https://github.com/thingsboard/flutter_thingsboard_pe_app)
-- [SDK](https://github.com/thingsboard/ngx-flowchart)
-- [Tool](https://hub.docker.com/u/thingsboard)
-- [Forum](https://stackoverflow.com/questions/tagged/thingsboard)
-- [License](https://github.com/thingsboard/thingsboard/blob/master/LICENSE)
-- [License](https://www.apache.org/licenses/LICENSE-2.0)
-- [Plans](plans/thingsboard-plans-pricing.yml)
-- [Rate Limits](rate-limits/thingsboard-rate-limits.yml)
-- [Fin Ops](finops/thingsboard-finops.yml)
-- [Vocabulary](vocabulary/thingsboard-vocabulary.yml)
-- [Spectral Rules](rules/thingsboard-rules.yml)
-- [JSON-LD](json-ld/thingsboard-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Features](undefined)
+- [Changelog](https://thingsboard.io/docs/releases/releases-table/)
+- [Blog](https://thingsboard.io/blog/)
+- [GitHub](https://github.com/thingsboard)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** info@apievangelist.com
-**URL:** https://apievangelist.com
+**Kin Score 59.7** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 63.0 |
+| Contract governance | 27.3 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 75.0 |
+| Access clarity | 55.3 |
+
+**Agent readiness 30.9** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | mostly (partial credit) |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/thingsboard/](https://apis.io/providers/thingsboard/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for ThingsBoard: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/thingsboard/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
